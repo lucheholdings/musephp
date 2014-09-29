@@ -1,0 +1,42 @@
+{
+    "name": "musecalliope/transport",
+    "description": "Calliope Transport Component",
+    "license": "MIT",
+    "homepage": "http://muse.44services.jp",
+    "keywords": [
+        "muse",
+        "calliope",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@44services.jp"
+        }
+    ],
+    "support": {
+        "email": "muse@ml.44services.jp",
+        "source": "https://github.com/phpmuse/calliope"
+    },
+    "require": {
+        "php": ">=5.3.3",
+		"museclio/metadata": "~1.0.0",
+		"musecalliope/location": "~1.0.0"
+    },
+    "require-dev": [
+		"musecalliope/location": "~1.0.0@dev"
+    ],
+    "autoload": {
+        "psr-0": {
+            "Calliope\\Geo\\Transport\\Core": ""
+        }
+    },
+    "target-dir": "Calliope/Component/Transport",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
+

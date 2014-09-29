@@ -1,0 +1,36 @@
+{
+    "name": "musecalliope/webquery",
+    "license": "MIT",
+    "homepage": "http://muse.44services.jp",
+    "keywords": [
+        "muse",
+        "clio",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@44services.jp"
+        }
+    ],
+    "support": {
+        "email": "muse@ml.44services.jp",
+        "source": "https://github.com/phpmuse/clio"
+    },
+    "require": {
+        "php": "~5.3"
+    },
+    "autoload": {
+        "psr-0": {
+            "Clio\\Component\\WebQuery": ""
+        }
+    },
+    "target-dir": "Clio/Component/WebQuery",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
+

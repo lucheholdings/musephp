@@ -1,0 +1,18 @@
+Calliope\Framework\Core\Model\Model:
+    exclusion_policy: ALL
+    properties:
+        hash:
+            expose:   true
+            type:     string
+        attributes:
+            expose:   true
+            type:     AttributeContainer<Calliope\Framework\Core\Model\Attribute>
+            inline:   true
+        createdAt:
+            expose: true
+            type: DateTime
+            read_only:  true
+        updatedAt:
+            expose: true
+            type: DateTime
+

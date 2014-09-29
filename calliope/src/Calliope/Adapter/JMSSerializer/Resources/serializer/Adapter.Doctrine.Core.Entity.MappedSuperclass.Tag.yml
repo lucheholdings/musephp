@@ -1,0 +1,8 @@
+Calliope\Adapter\Doctrine\Core\Entity\MappedSuperclass\Tag:
+    exclusion_policy: ALL
+    properties:
+        owner:
+            exclude: true
+        name:
+            expose: true
+            type: string

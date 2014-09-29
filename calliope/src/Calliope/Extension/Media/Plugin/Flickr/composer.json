@@ -1,0 +1,9 @@
+{
+	"name": "musecalliope/flickr-media-extension",
+	"type": "library",
+	"description": "To use Calliope MediaExtension for Flickr",
+    "require": {
+        "php": ">=5.3.2",
+        "musecalliope/media-extension": "~1.0"
+    }
+}

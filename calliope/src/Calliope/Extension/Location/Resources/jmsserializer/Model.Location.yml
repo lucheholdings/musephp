@@ -1,0 +1,25 @@
+Calliope\Extension\Location\Model\Location:
+    access_type: public_method
+    properties:
+        hash:
+            expose:  true
+            type:    string
+        name:
+            expose:  true
+            type:    string
+        labelShort:
+            expose:  true
+            type:    string
+        labelLong:
+            expose:  true
+            type:    string
+        type:
+            expose:  true
+            type:    string
+        createdAt:
+            expose:  true
+            type:    DateTime
+        updatedAt:
+            expose:  true
+            type:    DateTime
+

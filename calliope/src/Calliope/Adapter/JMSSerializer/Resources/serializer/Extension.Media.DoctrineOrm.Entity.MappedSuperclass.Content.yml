@@ -1,0 +1,11 @@
+Calliope\Extension\Media\DoctrineOrm\Entity\MappedSuperclass\Content:
+    exclusion_policy: ALL
+    access_type: public_method
+    virtual_properties:
+        getUrl:
+            serialized_name: url
+            type: string
+    properties:
+        type:
+            expose:  true
+            type:    string

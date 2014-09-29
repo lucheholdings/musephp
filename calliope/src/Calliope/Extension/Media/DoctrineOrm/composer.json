@@ -1,0 +1,37 @@
+{
+    "name": "musecalliope/media-doctrine-omr",
+    "description": "DoctrineORM for Calliope MediaExtension",
+    "license": "MIT",
+    "homepage": "http://muse.44services.jp",
+    "keywords": [
+        "muse",
+        "calliope",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@44services.jp"
+        }
+    ],
+    "support": {
+        "email": "muse@ml.44services.jp",
+        "source": "https://github.com/phpmuse/calliope"
+    },
+    "require": {
+        "php": ">=5.3.3",
+		"musecalliope/media": "~1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Calliope\\Extension\\Media\DoctrineOrm": ""
+        }
+    },
+    "target-dir": "Calliope/Extension/Media\DoctrineOrm",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}

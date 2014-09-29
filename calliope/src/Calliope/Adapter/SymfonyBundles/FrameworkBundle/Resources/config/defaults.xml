@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+	<services>
+		<service
+			id="calliope_framework.scheme_manager.default"
+			class="Calliope\Framework\Core\SchemeManagerInterface"
+			factory-service="calliope_framework.scheme_manager_factory"
+			factory-method="createSchemeManager"
+		>
+			<argument></argument><!-- Scheme Class -->
+			<argument></argument><!-- Connection Type Class -->
+			<argument></argument><!-- Connect To -->
+			<argument></argument><!-- Filters -->
+			<argument type="collection"></argument><!-- Options -->
+		</service>
+	
+	</services>
+</container>

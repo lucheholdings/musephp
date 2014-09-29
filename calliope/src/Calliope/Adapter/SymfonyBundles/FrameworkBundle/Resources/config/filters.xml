@@ -1,0 +1,104 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="calliope_framework.filter_registry.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\FilterRegistry</parameter>
+		<parameter key="calliope_framework.filter.class">Calliope\Framework\Core\Filter</parameter>
+		<parameter key="calliope_framework.filter.doctrine_orm_filter.class">Calliope\Bridge\Doctrine\Filter\DoctrineOrmFilter</parameter>
+		<parameter key="calliope_framework.filter_delegator_factory.class">Calliope\Framework\Core\Filter\Factory\FilterDelegatorFactory</parameter>
+		<parameter key="calliope_framework.typed_filter_factory.class">Calliope\Framework\Core\Filter\Factory\TypedFilterFactory</parameter>
+		<parameter key="calliope_framework.class_filter_factory.class">Calliope\Framework\Core\Filter\Factory\ClassFilterFactory</parameter>
+		<parameter key="calliope_framework.service_filter_factory.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\Factory\ServiceFilterFactory</parameter>
+		<parameter key="calliope_framework.tag_filter_factory.class">Calliope\Framework\Extension\Filter\Factory\TagFilterFactory</parameter>
+		<parameter key="calliope_framework.property_filter_factory.class">Calliope\Framework\Extension\Filter\Factory\PropertyFilterFactory</parameter>
+		<parameter key="calliope_framework.active_user_filter_factory.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\Factory\ActiveUserFilterFactory</parameter>
+	</parameters>
+
+	<services>
+		
+		<service
+			id="calliope_framework.filter_registry"
+			class="%calliope_framework.filter_registry.class%"
+		>
+			<argument type="service" id="calliope_framework.service_registry"/>
+		</service>
+
+		<!-- FilterDelegator Factory -->
+		<service
+			id="calliope_framework.filter_delegator_factory"
+			class="%calliope_framework.filter_delegator_factory.class%"
+		>
+			<argument type="service" id="calliope_framework.filter_registry"/>
+
+			<call method="addDefaultFilter">
+				<argument type="service" id="calliope_framework.filter.doctrine_orm_filter"/>
+			</call>
+		</service>
+
+		<service
+			id="calliope_framework.typed_filter_factory"
+			class="%calliope_framework.typed_filter_factory.class%"
+		>
+		</service>
+
+		<service id="calliope_framework.filter_factory" alias="calliope_framework.typed_filter_factory"/>
+
+		<service
+			id="calliope_framework.filter.default"
+			class="%calliope_framework.filter.class%"
+			abstract="true"
+			factory-service="calliope_framework.filter_factory"
+			factory-method="createFilter"
+		>
+			<argument></argument>
+			<argument type="collection"></argument>
+		</service>
+
+
+		<!-- actual filter factories -->
+		<service
+			id="calliope_framework.filter_factory.class"
+			class="%calliope_framework.class_filter_factory.class%"
+		>
+			<tag name="calliope_framework.filter_factory" for="class"/>
+		</service>
+		<service
+			id="calliope_framework.filter_factory.service"
+			class="%calliope_framework.service_filter_factory.class%"
+		>
+			<argument type="service" id="service_container" />
+			<tag name="calliope_framework.filter_factory" for="service"/>
+		</service>
+		<service
+			id="calliope_framework.filter_factory.tag"
+			class="%calliope_framework.tag_filter_factory.class%"
+		>
+			<tag name="calliope_framework.filter_factory" for="tag"/>
+		</service>
+		<service
+			id="calliope_framework.filter_factory.property"
+			class="%calliope_framework.property_filter_factory.class%"
+		>
+			<tag name="calliope_framework.filter_factory" for="property"/>
+		</service>
+		<service
+			id="calliope_framework.filter_factory.active_user"
+			class="%calliope_framework.active_user_filter_factory.class%"
+		>
+			<tag name="calliope_framework.filter_factory" for="active_user"/>
+
+			<argument type="service" id="service_container"/>
+		</service>
+
+
+		<service
+			id="calliope_framework.filter.doctrine_orm_filter"
+			class="%calliope_framework.filter.doctrine_orm_filter.class%"
+		>
+			<tag name="calliope_framework.filter"/>
+		</service>
+	</services>
+</container>
