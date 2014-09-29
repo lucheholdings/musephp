@@ -1,7 +1,11 @@
-Calliope
+Calliope - PHP Modeler Framework
 ====
 
-Calliope is a Content Framework, using Clio Component. 
+Calliope is a Modeler Framework, using Clio Components. 
+
+Description
+----
+
 
  - Core: provides Framework Core Components
  - Frame: Frames working on the Calliope 

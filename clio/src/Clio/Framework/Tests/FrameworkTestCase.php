@@ -6,6 +6,7 @@ use Clio\Component\Pce\Metadata\BasicClassMetadataFactory;
 use Clio\Framework\Metadata\Mapping\Factory\FieldAccessorMappingFactory,
 	Clio\Framework\Metadata\Mapping\Factory\SchemifierMappingFactory
 ;
+use Clio\Framework\FieldAccessor\Mapping\Factory\ClassFieldMappingFactory;
 /**
  * FrameworkTestCase 
  * 
@@ -17,8 +18,20 @@ use Clio\Framework\Metadata\Mapping\Factory\FieldAccessorMappingFactory,
  */
 abstract class FrameworkTestCase extends \PHPUnit_Framework_TestCase 
 {
+	/**
+	 * classMetadataFactory 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
 	private $classMetadataFactory;
 
+	/**
+	 * setUp 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function setUp()
 	{
 		$this->classMetadataFactory = new BasicClassMetadataFactory();
@@ -33,20 +46,40 @@ abstract class FrameworkTestCase extends \PHPUnit_Framework_TestCase
 		;
 	}
 
+	/**
+	 * getFieldAccessorMappingFactory 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getFieldAccessorMappingFactory()
 	{
-		return new FieldAccessorMappingFactory();
+		return new FieldAccessorMappingFactory(new ClassFieldMappingFactory());
 	}
 
+	/**
+	 * getSchemifierMappingFactory 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getSchemifierMappingFactory()
 	{
 		return new SchemifierMappingFactory(new DummySchemifierFactory()); 
 	}
 
+	/**
+	 * createClassMetadata 
+	 * 
+	 * @param mixed $class 
+	 * @access public
+	 * @return void
+	 */
 	public function createClassMetadata($class)
 	{
 		return $this->getClassMetadataFactory()->createClassMetadata($class);
 	}
+
 	/**
 	 * getClassMetadataFactory 
 	 * 

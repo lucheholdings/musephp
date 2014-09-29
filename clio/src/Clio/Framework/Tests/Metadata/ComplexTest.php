@@ -16,10 +16,11 @@ class ComplexTest extends FrameworkTestCase
 		$factory = $this->getClassMetadataFactory();
 
 		$model = new Models\TestModel01();
-	
+
 		$classMetadata = $this->createClassMetadata($model);
 
 		$mappings = $classMetadata->getMappings();
+
 		$this->assertArrayHasKey('field_accessor', $mappings);
 		$this->assertArrayHasKey('schemifier', $mappings);
 

@@ -16,5 +16,6 @@ class DummySchemifierFactory implements SchemifierFactory
 	{
 		return new DummySchemifier($class);
 	}
+
 }
 
