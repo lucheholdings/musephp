@@ -36,7 +36,7 @@ abstract class AbstractSchemifier implements Schemifier
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(\ReflectionClass $schemeClass, FieldMapperRegistry $fieldMapperRegistry)
+	public function __construct(\ReflectionClass $schemeClass, FieldMapperRegistry $fieldMapperRegistry = null)
 	{
 		$this->schemeClass = $schemeClass;
 
@@ -69,6 +69,9 @@ abstract class AbstractSchemifier implements Schemifier
     
     public function getFieldMapperRegistry()
     {
+		if(!$this->fieldMapperRegistry) {
+			$this->fieldMapperRegistry = new FieldMapperRegistry();
+		}
         return $this->fieldMapperRegistry;
     }
     

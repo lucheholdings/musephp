@@ -20,9 +20,5 @@ interface SchemifierFactory
 	 * @return void
 	 */
 	function createSchemifier($reflectionClass);
-
-	function setFieldMapperRegistry(FieldMapperRegistry $registry);
-
-	function getFieldMapperRegistry();
 }
 
