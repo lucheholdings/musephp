@@ -20,7 +20,7 @@ class SchemeManagerCompilerPass implements CompilerPassInterface
 {
 	public function process(ContainerBuilder $container)
 	{
-		$classnameRegistry = $container->findDefinition('calliope_framework.scheme_manager_registry_by_classname');
+		//$classnameRegistry = $container->findDefinition('calliope_framework.scheme_manager_registry_by_classname');
 		$registry = $container->findDefinition('calliope_framework.scheme_manager_registry');
 
 
@@ -39,24 +39,32 @@ class SchemeManagerCompilerPass implements CompilerPassInterface
 					//);
 
 					// Map Classname with ServiceId
-					$classnameRegistry->addMethodCall(
+					//$classnameRegistry->addMethodCall(
+					//	'setAlias',
+					//	array(
+					//		$tagAttrs['for'],
+					//		$id
+					//	)
+					//);
+					//
+					//// Map Alias with Classnmae
+					//if(isset($tagAttrs['alias'])) {
+					//	$registry->addMethodCall(
+					//		'setAlias',
+					//		array(
+					//			$tagAttrs['alias'],
+					//			$tagAttrs['for'], 
+					//		)
+					//	);
+					//}
+
+					$registry->addMethodCall(
 						'setAlias',
 						array(
 							$tagAttrs['for'],
 							$id
 						)
 					);
-					
-					// Map Alias with Classnmae
-					if(isset($tagAttrs['alias'])) {
-						$registry->addMethodCall(
-							'setAlias',
-							array(
-								$tagAttrs['alias'],
-								$tagAttrs['for'], 
-							)
-						);
-					}
 				}
 			} 
 		}

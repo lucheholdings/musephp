@@ -84,7 +84,8 @@ class CalliopeFrameworkExtension extends Extension
 			;
 			
 			// 
-			$definition->addTag('calliope_framework.scheme_manager', array('alias' => $name, 'for' => $params['class']));
+			//$definition->addTag('calliope_framework.scheme_manager', array('alias' => $name, 'for' => $params['class']));
+			$definition->addTag('calliope_framework.scheme_manager', array('for' => $name));
 
 			
 			// Set Defintion
