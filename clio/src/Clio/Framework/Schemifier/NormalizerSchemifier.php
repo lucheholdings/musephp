@@ -36,7 +36,7 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(\ReflectionClass $schemeClass, Normalizer $normalizer = null, FieldMapperRegistry $registry)
+	public function __construct(\ReflectionClass $schemeClass, Normalizer $normalizer = null, FieldMapperRegistry $registry = null)
 	{
 		parent::__construct($schemeClass, $registry);
 

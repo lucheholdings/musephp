@@ -42,7 +42,7 @@ class NormalizerSchemifierFactory implements SchemifierFactory
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Normalizer $normalizer, FieldMapperRegistry $fieldMapperRegistry)
+	public function __construct(Normalizer $normalizer, FieldMapperRegistry $fieldMapperRegistry = null)
 	{
 		$this->normalizer = $normalizer;
 
@@ -91,11 +91,24 @@ class NormalizerSchemifierFactory implements SchemifierFactory
         return $this;
     }
     
+    /**
+     * getFieldMapperRegistry 
+     * 
+     * @access public
+     * @return void
+     */
     public function getFieldMapperRegistry()
     {
         return $this->fieldMapperRegistry;
     }
     
+    /**
+     * setFieldMapperRegistry 
+     * 
+     * @param FieldMapperRegistry $fieldMapperRegistry 
+     * @access public
+     * @return void
+     */
     public function setFieldMapperRegistry(FieldMapperRegistry $fieldMapperRegistry)
     {
         $this->fieldMapperRegistry = $fieldMapperRegistry;
