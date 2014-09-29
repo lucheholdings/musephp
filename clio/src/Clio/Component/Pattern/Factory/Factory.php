@@ -3,6 +3,7 @@ namespace Clio\Component\Pattern\Factory;
 
 /**
  * Factory 
+ *   Create Specified class instance. 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }

@@ -2,7 +2,7 @@
 namespace Calliope\Framework\Core\Filter\Factory;
 
 use Calliope\Framework\Core\Filter\Factory as FilterFactory;
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
 
 /**
  * ClassFilterFactory 

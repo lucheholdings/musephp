@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Factory;
 
-use Clio\Component\Pce\Construction\InheritComponentFactory;
+use Clio\Component\Pattern\Factory\InheritComponentFactory;
 use Clio\Framework\Metadata\ClassMetadataRegistry;
 use Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory;
 use Calliope\Framework\Core\Filter\Factory\FilterDelegatorFactory;

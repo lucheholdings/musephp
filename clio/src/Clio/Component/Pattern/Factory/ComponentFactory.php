@@ -82,7 +82,13 @@ class ComponentFactory implements Factory
 	protected function doCreate(array $args)
 	{
 		$args = $this->resolveArguments($args);
-		return $this->getReflectionClass()->newInstanceArgs($args);
+
+		return $this->constructInstance($this->getReflectionClass(), $args);
+	}
+	
+	protected function constructInstance(\ReflectionClass $class, array $args)
+	{
+		return $class->newInstanceArgs($args);
 	}
 
 	protected function resolveArguments(array $args)

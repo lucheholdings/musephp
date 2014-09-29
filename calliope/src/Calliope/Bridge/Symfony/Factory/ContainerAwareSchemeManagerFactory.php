@@ -2,7 +2,7 @@
 namespace Calliope\Bridge\Symfony\Factory;
 
 use Calliope\Framework\Core\Factory\SchemeManagerComponentFactory;
-use Clio\Component\Pce\Construction\InheritComponentFactory;
+use Clio\Component\Pattern\Factory\InheritComponentFactory;
 use Clio\Framework\Metadata\ClassMetadataRegistry;
 use Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory;
 

@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Framework\Core\Builder;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
-use Clio\Component\Pce\Construction\BuilderFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
+use Clio\Component\Pattern\Factory\BuilderFactory;
 
 /**
  * SchemeModelBuilderFactory 

@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\WebQuery;
 
-use Clio\Component\Util\Factory\AliasedComponentFactory;
+use Clio\Component\Pattern\Factory\TypedComponentFactory;
 
 /**
  * ComponentFactory 
@@ -12,7 +12,7 @@ use Clio\Component\Util\Factory\AliasedComponentFactory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ComponentFactory extends AliasedComponentFactory 
+class ComponentFactory extends TypedComponentFactory
 {
 	/**
 	 * create 
@@ -22,7 +22,7 @@ class ComponentFactory extends AliasedComponentFactory
 	 * @access public
 	 * @return void
 	 */
-	static public function create(array $classes = array())
+	static public function createFactory(array $classes = array())
 	{
 		return new static(array_merge(array(
 			'parser' => 'Calliope\Framework\WebQuery\Parser\Parser',

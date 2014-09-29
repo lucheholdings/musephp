@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Tests;
 
-use Clio\Component\Pce\Construction\Tests\ComponentBuilderTestCase;
+use Clio\Component\Pattern\Factory\Tests\ComponentBuilderTestCase;
 use Calliope\Framework\Core\Builder\SchemeModelBuilder;
 
 use Clio\Component\Pce\Metadata\BasicClassMetadataFactory;

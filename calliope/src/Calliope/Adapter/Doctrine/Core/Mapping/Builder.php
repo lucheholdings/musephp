@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Adapter\Doctrine\Core\Mapping;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
 /**
  * Builder 
  * 

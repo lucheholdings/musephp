@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Tag;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Construction\ComponentFactory;
 
 /**
  * TagComponentFactory 

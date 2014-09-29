@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Builder;
 
-use Clio\Component\Pce\Construction\ComponentBuilder;
+use Clio\Component\Pattern\Factory\ComponentBuilder;
 
 use Clio\Component\Pce\Metadata\ClassMetadata;
 use Clio\Component\Util\Container\Map\Map;

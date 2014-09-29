@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Attribute;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
 
 /**
  * AttributeComponentFactory 

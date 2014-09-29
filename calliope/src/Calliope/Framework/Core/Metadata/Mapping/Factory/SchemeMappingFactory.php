@@ -5,7 +5,7 @@ use Clio\Component\Pce\Metadata\MappingFactory;
 use Clio\Component\Pce\Metadata\Metadata,
 	Clio\Component\Pce\Metadata\ClassMetadata;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
 
 /**
  * SchemeMappingFactory 
