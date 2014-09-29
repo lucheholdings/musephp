@@ -1,0 +1,13 @@
+Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\User\OAuth2User:
+    exclusion_policy:  all
+    access_type: public_method
+    properties:
+        id:
+            expose: true
+            type:   string 
+        username:
+            expose: true
+            type:   string 
+        roles:
+            expose: true
+            type:   array<string>

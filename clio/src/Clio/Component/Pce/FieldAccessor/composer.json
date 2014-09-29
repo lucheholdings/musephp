@@ -1,0 +1,39 @@
+{
+    "name": "museclio/pce-fieldaccessor",
+    "license": "MIT",
+    "homepage": "http://muse.44services.jp",
+    "keywords": [
+        "muse",
+        "clio",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@44services.jp"
+        }
+    ],
+    "support": {
+        "email": "muse@ml.44services.jp",
+        "source": "https://github.com/phpmuse/clio"
+    },
+    "require": {
+        "php": "~5.3",
+		"museclio/pce-construction": "~1.0",
+		"museclio/util-psr": "~1.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Clio\\Component\\Pce\\FieldAccessor": ""
+        }
+    },
+    "target-dir": "Clio/Component/Pce/FieldAccessor",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
+
+

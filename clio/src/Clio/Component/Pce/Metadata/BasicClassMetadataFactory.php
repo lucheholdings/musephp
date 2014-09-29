@@ -1,0 +1,41 @@
+<?php
+namespace Clio\Component\Pce\Metadata;
+
+/**
+ * ClassMetadataFactory 
+ * 
+ * @uses MetadataFactory
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+class BasicClassMetadataFactory extends BasicMetadataFactory 
+{
+	public function __construct(array $mappingFactories = array())
+	{
+		parent::__construct('Clio\Component\Pce\Metadata\MappableClassMetadata', $mappingFactories);
+
+		foreach($mappingFactories as $factory) {
+			$this->addMappingFactory($factory);
+		}
+	}
+
+	protected function doCreate(array $args)
+	{
+		return call_user_func_array(
+			array($this, 'createClassMetadata'),
+			$args
+		);
+	}
+
+	public function createClassMetadata($class)
+	{
+		$metadata = new MappableClassMetadata($class);
+
+		//$metadata->setMappings($this->createMetadataMappings($metadata));
+		$metadata->setMappingFactory($this->getMappingFactories());
+
+		return $metadata;
+	}
+}

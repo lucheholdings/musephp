@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="clio_oauth2_server.token_resolver_factory.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory\TokenResolverFactory</parameter>
+		<parameter key="clio_oauth2_server.token_resolver.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver</parameter>
+		<parameter key="clio_oauth2_server.security.entry_point.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\EntryPoint\OAuth2EntryPoint</parameter>
+		<parameter key="clio_oauth2_server.security.authentication_provider.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Authentication\Provider\OAuth2AuthenticationProvider</parameter>
+		<parameter key="clio_oauth2_server.security.scope_role_map.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Role\ScopeRoleMap</parameter>
+		<parameter key="clio_oauth2_server.security.authentication_listener.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Firewall\OAuth2ProviderListener</parameter>
+		<parameter key="clio_oauth2_server.security.user_provider.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\User\OAuth2UserProvider</parameter>
+	</parameters>
+    <services>
+		<service
+			id="clio_oauth2_server.token_resolver_factory"
+			class="%clio_oauth2_server.token_resolver_factory.class%"
+		>
+		</service>
+		<service
+			id="clio_oauth2_server.token_resolver.default"
+			class="%clio_oauth2_server.token_resolver.class%"
+			factory-service="clio_oauth2_server.token_resolver_factory"
+			factory-method="createResolver"
+			abstract="true"
+		>
+			<argument></argument><!-- type -->
+			<argument></argument><!-- provider -->
+			<argument></argument><!-- cache -->
+		</service>
+		<service
+			id="clio_oauth2_server.security.authentication_listener._default"
+			class="%clio_oauth2_server.security.authentication_listener.class%"
+			abstract="true"
+		>
+            <argument type="service" id="security.context"/>
+            <argument></argument><!-- AuthenticationProvider -->
+            <argument type="service" id="clio_oauth2_server.token_resolver" />
+		</service>
+		<service
+			id="clio_oauth2_server.security.entry_point"
+			class="%clio_oauth2_server.security.entry_point.class%"
+		>
+		</service>
+		<service
+			id="clio_oauth2_server.security.authentication_provider._default"
+			class="%clio_oauth2_server.security.authentication_provider.class%"
+		>
+			<argument>null</argument><!-- User Provider -->
+			<argument>null</argument><!-- ScopeRoleMap -->
+		</service>
+		<service
+			id="clio_oauth2_server.security.scope_role_map._default"
+			class="%clio_oauth2_server.security.scope_role_map.class%"
+			abstract="true"
+		>
+			<argument type="collection"></argument>
+		</service>
+
+		<service
+			id="clio_oauth2_server.security.user_provider.default"
+			class="%clio_oauth2_server.security.user_provider.class%"
+			abstract="true"
+		>
+			<argument></argument><!-- OAuth2UserProvider -->
+		</service>
+    </services>
+</container>
+

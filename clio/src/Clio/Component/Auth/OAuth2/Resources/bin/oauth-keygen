@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+include(__DIR__ . '/../../Util/TokenUtil.php');
+
+use Clio\Component\Auth\OAuth2\Util\TokenUtil;
+
+echo TokenUtil::generateRandomToken();
+echo "\n";
