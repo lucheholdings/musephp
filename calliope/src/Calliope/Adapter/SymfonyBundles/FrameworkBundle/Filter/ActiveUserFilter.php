@@ -18,7 +18,7 @@ class ActiveUserFilter extends PropertyFilter
 
 	public function getValue()
 	{
-		$user = $this->context->getUser();
+		$user = $this->context->getToken()->getUser();
 		if(!$user) {
 			throw new \Exception('unauthorized for filter');
 		}

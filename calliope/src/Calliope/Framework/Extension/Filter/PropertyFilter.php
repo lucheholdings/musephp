@@ -19,8 +19,7 @@ class PropertyFilter
 	{
 		$criteria = $fetchCondition->getCriteria();
 
-
-		$criteria[$this->field] = $this->value;
+		$criteria[$this->getField()] = $this->getValue();
 
 		$fetchCondition->setCriteria($criteria);
 	}
