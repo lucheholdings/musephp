@@ -74,6 +74,8 @@ class BasicMetadataFactory extends ComponentFactory
 	public function addMappingFactory($factory, $alias = null)
 	{
 		$this->mappingFactories->addFactory($factory, $alias);
+
+		return $this;
 	}
 }
 

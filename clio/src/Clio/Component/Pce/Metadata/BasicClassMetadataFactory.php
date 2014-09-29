@@ -1,6 +1,9 @@
 <?php
 namespace Clio\Component\Pce\Metadata;
 
+use Clio\Component\Util\Execution\Invoke,
+	Clio\Component\Util\Execution\MethodInvoker;
+
 /**
  * ClassMetadataFactory 
  * 
@@ -34,7 +37,12 @@ class BasicClassMetadataFactory extends BasicMetadataFactory
 		$metadata = new MappableClassMetadata($class);
 
 		//$metadata->setMappings($this->createMetadataMappings($metadata));
-		$metadata->setMappingFactory($this->getMappingFactories());
+		
+		// Fixme: use Proxy to lazyload
+		//$metadata->setMappingFactory($this->getMappingFactories());
+		foreach($this->getMappingFactories()->getFactories() as $alias => $factory) {
+			$metadata->setMapping($alias, new ProxyMapping(new Invoke(new MethodInvoker($factory, 'createMapping'), array($metadata))));
+		}
 
 		return $metadata;
 	}
