@@ -6,8 +6,6 @@ use Calliope\Framework\Core\SchemeManagerInterface;
 
 class AliasedSchemeManagerRegistry extends SchemeManagerRegistry
 {
-
-
 	public function getSchemeManagerByAlias($alias)
 	{
 		return $this->get($alias);

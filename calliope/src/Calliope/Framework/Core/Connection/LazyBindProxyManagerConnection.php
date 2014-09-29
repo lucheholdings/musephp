@@ -55,7 +55,7 @@ class LazyBindProxyManagerConnection extends ProxyManagerConnection
 		$connectTo = parent::getConnectTo();
 		
 		if(!$connectTo) {
-			$connectTo = $this->getRegistry()->getSchemeManagerByAlias(
+			$connectTo = $this->getRegistry()->getSchemeManager(
 				$this->getConnectName()
 			);
 

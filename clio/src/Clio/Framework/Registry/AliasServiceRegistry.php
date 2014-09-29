@@ -33,6 +33,9 @@ class AliasServiceRegistry implements ServiceRegistryInterface
 
 	public function get($id)
 	{
+		if(!isset($this->aliases[$id])) {
+			throw new \InvalidArgumentException(sprintf('Alias "%s" is not registered', $id));
+		}
 		$alias = $this->aliases[$id];
 
 		$service = $this->getRegistry()->get($alias);
@@ -62,6 +65,7 @@ class AliasServiceRegistry implements ServiceRegistryInterface
 	public function setAlias($id, $aliased)
 	{
 		$this->aliases[$id] = $aliased;
+		return $this;
 	}
 
 	public function removeAlias($id)

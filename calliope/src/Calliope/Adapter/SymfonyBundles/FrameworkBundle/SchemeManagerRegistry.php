@@ -17,46 +17,19 @@ use Clio\Framework\Registry\AliasServiceRegistry;
  */
 class SchemeManagerRegistry extends AliasServiceRegistry implements SchemeRegistryInterface 
 {
-	/**
-	 * has 
-	 * 
-	 * @param SchemeManagerInterface $manager 
-	 * @access public
-	 * @return void
-	 */
-	public function hasScheme($schemeClass)
+	public function hasScheme($name)
 	{
-		return $this->hasAlias($schemeClass);
+		return $this->has($name);
 	}
 
-	/**
-	 * getSchemeManagers 
-	 * 
-	 * @access public
-	 * @return void
-	 */
+	public function getSchemeManager($name)
+	{
+		return $this->get($name);
+	}
+
 	public function getSchemeManagers()
 	{
-		$aliases = $this->getAliases();
-
-		$values;
-		foreach($aliases as $alias => $id) {
-			$values[$alias] = $this->get($alias);
-		}
-
-		return $values;
-	}
-
-	/**
-	 * getSchemeManager 
-	 * 
-	 * @param mixed $schemeClass 
-	 * @access public
-	 * @return void
-	 */
-	public function getSchemeManager($schemeClass)
-	{
-		return $this->get($schemeClass);
+		throw new \Exception('not supported.');
 	}
 
 	/**
@@ -67,16 +40,12 @@ class SchemeManagerRegistry extends AliasServiceRegistry implements SchemeRegist
 	 */
 	public function addSchemeManager(SchemeManagerInterface $manager)
 	{
-		$this->set($manager->getClassMetadata()->getName(), $manager);
-
-		return $this;
+		throw new \Exception('::addSchemeManager not supported.');
 	}
 
 	public function setSchemeManager($class, SchemeManagerInterface $manager)
 	{
-		$this->set($class, $manager);
-
-		return $this;
+		throw new \Exception('::setSchemeManager is not supported.');
 	}
 
 	/**
@@ -88,8 +57,7 @@ class SchemeManagerRegistry extends AliasServiceRegistry implements SchemeRegist
 	 */
 	public function removeScheme($schemeClass)
 	{
-		$deleted = $this->removeAlias($schemeClass);
-		return $deleted;
+		throw new \Exception('::removeScheme is not supported');
 	}
 
 	/**

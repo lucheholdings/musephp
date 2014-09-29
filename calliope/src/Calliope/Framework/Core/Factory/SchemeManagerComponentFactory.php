@@ -143,7 +143,7 @@ class SchemeManagerComponentFactory extends InheritComponentFactory
 		if($schemeManager) {
 			$schemeManager->connect($this->createConnection($connectionType, $connectTo, $connectionOptions, $filter));
 		}
-
+		
 		return $schemeManager;
 	}
 

@@ -7,8 +7,7 @@
 	<parameters>
 		<!--<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Framework\Core\AliasedSchemeManagerRegistry</parameter>-->
 		<parameter key="calliope_framework.service_registry.class">Clio\Bridge\SymfonyDI\Registry\ServiceContainerRegistry</parameter>
-		<parameter key="calliope_framework.scheme_manager_registry_by_classname.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\SchemeManagerRegistry</parameter>
-		<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\AliasedSchemeManagerRegistry</parameter>
+		<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\SchemeManagerRegistry</parameter>
 
 		<parameter key="calliope_framework.scheme_manager_factory.class">Calliope\Bridge\Symfony\Factory\ContainerAwareSchemeManagerFactory</parameter>
 
@@ -28,19 +27,20 @@
 		>
 			<argument type="service" id="service_container"/>
 		</service>
-
+<!--
 		<service 
 			id="calliope_framework.scheme_manager_registry_by_classname"
 			class="%calliope_framework.scheme_manager_registry_by_classname.class%"
 		>
 			<argument type="service" id="calliope_framework.service_registry"/>
 		</service>
+-->
 		<!-- alias with classname -->
 		<service 
 			id="calliope_framework.scheme_manager_registry"
 			class="%calliope_framework.scheme_manager_registry.class%"
 		>
-			<argument type="service" id="calliope_framework.scheme_manager_registry_by_classname"/>
+			<argument type="service" id="calliope_framework.service_registry"/>
 		</service>
 
 		<service id="calliope_framework.scheme_manager_factory" class="%calliope_framework.scheme_manager_factory.class%">
