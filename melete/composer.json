@@ -1,0 +1,23 @@
+{
+    "name": "musephp/melete",
+    "description": "Melete - the Global Standard Definitions",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yoshi",
+            "email": "yoshi@1o1.co.jp"
+        }
+    ],
+    "autoload": {
+        "psr-0": { "Melete": "." }
+    },
+    "minimum-stability": "stable",
+    "require": {
+        "symfony/config" : "~2.5.0"
+    },
+	"extra": {
+        "branch-alias": {
+            "dev-master": "0.1-dev"
+        }
+	}
+}
