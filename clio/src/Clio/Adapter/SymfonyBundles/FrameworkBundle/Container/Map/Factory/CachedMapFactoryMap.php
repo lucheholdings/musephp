@@ -12,7 +12,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface,
 	Symfony\Component\DependencyInjection\ContainerAwareInterface
 ;
 use Clio\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheFactoryInterface;
-use Clio\Component\Pce\Construction\FactoryMap;
+use Clio\Component\Pattern\Factory\FactoryMap;
 
 use Clio\Bridge\DoctrineCache\Container\CachedMap;
 

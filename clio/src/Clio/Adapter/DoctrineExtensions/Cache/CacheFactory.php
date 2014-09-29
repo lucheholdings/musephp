@@ -8,7 +8,7 @@
  */
 namespace Clio\Adapter\DoctrineExtensions\Cache;
 
-use Clio\Component\Pce\Construction\InheritComponentFactory;
+use Clio\Component\Pattern\Factory\InheritComponentFactory;
 
 class CacheFactory extends InheritComponentFactory
 {

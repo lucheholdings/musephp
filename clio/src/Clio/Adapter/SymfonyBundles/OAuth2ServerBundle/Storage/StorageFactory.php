@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage;
 
-use Clio\Component\Pce\Construction\InheritComponentFactory;
+use Clio\Component\Pattern\Factory\InheritComponentFactory;
 
 class StorageFactory extends InheritComponentFactory 
 {

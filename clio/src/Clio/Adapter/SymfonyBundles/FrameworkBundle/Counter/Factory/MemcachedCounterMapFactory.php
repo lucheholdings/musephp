@@ -8,7 +8,7 @@
  */
 namespace Clio\Adapter\SymfonyBundles\FrameworkBundle\Counter\Factory;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
 /**
  * MemcachedCounterMapFactory 
  * 

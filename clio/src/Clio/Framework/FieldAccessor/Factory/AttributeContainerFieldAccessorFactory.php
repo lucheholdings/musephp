@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Framework\FieldAccessor\Factory;
 
-use Clio\Component\Pce\FieldAccessor\Mapping\ClassMapping;
-use Clio\Component\Pce\FieldAccessor\Factory\FieldAccessorFactory;
+use Clio\Component\Util\FieldAccessor\Mapping\ClassMapping;
+use Clio\Component\Util\FieldAccessor\Factory\FieldAccessorFactory;
 use Clio\Framework\FieldAccessor\AttributeContainerFieldAccessor;
 
 

@@ -8,7 +8,7 @@
  */
 namespace Clio\Adapter\SymfonyBundles\FrameworkBundle\Container\Map\Factory;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
 
 /**
  * AbstractMapFactory 

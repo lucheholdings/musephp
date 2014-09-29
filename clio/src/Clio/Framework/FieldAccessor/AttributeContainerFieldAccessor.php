@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Framework\FieldAccessor;
 
-use Clio\Component\Pce\FieldAccessor\AbstractFieldAccessor;
+use Clio\Component\Util\FieldAccessor\AbstractFieldAccessor;
 use Clio\Component\Util\Attribute\AttributeContainerAware;
 /**
  * AttributeContainerFieldAccessor 

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Framework\FieldAccessor\Property;
 
-use Clio\Component\Pce\FieldAccessor\Property\AbstractPropertyFieldAccessor;
+use Clio\Component\Util\FieldAccessor\Property\AbstractPropertyFieldAccessor;
 /**
  * TagContainerPrepertyFieldAccessor 
  * 

@@ -1,11 +1,11 @@
 <?php
 namespace Clio\Framework\Metadata\Mapping;
 
-use Clio\Component\Pce\FieldAccessor\Mapping\ClassMapping as AccessorClassMapping;
+use Clio\Component\Util\FieldAccessor\Mapping\ClassMapping as AccessorClassMapping;
 
 use Clio\Component\Pce\Metadata\AbstractClassMapping;
 use Clio\Component\Pce\Metadata\ClassMetadata;
-use Clio\Component\Pce\FieldAccessor\Mapping\FieldMapping;
+use Clio\Component\Util\FieldAccessor\Mapping\FieldMapping;
 
 /**
  * FieldAccessorMapping 

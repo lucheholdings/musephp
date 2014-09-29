@@ -8,7 +8,7 @@
  */
 namespace Clio\Adapter\SymfonyBundles\FrameworkBundle\Cache;
 
-use Clio\Component\Pce\Construction\Factory;
+use Clio\Component\Pattern\Factory\Factory;
 
 /**
  * CacheFactoryInterface 

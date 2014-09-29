@@ -5,12 +5,12 @@ use Clio\Component\Pce\Metadata\MappingFactory;
 use Clio\Component\Pce\Metadata\Metadata,
 	Clio\Component\Pce\Metadata\ClassMetadata;
 
-use Clio\Component\Pce\Construction\Factory,
-	Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\Factory,
+	Clio\Component\Pattern\Factory\ComponentFactory;
 use Clio\Framework\Metadata\Mapping\FieldAccessorMapping;
 
-use Clio\Component\Pce\FieldAccessor\Factory\PropertyFieldCollectionAccessorFactory;
-use Clio\Component\Pce\FieldAccessor\Mapping\Factory\FieldMappingFactory;
+use Clio\Component\Util\FieldAccessor\Factory\PropertyFieldCollectionAccessorFactory;
+use Clio\Component\Util\FieldAccessor\Mapping\Factory\FieldMappingFactory;
 
 /**
  * FieldAccessorMappingFactory 
@@ -52,10 +52,10 @@ class FieldAccessorMappingFactory implements MappingFactory
 		if($builderFactory) {
 			$this->defaultBuilderFactory = $builderFactory;
 		} else {
-			$this->defaultBuilderFactory = new ComponentFactory('Clio\Component\Pce\FieldAccessor\Builder\LayerFieldAccessorBuilder');
+			$this->defaultBuilderFactory = new ComponentFactory('Clio\Component\Util\FieldAccessor\Builder\LayerFieldAccessorBuilder');
 		}
 
-		if(!$this->defaultBuilderFactory->getReflectionClass()->implementsInterface('Clio\Component\Pce\FieldAccessor\Builder\FieldAccessorBuilder')) {
+		if(!$this->defaultBuilderFactory->getReflectionClass()->implementsInterface('Clio\Component\Util\FieldAccessor\Builder\FieldAccessorBuilder')) {
 			throw new \RuntimeException('The class factory provide is not an instanceof BuilderFactory.');
 		}
 	}

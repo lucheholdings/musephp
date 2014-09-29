@@ -8,7 +8,7 @@
  */
 namespace Clio\Adapter\SymfonyBundles\FrameworkBundle\Kvs\Factory;
 
-use Clio\Component\Pce\Construction\ComponentFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory;
 
 abstract class AbstractKvsFactory extends ComponentFactory
 {

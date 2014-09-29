@@ -5,23 +5,23 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="clio_framework.field_accessor_builder_factory.layer.class">Clio\Component\Pce\FieldAccessor\Builder\Factory\LayerFieldAccessorBuilderFactory</parameter>
+        <parameter key="clio_framework.field_accessor_builder_factory.layer.class">Clio\Component\Util\FieldAccessor\Builder\Factory\LayerFieldAccessorBuilderFactory</parameter>
 
-        <parameter key="clio_framework.field_accessor_factory.property_field_collection.class">Clio\Component\Pce\FieldAccessor\Factory\PropertyFieldCollectionAccessorFactory</parameter>
+        <parameter key="clio_framework.field_accessor_factory.property_field_collection.class">Clio\Component\Util\FieldAccessor\Factory\PropertyFieldCollectionAccessorFactory</parameter>
         <parameter key="clio_framework.field_accessor_factory.attribute_container_aware.class">Clio\Framework\FieldAccessor\Factory\AttributeContainerFieldAccessorFactory</parameter>
 
 		
-		<parameter key="clio_framework.property_field_accessor_factory.component_factory">Clio\Component\Pce\FieldAccessor\Property\Factory\PropertyFieldAccessorComponentFactory</parameter>
-		<parameter key="clio_framework.property_field_accessor.public_property.class">Clio\Component\Pce\FieldAccessor\Property\PublicPropertyFieldAccessor</parameter>
+		<parameter key="clio_framework.property_field_accessor_factory.component_factory">Clio\Component\Util\FieldAccessor\Property\Factory\PropertyFieldAccessorComponentFactory</parameter>
+		<parameter key="clio_framework.property_field_accessor.public_property.class">Clio\Component\Util\FieldAccessor\Property\PublicPropertyFieldAccessor</parameter>
 		<parameter key="clio_framework.property_field_accessor.tag_container.class">Clio\Framework\FieldAccessor\Property\TagContainerPropertyFieldAccessor</parameter>
-		<parameter key="clio_framework.property_field_accessor.method.class">Clio\Component\Pce\FieldAccessor\Property\MethodPropertyFieldAccessor</parameter>
+		<parameter key="clio_framework.property_field_accessor.method.class">Clio\Component\Util\FieldAccessor\Property\MethodPropertyFieldAccessor</parameter>
 
 		<parameter key="clio_framework.class_metadata_mapping_factory.field_accessor.class">Clio\Framework\Metadata\Mapping\Factory\FieldAccessorMappingFactory</parameter>
 
 		<parameter key="clio_framework.field_accessor_field_mapping_factory.class">Clio\Framework\FieldAccessor\Mapping\Factory\ClassFieldMappingFactory</parameter>
 
 
-		<parameter key="clio_framework.property_field_accessor_factory.component_factory.class">Clio\Component\Pce\FieldAccessor\Property\Factory\PropertyFieldAccessorComponentFactory</parameter>
+		<parameter key="clio_framework.property_field_accessor_factory.component_factory.class">Clio\Component\Util\FieldAccessor\Property\Factory\PropertyFieldAccessorComponentFactory</parameter>
     </parameters>
 
 	<services>

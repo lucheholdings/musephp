@@ -8,7 +8,7 @@
  */
 namespace Clio\Adapter\SymfonyBundles\FrameworkBundle\Factory;
 
-use Clio\Component\Pce\Construction\ComponentFactory as BaseFactory;
+use Clio\Component\Pattern\Factory\ComponentFactory as BaseFactory;
 
 class ComponentFactory extends BaseFactory 
 {
