@@ -13,6 +13,7 @@
 >
     <testsuites>
         <testsuite name="MusePHP TestSuite">
+            <directory>./clio/src/Clio/Framework/Tests</directory>
             <directory>./melete/Melete/Tests</directory>
         </testsuite>
     </testsuites>

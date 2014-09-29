@@ -26,6 +26,11 @@
             "Terpsichore": "terpsichore/src"
         }
     },
+    "replace": {
+		"museclio/clio" : "self.version",
+		"musecalliope/calliope" : "self.version",
+		"museterpsichore/terpsichore" : "self.version"
+	},
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
