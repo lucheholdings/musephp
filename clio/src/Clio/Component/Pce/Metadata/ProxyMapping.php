@@ -78,7 +78,9 @@ class ProxyMapping implements Mapping
 	{
 		$this->mapping = $this->invoke->invoke();
 
-		$this->mapping->setMetadata($this->metadata);
+		if($this->mapping) {
+			$this->mapping->setMetadata($this->metadata);
+		}
 	}
 
 	public function __call($method, array $args = array())

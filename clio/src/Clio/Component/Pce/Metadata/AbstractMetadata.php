@@ -87,19 +87,9 @@ abstract class AbstractMetadata implements
 	public function getMapping($alias)
 	{
 		if(!isset($this->mappings[$alias])) {
-			$factory = $this->getMappingFactory();
-			$mapping = null;
-
-			if($factory) {
-				// Try to create Mapping
-				$mapping = $factory->createMappingForAlias($alias, $this);
-			}
-
-			if($mapping) {
-				$this->mappings[$alias] = $mapping;
-			} else {
-				throw new \Clio\Component\Exception\RuntimeException(sprintf('Mapping "%s" is not mapped on Metadata "%s"', $alias, $this->getName()));
-			}
+			throw new \RuntimeException(sprintf('Metadata dose not have "%s" mappning', $alias));
+		} else if($this->mappings[$alias] instanceof ProxyMapping) {
+			$this->mappings[$alias] = $this->mappings[$alias]->getMapping();
 		}
 
 		return $this->mappings[$alias];
