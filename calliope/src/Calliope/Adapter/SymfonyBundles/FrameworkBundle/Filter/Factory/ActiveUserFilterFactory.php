@@ -48,7 +48,7 @@ class ActiveUserFilterFactory implements FilterFactory
 
 		$field = $options['field'];
 		
-		return new ActiveUserFilter($options['field'], $this->getSecurityContext());
+		return new ActiveUserFilter($options['field'], $this->getSecurityContext(), isset($options['readonly']) ? true : false, isset($options['setter']) ? $options['setter'] : 'setUser');
 	}
     
     /**

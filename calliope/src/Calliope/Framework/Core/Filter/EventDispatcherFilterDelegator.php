@@ -26,6 +26,8 @@ class EventDispatcherFilterDelegator implements FilterDelegator
 		'postFindOneBy' => 'onPostFindOneBy',
 		'preFetch'      => 'onPreFetch',
 		'postFetch'     => 'onPostFetch',
+		'preSave'       => 'onPreSave',
+		'postSave'      => 'onPostSave',
 		'preCreate'     => 'onPreCreate',
 		'postCreate'    => 'onPostCreate',
 		'preUpdate'     => 'onPreUpdate',

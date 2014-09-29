@@ -20,11 +20,15 @@ class PropertyFilterFactory implements FilterFactory
 	 */
 	public function createFilter(array $options = array())
 	{
-		if(!isset($options['property'])) {
-			throw new \InvalidArgumentException('PropertyFilterFactory requires "property" on options.');
+		if(!isset($options['field'])) {
+			throw new \InvalidArgumentException('PropertyFilterFactory requires "field" on options.');
 		}
 
-		return new PropertyFilter($options['property']);
+		if(!isset($options['value'])) {
+			throw new \InvalidArgumentException('PropertyFilterFactory requires "value" on options.');
+		}
+
+		return new PropertyFilter($options['key'], $options['value'], isset($options['readonly']) ? true : false, isset($options['setter']) ? $options['setter'] : null);
 	}
 }
 
