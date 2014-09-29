@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="terpsichore_oauth2_server.server.config" type="collection"></parameter>
+		<parameter key="terpsichore_oauth2_server.server.class">OAuth2\Server</parameter>
+		<parameter key="terpsichore_oauth2_server.scope_util.class">Terpsichore\Bundle\OAuth2ServerBundle\Util\ScopeUtil</parameter>
+		<parameter key="terpsichore_oauth2_server.storage_util.class">Terpsichore\Bundle\OAuth2ServerBundle\Util\StorageUtil</parameter>
+	</parameters>
+    <services>
+        <service 
+			id="terpsichore_oauth2_server.scope_util" 
+			class="%terpsichore_oauth2_server.scope_util.class%" 
+		>
+			<argument type="service" id="terpsichore_oauth2_server.storage.scope"/>
+			<argument> </argument><!-- Delimiter -->
+        </service>
+        <service 
+			id="terpsichore_oauth2_server.storage_util" 
+			class="%terpsichore_oauth2_server.storage_util.class%" 
+		>
+			<argument type="service" id="service_container"/>
+			<!--
+			<call method="setScopeUtil">
+				<argument type="service" id="terpsichore_oauth2_server.scope_util" />
+			</call>
+			-->
+        </service>
+
+
+		<service
+			id="terpsichore_oauth2_server.server"
+			class="%terpsichore_oauth2_server.server.class%"
+		>
+			<argument type="collection"></argument><!-- Storages -->
+			<argument>%terpsichore_oauth2_server.server.config%</argument><!--Config -->
+			<argument type="collection"></argument><!-- GrantTypes -->
+			<argument type="collection"></argument><!-- tokenTypes -->
+			<argument>null</argument><!-- ScopeUtil -->
+			<argument type="service" id="terpsichore_oauth2_server.scope_util"/>
+		</service>
+    </services>
+</container>

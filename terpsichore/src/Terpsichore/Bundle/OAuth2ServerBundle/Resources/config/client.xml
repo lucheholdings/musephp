@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="terpsichore_oauth2_server.token_provider_client.class">Clio\Adapter\Guzzle\OAuth2\OAuth2TokenProviderClient</parameter>
+		<parameter key="terpsichore_oauth2_server.userinfo_provider_client.class">Clio\Adapter\Guzzle\OAuth2\OAuth2UserinfoProviderClient</parameter>
+		<parameter key="terpsichore_oauth2_server.userinfo_provider_client_factory.class">Terpsichore\Bundle\OAuth2ServerBundle\Client\Factory\UserinfoProviderClientFactory</parameter>
+	</parameters>
+    <services>
+		<service
+			id="terpsichore_oauth2_server.token_provider_client.default"
+			class="%terpsichore_oauth2_server.token_provider_client.class%"
+			abstract="true"
+		>
+			<argument></argument><!-- base url -->
+			<argument></argument><!-- configs -->
+		</service>
+
+
+		<service
+			id="terpsichore_oauth2_server.userinfo_provider_client_factory"
+			class="%terpsichore_oauth2_server.userinfo_provider_client_factory.class%"
+		>
+		</service>
+		<service
+			id="terpsichore_oauth2_server.userinfo_provider_client.default"
+			class="%terpsichore_oauth2_server.userinfo_provider_client.class%"
+			abstract="true"
+			factory-service="terpsichore_oauth2_server.userinfo_provider_client_factory"
+			factory-method="createUserinfoProvider"
+		>
+			<argument></argument><!-- base url -->
+			<argument></argument><!-- configs -->
+			<argument></argument><!-- cache -->
+		</service>
+    </services>
+</container>

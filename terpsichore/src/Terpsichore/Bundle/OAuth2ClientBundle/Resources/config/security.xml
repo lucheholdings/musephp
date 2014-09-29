@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="clio_oauth2_client.user_provider.proxy.class">Clio\Adapter\SymfonyBundles\OAuth2ClientBundle\Security\Core\User\OAuth2ProxyUserProvider</parameter>
+        <parameter key="clio_oauth2_client.user_provider.dummy.class">Clio\Adapter\SymfonyBundles\OAuth2ClientBundle\Security\Core\User\OAuth2DummyUserProvider</parameter>
+    </parameters>
+
+    <services>
+		<!-- Proxy UserProvider -->
+		<service id="clio_oauth2_client.user_provider.proxy" class="%clio_oauth2_client.user_provider.proxy.class%">
+			<argument /><!-- OAuth2 User Provider -->
+		</service>
+
+		<!-- Dummy UserProvider -->
+		<service id="clio_oauth2_client.user_provider.dummy" class="%clio_oauth2_client.user_provider.dummy.class%">
+		</service>
+    </services>
+</container>
+

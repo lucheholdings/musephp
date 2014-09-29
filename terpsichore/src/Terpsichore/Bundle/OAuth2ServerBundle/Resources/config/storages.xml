@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<parameter key="terpsichore_oauth2_server.storage.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\StrategicStorage</parameter>
+		<parameter key="terpsichore_oauth2_server.storage_factory.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\StorageFactory</parameter>
+		<parameter key="terpsichore_oauth2_server.storage.access_token.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\AccessToken</parameter>
+		<parameter key="terpsichore_oauth2_server.storage.refresh_token.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\RefreshToken</parameter>
+		<parameter key="terpsichore_oauth2_server.storage.auth_code.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\AuthorizationCode</parameter>
+		<parameter key="terpsichore_oauth2_server.storage.client.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\Client</parameter>
+		<parameter key="terpsichore_oauth2_server.storage.client_credentials.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\ClientCredentials</parameter>
+		<parameter key="terpsichore_oauth2_server.storage.user_credentials.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\UserCredentials</parameter>
+		<parameter key="terpsichore_oauth2_server.storage.scope.class">Terpsichore\Bundle\OAuth2ServerBundle\Storage\Scope</parameter>
+	</parameters>
+	<services>
+		<service
+			id="terpsichore_oauth2_server.storage_factory"
+			class="%terpsichore_oauth2_server.storage_factory.class%"
+		>
+			<!-- Default Class Mapping -->
+			<argument>%terpsichore_oauth2_server.storage.class%</argument>
+			<argument type="collection">
+				<argument key="user_credentials">%terpsichore_oauth2_server.storage.user_credentials.class%</argument>
+			</argument>
+		</service>
+
+
+        <service 
+			id="terpsichore_oauth2_server.storage.access_token.default" 
+			class="%terpsichore_oauth2_server.storage.access_token.class%" 
+			abstract="true"
+			factory-service="terpsichore_oauth2_server.storage_factory"
+			factory-method="createAccessTokenStorage"
+		>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.access_token" on-invalid="null"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
+			<argument type="collection"></argument><!-- optioins -->
+        </service>
+        <service 
+			id="terpsichore_oauth2_server.storage.refresh_token.default" 
+			class="%terpsichore_oauth2_server.storage.refresh_token.class%" 
+			abstract="true"
+			factory-service="terpsichore_oauth2_server.storage_factory"
+			factory-method="createRefreshTokenStorage"
+		>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.refresh_token" on-invalid="null"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
+			<argument type="collection"></argument><!-- optioins -->
+        </service>
+        <service 
+			id="terpsichore_oauth2_server.storage.authorization_code.default" 
+			class="%terpsichore_oauth2_server.storage.auth_code.class%" 
+			abstract="true"
+			factory-service="terpsichore_oauth2_server.storage_factory"
+			factory-method="createAuthorizationCodeStorage"
+		>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.authorization_code" on-invalid="null"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
+			<argument type="collection"></argument><!-- optioins -->
+        </service>
+        <service 
+			id="terpsichore_oauth2_server.storage.user_credentials.default" 
+			class="%terpsichore_oauth2_server.storage.user_credentials.class%" 
+			abstract="true"
+			factory-service="terpsichore_oauth2_server.storage_factory"
+			factory-method="createUserCredentialsStorage"
+		>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.user_credentials" on-invalid="null"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
+			<argument type="collection"></argument><!-- optioins -->
+			<!-- Initlaize EncoderFactory -->
+			<call method="setEncoderFactory">
+            	<argument type="service" id="security.encoder_factory"/>
+			</call>
+        </service>
+        <service 
+			id="terpsichore_oauth2_server.storage.client.default" 
+			class="%terpsichore_oauth2_server.storage.client.class%" 
+			abstract="true"
+			factory-service="terpsichore_oauth2_server.storage_factory"
+			factory-method="createClientStorage"
+		>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client" on-invalid="null"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
+			<argument type="collection"></argument><!-- optioins -->
+        </service>
+        <service 
+			id="terpsichore_oauth2_server.storage.client_credentials.default" 
+			class="%terpsichore_oauth2_server.storage.client_credentials.class%" 
+			abstract="true"
+			factory-service="terpsichore_oauth2_server.storage_factory"
+			factory-method="createClientCredentialsStorage"
+		>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client" on-invalid="null"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
+			<argument type="collection"></argument><!-- optioins -->
+        </service>
+
+
+        <service 
+			id="terpsichore_oauth2_server.storage.scope" 
+			class="%terpsichore_oauth2_server.storage.scope.class%" 
+		>
+            <argument>%terpsichore_oauth2_server.supported_scopes%</argument>
+            <argument>%terpsichore_oauth2_server.default_scopes%</argument>
+			<argument type="service" id="terpsichore_oauth2_server.storage_util"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client"/>
+			<tag name="terpsichore_oauth2_server.storage" for="scope"/>
+        </service>
+
+    </services>
+</container>
+
+

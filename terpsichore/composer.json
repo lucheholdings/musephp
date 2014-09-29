@@ -1,0 +1,50 @@
+{
+    "name": "museterpsichore/terpsichore",
+    "type": "library",
+    "description": "The PHP Libraries to bind Services",
+    "keywords": [
+        "muse",
+        "terpsichore"
+    ],
+    "license": "MIT",
+    "homepage": "http://musephp.org",
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@44services.jp"
+        }
+    ],
+    "support": {
+        "email": "muse@ml.44services.jp",
+        "source": "https://github.com/phpmuse/terpsichore"
+    },
+	"repositories": {
+		"muse": {
+			"type": "composer",
+			"url": "http://musephp.org/satis/"
+		}
+    },
+    "require": {
+        "php": ">=5.3.2",
+		"museclio/clio": "~1.0.0"
+    },
+    "require-dev": {
+		"guzzlehttp/guzzle" :  "~4.1.0"
+    },
+    "replace": {
+        "museterpsichore/core": "self.version"
+    },
+    "autoload": {
+        "psr-0": {
+            "Terpsichore": "src/"
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
+
+
