@@ -8,8 +8,11 @@
  */
 namespace Terpsichore\Core\Auth\Provider;
 
+use Terpsichore\Core\Auth\Provider;
+use Terpsichore\Core\Auth\Request\AuthenticationRequest;
+use Terpsichore\Core\Service\Http\HttpSimpleClientService;
 use Terpsichore\Core\Auth\Token;
-use Terpsichore\Core\Client\HttpRequest;
+use Terpsichore\Core\Request;
 
 /**
  * AbstractHttpProvider 
@@ -19,48 +22,41 @@ use Terpsichore\Core\Client\HttpRequest;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractHttpProvider extends AbstractProvider
+abstract class AbstractHttpProvider extends HttpSimpleClientService implements Provider  
 {
-	private $urls;
-
-	protected function doGetAuthenticatedUser(Token $token, array $params = array())
+	/**
+	 * {@inheritdoc}
+	 * @final
+	 */
+	final public function authenticate(Token $token)
 	{
-		$request = new HttpRequest('GET', $this->getUrl('userinfo'));
-		$request->setSecurityToken($token);
-		
-		$response = $this->getClient()->send($request);
+		if($token->isAuthenticated()) {
+			return $token;
+		}
 
-		return $response;
+		// Authenticate.
+		$authenticated = $this->doAuthenticate($token);
+
+		if(!$authenticated instanceof Token) {
+			throw new ImplementationException('Invalid response: doAuthenticate() has to return TokenInterface.');
+		}
+
+		return $authenticated;
 	}
 
-	//public function setClient(Client $client)
-	//{
-	//	if($client instanceof HttpClient) {
-	//		throw new \InvalidArgumentException('HttpProvider only accept HttpClient.');
-	//	}
-	//	parent::setClient($client);
-	//}
-    
-    public function getUrls()
-    {
-        return $this->urls;
-    }
-    
-    public function setUrls(array $urls)
-    {
-        $this->urls = $urls;
-        return $this;
-    }
+	/**
+	 * doAuthenticate 
+	 * 
+	 * @param Token $token 
+	 * @abstract
+	 * @access protected
+	 * @return void
+	 */
+	abstract protected function doAuthenticate(Token $token);
 
-	public function getUrl($name)
+	public function createHttpAuthenticationRequest($uri, $method, $body = null, array $headers = array())
 	{
-		return $this->urls[$name];
-	}
-
-	public function setUrl($name, $path)
-	{
-		$this->urls[$name] = $path;
-		return $this;
+		return new AuthenticationRequest(parent::createHttpRequest($uri, $method, $body, $headers));
 	}
 }
 

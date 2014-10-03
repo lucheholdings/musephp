@@ -1,25 +1,25 @@
 <?php
-namespace Terpsichore\Core\Auth\Token;
+namespace Terpsichore\Core\Request;
 
-use Terpsichore\Core\Auth\Token;
+use Terpsichore\Core\Request;
 
 /**
- * ProxyToken 
+ * ProxyRequest 
  * 
- * @uses Token
+ * @uses Request
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface ProxyToken extends Token
+interface ProxyRequest extends Request
 {
 	/**
-	 * getToken 
+	 * getRequest 
 	 * 
 	 * @access public
-	 * @return Token
+	 * @return void
 	 */
-	function getToken();
+	function getRequest();
 }
 

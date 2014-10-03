@@ -1,16 +1,9 @@
 <?php
-/**
- * ${ FILENAME }
- * 
- * @copyright ${ COPYRIGHT }
- * @license ${ LICENSE }
- * 
- */
 namespace Terpsichore\Core;
 
 /**
  * Connection 
- *    
+ * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
@@ -18,8 +11,30 @@ namespace Terpsichore\Core;
  */
 interface Connection
 {
-	function getAuthenticationProvider();
+	/**
+	 * send 
+	 * 
+	 * @param Request $request 
+	 * @access public
+	 * @return void
+	 */
+	function send(Request $request);
 
-	function setAuthenticationProvider(AuthenticationProvider $provider);
+	/**
+	 * isSecured 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function isSecured();
+
+	/**
+	 * getSecuredConnection 
+	 * 
+	 * @access public
+	 * @return void
+	 * @throw NotSecuredException
+	 */
+	function getSecuredConnection();
 }
 
