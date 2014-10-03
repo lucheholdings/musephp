@@ -1,23 +1,24 @@
 <?php
-namespace Terpsichore\Core;
+namespace Terpsichore\Core\Connection;
+
+use Terpsichore\Core\Connection;
 
 /**
- * Service 
- *   Basic Serivce 
+ * ProxyConnection 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Service 
+interface ProxyConnection extends Connection
 {
 	/**
-	 * getName 
+	 * getConnection 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function getName();
+	function getConnection();
 }
 

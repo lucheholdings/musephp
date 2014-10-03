@@ -14,8 +14,8 @@ interface OAuthToken extends Token
 {
 	function getToken();
 
-	function getClientId();
+	//function getClientId();
 
-	function getClientSecret();
+	//function getClientSecret();
 }
 

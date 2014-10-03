@@ -4,7 +4,7 @@ namespace Terpsichore\Core\Auth;
 use Terpsichore\Core\Service\ClientService;
 use Terpsichore\Core\Auth\Token;
 /**
- * Provider
+ * UserProvider
  *  Authentication Provider to provide authentication strategy
  * 
  * @package { PACKAGE }
@@ -12,14 +12,23 @@ use Terpsichore\Core\Auth\Token;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Provider extends ClientService
+interface UserProvider extends ClientService
 {
 	/**
-	 * authenticate 
+	 * userinfo
 	 * 
 	 * @access public
-	 * @return void
+	 * @return mixed
 	 */
-	function authenticate(Token $token);
+	function userinfo();
+
+	/**
+	 * getAuthenticatedUser 
+	 * 
+	 * @access public
+	 * @return User
+	 */
+	function getAuthenticatedUser();
+
 }
 
