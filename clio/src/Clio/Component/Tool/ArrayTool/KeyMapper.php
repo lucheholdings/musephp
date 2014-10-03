@@ -28,7 +28,7 @@ class KeyMapper extends BaseMap implements Mapper
 	 */
 	public function inverseMap(array $values)
 	{
-		return $this->doMap($values, array_flip($this->toArray()));
+		return $this->doMap($values, $this->toArray(), true);
 	}
 
 	/**
@@ -39,14 +39,19 @@ class KeyMapper extends BaseMap implements Mapper
 	 * @access protected
 	 * @return void
 	 */
-	protected function doMap(array $values, array $maps)
+	protected function doMap(array $values, array $maps, $inverse = false)
 	{
 		$mappedValues = array();
-		foreach($values as $key => $value) {
-			if(isset($maps[$key])) {
-				$mappedValues[$maps[$key]] = $value;
+		
+		foreach($maps as $key => $mappedKey) {
+			if(!$inverse) {
+				if(isset($values[$key])) {
+					$mappedValues[$mappedKey] = $values[$key];
+				}
 			} else {
-				$mappedValues[$key] = $value;
+				if(isset($values[$mappedKey])) {
+					$mappedValues[$key] = $values[$mappedKey];
+				}
 			}
 		}
 		return $mappedValues;

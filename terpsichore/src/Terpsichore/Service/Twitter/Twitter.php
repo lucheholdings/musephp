@@ -5,6 +5,15 @@ use Terpsichore\Core\Service\GenericSocialServiceProvider;
 use Terpsichore\Core\Auth\OAuth\GenericOAuth1Provider;
 use Terpsichore\Core\Auth\Http\HttpAuthenticatedUserProvider;
 
+/**
+ * Twitter 
+ * 
+ * @uses GenericSocialServiceProvider
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
 class Twitter extends GenericSocialServiceProvider 
 {
 	/**
@@ -17,7 +26,7 @@ class Twitter extends GenericSocialServiceProvider
 	{
 		$this->setAuthenticationProvider(
 			new GenericOAuth1Provider(
-				'/oauth/access_token'
+				'https://api.twitter.com/oauth/access_token'
 			)
 		);
 	

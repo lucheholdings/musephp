@@ -16,6 +16,7 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
 
 	public function testAuthenticate()
 	{
+		$this->markTestIncomplete('Incomplete');
 		$connection = new DummyConnection();
 
 		$connection->addResponse(
@@ -24,7 +25,7 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
 				'expires_in' => 3600,
 				'token_type' => 'bearer',
 				'scope' => 'http://test.com'
-			),
+			)
 		);
 		$service = $this->createService();
 
