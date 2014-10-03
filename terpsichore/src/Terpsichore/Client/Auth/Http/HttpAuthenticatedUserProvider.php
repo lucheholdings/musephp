@@ -37,7 +37,6 @@ class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements U
 
 		if(is_array($response) && $this->responseMap) {
 			$mapper = new InverseKeyMapper($this->responseMap);
-
 			$response = $mapper->map($response);
 		}
 		return $response;
