@@ -21,7 +21,7 @@ interface Token
 
 	/**
 	 * getProvider 
-	 * 
+	 *   AuthenticationProvider related with this token 
 	 * @access public
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ interface Token
 
 	/**
 	 * isAuthenticated 
-	 * 
+	 *   True if authenticated, false other.
 	 * @access public
 	 * @return void
 	 */

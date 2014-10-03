@@ -1,23 +1,21 @@
 <?php
-namespace Terpsichore\Core;
+namespace Terpsichore\Core\Service;
 
 /**
- * Service 
- *   Basic Serivce 
- * 
+ * CallableService 
+ *    
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Service 
+interface CallableService
 {
 	/**
-	 * getName 
+	 * call 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function getName();
+	function call();
 }
-

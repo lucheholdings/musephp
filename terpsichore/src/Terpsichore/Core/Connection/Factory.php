@@ -1,25 +1,23 @@
 <?php
-namespace Terpsichore\Core\Auth\Token;
-
-use Terpsichore\Core\Auth\Token;
+namespace Terpsichore\Core\Connection;
 
 /**
- * ProxyToken 
+ * Factory
  * 
- * @uses Token
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface ProxyToken extends Token
+interface Factory
 {
 	/**
-	 * getToken 
+	 * createConnection 
 	 * 
+	 * @param array $options 
 	 * @access public
-	 * @return Token
+	 * @return void
 	 */
-	function getToken();
+	function createConnection(array $options = array());
 }
 

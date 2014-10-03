@@ -8,9 +8,10 @@
  */
 namespace Terpsichore\Core\Auth\Provider;
 
+use Terpsichore\Core\Connection;
 use Terpsichore\Core\Auth\Provider as ProviderInterface;
 use Terpsichore\Core\Auth\Token;
-use Terpsichore\Core\Service\AbstractClientService;
+use Terpsichore\Core\Service\GenericClientService;
 use Terpsichore\Core\Auth\User;
 
 use Clio\Component\Tool\ArrayTool\InverseKeyMapper;
@@ -26,8 +27,14 @@ use Clio\Component\Tool\ArrayTool\DummyMapper;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractProvider extends AbstractClientService implements ProviderInterface
+abstract class AbstractProvider extends GenericClientService implements ProviderInterface
 {
+	/**
+	 * responseMappers 
+	 * 
+	 * @var array
+	 * @access private
+	 */
 	private $responseMappers = array();
 
 	/**
@@ -37,7 +44,7 @@ abstract class AbstractProvider extends AbstractClientService implements Provide
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(array $options = array())
+	public function __construct(Connection $connection = null, array $options = array())
 	{
 		$this->options = $options;
 
@@ -45,7 +52,7 @@ abstract class AbstractProvider extends AbstractClientService implements Provide
 			false => new DummyMapper(),
 		);
 
-		parent::__construct();
+		parent::__construct($connection);
 	}
 
 	/**
@@ -99,43 +106,6 @@ abstract class AbstractProvider extends AbstractClientService implements Provide
 			return $this->responseMappers[false];
 		}
 		return $this->responseMappers[$type];
-	}
-
-	public function getAuthenticatedUser(Token $token, array $params = array())
-	{
-		if(!$token->isAuthenticated()) {
-			throw new \Exception('Unauthorized token to get user.');
-		}
-
-		// Get User.
-		$response = $this->doGetAuthenticatedUser($token, $params);
-
-		return $this->convertUserInfo($response);
-	}
-
-	abstract protected function doGetAuthenticatedUser(Token $token, array $params = array());
-
-	protected function convertUserInfo(array $userInfo)
-	{
-		$data = $this->getResponseMapper('userinfo')->map($userInfo);
-
-		$id = $username = null;
-
-		if(isset($data['id'])) {
-			$id = $data['id'];
-			unset($data['id']);
-		}
-
-		if(isset($data['username'])) {
-			$username = $data['username'];
-			unset($data['username']);
-		}
-
-		if(!$id) {
-			$id = $username;
-		}
-
-		return new User($id, $data);
 	}
 }
 

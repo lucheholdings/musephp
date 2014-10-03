@@ -14,5 +14,20 @@ use Terpsichore\Core\Auth\Provider\AbstractHttpProvider;
  */
 abstract class AbstractOAuthProvider extends AbstractHttpProvider 
 {
+	/**
+	 * __construct 
+	 * 
+	 * @param mixed $tokenUri 
+	 * @param array $options 
+	 * @param Connection $connection 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct($tokenUri, array $options = array(), Connection $connection = null)
+	{
+		parent::__construct($connection, $options);
+
+		$this->tokenUri = $tokenUri;
+	}
 }
 
