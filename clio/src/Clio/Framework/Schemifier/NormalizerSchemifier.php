@@ -7,6 +7,8 @@ use Clio\Component\Tool\Schemifier\Schemifier,
 use Clio\Component\Tool\Schemifier\FieldMapperRegistry;
 
 use JMS\Serializer\Exception\Exception as SerializerException; 
+
+use Clio\Component\Tool\ArrayTool\InverseMapper;
 /**
  * NormalizerSchemifier 
  *   Use Normalizer to convert, normalize/denormalize, data.
@@ -59,19 +61,15 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 
 		if(is_array($data)) {
 			try {
-
-				if($mapper) {
-					$data = $mapper->map($data);	
-				} 
-
-				$model = $this->getNormalizer()->denormalize($data, $schemeClass);
+				$model = $this->getNormalizer()->denormalize($data, $schemeClass, $mapper);
 			} catch(\Exception  $ex) {
 				throw new \RuntimeException(sprintf('Failed to denormalize class "%s"', $schemeClass), 0, $ex);
 			}
 		} else if(is_object($data)){
 			
 			if($data instanceof $schemeClass) {
-				$model = $data;
+				// Already schemified
+				return $data;
 			} else {
 				$normalized = null;
 				try {
@@ -80,16 +78,14 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 					throw new \RuntimeException(sprintf('Failed to normalize data "%s"', get_class($data)), 0, $ex);
 				}
 
-				if($mapper) {
-					$normalized = $mapper->map($normalized);
-				}
-
-				try {
-					$model = $this->getNormalizer()->denormalize($normalized, $schemeClass);
-				} catch(SerializerException $ex) {
-					throw new \RuntimeException(sprintf('Failed to denormalize class "%s"', $schemeClass), 0, $ex);
-				}
+				$data = $normalized;
 			}
+		}
+
+		try {
+			$model = $this->getNormalizer()->denormalize($data, $schemeClass, $mapper);
+		} catch(SerializerException $ex) {
+			throw new \RuntimeException(sprintf('Failed to denormalize class "%s"', $schemeClass), 0, $ex);
 		}
 		return $model;
 	}

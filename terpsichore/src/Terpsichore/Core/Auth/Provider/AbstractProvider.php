@@ -13,7 +13,8 @@ use Terpsichore\Core\Auth\Token;
 use Terpsichore\Core\Service\AbstractClientService;
 use Terpsichore\Core\Auth\User;
 
-use Clio\Component\Tool\ArrayTool\InverseKeyMapper;
+use Clio\Component\Tool\ArrayTool\KeyMapper,
+	Clio\Component\Tool\ArrayTool\InverseMapper;
 use Clio\Component\Tool\ArrayTool\DummyMapper;
 
 /**
@@ -88,7 +89,7 @@ abstract class AbstractProvider extends AbstractClientService implements Provide
 
 	public function setResponseMapper($type, array $map)
 	{
-		$this->responseMappers[$type] = new InverseKeyMapper($map);
+		$this->responseMappers[$type] = new InverseMapper(new KeyMapper($map));
 
 		return $this;
 	}
