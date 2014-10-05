@@ -5,6 +5,8 @@ use Clio\Component\Util\FieldAccessor\Mapping\ClassMapping;
 use Clio\Component\Util\FieldAccessor\PropertyFieldCollectionAccessor;
 use Clio\Component\Util\FieldAccessor\Property\Factory\PropertyFieldAccessorFactory;
 use Clio\Component\Util\FieldAccessor\Property\IgnorePropertyFieldAccessor;
+
+use Clio\Component\Util\FieldAccessor\Property\Factory\PropertyFieldAccessorComponentFactory;
 /**
  * PropertyFieldCollectionAccessorFactory 
  * 
@@ -26,8 +28,8 @@ class PropertyFieldCollectionAccessorFactory extends AbstractFieldAccessorFactor
 	static public function addDefaultFactories(PropertyFieldCollectionAccessorFactory $container)
 	{
 		$container
-			->addPropertyFieldAccessorFactory(new PropertyFieldAccessorComponentFactory('Clio\Component\Util\FieldAccessor\Property\PublicPropertyFieldAccessor'))
-			->addPropertyFieldAccessorFactory(new PropertyFieldAccessorComponentFactory('Clio\Component\Util\FieldAccessor\Property\MethodPropertyFieldAccessor'))
+			->setPropertyFieldAccessorFactory('public_property', new PropertyFieldAccessorComponentFactory('Clio\Component\Util\FieldAccessor\Property\PublicPropertyFieldAccessor'))
+			->setPropertyFieldAccessorFactory('method', new PropertyFieldAccessorComponentFactory('Clio\Component\Util\FieldAccessor\Property\MethodPropertyFieldAccessor'))
 		;
 
 		return $container;

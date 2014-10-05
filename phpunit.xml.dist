@@ -7,12 +7,13 @@
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
          processIsolation="false"
-         stopOnFailure="true"
+         stopOnFailure="false"
          syntaxCheck="false"
          bootstrap="./vendor/autoload.php"
 >
     <testsuites>
         <testsuite name="MusePHP TestSuite">
+            <directory>./clio/src/Clio/Component</directory>
             <directory>./clio/src/Clio/Framework/Tests</directory>
             <directory>./melete/Melete/Tests</directory>
         </testsuite>

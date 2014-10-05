@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Schemifier;
 
+use Clio\Component\Tool\ArrayTool\Mapper;
 /**
  * FieldMapperRegistry 
  * 
@@ -80,6 +81,20 @@ class FieldMapperRegistry
 		}
 
 		$this->mappers[$src][$dest] = $mapper;
+
+		return $this;
+	}
+
+	/**
+	 * addRegister 
+	 * 
+	 * @param FieldMapperRegister $register 
+	 * @access public
+	 * @return void
+	 */
+	public function addRegister(FieldMapperRegister $register)
+	{
+		$this->set($register->getSource(), $register->getDistination(), $reigster->getMapper());
 
 		return $this;
 	}
