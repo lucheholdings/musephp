@@ -1,7 +1,6 @@
 <?php
 namespace Clio\Component\Tool\Schemifier\Factory;
 
-use Clio\Component\Tool\Schemifier\FieldMapperRegistry;
 /**
  * SchemifierFactory 
  * 

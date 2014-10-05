@@ -12,12 +12,12 @@ interface FieldMapperRegister
 	function getSource();
 
 	/**
-	 * getDistination 
+	 * getDestination 
 	 * 
 	 * @access public
 	 * @return string
 	 */
-	function getDistination();
+	function getDestination();
 
 	/**
 	 * getMapper 

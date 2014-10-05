@@ -1,7 +1,10 @@
 <?php
 namespace Clio\Component\Tool\Schemifier;
 
-use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\Tool\ArrayTool\Mapper,
+	Clio\Component\Tool\ArrayTool\InverseMapper
+;
+
 /**
  * FieldMapperRegistry 
  * 
@@ -41,11 +44,14 @@ class FieldMapperRegistry
 	 */
 	public function has($src, $dest)
 	{
-		if(!isset($this->mappers[$src]) || !isset($this->mappers[$src][$dest])) {
-			return false;
+		$src = $this->convertType($src);
+		$dest = $this->convertType($dest);
+
+		if(isset($this->mappers[$src]) && isset($this->mappers[$src][$dest])) {
+			return true;
 		}
 
-		return true;
+		return false;
 	}
 
 	/**
@@ -58,6 +64,9 @@ class FieldMapperRegistry
 	 */
 	public function get($src, $dest)
 	{
+		$src = $this->convertType($src);
+		$dest = $this->convertType($dest);
+
 		if(!isset($this->mappers[$src]) || !isset($this->mappers[$src][$dest])) {
 			throw new \Exception('FieldMapper from "%s" to "%s" is not registered.');
 		}
@@ -76,11 +85,22 @@ class FieldMapperRegistry
 	 */
 	public function set($src, $dest, Mapper $mapper)
 	{
+		$src = $this->convertType($src);
+		$dest = $this->convertType($dest);
+
+		// Direct
 		if(!isset($this->mappers[$src])) {
 			$this->mappers[$src] = array();
 		}
-
 		$this->mappers[$src][$dest] = $mapper;
+
+		// Indirect
+		if(!$this->has($dest, $src)) {
+			if(!isset($this->mappers[$dest])) {
+				$this->mappers[$dest] = array();
+			}
+			$this->mappers[$dest][$src] = new InverseMapper($mapper);
+		}
 
 		return $this;
 	}
@@ -94,9 +114,26 @@ class FieldMapperRegistry
 	 */
 	public function addRegister(FieldMapperRegister $register)
 	{
-		$this->set($register->getSource(), $register->getDistination(), $reigster->getMapper());
+		$this->set($register->getSource(), $register->getDestination(), $register->getMapper());
 
 		return $this;
+	}
+
+	protected function convertType($type)
+	{
+		if(is_string($type)) {
+			return $type;	
+		} else if(is_array($type)) {
+			return 'array';
+		} else if(is_object($type)) {
+			if($type instanceof \ReflectionClass) {
+				return $type->getName();
+			} else {
+				return get_class($type);
+			}
+		} else {
+			return gettype($type);
+		}
 	}
 }
 
