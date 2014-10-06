@@ -24,9 +24,8 @@
     },
     "require-dev": {
         "symfony/symfony": "~2.1.0",
-        "jms/serializer": "~0.13",
-        "doctrine/orm": "~2.3.0",
-		"museclio/clio": "master@dev"
+        "jms/serializer":  "~0.13",
+        "doctrine/orm":    "~2.3.0"
     },
     "replace": {
         "musecalliope/framework-core": "self.version",

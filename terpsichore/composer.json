@@ -26,11 +26,10 @@
     },
     "require": {
         "php": ">=5.3.2",
-		"museclio/clio": "~1.0.0"
+		"museclio/clio": "~1.0"
     },
     "require-dev": {
-		"guzzlehttp/guzzle" :  "~4.1.0",
-		"museclio/clio": "master@dev"
+		"guzzlehttp/guzzle" :  "~4.1.0"
     },
     "replace": {
         "museterpsichore/core": "self.version"
