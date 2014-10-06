@@ -30,7 +30,7 @@
     },
     "require-dev": {
 		"guzzlehttp/guzzle" :  "~4.1.0",
-		"museclio/clio": "dev@master"
+		"museclio/clio": "master@dev"
     },
     "replace": {
         "museterpsichore/core": "self.version"
@@ -47,5 +47,3 @@
         }
     }
 }
-
-
