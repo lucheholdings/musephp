@@ -20,7 +20,13 @@
 
     <!--
     <php>
-        <server name="KERNEL_DIR" value="/path/to/your/app/" />
+		<var name="facebook_client_id" value="xxxxxxxxxxxxxxx"/>
+		<var name="facebook_client_secret" value="xxxxxxxxxxxxxxx"/>
+		<var name="facebook_user_id" value="1234567890"/>
+
+		<var name="twitter_client_id" value="clientid"/>
+		<var name="twitter_client_secret" value="clientsecret"/>
+		<var name="twitter_user_id" value="1234567890"/>
     </php>
     -->
 

@@ -1,6 +1,8 @@
 <?php
 namespace Terpsichore\Core\Connection;
 
+use Terpsichore\Core\Request\Resolver\HttpRequestResolver;
+
 /**
  * HttpConnection 
  * 
