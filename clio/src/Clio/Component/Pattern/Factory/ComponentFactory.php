@@ -3,6 +3,7 @@ namespace Clio\Component\Pattern\Factory;
 
 /**
  * ComponentFactory 
+ *    Factory of the specified class. 
  * 
  * @uses Factory
  * @package { PACKAGE }
@@ -10,7 +11,7 @@ namespace Clio\Component\Pattern\Factory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ComponentFactory implements Factory 
+class ComponentFactory extends ClassFactory implements Factory 
 {
 	/**
 	 * reflectionClass 
@@ -50,29 +51,6 @@ class ComponentFactory implements Factory
     }
     
 	/**
-	 * create 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function create()
-	{
-		return $this->doCreate(func_get_args());
-	}
-
-	/**
-	 * createArgs 
-	 * 
-	 * @param array $args 
-	 * @access public
-	 * @return void
-	 */
-	public function createArgs(array $args)
-	{
-		return $this->doCreate($args);
-	}
-
-	/**
 	 * doCreate 
 	 * 
 	 * @param array $args 
@@ -81,19 +59,21 @@ class ComponentFactory implements Factory
 	 */
 	protected function doCreate(array $args)
 	{
+		return $this->createComponent($args);
+	}
+
+	/**
+	 * createComponent 
+	 * 
+	 * @param array $args 
+	 * @access public
+	 * @return void
+	 */
+	public function createComponent(array $args)
+	{
 		$args = $this->resolveArguments($args);
 
-		return $this->constructInstance($this->getReflectionClass(), $args);
-	}
-	
-	protected function constructInstance(\ReflectionClass $class, array $args)
-	{
-		return $class->newInstanceArgs($args);
-	}
-
-	protected function resolveArguments(array $args)
-	{
-		return $args;
+		return $this->getConstructor()->construct($this->getReflectionClass(), $args);
 	}
 }
 
