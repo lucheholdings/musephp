@@ -2,10 +2,11 @@
 namespace Terpsichore\Bridge\Guzzle;
 
 use Terpsichore\Core\Connection\HttpConnection;
+use Terpsichore\Core\Request;
 use GuzzleHttp\Client as GuzzleClient;
 
 /**
- * GuzzleConnection 
+ * GuzzleHttpConnection 
  * 
  * @uses HttpConnection
  * @package { PACKAGE }
@@ -13,7 +14,7 @@ use GuzzleHttp\Client as GuzzleClient;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class GuzzleConnection extends HttpConnection 
+class GuzzleHttpConnection extends HttpConnection 
 {
 	/**
 	 * client 
@@ -22,6 +23,18 @@ class GuzzleConnection extends HttpConnection
 	 * @access private
 	 */
 	private $client;
+
+	/**
+	 * __construct 
+	 * 
+	 * @param GuzzleClient $client 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct(GuzzleClient $client = null)
+	{
+		$this->client = $client;
+	}
     
     /**
      * getHttpClient 
