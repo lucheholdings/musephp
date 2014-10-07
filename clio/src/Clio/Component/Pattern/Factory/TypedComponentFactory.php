@@ -1,10 +1,33 @@
 <?php
 namespace Clio\Component\Pattern\Factory;
 
-class TypedComponentFactory implements Factory, TypedFactory
+/**
+ * TypedComponentFactory 
+ * 
+ * @uses ClassFactory
+ * @uses TypedFactory
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+class TypedComponentFactory extends ClassFactory implements TypedFactory
 {
+	/**
+	 * types 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
 	private $types;
 
+	/**
+	 * __construct 
+	 * 
+	 * @param array $classes 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct(array $classes)
 	{
 		$this->types = array();
@@ -13,42 +36,57 @@ class TypedComponentFactory implements Factory, TypedFactory
 		}
 	}
 
+	/**
+	 * doCreate 
+	 * 
+	 * @param array $args 
+	 * @access protected
+	 * @return void
+	 */
+	protected function doCreate(array $args = array())
+	{
+		$type = array_shift($args);
+		return $this->createByTypeArgs($type, $args);
+	}
+
+	/**
+	 * createByType 
+	 * 
+	 * @param mixed $type 
+	 * @access public
+	 * @return void
+	 */
 	public function createByType($type)
 	{
 		$args = func_get_args();
+		array_shift($args);
 		
-		return $this->doCreate($type, array_slice($args, 1));
+		return $this->createByTypeArgs($type, $args);
 	}
 
-	public function create()
-	{
-		$args = func_get_args();
-		
-		return $this->doCreate($args[0], array_slice($args, 1));
-	}
-
+	/**
+	 * createByTypeArgs 
+	 * 
+	 * @param mixed $type 
+	 * @param array $args 
+	 * @access public
+	 * @return void
+	 */
 	public function createByTypeArgs($type, array $args = array())
 	{
-		return $this->doCreate($type, $args);
+		$args = $this->resolveArgs();
+
+		return $this->createClass($this->getTypedClass($type), $args);
 	}
 
-	public function createArgs(array $args = array())
-	{
-		return $this->doCreate($type, $args);
-	}
-
-	protected function doCreate($type, array $args)
-	{
-		$args = $this->resolveArguments($args);
-
-		return $this->constructInstance($this->getTypedClass($type), $args);
-	}
-
-	protected function constructInstance(\ReflectionClass $class, array $args)
-	{
-		return $class->newInstanceArgs($args);
-	}
-
+	/**
+	 * setTypedClass 
+	 * 
+	 * @param mixed $type 
+	 * @param mixed $class 
+	 * @access public
+	 * @return void
+	 */
 	public function setTypedClass($type, $class)
 	{
 		if($class instanceof \ReflectionClass) {
@@ -60,6 +98,13 @@ class TypedComponentFactory implements Factory, TypedFactory
 		return $this;
 	}
 
+	/**
+	 * getTypedClass 
+	 * 
+	 * @param mixed $type 
+	 * @access public
+	 * @return void
+	 */
 	public function getTypedClass($type)
 	{
 		if(!isset($this->types[$type])) {

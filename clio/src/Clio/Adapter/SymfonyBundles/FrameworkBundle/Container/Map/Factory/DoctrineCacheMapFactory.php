@@ -20,7 +20,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  */
 class DoctrineCacheMapFactory extends ServiceStorageMapFactory
 {
-	protected function resolveArguments(array $args = array())
+	protected function resolveArgs(array $args = array())
 	{
 		// arugment 0 : DoctrineCache 
 		if(isset($args[0])) {

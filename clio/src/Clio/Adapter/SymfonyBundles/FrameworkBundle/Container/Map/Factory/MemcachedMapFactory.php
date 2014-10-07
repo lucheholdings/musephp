@@ -19,7 +19,7 @@ namespace Clio\Adapter\SymfonyBundles\FrameworkBundle\Container\Map\Factory;
  */
 class MemcachedMapFactory extends ServiceStorageMapFactory
 {
-	protected function resolveArguments(array $args = array())
+	protected function resolveArgs(array $args = array())
 	{
 		// arugment 0 : Memcached 
 		if(isset($args[0])) {

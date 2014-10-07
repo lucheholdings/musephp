@@ -21,7 +21,7 @@ class ClassFactory extends AbstractFactory
 	 */
 	protected function doCreate(array $args = array())
 	{
-		$class = array_unshift($args);
+		$class = array_shift($args);
 		return $this->createClass($class, $args);
 	}
 

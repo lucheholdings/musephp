@@ -33,7 +33,7 @@
 			abstract="true"
 			public="false"
 			factory-service="clio_framework.counter_factory"
-			factory-method="createArgs"
+			factory-method="createByKeyArgs"
 		>
 			<argument></argument><!-- type -->
 			<argument></argument><!-- arguments to specified factory -->
