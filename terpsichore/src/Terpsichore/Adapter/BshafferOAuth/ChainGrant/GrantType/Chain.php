@@ -71,7 +71,12 @@ class Chain extends HttpBasic implements GrantTypeInterface
 
 		$client = $this->getClientStorage()->getClient($clientId);
 
-		$token = $this->createToken($client, $request);
+		$providerName = $this->getProviderNameFromRequest($request); 
+
+		$token = $this->createToken($client, $providerName);
+		if(!$token) {
+			$response->setError(400, 'invalid_provider', 'provider is not specified.');
+		}
 
 		$provider = $this->authProviderFactory->createForToken($token);
 		if(!$provider) {
@@ -177,17 +182,8 @@ class Chain extends HttpBasic implements GrantTypeInterface
         return $this;
     }
 
-	protected function createToken($client, $request)
+	protected function createToken($client, $providerName)
 	{
-		$providerName = $request->request(self::REQUEST_AUTH_PROVIDER);
-
-		if(!$providerName) {
-			$providerName = $this->getDefaultProviderName();
-			if(!$providerName) {
-				$response->setError(400, 'invalid_request', sprintf('Missing parameters: "%s" required', self::REQUEST_AUTH_PROVIDER));
-				return null;
-			}
-		}
 		// Create defaults by Client
 		if($client instanceof ChainableClient) {
 			$token = $client->createAuthenticateToken($providerName);
@@ -196,6 +192,20 @@ class Chain extends HttpBasic implements GrantTypeInterface
 		}
 		
 		return $token;
+	}
+
+	protected function getProviderNameFromRequest($request)
+	{
+		$providerName = $request->request(self::REQUEST_AUTH_PROVIDER);
+
+		if(!$providerName) {
+			$providerName = $this->getDefaultProviderName();
+			if(!$providerName) {
+				return null;
+			}
+		}
+
+		return $providerName;
 	}
 
 	protected function updateTokenForProvider(AuthenticationProvider $provider, PreAuthenticateToken $preToken, RequestInterface $request)
