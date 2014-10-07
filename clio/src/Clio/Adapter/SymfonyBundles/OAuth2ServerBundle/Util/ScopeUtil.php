@@ -50,7 +50,7 @@ class ScopeUtil extends Scope implements ScopeUtilInterface
 		} else if(is_string($scopes)) {
 			return $scopes;
 		} else if(is_array($scopes)) {
-			return implode($this->delimiter, $scopes);
+			return implode($this->delimiter, array_unique($scopes));
 		}
 
 		throw new \InvalidArgumentException('Invalid Type of Scopes');
@@ -94,6 +94,11 @@ class ScopeUtil extends Scope implements ScopeUtilInterface
 	public function getDefaultScopes($clientId = null)
 	{
 		return $this->toArray($this->getDefaultScope($clientId));
+	}
+
+	public function getSupportedScopes()
+	{
+		return $this->storage->getSupportedScopes();
 	}
 }
 

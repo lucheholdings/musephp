@@ -20,7 +20,7 @@ class DoctrineOrmMapFactory extends AbstractMapFactory
 		$this->doctrine = $doctrine;
 	}
 
-	protected function resolveArguments(array $args = array())
+	protected function resolveArgs(array $args = array())
 	{
 		$args[0] = $this->getDoctrine()->getManager($args[0]);
 	

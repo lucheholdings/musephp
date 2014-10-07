@@ -111,7 +111,7 @@ abstract class AbstractSchemifier implements Schemifier
 			} else {
 				$mapper = new KeyMapper($maps);
 			}
-		} else {
+		} else if(!$mapper) {
 			// Create Empty Mapper
 			$mapper = new KeyMapper();
 		}

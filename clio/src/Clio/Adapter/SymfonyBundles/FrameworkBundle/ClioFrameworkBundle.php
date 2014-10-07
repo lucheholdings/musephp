@@ -31,5 +31,6 @@ class ClioFrameworkBundle extends Bundle
 
 		$container->addCompilerPass(new DependencyInjection\Compiler\CounterCompilerPass());
 		$container->addCompilerPass(new DependencyInjection\Compiler\KvsCompilerPass());
+		$container->addCompilerPass(new DependencyInjection\Compiler\FieldMapperCompilerPass());
 	}
 }

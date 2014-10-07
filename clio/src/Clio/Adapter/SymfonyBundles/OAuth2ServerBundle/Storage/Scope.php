@@ -90,4 +90,15 @@ class Scope extends AbstractStorage implements OAuth2Storage\ScopeInterface
 
         return $this->getStorageUtil()->getScopeUtil()->fromArray($defaultScopes);
     }
+    
+    public function getSupportedScopes()
+    {
+        return $this->supportedScopes;
+    }
+    
+    public function setSupportedScopes($supportedScopes)
+    {
+        $this->supportedScopes = $supportedScopes;
+        return $this;
+    }
 }

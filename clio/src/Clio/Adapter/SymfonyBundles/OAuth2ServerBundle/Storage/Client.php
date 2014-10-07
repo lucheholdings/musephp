@@ -53,31 +53,25 @@ class Client extends StrategicStorage implements OAuth2Storage\ClientInterface
      */
     public function getClientDetails($clientId)
     {
-		try {
-			$client = $this->getClientProvider()->findOneByClientId($clientId);
-
-			if($client) {
-				// Convert Client object to acceptable array
-	        	return $this->getStorageUtil()->convertClient($client);
-			} 
-		} catch(NoResultException $ex) {
-			return null; 
+		$client = $this->getClient($clientId);
+		if($client) {
+			return $this->getStorageUtil()->convertClient($client);
 		}
-
 		return null;
     }
 
 	public function getClientScope($clientId)
 	{
-		if (!$clientDetails = $this->getClientDetails($clientId)) {
+		if (!$client = $this->getClient($clientId)) {
 			return false;
 		}
 
-		if (isset($clientDetails['scope'])) {
-			return $clientDetails['scope'];
-		}
+		$scope = $this->getStorageUtil()->getScopeUtil()->fromArray(array_merge(
+				$this->getStorageUtil()->getScopeUtil()->getSupportedScopes(),
+				$client->getSupportedScopes()
+			));
 
-		return null;
+		return $scope;
 	}
 
     public function checkRestrictedGrantType($clientId, $grant_type)

@@ -23,7 +23,7 @@ abstract class AbstractKvsFactory extends ComponentFactory
 
 	protected function doCreate(array $args)
 	{
-		$args = $this->resolveArguments($args);
+		$args = $this->resolveArgs($args);
 
 		$storage = $this->doCreateStorage($args);
 

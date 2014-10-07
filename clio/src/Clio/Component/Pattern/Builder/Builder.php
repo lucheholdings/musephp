@@ -1,23 +1,22 @@
 <?php
-namespace Clio\Component\Tool\Schemifier\Factory;
+namespace Clio\Component\Pattern\Builder;
 
 /**
- * SchemifierFactory 
+ * Builder 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface SchemifierFactory
+interface Builder
 {
 	/**
-	 * createSchemifier 
+	 * build 
 	 * 
-	 * @param ReflectionClass $reflectionClass
 	 * @access public
 	 * @return void
 	 */
-	function createSchemifier($reflectionClass);
+	function build();
 }
 

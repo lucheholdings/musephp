@@ -31,7 +31,7 @@ class MemcachedKvsFactory extends AbstractKvsFactory
 		$this->container = $container;
 	}
 
-	protected function resolveArguments(array $args = array())
+	protected function resolveArgs(array $args = array())
 	{
 		// arugment 0 : Memcached 
 		if(isset($args[0])) {

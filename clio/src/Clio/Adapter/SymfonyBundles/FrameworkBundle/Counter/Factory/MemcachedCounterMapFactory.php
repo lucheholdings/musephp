@@ -29,7 +29,7 @@ class MemcachedCounterMapFactory extends ComponentFactory
 		$this->container = $container;
 	}
 
-	public function resolveArguments(array $args = array())
+	public function resolveArgs(array $args = array())
 	{
 		if(isset($args[0])) {
 			$args[0] = $this->container->get($args[0]);

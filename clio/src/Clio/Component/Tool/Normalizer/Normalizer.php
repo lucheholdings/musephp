@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
 
+use Clio\Component\Tool\ArrayTool\Mapper;
+
 /**
  * Normalizer 
  * 
@@ -52,14 +54,19 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function normalize($object)
+	public function normalize($object, Mapper $mapper = null)
 	{
 		$strategy = $this->getStrategy();
 		if(!$strategy instanceof NormalizationStrategy) {
 			throw new \Clio\Component\Exception\RuntimeException('Normalizer Strategy dose not support denormalize.');
 		}
 
-		return $strategy->normalize($object);
+		$data = $strategy->normalize($object);
+
+		if($mapper && is_array($data)) {
+			$data = $mapper->map($data);
+		}
+		return $data;
 	}
 
 	/**
@@ -82,11 +89,15 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function denormalize($object, $class)
+	public function denormalize($object, $class, Mapper $mapper = null)
 	{
 		$strategy = $this->getStrategy();
 		if(!$strategy instanceof DenormalizationStrategy) {
 			throw new \Clio\Component\Exception\RuntimeException('Normalizer Strategy dose not support denormalize.');
+		}
+
+		if(is_array($object) && $mapper) {
+			$object = $mapper->map($object);
 		}
 
 		return $strategy->denormalize($object, $class);

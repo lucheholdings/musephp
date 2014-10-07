@@ -63,7 +63,7 @@ abstract class DoctrineConnectionFactory extends AbstractConnectionFactory imple
 			throw new \Exception('DoctrineConnectionFactory requires "scheme_class" on $params');
 		}
 
-		return $this->doCreateConnection($manager, $manager->getRepository($params['scheme_class']));
+		return $this->doCreateConnection($manager, $manager->getRepository((string)$params['scheme_class']));
 	}
 
 	/**
