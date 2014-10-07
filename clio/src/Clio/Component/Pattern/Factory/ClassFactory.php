@@ -10,7 +10,7 @@ namespace Clio\Component\Pattern\Factory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClassFactory implements Factory 
+class ClassFactory extends AbstractFactory 
 {
 	/**
 	 * doCreate 

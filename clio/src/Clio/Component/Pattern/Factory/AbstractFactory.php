@@ -1,7 +1,9 @@
 <?php
 namespace Clio\Component\Pattern\Factory;
 
-use Clio\Component\Pattern\Constructer\Constructor;
+use Clio\Component\Pattern\Constructor\Constructor,
+	Clio\Component\Pattern\Constructor\ConstructConstructor
+;
 
 /**
  * AbstractFactory 
@@ -65,7 +67,7 @@ abstract class AbstractFactory implements Factory
 	public function getConstructor()
 	{
 		if(!$this->constructor){
-			$this->constructor = new ConstructConstrutor();
+			$this->constructor = new ConstructConstructor();
 		}
 
 		return $this->constructor;
