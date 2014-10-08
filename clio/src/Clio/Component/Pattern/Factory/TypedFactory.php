@@ -22,9 +22,9 @@ interface TypedFactory
 	function createByType($type);
 
 	/**
-	 * createArgs 
+	 * createByTypeArgs 
 	 * 
-	 * @param string $type
+	 * @param mixed $type 
 	 * @param array $args 
 	 * @access public
 	 * @return void

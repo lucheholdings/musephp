@@ -28,6 +28,6 @@ interface Factory
 	 * @access public
 	 * @return void
 	 */
-	function createArgs(array $args);
+	function createArgs(array $args = array());
 }
 

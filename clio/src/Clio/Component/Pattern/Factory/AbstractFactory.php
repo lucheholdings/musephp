@@ -43,7 +43,7 @@ abstract class AbstractFactory implements Factory
 	 * @access public
 	 * @return void
 	 */
-	public function createArgs(array $args)
+	public function createArgs(array $args = array())
 	{
 		return $this->doCreate($args);
 	}

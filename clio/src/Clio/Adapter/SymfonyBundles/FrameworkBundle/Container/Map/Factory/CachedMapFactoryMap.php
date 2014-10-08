@@ -32,37 +32,36 @@ class CachedMapFactoryMap extends FactoryMap implements ContainerAwareInterface
 		$this->cacheFactory = $cacheFactory;
 	}
 
-	public function createArgs($alias, array $args = array(), $cache = null)
+	protected function doCreate(array $args)
+	{
+		$key = array_shift($args);
+		$cache = array_shift($args);
+
+		return $this->createCachedMapArgs($key, $cache, $args);
+	}
+
+	public function createCachedMapArgs($key, $cache = null, array $args = array())
 	{
 		// 
-		$map = parent::createArgs($alias, $args);
+		$map = parent::createByKeyArgs($key, $args);
 
+		// If Cache is enabled, then create CachedMap with $map and $cache
 		if($cache) {
-			$map = $this->createCachedMap($map, $cache);
+			$map = $this->doCreateCachedMap($map, $cache);
 		}
 
 		return $map; 
 	}
 
 	/**
-	 * create 
-	 *   $factory->create($alias, $cache, $arg1, $arg2...) 
-	 * @access public
-	 * @param  string Alias of Factory 
-	 * @param  string "array" or Alias of Cache in DI
+	 * createCachedMap 
+	 * 
+	 * @param mixed $map 
+	 * @param mixed $cache 
+	 * @access protected
 	 * @return void
 	 */
-	public function create()
-	{
-		$args = func_get_args();
-
-		$alias = array_shift($args);
-		$cache = array_shift($args);
-
-		return $this->createArgs($alias, $cache, $args);
-	}
-
-	protected function createCachedMap($map, $cache)
+	protected function doCreateCachedMap($map, $cache)
 	{
 		// Create DoctrineCache if needed
 		if(is_string($cache) && $this->getContainer()->has($cache)) {
@@ -77,22 +76,48 @@ class CachedMapFactoryMap extends FactoryMap implements ContainerAwareInterface
 		return new CachedMap($map, $cache);
 	}
     
+    /**
+     * getContainer 
+     * 
+     * @access public
+     * @return void
+     */
     public function getContainer()
     {
         return $this->container;
     }
     
+    /**
+     * setContainer 
+     * 
+     * @param ContainerInterface $container 
+     * @access public
+     * @return void
+     */
     public function setContainer(ContainerInterface $container = null)
     {
         $this->container = $container;
         return $this;
     }
     
+    /**
+     * getCacheFactory 
+     * 
+     * @access public
+     * @return void
+     */
     public function getCacheFactory()
     {
         return $this->cacheFactory;
     }
     
+    /**
+     * setCacheFactory 
+     * 
+     * @param CacheFactoryInterface $cacheFactory 
+     * @access public
+     * @return void
+     */
     public function setCacheFactory(CacheFactoryInterface $cacheFactory)
     {
         $this->cacheFactory = $cacheFactory;
