@@ -104,16 +104,27 @@ class GuzzleHttpConnection extends HttpConnection
 	{
 		$resolver = $this->getRequestResolver();
 
-		switch($request->getHeader('content-type')) {
-		case 'application/json':
-			$params = array('json' => $resolver->resolveBody($request));
-			break;
+		$params = array();
+		$method = $resolver->resolveMethod($request);
+
+		switch($method) {
+		case 'GET':
+			$params['query'] = $resolver->resolveBody();
+			break
 		default:
-			$params = array('body' => $resolver->resolveBody($request));
+			switch($request->getHeader('content-type')) {
+			case 'application/json':
+				$params['json'] = $resolver->resolveBody($request);
+				break;
+			default:
+				$params['body'] = $resolver->resolveBody($request);
+				break;
+			}
+			break;
 		}
 
 		return $this->getHttpClient()->createRequest(
-			$resolver->resolveMethod($request), 
+			$method,
 			$resolver->resolveUri($request),
 			array_merge(
 				$params, 
