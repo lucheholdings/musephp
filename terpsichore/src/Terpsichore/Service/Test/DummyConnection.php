@@ -1,8 +1,8 @@
 <?php
 namespace Terpsichore\Service\Test;
 
-use Terpsichore\Core\Connection\AbstractConnection;
-use Terpsichore\Core\Request;
+use Terpsichore\Client\Connection\AbstractConnection;
+use Terpsichore\Client\Request;
 
 class DummyConnection extends AbstractConnection
 {

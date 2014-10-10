@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Service\Twitter;
 
-use Terpsichore\Core\Service\Http\HttpServiceProvider;
+use Terpsichore\Client\Service\Http\HttpServiceProvider;
 
 class TweetService extends HttpServiceProvider
 {

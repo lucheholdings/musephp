@@ -1,9 +1,9 @@
 <?php
 namespace Terpsichore\Service\Twitter;
 
-use Terpsichore\Core\Service\Http\GenericSocialServiceProvider;
-use Terpsichore\Core\Auth\OAuth\GenericOAuth1Provider;
-use Terpsichore\Core\Auth\Http\HttpAuthenticatedUserProvider;
+use Terpsichore\Client\Service\Http\GenericSocialServiceProvider;
+use Terpsichore\Client\Auth\OAuth\GenericOAuth1Provider;
+use Terpsichore\Client\Auth\Http\HttpAuthenticatedUserProvider;
 
 /**
  * Twitter 

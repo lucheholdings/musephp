@@ -4,8 +4,8 @@ namespace Terpsichore\Service\Google\Tests;
 use Terpsichore\Service\Google\Google;
 use Terpsichore\Service\Test\DummyConnection;
 
-use Terpsichore\Core\Connection;
-use Terpsichore\Core\Auth\Token\PreAuthenticateToken;
+use Terpsichore\Client\Connection;
+use Terpsichore\Client\Auth\Token\PreAuthenticateToken;
 
 class GoogleTest extends \PHPUnit_Framework_TestCase 
 {
@@ -13,8 +13,8 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
 	{
 		$service = $this->createService();
 
-		$this->assertInstanceof('Terpsichore\Core\Auth\OAuth\GenericOAuth2Provider', $service->auth);
-		$this->assertInstanceof('Terpsichore\Core\Auth\Http\HttpAuthenticatedUserProvider', $service->userinfo);
+		$this->assertInstanceof('Terpsichore\Client\Auth\OAuth\GenericOAuth2Provider', $service->auth);
+		$this->assertInstanceof('Terpsichore\Client\Auth\Http\HttpAuthenticatedUserProvider', $service->userinfo);
 	}
 
 	public function testAuthenticate()
@@ -28,7 +28,7 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
 		$service->getConnection()->authenticate();
 		$token = $service->getConnection()->getToken();
 
-		$this->assertInstanceof('Terpsichore\Core\Auth\OAuth\OAuth2Token', $token);
+		$this->assertInstanceof('Terpsichore\Client\Auth\OAuth\OAuth2Token', $token);
 		$this->assertEquals('accesstoken', $token->getToken());
 		$this->assertEquals('http://test.com', $token->getScopes());
 		$this->assertEquals(3600, $token->getExpiresIn());
@@ -53,7 +53,7 @@ class GoogleTest extends \PHPUnit_Framework_TestCase
 
 		$user = $service->getAuthenticatedUser();
 
-		$this->assertInstanceof('Terpsichore\Core\Auth\User', $user);
+		$this->assertInstanceof('Terpsichore\Client\Auth\User', $user);
 
 		$this->assertEquals(1234567890, $user->getId());
 

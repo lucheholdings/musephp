@@ -8,7 +8,7 @@
  */
 namespace Terpsichore\Service\Facebook;
 
-use Terpsichore\Core\Auth\OAuth\GenericOAuth2Provider;
+use Terpsichore\Client\Auth\OAuth\GenericOAuth2Provider;
 
 class AuthenticationProvider extends GenericOAuth2Provider 
 {
