@@ -176,8 +176,8 @@ class ClioFrameworkExtension extends Extension
 				$definition = new DefinitionDecorator('clio_framework.kvs_prototype');
 				$definition
 					->replaceArgument(0, $kvsConfigs['type'])
-					->replaceArgument(1, $args)
-					->replaceArgument(2, isset($kvsConfigs['cache']) ? $kvsConfigs['cache'] : null)
+					->replaceArgument(1, isset($kvsConfigs['cache']) ? $kvsConfigs['cache'] : null)
+					->replaceArgument(2, $args)
 					->setPublic(true)
 					->setAbstract(false)
 				;

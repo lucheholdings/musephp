@@ -46,11 +46,11 @@
 			abstract="true"
 			public="false"
 			factory-service="clio_framework.kvs_factory"
-			factory-method="createArgs"
+			factory-method="createCachedMapArgs"
 		>
 			<argument></argument><!-- type -->
-			<argument></argument><!-- arguments to specified factory -->
 			<argument></argument><!-- cache -->
+			<argument></argument><!-- arguments to specified factory -->
 		</service>
 
     </services>
