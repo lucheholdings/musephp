@@ -57,11 +57,9 @@ class HttpSimpleClientService extends GenericClientService implements CallableSe
 	 * @access public
 	 * @return void
 	 */
-	public function call($body = null)
+	public function call($contents = null)
 	{
-		$request = new ServiceRequest();
-
-		$request->setHeaders($this->getRequestHeaders());
+		$request = $this->createRequest($this->getRequestHeaders(), $contents);
 
 		return $this->request($request);
 	}
@@ -92,13 +90,16 @@ class HttpSimpleClientService extends GenericClientService implements CallableSe
 	 */
 	public function createHttpRequest($uri, $method, $body = null, array $headers = array())
 	{
-		return new ServiceRequest($body, array_merge(
-			$headers,
-			array(
-				'uri' => $uri,
-				'method' => $method,
-			)
-		));
+		return $this->createRequest(
+			array_merge(
+				$headers,
+				array(
+					'uri' => $uri,
+					'method' => $method,
+				)
+			),
+			$body
+		);
 	}
     
     /**
@@ -125,11 +126,24 @@ class HttpSimpleClientService extends GenericClientService implements CallableSe
         return $this;
     }
     
+    /**
+     * getUri 
+     * 
+     * @access public
+     * @return void
+     */
     public function getUri()
     {
         return $this->uri;
     }
     
+    /**
+     * setUri 
+     * 
+     * @param mixed $uri 
+     * @access public
+     * @return void
+     */
     public function setUri($uri)
     {
         $this->uri = $uri;

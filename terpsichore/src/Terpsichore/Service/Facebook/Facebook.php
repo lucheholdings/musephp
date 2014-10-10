@@ -1,10 +1,19 @@
 <?php
 namespace Terpsichore\Service\Facebook;
 
-use Terpsichore\Core\Service\GenericSocialServiceProvider;
+use Terpsichore\Core\Service\Http\GenericSocialServiceProvider;
 use Terpsichore\Core\Auth\OAuth\GenericOAuth2Provider;
 use Terpsichore\Core\Auth\Http\HttpAuthenticatedUserProvider;
 
+/**
+ * Facebook 
+ * 
+ * @uses GenericSocialServiceProvider
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
 class Facebook extends GenericSocialServiceProvider 
 {
 	/**

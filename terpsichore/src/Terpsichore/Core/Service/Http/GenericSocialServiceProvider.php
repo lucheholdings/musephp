@@ -1,21 +1,18 @@
 <?php
-namespace Terpsichore\Core\Service;
+namespace Terpsichore\Core\Service\Http;
 
-use Terpsichore\Core\Auth\Provider as AuthenticationProvider;
 use Terpsichore\Core\Auth\UserProvider;
 use Terpsichore\Core\Auth\Token\UserToken;
-
 /**
  * GenericSocialServiceProvider 
  * 
- * @uses GenericClientServiceProvider
- * @abstract
+ * @uses HttpServiceProvider
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class GenericSocialServiceProvider extends GenericClientServiceProvider 
+class GenericSocialServiceProvider extends HttpServiceProvider 
 {
 	/**
 	 * _userProvider 
@@ -77,3 +74,4 @@ abstract class GenericSocialServiceProvider extends GenericClientServiceProvider
 		}
 	}
 }
+

@@ -35,7 +35,7 @@ class GenericClientServiceProvider extends BasicServiceProvider implements Conne
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Connection $connection)
+	public function __construct(Connection $connection = null)
 	{
 		$this->_connection = $connection;
 

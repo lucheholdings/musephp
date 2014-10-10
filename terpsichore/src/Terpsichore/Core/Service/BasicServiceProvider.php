@@ -12,7 +12,7 @@ use Terpsichore\Core\Service;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class BasicServiceProvider implements ServiceProvider 
+class BasicServiceProvider extends AbstractService implements ServiceProvider 
 {
 	/**
 	 * _services 
