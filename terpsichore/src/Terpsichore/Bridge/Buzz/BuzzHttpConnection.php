@@ -1,8 +1,8 @@
 <?php
 namespace Terpsichore\Bridge\Buzz;
 
-use Terpsichore\Core\Connection\HttpConnection;
-use Terpsichore\Core\Request;
+use Terpsichore\Client\Connection\HttpConnection;
+use Terpsichore\Client\Request;
 
 use Buzz\Client\ClientInterface as BuzzClient,
 	Buzz\Client\Curl as BuzzCurl;

@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Bridge\Guzzle;
 
-use Terpsichore\Core\Connection\Factory as ConnectionFactory;
+use Terpsichore\Client\Connection\Factory as ConnectionFactory;
 
 /**
  * GuzzleHttpConnectionFactory 

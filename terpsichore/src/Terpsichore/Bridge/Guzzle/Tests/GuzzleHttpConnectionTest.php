@@ -2,7 +2,7 @@
 namespace Terpsichore\Bridge\Guzzle\Tests;
 
 use Terpsichore\Bridge\Guzzle\GuzzleHttpConnection;
-use Terpsichore\Core\Request\ServiceRequest;
+use Terpsichore\Client\Request\ServiceRequest;
 
 /**
  * GuzzleHttpConnectionTest 

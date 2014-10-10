@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Bridge\Buxx;
 
-use Terpsichore\Core\Connection\Factory as ConnectionFactory;
+use Terpsichore\Client\Connection\Factory as ConnectionFactory;
 
 /**
  * BuzzHttpConnectionFactory 
