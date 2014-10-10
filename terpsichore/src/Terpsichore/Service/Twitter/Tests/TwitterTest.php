@@ -3,6 +3,7 @@ namespace Terpsichore\Service\Twitter\Tests;
 
 use Terpsichore\Service\Twitter\Twitter;
 use Terpsichore\Service\Test\DummyConnection;
+use Terpsichore\Core\Connection;
 
 class TwitterTest extends \PHPUnit_Framework_TestCase 
 {
@@ -27,8 +28,24 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
 				'scope' => 'http://test.com'
 			)
 		);
-		$service = $this->createService();
+		$service = $this->createService($connection);
 
+	}
+
+	/**
+	 * testTweetService 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testTweetService()
+	{
+		$service = $this->createService(new DummyConnection());
+
+		$this->assertInstanceof('Terpsichore\Service\Twitter\TweetService', $service->tweets);
+
+		$service->tweets->post('hello');
+		$this->asset
 	}
 
 	/*
