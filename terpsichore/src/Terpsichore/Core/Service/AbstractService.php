@@ -2,6 +2,7 @@
 namespace Terpsichore\Core\Service;
 
 use Terpsichore\Core\Service;
+use Terpsichore\Core\Request\ServiceRequest;
 /**
  * AbstractService 
  * 
@@ -12,8 +13,20 @@ use Terpsichore\Core\Service;
  */
 abstract class AbstractService implements Service
 {
+	/**
+	 * _name 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $_name;
 
+	/**
+	 * _options 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $_options;
 
 	/**
@@ -113,6 +126,20 @@ abstract class AbstractService implements Service
 	public function hasOption($key)
 	{
 		return isset($this->_options[$key]);
+	}
+
+
+	/**
+	 * createRequest 
+	 * 
+	 * @param array $headers 
+	 * @param mixed $body 
+	 * @access public
+	 * @return void
+	 */
+	public function createRequest(array $headers = array(), $body = null)
+	{
+		return new ServiceRequest($body, $headers);
 	}
 }
 

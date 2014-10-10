@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Service\Twitter;
 
-use Terpsichore\Core\Service\GenericSocialServiceProvider;
+use Terpsichore\Core\Service\Http\GenericSocialServiceProvider;
 use Terpsichore\Core\Auth\OAuth\GenericOAuth1Provider;
 use Terpsichore\Core\Auth\Http\HttpAuthenticatedUserProvider;
 
@@ -32,6 +32,8 @@ class Twitter extends GenericSocialServiceProvider
 	
 		$this->setAuthenticatedUserProvider(new HttpAuthenticatedUserProvider('https://api.twitter.com/1.1/account/verify_credentials.json', array('method' => 'get'), array('id' => 'id_str', 'username' => 'screen_name')));
 		
+		// 
+		$this->setService('tweets', new TweetService());
 	}
 
 	/**
