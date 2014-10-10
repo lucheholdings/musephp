@@ -3,7 +3,7 @@ namespace Terpsichore\Service\Twitter\Tests;
 
 use Terpsichore\Service\Twitter\Twitter;
 use Terpsichore\Service\Test\DummyConnection;
-use Terpsichore\Core\Connection;
+use Terpsichore\Client\Connection;
 
 class TwitterTest extends \PHPUnit_Framework_TestCase 
 {
@@ -11,8 +11,8 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
 	{
 		$service = $this->createService();
 
-		$this->assertInstanceof('Terpsichore\Core\Auth\OAuth\GenericOAuth1Provider', $service->auth);
-		$this->assertInstanceof('Terpsichore\Core\Auth\Http\HttpAuthenticatedUserProvider', $service->userinfo);
+		$this->assertInstanceof('Terpsichore\Client\Auth\OAuth\GenericOAuth1Provider', $service->auth);
+		$this->assertInstanceof('Terpsichore\Client\Auth\Http\HttpAuthenticatedUserProvider', $service->userinfo);
 	}
 
 	public function testAuthenticate()
@@ -60,7 +60,7 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
 
 		$user = $service->usreinfo();
 
-		$this->assertInstanceof('Terpsichore\Core\Auth\User', $user);
+		$this->assertInstanceof('Terpsichore\Client\Auth\User', $user);
 		$this->assertEquals($userId, $user->getId());
 	}
 	*/

@@ -1,9 +1,9 @@
 <?php
 namespace Terpsichore\Service\Google;
 
-use Terpsichore\Core\Service\Http\GenericSocialServiceProvider;
-use Terpsichore\Core\Auth\OAuth\GenericOAuth2Provider;
-use Terpsichore\Core\Auth\Http\HttpAuthenticatedUserProvider;
+use Terpsichore\Client\Service\Http\GenericSocialServiceProvider;
+use Terpsichore\Client\Auth\OAuth\GenericOAuth2Provider;
+use Terpsichore\Client\Auth\Http\HttpAuthenticatedUserProvider;
 
 class Google extends GenericSocialServiceProvider 
 {
