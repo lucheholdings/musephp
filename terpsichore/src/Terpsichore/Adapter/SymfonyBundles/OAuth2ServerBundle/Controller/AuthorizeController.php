@@ -34,17 +34,17 @@ class AuthorizeController extends Controller
 			throw new AccessDeniedException('This user does not have access to this section.');
 		}
 
-        if (true === $this->container->get('session')->get('_clio_oauth2_server.ensure_logout')) {
+        if (true === $this->container->get('session')->get('_terpsichore_oauth2_server.ensure_logout')) {
             $this->container->get('session')->invalidate(600);
-            $this->container->get('session')->set('_clio_oauth2_server.ensure_logout', true);
+            $this->container->get('session')->set('_terpsichore_oauth2_server.ensure_logout', true);
         }
 	
-		$server = $this->get('clio_oauth2_server.server');
-		$response = $this->get('clio_oauth2_server.response');
+		$server = $this->get('terpsichore_oauth2_server.server');
+		$response = $this->get('terpsichore_oauth2_server.response');
 
 		$form = $this->createForm(new AuthorizationForm());
 		if(!$request->isMethod('POST')) {
-			if (!$server->validateAuthorizeRequest($this->get('clio_oauth2_server.request'), $response)) {
+			if (!$server->validateAuthorizeRequest($this->get('terpsichore_oauth2_server.request'), $response)) {
 				if($this->container->getParameter('kernel.debug')) {
 					$response->setStatusCode(400);
 					$response->headers->remove('location');
@@ -56,7 +56,7 @@ class AuthorizeController extends Controller
 				throw HttpException::create(400);
 			}
 			
-			$clientManager = $this->get('clio_oauth2_server.storage_strategy.client');
+			$clientManager = $this->get('terpsichore_oauth2_server.storage_strategy.client');
 			$client = $clientManager->findOneByClientId($request->get('client_id'));
 			if(!$client) {
 				// 
@@ -83,7 +83,7 @@ class AuthorizeController extends Controller
 			// merge data 
 			$request->query->add($form->getData());
 
-			$server->handleAuthorizeRequest($this->get('clio_oauth2_server.request'), $response, $isAccepted);
+			$server->handleAuthorizeRequest($this->get('terpsichore_oauth2_server.request'), $response, $isAccepted);
 			
 			return $response;
 		}

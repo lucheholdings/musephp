@@ -96,6 +96,12 @@ class ScopeUtil extends Scope implements ScopeUtilInterface
 		return $this->toArray($this->getDefaultScope($clientId));
 	}
 
+	/**
+	 * getSupportedScopes 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getSupportedScopes()
 	{
 		return $this->storage->getSupportedScopes();

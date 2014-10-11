@@ -5,9 +5,12 @@ use Clio\Component\Pattern\Factory\InheritComponentFactory;
 
 class StorageFactory extends InheritComponentFactory 
 {
-	public function __construct($superClass, array $defaultClasses = array())
+	private $container;
+
+	public function __construct($container, array $defaultClasses = array())
 	{
-		parent::__construct($superClass);
+		parent::__construct('Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\AbstractStorage');
+		$this->container = $container;
 		$this->defaultClasses = array_merge(
 			array(
 				'user_credentials'   => 'Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\UserCredentials',
@@ -21,46 +24,46 @@ class StorageFactory extends InheritComponentFactory
 		);
 	}
 
-	public function createUserCredentialsStorage($strategy, $util, array $options = array())
+	public function createUserCredentialsStorage($strategy, array $options = array())
 	{
 		$storageClass = $this->getStorageClass('user_credentials', $options);
 
-		return $this->createStorage($storageClass, array($strategy, $util));
+		return $this->createStorage($storageClass, array($strategy, $this->getStorageUtil()));
 	}
 
-	public function createClientStorage($strategy, $util, array $options = array())
+	public function createClientStorage($strategy, array $options = array())
 	{
 		$storageClass = $this->getStorageClass('client', $options);
 
-		return $this->createStorage($storageClass, array($strategy, $util));
+		return $this->createStorage($storageClass, array($strategy, $this->getStorageUtil()));
 	}
 
-	public function createClientCredentialsStorage($strategy, $util, array $options = array())
+	public function createClientCredentialsStorage($strategy, array $options = array())
 	{
 		$storageClass = $this->getStorageClass('client_credentials', $options);
 
-		return $this->createStorage($storageClass, array($strategy, $util));
+		return $this->createStorage($storageClass, array($strategy, $this->getStorageUtil()));
 	}
 
-	public function createAccessTokenStorage($strategy, $util, array $options = array())
+	public function createAccessTokenStorage($strategy, array $options = array())
 	{
 		$storageClass = $this->getStorageClass('access_token', $options);
 
-		return $this->createStorage($storageClass, array($strategy, $util));
+		return $this->createStorage($storageClass, array($strategy, $this->getStorageUtil()));
 	}
 
-	public function createRefreshTokenStorage($strategy, $util, array $options = array())
+	public function createRefreshTokenStorage($strategy, array $options = array())
 	{
 		$storageClass = $this->getStorageClass('refresh_token', $options);
 
-		return $this->createStorage($storageClass, array($strategy, $util));
+		return $this->createStorage($storageClass, array($strategy, $this->getStorageUtil()));
 	}
 
-	public function createAuthorizationCodeStorage($strategy, $util, array $options = array())
+	public function createAuthorizationCodeStorage($strategy, array $options = array())
 	{
 		$storageClass = $this->getStorageClass('authorization_code', $options);
 
-		return $this->createStorage($storageClass, array($strategy, $util));
+		return $this->createStorage($storageClass, array($strategy, $this->getStorageUtil()));
 	}
 
 	protected function getStorageClass($type, array $options)
@@ -81,6 +84,28 @@ class StorageFactory extends InheritComponentFactory
 	protected function createStorage($class, array $args = array()) 
 	{
 		return $this->createInheritClassArgs($class, $args);
+	}
+
+	public function createScopeStorage($strategy, $options)
+	{
+		$storageClass = $this->getStorageClass('scope', $options);
+		return $this->createStorage($storageClass, array($strategy, $options));
+	}
+    
+    public function getContainer()
+    {
+        return $this->container;
+    }
+    
+    public function setContainer($container)
+    {
+        $this->container = $container;
+        return $this;
+    }
+
+	public function getStorageUtil()
+	{
+		return $this->getContainer()->get('terpsichore_oauth2_server.storage_util');
 	}
 }
 

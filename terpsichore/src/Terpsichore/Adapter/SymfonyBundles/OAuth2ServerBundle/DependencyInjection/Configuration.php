@@ -28,7 +28,18 @@ class Configuration implements ConfigurationInterface
 		$rootNode
 			->children()
 				->scalarNode('scope_delemiter')->defaultValue(' ')->end()
-				->scalarNode('token_resolver')->defaultValue('server')->end()
+				->arrayNode('token_resolver')
+					->addDefaultsIfNotSet()
+					->beforeNormalization()
+						->ifString()
+						->then(function($v){
+							return array('type' => $v);
+						})
+					->end()
+					->children()
+						->scalarNode('type')->defaultValue('server')->end()
+					->end()
+				->end()
 				->append($this->buildServerSection())
 			->end()
 		;
@@ -51,9 +62,9 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
-				->append($this->buildServerStorageSection())
-				->append($this->buildServerGrantTypeSection())
-				->append($this->buildServerResponseTypeSection())
+				->append($this->buildServerStoragesSection())
+				->append($this->buildServerGrantTypesSection())
+				->append($this->buildServerResponseTypesSection())
 				->arrayNode('configs')
 					->defaultValue(array())
 					->useAttributeAsKey('key')
@@ -77,15 +88,85 @@ class Configuration implements ConfigurationInterface
 				->append($this->buildServerStrategicStorageSection('authorization_code'))
 				->append($this->buildServerStrategicStorageSection('user_credentials'))
 				->append($this->buildServerStrategicStorageSection('client'))
-				->append($this->buildServerStrategicStorageSection('client_credentials'))
+				->append($this->buildServerStrategicStorageSection('scope'))
+				->append($this->buildServerStorageSection('client_credentials'))
 			->end()
 		;
 
 		return $rootNode;
 	}
 
+	protected function buildServerStrategicStorageSection($name)
+	{
+		$treeBuilder = new TreeBuilder();
+		$rootNode = $treeBuilder->root($name);
+		
+		$rootNode
+			->canBeDisabled()
+			->beforeNormalization()
+				->ifString()
+				->then(function($v) {
+					return array(
+						'enabled'    => true,
+						'type'       => 'alias',
+						'connect_to' => $v,
+					);
+				})
+			->end()
+			->children()
+				->booleanNode('use_strategy')->defaultTrue()->end()
+				->scalarNode('type')->isRequired()->cannotBeEmpty()->end()
+				->scalarNode('storage_class')->defaultNull()->end()
+				->scalarNode('class')->end()
+				->scalarNode('connect_to')->defaultNull()->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->useAttributeAsKey('key')
+					->prototype('variable')->end()
+				->end()
+			->end()
+		;
+		return $rootNode;
+	}
 
-	protected function buildServerGrantTypeSection()
+	/**
+	 * buildServerStorageSection 
+	 *   For "client_credentials" 
+	 * @param mixed $name 
+	 * @access protected
+	 * @return void
+	 */
+	protected function buildServerStorageSection($name)
+	{
+		$treeBuilder = new TreeBuilder();
+		$rootNode = $treeBuilder->root($name);
+
+		$rootNode
+			->canBeDisabled()
+			->treatNullLike(array('enabled' => true, 'type' => 'none'))
+			->beforeNormalization()
+				->ifString()
+				->then(function($v){
+					return array(
+						'enabled' => true,
+						'type' => 'none'
+					);
+				})
+			->end()
+			->children()
+				->scalarNode('storage_class')->defaultNull()->end()
+				->scalarNode('type')->defaultValue('none')->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->useAttributeAsKey('key')
+					->prototype('variable')->end()
+				->end()
+			->end()
+		;
+		return $rootNode;
+	}
+
+	protected function buildServerGrantTypesSection()
 	{
 		$treeBuilder = new TreeBuilder();
 		$rootNode = $treeBuilder->root('grant_types');
@@ -112,13 +193,12 @@ class Configuration implements ConfigurationInterface
 		return $rootNode;
 	}
 
-	protected function buildServerResponseTypeSection()
+	protected function buildServerResponseTypesSection()
 	{
 		$treeBuilder = new TreeBuilder();
 		$rootNode = $treeBuilder->root('response_types');
 
 		$rootNode
-			->addDefaultsIfNotSet()
 			->useAttributeAsKey('name')
 			->prototype('scalar')->end()
 			->end()
@@ -314,8 +394,8 @@ class Configuration implements ConfigurationInterface
 	//	$rootNode
 	//		->addDefaultsIfNotSet()
 	//		->children()
-	//			->scalarNode('token')->defaultValue('clio_oauth2_server.response_type.token.default')->end()
-	//			->scalarNode('code')->defaultValue('clio_oauth2_server.response_type.code.default')->end()
+	//			->scalarNode('token')->defaultValue('terpsichore_oauth2_server.response_type.token.default')->end()
+	//			->scalarNode('code')->defaultValue('terpsichore_oauth2_server.response_type.code.default')->end()
 	//		->end()
 	//	;
 	//	return $rootNode;
@@ -346,37 +426,37 @@ class Configuration implements ConfigurationInterface
 	//		//	->arrayNode('password')
     //        //        ->canBeDisabled()
 	//		//		->children()
-	//		//			->scalarNode('id')->defaultValue('clio_oauth2_server.grant_type.password')->end()
+	//		//			->scalarNode('id')->defaultValue('terpsichore_oauth2_server.grant_type.password')->end()
 	//		//		->end()
     //        //    ->end()
 	//		//	->arrayNode('client_credentials')
     //        //        ->canBeDisabled()
 	//		//		->children()
-	//		//			->scalarNode('id')->defaultValue('clio_oauth2_server.grant_type.client_credentials')->end()
+	//		//			->scalarNode('id')->defaultValue('terpsichore_oauth2_server.grant_type.client_credentials')->end()
 	//		//		->end()
     //        //    ->end()
 	//		//	->arrayNode('authorization_code')
     //        //        ->canBeDisabled()
 	//		//		->children()
-	//		//			->scalarNode('id')->defaultValue('clio_oauth2_server.grant_type.authorization_code')->end()
+	//		//			->scalarNode('id')->defaultValue('terpsichore_oauth2_server.grant_type.authorization_code')->end()
 	//		//		->end()
     //        //    ->end()
 	//		//	->arrayNode('refresh_token')
     //        //        ->canBeDisabled()
 	//		//		->children()
-	//		//			->scalarNode('id')->defaultValue('clio_oauth2_server.grant_type.refresh_token')->end()
+	//		//			->scalarNode('id')->defaultValue('terpsichore_oauth2_server.grant_type.refresh_token')->end()
 	//		//		->end()
     //        //    ->end()
 	//		//	->arrayNode('jwt_bearer')
     //        //        ->canBeDisabled()
 	//		//		->children()
-	//		//			->scalarNode('id')->defaultValue('clio_oauth2_server.grant_type.jwt_bearer')->end()
+	//		//			->scalarNode('id')->defaultValue('terpsichore_oauth2_server.grant_type.jwt_bearer')->end()
 	//		//		->end()
     //        //    ->end()
 	//		//	->arrayNode('chain')
     //        //        ->canBeDisabled()
 	//		//		->children()
-	//		//			->scalarNode('id')->defaultValue('clio_oauth2_server.grant_type.chain')->end()
+	//		//			->scalarNode('id')->defaultValue('terpsichore_oauth2_server.grant_type.chain')->end()
 	//		//		->end()
     //        //    ->end()
 	//		//->end()

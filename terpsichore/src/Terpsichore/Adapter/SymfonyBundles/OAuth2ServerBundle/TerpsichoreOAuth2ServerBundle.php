@@ -50,5 +50,6 @@ class TerpsichoreOAuth2ServerBundle extends Bundle
         $container->addCompilerPass(new DependencyInjection\Compiler\StorageStrategyFactoryCompilerPass());
         $container->addCompilerPass(new DependencyInjection\Compiler\StorageCompilerPass());
         $container->addCompilerPass(new DependencyInjection\Compiler\GrantTypeCompilerPass());
+        $container->addCompilerPass(new DependencyInjection\Compiler\TokenResolverFactoryCompilerPass());
     }
 }

@@ -1,4 +1,4 @@
-clio_oauth2_server.tokeninfo:
+terpsichore_oauth2_server.tokeninfo:
     pattern: /userinfo.{_format}
     defaults: 
         _controller: TerpsichoreOAuth2ServerBundle:User:userinfo

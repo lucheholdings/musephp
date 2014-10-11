@@ -19,9 +19,9 @@ class StorageCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-		if($container->hasDefinition('clio_oauth2_server.server')) {
-			$server = $container->findDefinition('clio_oauth2_server.server');
-        	$services = $container->findTaggedServiceIds('clio_oauth2_server.storage');
+		if($container->hasDefinition('terpsichore_oauth2_server.server')) {
+			$server = $container->findDefinition('terpsichore_oauth2_server.server');
+        	$services = $container->findTaggedServiceIds('terpsichore_oauth2_server.storage');
 			
 			$storages = array();
 			foreach($services as $id => $tags) {

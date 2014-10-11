@@ -1,7 +1,7 @@
-clio_oauth2_server.authorize:
+terpsichore_oauth2_server.authorize:
     pattern: /auth
     defaults: 
-        _controller: clio_oauth2_server.controller.authorize:authorizeAction
+        _controller: terpsichore_oauth2_server.controller.authorize:authorizeAction
     requirements:
         _method: GET|POST
 

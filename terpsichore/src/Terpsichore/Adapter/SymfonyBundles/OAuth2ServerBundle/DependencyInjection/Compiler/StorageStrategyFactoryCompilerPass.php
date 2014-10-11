@@ -27,9 +27,9 @@ class StorageStrategyFactoryCompilerPass implements CompilerPassInterface
 
 	protected function processTypeStorageStrategy(ContainerBuilder $container, $type)
 	{
-		if($container->hasDefinition('clio_oauth2_server.storage_strategy_factory.' . $type) || $container->hasAlias('clio_oauth2_server.storage_strategy_factory.' . $type)) {
-			$typeFactoryDefinition = $container->getDefinition('clio_oauth2_server.storage_strategy_factory.' . $type);
-			foreach($container->findTaggedServiceIds('clio_oauth2_server.storage_strategy_factory.' . $type) as $id => $tags) {
+		if($container->hasDefinition('terpsichore_oauth2_server.storage_strategy_factory.' . $type) || $container->hasAlias('terpsichore_oauth2_server.storage_strategy_factory.' . $type)) {
+			$typeFactoryDefinition = $container->getDefinition('terpsichore_oauth2_server.storage_strategy_factory.' . $type);
+			foreach($container->findTaggedServiceIds('terpsichore_oauth2_server.storage_strategy_factory.' . $type) as $id => $tags) {
 				foreach($tags as $tagParams) {
 					$typeFactoryDefinition->addMethodCall('setTypeFactory', array($tagParams['for'], new Reference($id)));
 				}

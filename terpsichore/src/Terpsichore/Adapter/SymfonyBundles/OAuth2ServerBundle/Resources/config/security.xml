@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<!-- TokenResolver -->
+		<parameter key="terpsichore_oauth2_server.security.token_resolver_factory.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory\TokenResolverFactoryMap</parameter>
+		<parameter key="terpsichore_oauth2_server.security.token_resolver_factory.default.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory\TokenResolverFactory</parameter>
+		<!-- TokenResolver Interface -->
+		<parameter key="terpsichore_oauth2_server.security.token_resolver.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver</parameter>
+		<!-- Security EntryPoint -->
+		<parameter key="terpsichore_oauth2_server.security.entry_point.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\EntryPoint\OAuth2EntryPoint</parameter>
+		<!-- Security AuthenticationProvider -->
+		<parameter key="terpsichore_oauth2_server.security.authentication_provider.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Authentication\Provider\OAuth2AuthenticationProvider</parameter>
+		<!-- Security ScopeRoleMap -->
+		<parameter key="terpsichore_oauth2_server.security.scope_role_map.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Role\ScopeRoleMap</parameter>
+		<!-- Security AuthenticationListener -->
+		<parameter key="terpsichore_oauth2_server.security.authentication_listener.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Firewall\OAuth2ProviderListener</parameter>
+		<!-- Security UserProvider -->
+		<parameter key="terpsichore_oauth2_server.security.user_provider.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\User\OAuth2UserProvider</parameter>
+	</parameters>
+    <services>
+
+		<!-- TokenResolver Factory -->
+		<service
+			id="terpsichore_oauth2_server.security.token_resolver_factory"
+			class="%terpsichore_oauth2_server.security.token_resolver_factory.class%"
+		>
+		</service>
+		<!-- Default Supported TokenResolverFactory -->
+		<service
+			id="terpsichore_oauth2_server.security.token_resolver_factory.default"
+			class="%terpsichore_oauth2_server.security.token_resolver_factory.default.class%"
+		>
+			<tag name="terpsichore_oauth2_server.security.token_resolver_factory" for="server"/>
+			<tag name="terpsichore_oauth2_server.security.token_resolver_factory" for="trust"/>
+		</service>
+
+		<!-- Token Resolver -->
+		<service
+			id="terpsichore_oauth2_server.security.token_resolver.default"
+			class="%terpsichore_oauth2_server.security.token_resolver.class%"
+			factory-service="terpsichore_oauth2_server.security.token_resolver_factory"
+			factory-method="createTokenResolver"
+			abstract="true"
+		>
+			<argument></argument>
+			<argument></argument>
+		</service>
+
+		<!-- AuthneticationListener -->
+		<service
+			id="terpsichore_oauth2_server.security.authentication_listener._default"
+			class="%terpsichore_oauth2_server.security.authentication_listener.class%"
+			abstract="true"
+		>
+            <argument type="service" id="security.context"/>
+            <argument></argument><!-- AuthenticationProvider -->
+            <argument type="service" id="terpsichore_oauth2_server.security.token_resolver" />
+		</service>
+		<!-- EntryPoint -->
+		<service
+			id="terpsichore_oauth2_server.security.entry_point"
+			class="%terpsichore_oauth2_server.security.entry_point.class%"
+		>
+		</service>
+		<!-- AuthneticationProvider -->
+		<service
+			id="terpsichore_oauth2_server.security.authentication_provider._default"
+			class="%terpsichore_oauth2_server.security.authentication_provider.class%"
+		>
+			<argument>null</argument><!-- User Provider -->
+			<argument>null</argument><!-- ScopeRoleMap -->
+		</service>
+		<!-- ScopeRoleMap -->
+		<service
+			id="terpsichore_oauth2_server.security.scope_role_map._default"
+			class="%terpsichore_oauth2_server.security.scope_role_map.class%"
+			abstract="true"
+		>
+			<argument type="collection"></argument>
+		</service>
+		<!-- OAuth2 Default UseProvider which just return the id related user -->
+		<service
+			id="terpsichore_oauth2_server.security.user_provider"
+			class="%terpsichore_oauth2_server.security.user_provider.class%"
+		>
+		</service>
+		<service
+			id="terpsichore_oauth2_server.security.authenticated_user_provider"
+			class="%terpsichore_oauth2_server.security.user_provider.class%"
+		>
+			<!-- Provide only with AuthenticationProvider -->
+			<argument type="service" id="terpsichore_oauth2_server.storage_strategy.user_credentials" on-invalid="null"/>
+		</service>
+    </services>
+</container>
+
+

@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\Definition;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class ClioOAuth2ServerExtension extends Extension
+class TerpsichoreOAuth2ServerExtension extends Extension
 {
 	private $loaded = array();
 	private $loader;
@@ -41,8 +41,8 @@ class ClioOAuth2ServerExtension extends Extension
 
         $this->loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 		
-		// configure token resolver
-		$this->configureTokenResolver($container, $config['token_provider']);
+		// configure token resolver for Security
+		$this->configureTokenResolver($container, $config['token_resolver']);
 		
 		// Shared setting
 		$oauthSettings['scope_delemiter'] = $config['scope_delemiter'];
@@ -51,6 +51,20 @@ class ClioOAuth2ServerExtension extends Extension
 		if($config['server']['enabled']) {
 			$this->configureServer($container, $config['server'], $oauthSettings);
 		}
+
+		$this->loadConfigFile('security.xml');
+	}
+
+	protected function configureTokenResolver(ContainerBuilder $container, array $configs)
+	{
+		$definition = new DefinitionDecorator('terpsichore_oauth2_server.security.token_resolver.default');
+
+		$definition->replaceArgument(0, $configs['type']);
+
+		$container->setDefinition(
+			'terpsichore_oauth2_server.security.token_resolver',
+			$definition
+		);
 	}
 
 	/**
@@ -88,7 +102,7 @@ class ClioOAuth2ServerExtension extends Extension
 					'token' => null,
 					'code'  => null,
 				),
-				$serverConfigs['response_type']
+				$serverConfigs['response_types']
 			);
 			foreach($responseTypes as $type => $responseType) {
 				$this->configureServerResponseType($container, $type, $responseType);
@@ -107,41 +121,42 @@ class ClioOAuth2ServerExtension extends Extension
 	 */
 	protected function configureServerStorage($container, $name, array $configs)
 	{
-		$this->loadConfigFile('storage.xml');
 		if($configs['enabled']) {
 			//  
 			switch($configs['type']) {
-			case 'doctine.orm'
-				$this->loadConfigFile('storage.doctrine_orm.xml');
+			case 'doctine.orm':
+				$this->loadConfigFile('server.storage.doctrine_orm.xml');
 				break;
 			case 'doctrine.cache':
-				$this->loadConfigFile('storage.doctrine_cache.xml');
+				$this->loadConfigFile('server.storage.doctrine_cache.xml');
 				break;
 			default:
 				break;
 			}
 
-			// StorageStrategy
-			$strategy = new DefinitionDecorator('terpsichore_oauth2_server.storage_stragety.'. $name . '.default')
-			$strategy->replaceArgument(0, $configs['type']);
-			$strategy->replaceArgument(1, $configs['connect_to']);
-			$strategy->replaceArgument(2, array(
-				'class' => $configs['class']
-			));
+			if('none' !== $configs['type']) {
+				// StorageStrateg
+				$strategy = new DefinitionDecorator('terpsichore_oauth2_server.storage_strategy.'. $name . '.default');
+				$strategy->replaceArgument(0, $configs['type']);
+				$strategy->replaceArgument(1, $configs['connect_to']);
+				$strategy->replaceArgument(2, array(
+					'class' => $configs['class']
+				));
 
-			$strategy->addTag('terpsichore_oauth2_server.storage_strategy', array('for' => $name));
-			$container->setDefinition(
-				'terpsichore_oauth2_server.storage_strategy.' . $name,
-				$strategy
-			);
-
+				$strategy->addTag('terpsichore_oauth2_server.storage_strategy', array('for' => $name));
+				$container->setDefinition(
+					'terpsichore_oauth2_server.storage_strategy.' . $name,
+					$strategy
+				);
+			}
+			
 			// Storage
 			$storage = new DefinitionDecorator('terpsichore_oauth2_server.storage.' . $name . '.default');
-			$storega->replaceArgument(2, array(
+			$storage->replaceArgument(1, array(
 				'class'  => $configs['storage_class'],
 			));
 
-			$storate->addTag('terpsichore_oauth2_server.storage', array('for' => $name));
+			$storage->addTag('terpsichore_oauth2_server.storage', array('for' => $name));
 
 			$container->setDefinition(
 				'terpsichore_oauth2_server.storage.' . $name,
@@ -169,7 +184,7 @@ class ClioOAuth2ServerExtension extends Extension
 		$container->setDefinition('terpsichore_oauth2_server.grant_type.' . $type, $definition);
 	}
 
-	protected function configureServerResponseTypes(ContainerBuilder $container, $type, $id)
+	protected function configureServerResponseType(ContainerBuilder $container, $type, $id)
 	{
 		if(!$id) {
 			// Use Default Response Type
@@ -189,7 +204,7 @@ class ClioOAuth2ServerExtension extends Extension
 
 	protected function loadConfigFile($file)
 	{
-		if(!in_array($this->loaded, $file)) {
+		if(!in_array($file, $this->loaded)) {
 			$this->loader->load($file);
 			$this->loaded[] = $file;
 		}
@@ -206,13 +221,13 @@ class ClioOAuth2ServerExtension extends Extension
 //		$this->loader->load('controller.xml');
 //
 //		$this->configureServerConfig($container, $configs['server']);
-//		$container->setParameter('clio_oauth2_server.supported_scopes', $configs['supported_scopes']);
-//		$container->setParameter('clio_oauth2_server.default_scopes', $configs['default_scopes']);
+//		$container->setParameter('terpsichore_oauth2_server.supported_scopes', $configs['supported_scopes']);
+//		$container->setParameter('terpsichore_oauth2_server.default_scopes', $configs['default_scopes']);
 //	}
 //
 //	protected function configureServerConfig(ContainerBuilder $container, array $configs)
 //	{
-//		$container->setParameter('clio_oauth2_server.server.config', $configs);
+//		$container->setParameter('terpsichore_oauth2_server.server.config', $configs);
 //	}
 //
 //	protected function configureStorages(ContainerBuilder $container, array $configs)
@@ -233,7 +248,7 @@ class ClioOAuth2ServerExtension extends Extension
 //				// Construct StorageStrategy
 //				if(isset($storageConfig['use_strategy'])) {
 //
-//					$definition = new DefinitionDecorator('clio_oauth2_server.storage_strategy.' . $name . '.default');
+//					$definition = new DefinitionDecorator('terpsichore_oauth2_server.storage_strategy.' . $name . '.default');
 //
 //					// Replace ConstructorArgument
 //					$definition->replaceArgument(0, $storageConfig['type']);
@@ -241,7 +256,7 @@ class ClioOAuth2ServerExtension extends Extension
 //					$definition->replaceArgument(2, $options);
 //
 //					$container->setDefinition(
-//						'clio_oauth2_server.storage_strategy.' . $name,
+//						'terpsichore_oauth2_server.storage_strategy.' . $name,
 //						$definition
 //					);
 //				}
@@ -252,12 +267,12 @@ class ClioOAuth2ServerExtension extends Extension
 //					$storageOptions['class'] = $storageConfig['storage_class'];
 //				}
 //
-//				$storageDefinition = new DefinitionDecorator('clio_oauth2_server.storage.' . $name . '.default');
+//				$storageDefinition = new DefinitionDecorator('terpsichore_oauth2_server.storage.' . $name . '.default');
 //				$storageDefinition->replaceArgument(2, $storageOptions);
 //
-//				$storageDefinition->addTag('clio_oauth2_server.storage', array('for' => $name));
+//				$storageDefinition->addTag('terpsichore_oauth2_server.storage', array('for' => $name));
 //				$container->setDefinition(
-//					'clio_oauth2_server.storage.' . $name,
+//					'terpsichore_oauth2_server.storage.' . $name,
 //					$storageDefinition
 //				);	
 //			}
@@ -271,9 +286,9 @@ class ClioOAuth2ServerExtension extends Extension
 //		foreach($configs as $name => $service) {
 //			if($service) {
 //				$definition = new DefinitionDecorator($service);
-//				$definition->addTag('clio_oauth2_server.response_type', array('for' => $name));
+//				$definition->addTag('terpsichore_oauth2_server.response_type', array('for' => $name));
 //
-//				$container->setDefinition('clio_oauth2_server.response_type.' . $name, $definition);
+//				$container->setDefinition('terpsichore_oauth2_server.response_type.' . $name, $definition);
 //			}
 //		}
 //	}
@@ -288,15 +303,15 @@ class ClioOAuth2ServerExtension extends Extension
 //			if(isset($config['id'])) {
 //				$id = $config['id'];
 //			} else {
-//				$id = 'clio_oauth2_server.grant_type.'.$type.'.default';
+//				$id = 'terpsichore_oauth2_server.grant_type.'.$type.'.default';
 //			}
 //
-//			$container->setAlias('clio_oauth2_server.grant_type.' . $type, $id);
+//			$container->setAlias('terpsichore_oauth2_server.grant_type.' . $type, $id);
 //
 //			$definition = new DefinitionDecorator($id);
-//			$definition->addTag('clio_oauth2_server.grant_type', array('for' => $type));
+//			$definition->addTag('terpsichore_oauth2_server.grant_type', array('for' => $type));
 //
-//			$container->setDefinition('clio_oauth2_server.grant_type.' . $type, $definition);
+//			$container->setDefinition('terpsichore_oauth2_server.grant_type.' . $type, $definition);
 //		}
 //	}
 //	
@@ -323,7 +338,7 @@ class ClioOAuth2ServerExtension extends Extension
 //
 //	protected function configureSecurityUserinfoProvider(ContainerBuilder $container, array $configs)
 //	{
-//		$definition = new DefinitionDecorator('clio_oauth2_server.security.user_provider.default');
+//		$definition = new DefinitionDecorator('terpsichore_oauth2_server.security.user_provider.default');
 //		
 //		$userinfoProviderId = null;
 //		if($configs['enabled']) {
@@ -333,15 +348,15 @@ class ClioOAuth2ServerExtension extends Extension
 //		$definition->replaceArgument(0, $userinfoProviderId ? new Reference($userinfoProviderId) : null);
 //
 //		$container->setDefinition(
-//			'clio_oauth2_server.security.user_provider',
+//			'terpsichore_oauth2_server.security.user_provider',
 //			$definition
 //		);
 //	}
 //
 //	protected function configureUserinfoProvider(ContainerBuilder $container, array $configs)
 //	{
-//		$id = 'clio_oauth2_server.userinfo_provide_client';
-//		$definition = new DefinitionDecorator('clio_oauth2_server.userinfo_provider_client.default');
+//		$id = 'terpsichore_oauth2_server.userinfo_provide_client';
+//		$definition = new DefinitionDecorator('terpsichore_oauth2_server.userinfo_provider_client.default');
 //
 //		$definition
 //			->replaceArgument(0, $configs['base_url'])
@@ -366,14 +381,14 @@ class ClioOAuth2ServerExtension extends Extension
 //	{
 //		switch($configs['type']) {
 //		case 'local':
-//			$tokenProviderId = 'clio_oauth2_server.server';
+//			$tokenProviderId = 'terpsichore_oauth2_server.server';
 //			break;
 //		case 'tokeninfo':
 //			$tokenProviderId = $this->configureTokenProviderClient($container, $configs);
 //			break;
 //		}
 //
-//		$resolver = new DefinitionDecorator('clio_oauth2_server.token_resolver.default');
+//		$resolver = new DefinitionDecorator('terpsichore_oauth2_server.token_resolver.default');
 //
 //		$resolver
 //			->replaceArgument(0, $configs['type'])
@@ -382,15 +397,15 @@ class ClioOAuth2ServerExtension extends Extension
 //		;
 //
 //		$container->setDefinition(
-//			'clio_oauth2_server.token_resolver',
+//			'terpsichore_oauth2_server.token_resolver',
 //			$resolver
 //		);
 //	}
 //
 //	protected function configureTokenProviderClient(ContainerBuilder $container, array $configs)
 //	{
-//		$id = 'clio_oauth2_server.token_provide_client';
-//		$definition = new DefinitionDecorator('clio_oauth2_server.token_provider_client.default');
+//		$id = 'terpsichore_oauth2_server.token_provide_client';
+//		$definition = new DefinitionDecorator('terpsichore_oauth2_server.token_provider_client.default');
 //
 //		$definition
 //			->replaceArgument(0, $configs['base_url'])
