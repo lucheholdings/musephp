@@ -1,0 +1,15 @@
+clio_oauth2_server.token.token:
+    pattern: /token
+    defaults: 
+        _controller: clio_oauth2_server.controller.token:tokenAction
+        _format: json
+    requirements:
+        _method: GET|POST
+
+clio_oauth2_server.token.tokeninfo:
+    pattern: /tokeninfo.{_format}
+    defaults: 
+        _controller: clio_oauth2_server.controller.token:tokenInfoAction
+        _format: json
+    requirements:
+        _format: json|xml

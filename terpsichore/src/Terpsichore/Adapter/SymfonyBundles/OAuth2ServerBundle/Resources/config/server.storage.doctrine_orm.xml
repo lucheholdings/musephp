@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+		<!-- DoctrineORM ManagerFactory -->
+		<parameter key="terpsichore_oauth2_server.storage_strategy_factory.doctrine_orm.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\Factory\ManagerFactory</parameter>
+	</parameters>
+	<services>
+		<!-- DoctrineORM Strategy Factory -->
+        <service 
+			id="terpsichore_oauth2_server.storage_strategy_factory.doctrine_orm" 
+			class="%terpsichore_oauth2_server.storage_strategy_factory.doctrine_orm.class%" 
+			public="false"
+		>
+			<argument type="service" id="doctrine" />
+			<!-- Support UserCredentials and Client for DoctrineORM -->
+			<tag name="terpsichore_oauth2_server.storage_strategy_factory.user_credentials" for="doctrine.orm"/>
+			<tag name="terpsichore_oauth2_server.storage_strategy_factory.client" for="doctrine.orm"/>
+        </service>
+	</services>
+</container>
+
