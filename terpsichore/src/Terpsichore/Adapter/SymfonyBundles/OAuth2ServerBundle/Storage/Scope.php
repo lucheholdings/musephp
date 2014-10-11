@@ -81,8 +81,8 @@ class Scope implements OAuth2Storage\ScopeInterface, StorageInterface
 		$supportedScopes = array();
 
 		if ($clientId) {
-			$client = $this->getClientProvider()->findOneByClientId($clientId);
-			$scopes = $client->getScopes();
+			$client = $this->getClientProvider()->getClient($clientId);
+			$scopes = $client->getSupportedScopes();
 		} else {
 			$scopes = $this->getScopeProvider()->getSupportedScopes();
 		}
@@ -100,17 +100,15 @@ class Scope implements OAuth2Storage\ScopeInterface, StorageInterface
      */
     public function getDefaultScope($clientId = null)
     {
+		var_dump($clientId);exit;
 		// 
         if ($clientId) {
-			$client = $this->getClientProvider()->findOneByClientId($clientId);
+			$client = $this->getClientProvider()->getClient($clientId);
 			$scopes = $client->getDefaultScopes();
+		} else {
+			// DefaultScopes
+			$scopes = $this->getScopeProvider()->getDefaultScopes();
 		}
-
-		// DefaultScopes
-		$defaultScopes = $this->getScopeProvider()->getDefaultScopes();
-
-		// Merge the system default and client default scopes
-		$scopes = array_unique(array_merge($scopes, $defaultScopes));
 
         return $this->getScopeUtil()->fromArray($scopes);
     }

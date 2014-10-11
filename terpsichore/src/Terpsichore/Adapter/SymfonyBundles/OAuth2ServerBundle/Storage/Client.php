@@ -37,7 +37,7 @@ class Client extends StrategicStorage implements OAuth2Storage\ClientInterface
 	{
 		$client = null;
 		try {
-			$client = $this->getClientProvider()->findOneByClientId($clientId);
+			$client = $this->getClientProvider()->getClient($clientId);
 		} catch(NoResultException $ex) {
 			$client = null;
 		}

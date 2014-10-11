@@ -1,12 +1,14 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Command;
 
-use Symfony\Component\Console\Command\Command;
+use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ClientManagerInterface;
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ScopeManagerInterface;
 /**
  * ClientCreateCommand 
  * 
@@ -16,7 +18,7 @@ use Symfony\Component\Console\Output\OutputInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClientCreateCommand extends Command 
+class ClientCreateCommand extends ContainerAwareCommand 
 {
 	/**
 	 * configure 
@@ -27,11 +29,12 @@ class ClientCreateCommand extends Command
 	protected function configure()
 	{
 		$this
-			->setName('terpsichore:oauth2:client:create')
+			->setName('oauth2:client:create')
 			->addArgument('name', InputArgument::REQUIRED, 'Client name')
 			->addOption('scope', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Supported Scope(s)')
 			->addOption('grant', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Supported GrantType(s)')
 			->addOption('uri', null, InputOption::VALUE_IS_ARRAY | InputOption::VALUE_REQUIRED, 'Supported Redirect Uri(s)')
+			->addOption('create-scopes', null, InputOption::VALUE_NONE, 'Create scopes if not exists.')
 		;
 	}
 
@@ -47,12 +50,16 @@ class ClientCreateCommand extends Command
 		$clientManager = $this->getClientManager();
 
 		if($clientManager) {
-			$name = $input->getArgument('name');
-			$scopes = $input->getArgument('scope');
-			$grants = $input->getArgument('grant');
-			$uris   = $input->getArgument('uri');
+			$client = $clientManager->createClient();
+			$client
+				->setName($input->getArgument('name'))
+				->setAllowedGrantTypes($input->getOption('grant'))
+				->setRedirectUris($input->getOption('uri'))
+			;
+			
+			$scopes = $this->loadScopes($input->getOption('scope', array()), $input->getOption('create-scopes'));
 
-			$client = $clientManager->createClient($name, $scopes, $grants, $uris);
+			$client->setScopes($scopes);
 
 			$clientManager->save($client);
 		} else {
@@ -60,19 +67,57 @@ class ClientCreateCommand extends Command
 		}
 	}
 
+	protected function loadScopes(array $scopes, $autoCreate = false)
+	{
+		$scopeProvider = $this->getScopeProvider();
+		$models = $scopeProvider->getScopes($scopes);
+
+		if($autoCreate && ($scopeProvider instanceof ScopeManagerInterface)) {
+			$newScopes = array_filter($scopes, function($scope) use ($models) {
+				foreach($models as $model) {
+					if($scope == $model->getScope()) {
+						return false;
+					}
+				}
+				return true;
+			});
+
+			foreach($newScopes as $newScope) {
+				$newModel = $scopeProvider->createScope();
+				$newModel
+					->setScope($newScope)
+				;
+				$scopeProvider->save($newModel, false);
+			}
+			$scopeProvider->flush();
+			// Reload Scopes
+			$models = $scopeProvider->getScopes($scopes);
+		}
+
+		return $models;
+	}
+
+
 	/**
 	 * getClientManager 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function getClientManager()
+	protected function getClientManager()
 	{
-		$manager = $this->get('terpsichore_oauth2_server.storage_strategy.client');
+		$manager = $this->getContainer()->get('terpsichore_oauth2_server.storage_strategy.client');
 
 		if(!$manager instanceof ClientManagerInterface) {
 			throw new \RuntimeException('Client StorageStrategy is not a ClientManager.');
 		}
+
+		return $manager;
+	}
+
+	protected function getScopeProvider()
+	{
+		$manager = $this->getContainer()->get('terpsichore_oauth2_server.storage_strategy.scope');
 
 		return $manager;
 	}

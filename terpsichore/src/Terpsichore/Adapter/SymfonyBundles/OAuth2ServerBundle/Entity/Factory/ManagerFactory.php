@@ -5,7 +5,7 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\Facto
 	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\Factory\UserProviderFactory
 ;
 
-use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\ClientProvider,
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\ClientManager,
 	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\UserProvider,
 	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\ScopeManager
 ;
@@ -43,7 +43,7 @@ class ManagerFactory implements ClientProviderFactory, UserProviderFactory
 
 	public function createClientProvider($connectTo, array $options = array())
 	{
-		return new ClientProvider($this->getDoctrine()->getManager($connectTo), $options['class']);
+		return new ClientManager($this->getDoctrine()->getManager($connectTo), $options['class']);
 	}
 
 	public function createUserProvider($connectTo, array $options = array())

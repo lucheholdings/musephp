@@ -2,7 +2,8 @@
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity;
 
 use Doctrine\ORM\EntityManager;
-use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\ScopeProviderStrategy;
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ScopeManagerInterface;
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ScopeInterface;
 
 /**
  * ScopeManager 
@@ -13,7 +14,7 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\Scope
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ScopeManager implements ScopeProviderStrategy 
+class ScopeManager implements ScopeManagerInterface 
 {
 	protected $em;
 
@@ -33,7 +34,7 @@ class ScopeManager implements ScopeProviderStrategy
 	{
 		$this->em = $em;
 		$this->repository = $em->getRepository($class);
-		$this->class = $class;
+		$this->class = $this->em->getClassMetadata($class);
 	}
     
     public function getEntityManager()
@@ -69,6 +70,20 @@ class ScopeManager implements ScopeProviderStrategy
         return $this;
     }
 
+	public function getScope($scope)
+	{
+		return $this->getRepository()->findOneBy(array('scope' => $scope));
+	}
+
+	public function getScopes(array $scopes = array())
+	{
+		if(empty($scopes)) {
+			return $this->getRepository()->findBy(array());
+		} else {
+			return $this->getRepository()->findBy(array('scope' => $scopes));
+		}
+	}
+
 	public function getSupportedScopes()
 	{
 		if(!$this->_scopes) {
@@ -78,9 +93,9 @@ class ScopeManager implements ScopeProviderStrategy
 		if(empty($this->_scopes)) {
 			return array();
 		}
-		return $this->_scopes->map(function($scope) {
-			return $scope->getScope();		
-		});
+		return array_map(function($scope) {
+			return $scope->getScope();
+		}, $this->_scopes);
 	}
 
 	public function getDefaultScopes()
@@ -90,9 +105,28 @@ class ScopeManager implements ScopeProviderStrategy
 			return array();
 		}
 
-		return $scopes->map(function($scope) {
+		return array_map(function($scope) {
 			return $scope->getScope();
-		});
+		}, $scopes);
+	}
+
+	public function save(ScopeInterface $scope, $needFlush = true)
+	{
+		$this->getEntityManager()->persist($scope);
+
+		if($needFlush) {
+			$this->getEntityManager()->flush();
+		}
+	}
+
+	public function flush()
+	{
+		$this->getEntityManager()->flush();
+	}
+
+	public function createScope()
+	{
+		return $this->getClass()->newInstance();
 	}
 }
 

@@ -25,7 +25,7 @@ class ClientCredentials extends Client implements OAuth2Storage\ClientCredential
      */
     public function checkClientCredentials($clientId, $client_secret = null)
     {
-		$client = $this->getClientProvider()->findOneByClientId($clientId);
+		$client = $this->getClientProvider()->getClient($clientId);
 
         // make this extensible
 		if($client) {
@@ -44,7 +44,7 @@ class ClientCredentials extends Client implements OAuth2Storage\ClientCredential
 	 */
 	public function isPublicClient($clientId)
 	{
-		$client = $this->getClientProvider()->findOneByClientId($clientId);
+		$client = $this->getClientProvider()->getClient($clientId);
 
         // make this extensible
 		if($client) {

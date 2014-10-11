@@ -57,7 +57,7 @@ class AuthorizeController extends Controller
 			}
 			
 			$clientManager = $this->get('terpsichore_oauth2_server.storage_strategy.client');
-			$client = $clientManager->findOneByClientId($request->get('client_id'));
+			$client = $clientManager->getClient($request->get('client_id'));
 			if(!$client) {
 				// 
 				throw HttpException::create(400, 'Invalid Client ID given');
