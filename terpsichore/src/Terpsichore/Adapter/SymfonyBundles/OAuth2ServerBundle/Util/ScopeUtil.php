@@ -1,8 +1,6 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util;
 
-use OAuth2\Scope;
-use Clio\Component\Auth\OAuth2\Util\ScopeUtilInterface;
 
 /**
  * ScopeUtil 
@@ -14,7 +12,7 @@ use Clio\Component\Auth\OAuth2\Util\ScopeUtilInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ScopeUtil extends Scope implements ScopeUtilInterface
+class ScopeUtil 
 {
 	/**
 	 * @var string OAuth2 scope delimiter.
@@ -29,10 +27,8 @@ class ScopeUtil extends Scope implements ScopeUtilInterface
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($storage = null, $delimiter = ' ')
+	public function __construct($delimiter = ' ')
 	{
-		parent::__construct($storage);
-
 		$this->delimiter = $delimiter;
 	}
 
@@ -83,28 +79,6 @@ class ScopeUtil extends Scope implements ScopeUtilInterface
 	public function getDelimiter()
 	{
 		return $this->delimiter;
-	}
-
-	/**
-	 * getDefaultScopes 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getDefaultScopes($clientId = null)
-	{
-		return $this->toArray($this->getDefaultScope($clientId));
-	}
-
-	/**
-	 * getSupportedScopes 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getSupportedScopes()
-	{
-		return $this->storage->getSupportedScopes();
 	}
 }
 

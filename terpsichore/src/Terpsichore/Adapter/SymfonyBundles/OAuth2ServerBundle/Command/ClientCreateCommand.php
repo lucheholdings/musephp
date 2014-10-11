@@ -1,6 +1,12 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Command;
 
+use Symfony\Component\Console\Command\Command;
+use Symfony\Component\Console\Input\InputArgument;
+use Symfony\Component\Console\Input\InputOption;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
+
 /**
  * ClientCreateCommand 
  * 
@@ -35,7 +41,7 @@ class ClientCreateCommand extends Command
 	 * @access protected
 	 * @return void
 	 */
-	protected function execute()
+	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		// 
 		$clientManager = $this->getClientManager();
@@ -62,7 +68,7 @@ class ClientCreateCommand extends Command
 	 */
 	public function getClientManager()
 	{
-		$manager = $this->get('terpsichore_oauth2_server.storage_strategy.client')
+		$manager = $this->get('terpsichore_oauth2_server.storage_strategy.client');
 
 		if(!$manager instanceof ClientManagerInterface) {
 			throw new \RuntimeException('Client StorageStrategy is not a ClientManager.');

@@ -37,7 +37,6 @@
 			factory-service="terpsichore_oauth2_server.storage_factory"
 			factory-method="createAccessTokenStorage"
 		>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.access_token" on-invalid="null"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -47,7 +46,6 @@
 			factory-service="terpsichore_oauth2_server.storage_factory"
 			factory-method="createRefreshTokenStorage"
 		>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.refresh_token" on-invalid="null"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -57,7 +55,6 @@
 			factory-service="terpsichore_oauth2_server.storage_factory"
 			factory-method="createAuthorizationCodeStorage"
 		>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.authorization_code" on-invalid="null"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -67,7 +64,6 @@
 			factory-service="terpsichore_oauth2_server.storage_factory"
 			factory-method="createUserCredentialsStorage"
 		>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.user_credentials" on-invalid="null"/>
 			<argument type="collection"></argument><!-- optioins -->
 			<!-- Initlaize EncoderFactory -->
 			<call method="setEncoderFactory">
@@ -81,7 +77,6 @@
 			factory-service="terpsichore_oauth2_server.storage_factory"
 			factory-method="createClientStorage"
 		>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client" on-invalid="null"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -91,7 +86,6 @@
 			factory-service="terpsichore_oauth2_server.storage_factory"
 			factory-method="createClientCredentialsStorage"
 		>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client" on-invalid="null"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
 
@@ -103,7 +97,6 @@
 			factory-service="terpsichore_oauth2_server.storage_factory"
 			factory-method="createScopeStorage"
 		>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.scope" on-invalid="null"/>
 			<argument type="collection"></argument><!-- options -->
         </service>
 

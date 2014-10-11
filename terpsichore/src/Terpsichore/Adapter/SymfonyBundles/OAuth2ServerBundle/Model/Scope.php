@@ -20,12 +20,12 @@ class Scope implements ScopeInterface
 	protected $id;
 
 	/**
-	 * name 
+	 * scope 
 	 * 
 	 * @var mixed
 	 * @access protected
 	 */
-	protected $name;
+	protected $scope;
     
     /**
      * getId 
@@ -59,19 +59,19 @@ class Scope implements ScopeInterface
      */
     public function getName()
     {
-        return $this->name;
+        return $this->scope;
     }
     
     /**
      * setName 
      * 
-     * @param mixed $name 
+     * @param mixed $scope 
      * @access public
      * @return void
      */
-    public function setName($name)
+    public function setName($scope)
     {
-        $this->name = $name;
+        $this->scope = $scope;
         return $this;
     }
 
@@ -83,7 +83,7 @@ class Scope implements ScopeInterface
 	 */
 	public function __toString()
 	{
-		return (string)$this->name;
+		return (string)$this->scope;
 	}
 }
 

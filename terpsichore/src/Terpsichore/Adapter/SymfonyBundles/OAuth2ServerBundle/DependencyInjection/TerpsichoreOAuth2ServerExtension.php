@@ -53,6 +53,7 @@ class TerpsichoreOAuth2ServerExtension extends Extension
 		}
 
 		$this->loadConfigFile('security.xml');
+		$this->loadConfigFile('controller.xml');
 	}
 
 	protected function configureTokenResolver(ContainerBuilder $container, array $configs)
@@ -110,7 +111,7 @@ class TerpsichoreOAuth2ServerExtension extends Extension
 		}
 
 		// Server configurations
-		$container->setParameter('terpsichore_oauth2_server.server.config', $serverConfigs['configs']);
+		$container->setParameter('terpsichore_oauth2_server.server.configs', $serverConfigs['configs']);
 	}
 
 	/**
@@ -124,7 +125,7 @@ class TerpsichoreOAuth2ServerExtension extends Extension
 		if($configs['enabled']) {
 			//  
 			switch($configs['type']) {
-			case 'doctine.orm':
+			case 'doctrine.orm':
 				$this->loadConfigFile('server.storage.doctrine_orm.xml');
 				break;
 			case 'doctrine.cache':
@@ -142,7 +143,8 @@ class TerpsichoreOAuth2ServerExtension extends Extension
 				$strategy->replaceArgument(2, array(
 					'class' => $configs['class']
 				));
-
+				
+				$strategy->setPublic(true);
 				$strategy->addTag('terpsichore_oauth2_server.storage_strategy', array('for' => $name));
 				$container->setDefinition(
 					'terpsichore_oauth2_server.storage_strategy.' . $name,
@@ -152,7 +154,7 @@ class TerpsichoreOAuth2ServerExtension extends Extension
 			
 			// Storage
 			$storage = new DefinitionDecorator('terpsichore_oauth2_server.storage.' . $name . '.default');
-			$storage->replaceArgument(1, array(
+			$storage->replaceArgument(0, array(
 				'class'  => $configs['storage_class'],
 			));
 

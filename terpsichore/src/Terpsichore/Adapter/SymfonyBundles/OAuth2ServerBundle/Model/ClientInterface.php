@@ -98,15 +98,6 @@ interface ClientInterface
 	function getSupportedScopes();
 
 	/**
-	 * setSupportedScopes 
-	 * 
-	 * @param array $scopes 
-	 * @access public
-	 * @return void
-	 */
-	function setSupportedScopes(array $scopes);
-
-	/**
 	 * getDefaultScopes 
 	 * 
 	 * @access public
