@@ -29,6 +29,5 @@ interface UserProvider extends ClientService
 	 * @return User
 	 */
 	function getAuthenticatedUser();
-
 }
 

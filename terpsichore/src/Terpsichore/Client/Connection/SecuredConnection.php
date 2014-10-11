@@ -5,7 +5,7 @@ use Terpsichore\Client\Connection;
 
 use Terpsichore\Client\Auth\Provider as AuthenticationProvider;
 use Terpsichore\Client\Auth\Token;
-use Terpsichore\Client\Auth\Request\AuthenticationRequest;
+use Terpsichore\Client\Auth\Request\AnonymousRequest;
 use Terpsichore\Client\Request;
 use Terpsichore\Client\Auth\Request\RequestResolver;
 
@@ -72,12 +72,13 @@ class SecuredConnection extends PassThruConnection
 	{
 		// check if the request is authentication request
 		// then thru
-		if(!$request instanceof AuthenticationRequest) {
-			// if this is not authenticated
+		if(!$request instanceof AnonymousRequest) {
+			// if this is not authenticated, then authenticate with provider
 			if(!$this->isAuthenticated()) {
 				$this->authenticate();
 			}
-
+			
+			// Resolve Request for SecuredConnection
 			if($resolver = $this->getRequestResolver()) {
 				$resolver->resolveRequest($request, $this->getToken());
 			}

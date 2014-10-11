@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Bundle\ServiceConnectBundle\Service\Factory;
 
-use Terpsichore\Core\Factory\ServiceFactory;
+use Terpsichore\Client\Factory\ServiceFactory;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
