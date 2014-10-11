@@ -22,12 +22,12 @@ class TokenController extends Controller
     public function tokenAction(Request $request)
     {
 		// get the oauth server (@see OAuth2/ServerBundle/Resources/config/services.xml)
-		$server = $this->get('clio_oauth2_server.server');
+		$server = $this->get('terpsichore_oauth2_server.server');
 
 		// get the oauth response object (@see OAuth2/ServerBundle/Resources/config/services.xml)
-		$response = $this->get('clio_oauth2_server.response');
+		$response = $this->get('terpsichore_oauth2_server.response');
 		// let the oauth2-server-php library do all the work!
-		return $server->handleTokenRequest($this->get('clio_oauth2_server.request'), $response);
+		return $server->handleTokenRequest($this->get('terpsichore_oauth2_server.request'), $response);
     }
 
 
@@ -53,7 +53,7 @@ class TokenController extends Controller
 
 
 		// Get Matched Token
-		$token = $this->get('clio_oauth2_server.storage.access_token')->getAccessToken($token);
+		$token = $this->get('terpsichore_oauth2_server.storage.access_token')->getAccessToken($token);
 		if(!$token) {
 			throw new \Exception('Token not exists');
 		}

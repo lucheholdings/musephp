@@ -1,8 +1,8 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory;
 
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver as Resolver;
-
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TokenResolverFactory 
+class TokenResolverFactory implements Factory 
 {
 	/**
 	 * container 
@@ -41,16 +41,12 @@ class TokenResolverFactory
 	 * @access public
 	 * @return void
 	 */
-	public function createResolver($type, $tokenProvider, $cache = null)
+	public function createTokenResolver($type, array $options = array())
 	{
 		switch($type) {
 		case 'server':
 			// Validate the request token with OAuth2 Server
-			$resolver = new Resolver\ServerResolver($tokenProvider);
-			break;
-		case 'tokeninfo':
-			// Validate the request token with 
-			$resolver = new Resolver\TokeninfoResolver($tokenProvider);
+			$resolver = new Resolver\ServerResolver($this->getContainer()->get('terpsichore_oauth2_server.servr'));
 			break;
 		case 'trust':
 			$resolver = new Resolver\TrustedResolver();
@@ -58,10 +54,6 @@ class TokenResolverFactory
 		default:
 			throw new \Exception(sprintf('Invalid Token Resolver type "%s" is specified.', $type));
 			break;
-		}
-
-		if($cache && ($resolver instanceof Resolver\ClientTokenResolver)) {
-			$resolver = new Resolver\CachedClientTokenResolver($resolver, $cache);
 		}
 
 		return $resolver;

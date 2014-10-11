@@ -9,7 +9,7 @@ use Symfony\Component\DependencyInjection\Exception\InvalidArgumentException;
 
 /**
  * GrantTypeCompilerPass 
- *    Call OAuth2::addGrantType for tag "clio_oauth2_server.grant_type"
+ *    Call OAuth2::addGrantType for tag "terpsichore_oauth2_server.grant_type"
  * 
  * @uses CompilerPassInterface
  * @package { PACKAGE }
@@ -21,10 +21,10 @@ class GrantTypeCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if($container->hasDefinition('clio_oauth2_server.server')) {
-			$serverDefinition = $container->getDefinition('clio_oauth2_server.server');
+        if($container->hasDefinition('terpsichore_oauth2_server.server')) {
+			$serverDefinition = $container->getDefinition('terpsichore_oauth2_server.server');
 			
-			foreach($container->findTaggedServiceIds('clio_oauth2_server.grant_type') as $id => $tags) {
+			foreach($container->findTaggedServiceIds('terpsichore_oauth2_server.grant_type') as $id => $tags) {
 				foreach($tags as $tagParams) {
 					$serverDefinition->addMethodCall('addGrantType', array(new Reference($id), isset($tagParams['for']) ? $tagParams['for'] : null));
 				}

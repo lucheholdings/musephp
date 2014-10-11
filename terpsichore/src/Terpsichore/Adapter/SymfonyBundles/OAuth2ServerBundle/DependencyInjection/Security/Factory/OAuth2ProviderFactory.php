@@ -23,34 +23,34 @@ class OAuth2ProviderFactory implements SecurityFactoryInterface
      */
     public function create(ContainerBuilder $container, $id, $config, $userProvider, $defaultEntryPoint)
     {
-        $providerId = 'security.authentication.provider.clio_oauth2_server.'.$id;
+        $providerId = 'security.authentication.provider.terpsichore_oauth2_server.'.$id;
 		
 		// UserProvider 
-		$container->setAlias('clio_oauth2_server.security.user_provider.' . $id, $userProvider);
+		$container->setAlias('terpsichore_oauth2_server.security.user_provider.' . $id, $userProvider);
 
 		$scopes = $config['scopes'];
-		$scopeMap = new DefinitionDecorator('clio_oauth2_server.security.scope_role_map._default');
+		$scopeMap = new DefinitionDecorator('terpsichore_oauth2_server.security.scope_role_map._default');
 		$container
-			->setDefinition('clio_oauth2_server.security.scope_role_map.' . $id, $scopeMap)
+			->setDefinition('terpsichore_oauth2_server.security.scope_role_map.' . $id, $scopeMap)
 			->replaceArgument(0, $scopes)
 		;
 
 		// AuthenticationProvider
         $container
-            ->setDefinition($providerId, new DefinitionDecorator('clio_oauth2_server.security.authentication_provider._default'))
-            ->replaceArgument(0, new Reference('clio_oauth2_server.security.user_provider.' . $id))
-			->replaceArgument(1, new Reference('clio_oauth2_server.security.scope_role_map.' . $id))
+            ->setDefinition($providerId, new DefinitionDecorator('terpsichore_oauth2_server.security.authentication_provider._default'))
+            ->replaceArgument(0, new Reference('terpsichore_oauth2_server.security.user_provider.' . $id))
+			->replaceArgument(1, new Reference('terpsichore_oauth2_server.security.scope_role_map.' . $id))
         ;
 
-        $listenerId = 'security.authentication.listener.clio_oauth2_server.'.$id;
+        $listenerId = 'security.authentication.listener.terpsichore_oauth2_server.'.$id;
 		// Listner
-		$listenerDefinition = new DefinitionDecorator('clio_oauth2_server.security.authentication_listener._default');
+		$listenerDefinition = new DefinitionDecorator('terpsichore_oauth2_server.security.authentication_listener._default');
         $container
 			->setDefinition($listenerId, $listenerDefinition)
 			->replaceArgument(1, new Reference($providerId))
 		;
 
-        return array($providerId, $listenerId, 'clio_oauth2_server.security.entry_point');
+        return array($providerId, $listenerId, 'terpsichore_oauth2_server.security.entry_point');
     }
 
     /**

@@ -16,6 +16,8 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\StorageUtil;
  */
 class Scope extends AbstractStorage implements OAuth2Storage\ScopeInterface
 {
+	protected $provider;
+
 	protected $defaultScopes = array();
 
 	protected $supportedScopes = array();
@@ -28,12 +30,17 @@ class Scope extends AbstractStorage implements OAuth2Storage\ScopeInterface
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(array $supportedScopes = array(), array $defaultScopes = array(), StorageUtil $storageUtil = null, ClientProviderStrategy $clientManager = null)
+	public function __construct(ScopeProvider $provider, array $defaultScopes = array(), StorageUtil $storageUtil = null, ClientProviderStrategy $clientManager = null)
 	{
-		$this->supportedScopes = $supportedScopes;
+		$this->provider = $provider;
 		$this->defaultScopes = $defaultScopes;
 		$this->clientManager = $clientManager;
 		parent::__construct($storageUtil);
+	}
+
+	public function getScopeProvider()
+	{
+		return $this->provider;
 	}
 
 	public function getClientProvider()

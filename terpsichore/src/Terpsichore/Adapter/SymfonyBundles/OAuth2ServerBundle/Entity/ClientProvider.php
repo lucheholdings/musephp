@@ -15,7 +15,16 @@ use Doctrine\ORM\EntityManager;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ClientInterface;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ClientProvider as BaseClientProvider;
 
-class ClientProvider extends BaseClientProvider
+/**
+ * ClientProvider 
+ * 
+ * @uses BaseClientProvider
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+class ClientProvider extends BaseClientProvider 
 {
     /**
      * @var \Doctrine\ORM\EntityManager
@@ -32,6 +41,14 @@ class ClientProvider extends BaseClientProvider
      */
     protected $class;
 
+    /**
+     * __construct 
+     * 
+     * @param EntityManager $em 
+     * @param mixed $class 
+     * @access public
+     * @return void
+     */
     public function __construct(EntityManager $em, $class)
     {
         $this->em = $em;
@@ -55,6 +72,13 @@ class ClientProvider extends BaseClientProvider
         return $this->repository->findOneBy($criteria);
     }
 
+	/**
+	 * findOneByClientId 
+	 * 
+	 * @param mixed $clientId 
+	 * @access public
+	 * @return void
+	 */
 	public function findOneByClientId($clientId)
 	{
 		return $this->findClientBy(array('clientId' => $clientId));

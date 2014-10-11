@@ -100,6 +100,17 @@
             <argument></argument><!-- connect to -->
             <argument type="collection"></argument><!-- options -->
         </service>
+        <service 
+			id="terpsichore_oauth2_server.storage_strategy.scope.default" 
+			class="%terpsichore_oauth2_server.storage_strategy.scope.class%" 
+			public="false"
+			factory-service="terpsichore_oauth2_server.storage_strategy_factory.client"
+			factory-method="createScopeProvider"
+		>
+            <argument></argument><!-- store type -->
+            <argument></argument><!-- connect to -->
+            <argument type="collection"></argument><!-- options -->
+        </service>
     </services>
 </container>
 

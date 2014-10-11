@@ -62,7 +62,7 @@ class StorageUtil
 	public function getScopeUtil()
 	{
 		if(!$this->scopeUtil) {
-			$this->scopeUtil = $this->container->get('clio_oauth2_server.scope_util');
+			$this->scopeUtil = $this->container->get('terpsichore_oauth2_server.scope_util');
 		}
 		return $this->scopeUtil;
 	}

@@ -62,6 +62,12 @@ class TypedStrategyFactory extends Collection
 		return $factory->createUserProvider($connectTo, $options);
 	}
 
+	public function createScopeProvider($type, $connectTo, array $options = array())
+	{
+		$factory = $this->getTypeFactory($type);
+
+		return $factory->createScopeProvider($ocnnectTo, $options);
+	}
 
 	/**
 	 * setTypeFactory 

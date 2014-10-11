@@ -5,8 +5,6 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
 	<parameters>
-		<!-- StrategicStorage Interface -->
-		<parameter key="terpsichore_oauth2_server.storage.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\StrategicStorage</parameter>
 		<!-- StorageFactory -->
 		<parameter key="terpsichore_oauth2_server.storage_factory.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\StorageFactory</parameter>
 		<!-- Storage Classes -->
@@ -25,7 +23,7 @@
 			id="terpsichore_oauth2_server.storage_factory"
 			class="%terpsichore_oauth2_server.storage_factory.class%"
 		>
-			<argument>%terpsichore_oauth2_server.storage.class%</argument>
+			<argument type="service" id="service_container"/>
 			<argument type="collection">
 				<argument key="user_credentials">%terpsichore_oauth2_server.storage.user_credentials.class%</argument>
 			</argument>
@@ -40,7 +38,6 @@
 			factory-method="createAccessTokenStorage"
 		>
             <argument type="service" id="terpsichore_oauth2_server.storage_strategy.access_token" on-invalid="null"/>
-            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -51,7 +48,6 @@
 			factory-method="createRefreshTokenStorage"
 		>
             <argument type="service" id="terpsichore_oauth2_server.storage_strategy.refresh_token" on-invalid="null"/>
-            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -62,7 +58,6 @@
 			factory-method="createAuthorizationCodeStorage"
 		>
             <argument type="service" id="terpsichore_oauth2_server.storage_strategy.authorization_code" on-invalid="null"/>
-            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -73,7 +68,6 @@
 			factory-method="createUserCredentialsStorage"
 		>
             <argument type="service" id="terpsichore_oauth2_server.storage_strategy.user_credentials" on-invalid="null"/>
-            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
 			<argument type="collection"></argument><!-- optioins -->
 			<!-- Initlaize EncoderFactory -->
 			<call method="setEncoderFactory">
@@ -88,7 +82,6 @@
 			factory-method="createClientStorage"
 		>
             <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client" on-invalid="null"/>
-            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
         <service 
@@ -99,7 +92,6 @@
 			factory-method="createClientCredentialsStorage"
 		>
             <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client" on-invalid="null"/>
-            <argument type="service" id="terpsichore_oauth2_server.storage_util"/>
 			<argument type="collection"></argument><!-- optioins -->
         </service>
 
@@ -109,13 +101,10 @@
 			class="%terpsichore_oauth2_server.storage.scope.class%" 
 			abstract="true"
 			factory-service="terpsichore_oauth2_server.storage_factory"
-			factory-method="createScope"
+			factory-method="createScopeStorage"
 		>
-            <argument>%terpsichore_oauth2_server.supported_scopes%</argument>
-            <argument>%terpsichore_oauth2_server.default_scopes%</argument>
-			<argument type="service" id="terpsichore_oauth2_server.storage_util"/>
-            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.client"/>
-			<tag name="terpsichore_oauth2_server.storage" for="scope"/>
+            <argument type="service" id="terpsichore_oauth2_server.storage_strategy.scope" on-invalid="null"/>
+			<argument type="collection"></argument><!-- options -->
         </service>
 
     </services>
