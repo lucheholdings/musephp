@@ -11,8 +11,8 @@ class TokenResolverFactoryCompilerPass implements CompilerPassInterface
 {
     public function process(ContainerBuilder $container)
     {
-        if($container->hasDefinition('terpsichore_oauth2_server.token_resolver_factory')) {
-			$serverDefinition = $container->getDefinition('terpsichore_oauth2_server.token_resolver_factory');
+        if($container->hasDefinition('terpsichore_oauth2_server.security.token_resolver_factory')) {
+			$serverDefinition = $container->getDefinition('terpsichore_oauth2_server.security.token_resolver_factory');
 			
 			foreach($container->findTaggedServiceIds('terpsichore_oauth2_server.token_resolver_factory') as $id => $tags) {
 				foreach($tags as $tagParams) {

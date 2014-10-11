@@ -48,6 +48,7 @@ class OAuth2ProviderFactory implements SecurityFactoryInterface
         $container
 			->setDefinition($listenerId, $listenerDefinition)
 			->replaceArgument(1, new Reference($providerId))
+			->replaceArgument(2, new Reference('terpsichore_oauth2_server.security.token_resolver'))
 		;
 
         return array($providerId, $listenerId, 'terpsichore_oauth2_server.security.entry_point');
