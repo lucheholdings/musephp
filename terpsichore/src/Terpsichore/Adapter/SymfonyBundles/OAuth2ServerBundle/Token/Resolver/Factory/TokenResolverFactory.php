@@ -30,7 +30,7 @@ class TokenResolverFactory implements Factory
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ContainerInterface $container = null)
+	public function __construct(ContainerInterface $container)
 	{
 		$this->container = $container;
 	}
@@ -46,7 +46,7 @@ class TokenResolverFactory implements Factory
 		switch($type) {
 		case 'server':
 			// Validate the request token with OAuth2 Server
-			$resolver = new Resolver\ServerResolver($this->getContainer()->get('terpsichore_oauth2_server.servr'));
+			$resolver = new Resolver\ServerResolver($this->getContainer()->get('terpsichore_oauth2_server.server'));
 			break;
 		case 'trust':
 			$resolver = new Resolver\TrustedResolver();

@@ -82,7 +82,7 @@ class FactoryMap extends Map implements Factory
 	 * @access protected
 	 * @return void
 	 */
-	protected function doCreate($alias, $args)
+	protected function doCreate($alias, array $args)
 	{
 		return $this->get($alias)->createArgs($args);
 	}

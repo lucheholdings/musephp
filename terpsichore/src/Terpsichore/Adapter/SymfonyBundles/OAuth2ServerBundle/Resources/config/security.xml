@@ -34,8 +34,9 @@
 			id="terpsichore_oauth2_server.security.token_resolver_factory.default"
 			class="%terpsichore_oauth2_server.security.token_resolver_factory.default.class%"
 		>
-			<tag name="terpsichore_oauth2_server.security.token_resolver_factory" for="server"/>
-			<tag name="terpsichore_oauth2_server.security.token_resolver_factory" for="trust"/>
+			<argument type="service" id="service_container"/>
+			<tag name="terpsichore_oauth2_server.token_resolver_factory" for="server"/>
+			<tag name="terpsichore_oauth2_server.token_resolver_factory" for="trust"/>
 		</service>
 
 		<!-- Token Resolver -->
@@ -47,7 +48,7 @@
 			abstract="true"
 		>
 			<argument></argument>
-			<argument></argument>
+			<argument type="collection"></argument>
 		</service>
 
 		<!-- AuthneticationListener -->
