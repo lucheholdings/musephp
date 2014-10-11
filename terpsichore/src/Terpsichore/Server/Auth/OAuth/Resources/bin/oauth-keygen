@@ -1,0 +1,9 @@
+#!/usr/bin/env php
+<?php
+
+include(__DIR__ . '/../../Util/TokenUtil.php');
+
+use Terpsichore\Server\Auth\OAuth\Util\TokenUtil;
+
+echo TokenUtil::generateRandomToken();
+echo "\n";

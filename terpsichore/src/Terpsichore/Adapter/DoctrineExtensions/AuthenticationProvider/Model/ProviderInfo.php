@@ -6,17 +6,17 @@
  * @license ${ LICENSE }
  * 
  */
-namespace Terpsichore\Core\Auth\Provider\Info;
+namespace Terpsichore\Client\Auth\Provider\Info;
 
 /**
- * AuthProvider 
+ * ProviderInfo 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface AuthProviderInfo
+interface ProviderInfo 
 {
 	/**
 	 * getName 
@@ -53,5 +53,13 @@ interface AuthProviderInfo
 	 * @return void
 	 */
 	function setAttribute($key, $value);
+
+	/**
+	 * getAttributes 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getAttributes();
 }
 

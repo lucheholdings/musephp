@@ -11,12 +11,12 @@ use OAuth2\ResponseInterface;
 
 use Terpsichore\Adapter\BshafferOAuth\ChainGrant\Storage\ChainUserCredentials;
 use Terpsichore\Adapter\BshafferOAuth\ChainGrant\Storage\ChainableClient;
-use Terpsichore\Core\Auth\Provider as AuthenticationProvider;
-use Terpsichore\Core\Auth\Token\PreAuthenticateToken;
-use Terpsichore\Core\Auth\Provider\ProviderFactory as AuthenticationProviderFactory;
+use Terpsichore\Client\Auth\Provider as AuthenticationProvider;
+use Terpsichore\Client\Auth\Token\PreAuthenticateToken;
+use Terpsichore\Client\Auth\Provider\ProviderFactory as AuthenticationProviderFactory;
 
-use Terpsichore\Core\Auth\OAuth;
-use Terpsichore\Core\Auth\Provider\BasicProvider;
+use Terpsichore\Client\Auth\OAuth;
+use Terpsichore\Client\Auth\Provider\BasicProvider;
 
 /**
  * Chain 

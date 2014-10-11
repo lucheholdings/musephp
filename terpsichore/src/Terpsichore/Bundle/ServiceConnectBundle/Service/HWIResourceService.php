@@ -3,10 +3,10 @@ namespace Terpsichore\Bundle\ServiceConnectBundle\Service;
 
 use HWI\Bundle\OAuthBundle\OAuth\ResourceOwnerInterface;
 
-use Terpsichore\Core\Service,
-	Terpsichore\Core\Auth\Provider as AuthenticationProvider,
-	Terpsichore\Core\Auth\Authenticated,
-	Terpsichore\Core\Auth\OAuth;
+use Terpsichore\Client\Service,
+	Terpsichore\Client\Auth\Provider as AuthenticationProvider,
+	Terpsichore\Client\Auth\Authenticated,
+	Terpsichore\Client\Auth\OAuth;
 
 class HWIResourceService implements Service, 
 	AuthenticationProvider
