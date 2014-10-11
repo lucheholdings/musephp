@@ -12,6 +12,13 @@ use Clio\Component\Util\Validator\ClassValidator;
  */
 class FactoryMap extends Map implements Factory 
 {
+	/**
+	 * __construct 
+	 * 
+	 * @param array $factories 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct(array $factories = array())
 	{
 		parent::__construct();
@@ -38,7 +45,7 @@ class FactoryMap extends Map implements Factory
 		$args = func_get_args();
 		$alias = array_shift($args);
 		
-		return $this->get($alias)->createArgs($args);
+		return $this->doCreate($alias, $args);
 	}
 
 	/**
@@ -51,7 +58,7 @@ class FactoryMap extends Map implements Factory
 	 */
 	public function createArgs(array $args = array())
 	{
-		return $this->get($alias)->createArgs($args);
+		return $this->doCreate($alias, $args);
 	}
 
 	/**
@@ -63,6 +70,19 @@ class FactoryMap extends Map implements Factory
 	 * @return void
 	 */
 	public function createByKeyArgs($alias, array $args = array())
+	{
+		return $this->doCreate($alias, $args);
+	}
+
+	/**
+	 * doCreate 
+	 * 
+	 * @param mixed $alias 
+	 * @param mixed $args 
+	 * @access protected
+	 * @return void
+	 */
+	protected function doCreate($alias, $args)
 	{
 		return $this->get($alias)->createArgs($args);
 	}
