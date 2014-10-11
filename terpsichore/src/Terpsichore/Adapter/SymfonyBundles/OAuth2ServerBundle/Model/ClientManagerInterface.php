@@ -1,6 +1,7 @@
 <?php
-namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model
+namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model;
 
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\ClientProviderStrategy;
 /**
  * ClientManagerInterface
  * 
@@ -15,23 +16,19 @@ interface ClientManagerInterface extends ClientProviderStrategy
 	/**
 	 * createClient 
 	 * 
-	 * @param mixed $name 
-	 * @param mixed $supportedScopes 
-	 * @param mixed $grantTypes 
-	 * @param mixed $redirectUris 
 	 * @access public
 	 * @return void
 	 */
-	function createClient($name, $supportedScopes, $grantTypes, $redirectUris);
+	function createClient();
 
 	/**
-	 * findClientByName 
+	 * getClientByName 
 	 * 
 	 * @param mixed $name 
 	 * @access public
 	 * @return void
 	 */
-	function findClientByName($name);
+	function getClientByName($name);
 
 	/**
 	 * save 
@@ -41,6 +38,6 @@ interface ClientManagerInterface extends ClientProviderStrategy
 	 * @access public
 	 * @return void
 	 */
-	function save(Client $client);
+	function save(ClientInterface $client);
 }
 

@@ -13,11 +13,11 @@ namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy
 interface ClientProviderStrategy extends StorageStrategy
 {
     /**
-     * findOneByClientId 
+     * getClient 
      * 
      * @param mixed $clientId 
      * @access public
      * @return ClientInterface
      */
-    function findOneByClientId($clientId);
+    function getClient($clientId);
 }
