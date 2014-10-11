@@ -19,6 +19,7 @@
 			<!-- Support UserCredentials and Client for DoctrineORM -->
 			<tag name="terpsichore_oauth2_server.storage_strategy_factory.user_credentials" for="doctrine.orm"/>
 			<tag name="terpsichore_oauth2_server.storage_strategy_factory.client" for="doctrine.orm"/>
+			<tag name="terpsichore_oauth2_server.storage_strategy_factory.scope" for="doctrine.orm"/>
         </service>
 	</services>
 </container>

@@ -12,7 +12,7 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\StorageUtil;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractStorage
+abstract class AbstractStorage implements StorageInterface
 {
 	/**
 	 * util 

@@ -1,9 +1,12 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage;
 
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\ScopeProviderStrategy;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\ClientProviderStrategy;
+
 use OAuth2\Storage as OAuth2Storage;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\StorageUtil;
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\ScopeUtil;
 
 /**
  * Scope 
@@ -14,15 +17,31 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\StorageUtil;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Scope extends AbstractStorage implements OAuth2Storage\ScopeInterface
+class Scope implements OAuth2Storage\ScopeInterface, StorageInterface
 {
-	protected $provider;
+	/**
+	 * scopeProvider 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $scopeProvider;
 
-	protected $defaultScopes = array();
+	/**
+	 * clientProvider 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $clientProvider;
 
-	protected $supportedScopes = array();
-
-	protected $clientManager;
+	/**
+	 * util 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $util;
 
 	/**
 	 * __construct 
@@ -30,22 +49,22 @@ class Scope extends AbstractStorage implements OAuth2Storage\ScopeInterface
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ScopeProvider $provider, array $defaultScopes = array(), StorageUtil $storageUtil = null, ClientProviderStrategy $clientManager = null)
+	public function __construct(ScopeProviderStrategy $scopeProvider, ClientProviderStrategy $clientProvider, ScopeUtil $util, array $options = array())
 	{
-		$this->provider = $provider;
-		$this->defaultScopes = $defaultScopes;
-		$this->clientManager = $clientManager;
-		parent::__construct($storageUtil);
+		$this->scopeProvider = $scopeProvider;
+		$this->clientProvider = $clientProvider;
+		$this->util = $util;
+		$this->options = $options;
 	}
 
 	public function getScopeProvider()
 	{
-		return $this->provider;
+		return $this->scopeProvider;
 	}
 
 	public function getClientProvider()
 	{
-		return $this->clientManager;
+		return $this->clientProvider;
 	}
 
     /**
@@ -56,22 +75,20 @@ class Scope extends AbstractStorage implements OAuth2Storage\ScopeInterface
      * @access public
      * @return void
      */
-    public function scopeExists($scope, $client_id = null)
+    public function scopeExists($scope, $clientId = null)
     {
-        $scope = $this->getStorageUtil()->getScopeUtil()->toArray($scope);
+        $scope = $this->getScopeUtil()->toArray($scope);
 		$supportedScopes = array();
 
-        if (!is_null($client_id)) {
-			if($clientManager = $this->getClientProvider()) {
-				$client = $clientManager->findOneByClientId($client_id);
-				$supportedScopes = $client->getDomainScopes();
-			}
-        } 
-		
-		// Merge the system and client supported scopes
-		$supportedScopes = array_unique(array_merge($supportedScopes, $this->supportedScopes));
+		if ($clientId) {
+			$client = $this->getClientProvider()->findOneByClientId($clientId);
+			$scopes = $client->getScopes();
+		} else {
+			$scopes = $this->getScopeProvider()->getSupportedScopes();
+		}
 
-        return (count(array_diff($scope, $supportedScopes)) == 0);
+		// Merge the system and client supported scopes
+        return (count(array_diff($scope, $scopes)) == 0);
     }
 
     /**
@@ -81,31 +98,31 @@ class Scope extends AbstractStorage implements OAuth2Storage\ScopeInterface
      * @access public
      * @return void
      */
-    public function getDefaultScope($client_id = null)
+    public function getDefaultScope($clientId = null)
     {
-		$defaultScopes  = array();
 		// 
-        if (!is_null($client_id)) {
-			if($clientManager = $this->getClientProvider()) {
-				$client = $clientManager->findOneByClientId($client_id);
-				$defaultScopes = $client->getDefaultScopes();
-			}
-        } 
+        if ($clientId) {
+			$client = $this->getClientProvider()->findOneByClientId($clientId);
+			$scopes = $client->getDefaultScopes();
+		}
+
+		// DefaultScopes
+		$defaultScopes = $this->getScopeProvider()->getDefaultScopes();
 
 		// Merge the system default and client default scopes
-		$defaultScopes = array_unique(array_merge($defaultScopes, $this->defaultScopes));
+		$scopes = array_unique(array_merge($scopes, $defaultScopes));
 
-        return $this->getStorageUtil()->getScopeUtil()->fromArray($defaultScopes);
+        return $this->getScopeUtil()->fromArray($scopes);
     }
     
-    public function getSupportedScopes()
+    public function getScopeUtil()
     {
-        return $this->supportedScopes;
+        return $this->util;
     }
     
-    public function setSupportedScopes($supportedScopes)
+    public function setScopeUtil($util)
     {
-        $this->supportedScopes = $supportedScopes;
+        $this->util = $util;
         return $this;
     }
 }

@@ -5,10 +5,17 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
 	<parameters>
-		<parameter key="terpsichore_oauth2_server.server.config" type="collection"></parameter>
 		<parameter key="terpsichore_oauth2_server.server.class">OAuth2\Server</parameter>
 		<parameter key="terpsichore_oauth2_server.scope_util.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\ScopeUtil</parameter>
 		<parameter key="terpsichore_oauth2_server.storage_util.class">Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\StorageUtil</parameter>
+		<parameter key="terpsichore_oauth2_server.scope.class">OAuth2\Scope</parameter>
+		<parameter key="terpsichore_oauth2_server.token_type.bearer.class">OAuth2\TokenType\Bearer</parameter>
+		<parameter key="terpsichore_oauth2_server.token_type.mac.class">OAuth2\TokenType\Mac</parameter>
+		<!-- params -->
+		<parameter key="terpsichore_oauth2_server.server.storages" type="collection"></parameter>
+		<parameter key="terpsichore_oauth2_server.server.configs" type="collection"></parameter>
+		<parameter key="terpsichore_oauth2_server.server.grant_types" type="collection"></parameter>
+		<parameter key="terpsichore_oauth2_server.server.response_types" type="collection"></parameter>
 	</parameters>
     <services>
 		<!-- Scope Util -->
@@ -16,7 +23,6 @@
 			id="terpsichore_oauth2_server.scope_util" 
 			class="%terpsichore_oauth2_server.scope_util.class%" 
 		>
-			<argument type="service" id="terpsichore_oauth2_server.storage.scope"/>
 			<argument> </argument><!-- Delimiter -->
         </service>
 
@@ -38,12 +44,34 @@
 			id="terpsichore_oauth2_server.server"
 			class="%terpsichore_oauth2_server.server.class%"
 		>
-			<argument type="collection"></argument><!-- Storages -->
-			<argument>%terpsichore_oauth2_server.server.config%</argument><!--Config -->
-			<argument type="collection"></argument><!-- GrantTypes -->
-			<argument type="collection"></argument><!-- tokenTypes -->
-			<argument>null</argument><!-- ScopeUtil -->
-			<argument type="service" id="terpsichore_oauth2_server.scope_util"/>
+			<argument>%terpsichore_oauth2_server.server.storages%</argument><!-- Storages -->
+			<argument>%terpsichore_oauth2_server.server.configs%</argument><!--Config -->
+			<argument>%terpsichore_oauth2_server.server.grant_types%</argument><!-- GrantTypes -->
+			<argument>%terpsichore_oauth2_server.server.response_types%</argument><!-- ResponseTypes-->
+			<argument type="service" id="terpsichore_oauth2_server.token_type"/><!-- TokenType -->
+			<argument type="service" id="terpsichore_oauth2_server.scope"/><!-- Scope -->
 		</service>
+
+		<!-- Scope -->
+		<service
+			id="terpsichore_oauth2_server.scope"
+			class="%terpsichore_oauth2_server.scope.class%"
+		>
+			<argument type="service" id="terpsichore_oauth2_server.storage.scope"/>
+		</service>
+
+		<!-- TokenType -->
+		<service
+			id="terpsichore_oauth2_server.token_type.bearer"
+			class="%terpsichore_oauth2_server.token_type.bearer.class%"
+		>
+		</service>
+		<service
+			id="terpsichore_oauth2_server.token_type.mac"
+			class="%terpsichore_oauth2_server.token_type.mac.class%"
+		>
+		</service>
+
+		<service id="terpsichore_oauth2_server.token_type" alias="terpsichore_oauth2_server.token_type.bearer"/>
     </services>
 </container>

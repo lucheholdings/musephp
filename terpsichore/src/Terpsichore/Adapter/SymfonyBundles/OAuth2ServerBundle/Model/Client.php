@@ -156,23 +156,11 @@ class Client implements ClientInterface
 	 * getSupportedScopes 
 	 * 
 	 * @access public
-	 * @return void
+	 * @return array<string>
 	 */
 	public function getSupportedScopes()
 	{
 		return $this->supportedScopes ?: array();
-	}
-
-	/**
-	 * setSupportedScopes 
-	 * 
-	 * @param array $supportedScopes 
-	 * @access public
-	 * @return void
-	 */
-	public function setSupportedScopes(array $supportedScopes)
-	{
-		$this->supportedScopes = $supportedScopes;
 	}
 
 	/**

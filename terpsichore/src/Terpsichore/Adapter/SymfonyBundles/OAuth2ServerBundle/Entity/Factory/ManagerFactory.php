@@ -6,7 +6,8 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\Facto
 ;
 
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\ClientProvider,
-	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\UserProvider
+	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\UserProvider,
+	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Entity\ScopeManager
 ;
 /**
  * ManagerFactory 
@@ -48,6 +49,11 @@ class ManagerFactory implements ClientProviderFactory, UserProviderFactory
 	public function createUserProvider($connectTo, array $options = array())
 	{
 		return new UserProvider($this->getDoctrine()->getManager($connectTo), $options['class']);
+	}
+
+	public function createScopeProvider($connectTo, array $options = array())
+	{
+		return new ScopeManager($this->getDoctrine()->getManager($connectTo), $options['class']);
 	}
     
     /**

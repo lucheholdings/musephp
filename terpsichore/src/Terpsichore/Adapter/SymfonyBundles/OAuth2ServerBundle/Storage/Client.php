@@ -66,10 +66,9 @@ class Client extends StrategicStorage implements OAuth2Storage\ClientInterface
 			return false;
 		}
 
-		$scope = $this->getStorageUtil()->getScopeUtil()->fromArray(array_merge(
-				$this->getStorageUtil()->getScopeUtil()->getSupportedScopes(),
+		$scope = $this->getStorageUtil()->getScopeUtil()->fromArray(
 				$client->getSupportedScopes()
-			));
+			);
 
 		return $scope;
 	}
