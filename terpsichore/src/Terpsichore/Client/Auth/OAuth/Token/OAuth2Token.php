@@ -3,6 +3,7 @@ namespace Terpsichore\Client\Auth\OAuth\Token;
 
 use Terpsichore\Client\Auth\OAuth\OAuth2Token as OAuth2TokenInterface;
 use Terpsichore\Client\Auth\Token\AbstractToken;
+use Terpsichore\Client\Auth\Provider;
 
 /**
  * OAuth2Token 
@@ -55,6 +56,14 @@ class OAuth2Token extends AbstractToken implements OAuth2TokenInterface
 	 * @access private
 	 */
 	private $expiresIn;
+
+	public function __construct(Provider $provider = null)
+	{
+		parent::__construct($provider);
+
+		// Set defaults
+		$this->type = 'bearer';
+	}
     
     /**
      * getType 

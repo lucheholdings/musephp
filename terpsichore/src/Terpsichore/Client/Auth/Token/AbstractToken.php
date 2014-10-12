@@ -38,7 +38,7 @@ abstract class AbstractToken implements Token, \Serializable
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Provider $provider)
+	public function __construct(Provider $provider = null)
 	{
 		$this->provider = $provider;
 	}

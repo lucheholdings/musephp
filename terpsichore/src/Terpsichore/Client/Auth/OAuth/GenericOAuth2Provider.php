@@ -24,8 +24,14 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 		return $this->doAuthenticate($token);
 	}
 
-	public function passwordCredentials()
+	public function passwordCredentials(Token $reqToken)
 	{
+		$token = clone $reqToken;
+		$token
+			->set('grant_type', 'password')
+		;
+
+		return $this->doAuthenticate($token);
 	}
 
 	public function authCode()
@@ -93,6 +99,14 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 			);
 			break;
 		case 'password':
+			$contents = array(
+				'grant_type'    => 'password',
+				'client_id'     => $token->get('client_id'),
+				'client_secret' => $token->get('client_secret'),
+				'username'      => $token->get('username'),
+				'password'      => $token->get('password'),
+				'scope'         => $token->get('scope'),
+			);
 			break;
 		default:
 			throw new \Exception(sprintf('Invalid type of grant "%s".', $grantType));
