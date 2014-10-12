@@ -130,6 +130,10 @@ class SecuredConnection extends PassThruConnection implements \Serializable
     public function setAuthenticationProvider(AuthenticationProvider $authenticationProvider)
     {
         $this->authenticationProvider = $authenticationProvider;
+
+		if($this->token) {
+			$this->token->setProvider($this->authenticationProvider);
+		}
         return $this;
     }
     
@@ -157,6 +161,10 @@ class SecuredConnection extends PassThruConnection implements \Serializable
     public function setToken(Token $token)
     {
         $this->token = $token;
+
+		if($this->authenticationProvider) {
+			$token->setProvider($this->authenticationProvider);
+		}
         return $this;
     }
 

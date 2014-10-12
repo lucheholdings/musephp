@@ -1,0 +1,11 @@
+{
+    "name": "museterpsichore/extension",
+	"type": "library",
+	"description": "component to bind core and bridges",
+	"require": {
+		"museterpsichore/core":   "self.version",
+		"museterpsichore/client":   "self.version",
+		"museterpsichore/bridge-buzz": "self.version",
+		"museterpsichore/bridge-guzzle": "self.version"
+	}
+}

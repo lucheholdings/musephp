@@ -1,0 +1,10 @@
+{
+    "name": "museterpsichore/bridge-buzz",
+	"type": "library",
+	"description": "Buzz Bridge for Terpsichore Client",
+	"require": {
+		"museterpsichore/core":   "self.version",
+		"museterpsichore/client":   "self.version"
+	}
+}
+
