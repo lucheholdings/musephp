@@ -109,8 +109,8 @@ class GuzzleHttpConnection extends HttpConnection
 
 		switch($method) {
 		case 'GET':
-			$params['query'] = $resolver->resolveBody();
-			break
+			$params['query'] = $resolver->resolveBody($request);
+			break;
 		default:
 			switch($request->getHeader('content-type')) {
 			case 'application/json':

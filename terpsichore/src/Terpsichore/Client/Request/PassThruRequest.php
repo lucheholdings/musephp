@@ -72,7 +72,7 @@ class PassThruRequest implements ProxyRequest
 	 */
 	public function setBody($body)
 	{
-		$this->getRequset()->setBody($body);
+		$this->getRequest()->setBody($body);
 		return $this;
 	}
 
@@ -135,7 +135,7 @@ class PassThruRequest implements ProxyRequest
 	 */
 	public function isDirty()
 	{
-		return $this->getRequset()->isDirty();
+		return $this->getRequest()->isDirty();
 	}
 
 	/**

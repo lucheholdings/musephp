@@ -8,32 +8,43 @@
  */
 namespace Terpsichore\Client\Auth\Provider\Factory;
 
-use Clio\Component\Pattern\Factory\CompositeTypedFactory;
+use Clio\Component\Pattern\Factory\TypedComponentFactory;
 use Clio\Component\Pattern\Factory\InheritComponentFactory;
 use Terpsichore\Client\Auth\Provider\ProviderFactory;
 use Terpsichore\Client\Auth\Token;
 use Terpsichore\Client\Client;
 
-class TypedProviderFactory extends CompositeTypedFactory implements ProviderFactory
+class TypedProviderFactory extends TypedComponentFactory implements ProviderFactory
 {
-	private $client;
-	private $defaultFactory;
+	private $connection;
 
-	public function __construct(Client $client, array $factories = array())
+	public function __construct(Connection $connection = null, array $classes = array())
 	{
-		parent::__construct($factories);
+		parent::__construct($classes);
 
-		$this->client = $client;
 		$this->defaultFactory = new InheritComponentFactory('\Terpsichore\Client\Auth\Provider');
 	}
 
+	/**
+	 * createProvider 
+	 * 
+	 * @param mixed $type 
+	 * @param array $args 
+	 * @access public
+	 * @return void
+	 */
 	public function createProvider($type, array $args)
 	{
-		$factory = $this->getFactory($type);
-
-			
+		return $this->createByType($type, $args);
 	}
 
+	/**
+	 * createProviderForToken 
+	 * 
+	 * @param Token $token 
+	 * @access public
+	 * @return void
+	 */
 	public function createProviderForToken(Token $token)
 	{
 		$provider = $token->getProvider();

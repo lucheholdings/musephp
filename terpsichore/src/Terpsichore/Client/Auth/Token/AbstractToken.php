@@ -21,7 +21,7 @@ use Terpsichore\Client\Auth\Provider;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractToken implements Token
+abstract class AbstractToken implements Token, \Serializable
 {
 	/**
 	 * provider 
@@ -66,5 +66,34 @@ abstract class AbstractToken implements Token
         $this->provider = $provider;
         return $this;
     }
+
+	/**
+	 * serialize 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function serialize()
+	{
+		$data = array(
+			'provider' => (string)$this->getProvider(),
+		);
+
+		return serialize($data);
+	}
+
+	/**
+	 * unserialize 
+	 * 
+	 * @param mixed $serialized 
+	 * @access public
+	 * @return void
+	 */
+	public function unserialize($serialized)
+	{
+		$data = unserialize($serialized);
+
+		list($this->provider) = $data;
+	}
 }
 

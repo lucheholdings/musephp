@@ -68,5 +68,20 @@ abstract class AbstractHttpProvider extends HttpSimpleClientService implements P
 	{
 		return new AuthenticationRequest(parent::createHttpRequest($uri, $method, $body, $headers));
 	}
+
+	/**
+	 * createHttpRequest 
+	 * 
+	 * @param mixed $uri 
+	 * @param mixed $method 
+	 * @param mixed $body 
+	 * @param array $headers 
+	 * @access public
+	 * @return void
+	 */
+	public function createHttpRequest($uri, $method, $body = null, array $headers = array())
+	{
+		return new AuthenticationRequest(parent::createHttpRequest($uri, $method, $body, $headers));
+	}
 }
 

@@ -9,7 +9,7 @@ namespace Terpsichore\Client\Auth;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Token
+interface Token 
 {
 	/**
 	 * getName 

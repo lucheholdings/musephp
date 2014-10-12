@@ -28,7 +28,7 @@ class TypedComponentFactory extends ClassFactory implements TypedFactory
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(array $classes)
+	public function __construct(array $classes = array())
 	{
 		$this->types = array();
 		foreach($classes as $type => $class) {
@@ -74,7 +74,7 @@ class TypedComponentFactory extends ClassFactory implements TypedFactory
 	 */
 	public function createByTypeArgs($type, array $args = array())
 	{
-		$args = $this->resolveArgs();
+		$args = $this->resolveArgs($args);
 
 		return $this->createClass($this->getTypedClass($type), $args);
 	}

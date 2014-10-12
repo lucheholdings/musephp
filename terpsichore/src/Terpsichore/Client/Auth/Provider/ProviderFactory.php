@@ -27,6 +27,6 @@ interface ProviderFactory
 	 * @access public
 	 * @return void
 	 */
-	function createForToken(Token $token);
+	function createProviderForToken(Token $token);
 }
 

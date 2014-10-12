@@ -1,5 +1,5 @@
 <?php
-namespace Terpsichore\Bridge\Buxx;
+namespace Terpsichore\Bridge\Buzz;
 
 use Terpsichore\Client\Connection\Factory as ConnectionFactory;
 
