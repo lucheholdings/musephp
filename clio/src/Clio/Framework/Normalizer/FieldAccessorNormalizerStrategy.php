@@ -64,8 +64,6 @@ class FieldAccessorNormalizerStrategy implements
 	 */
 	public function normalize($object)
 	{
-		var_dump(is_object($object) ? get_class($object) : gettype($object));
-
 		$classMetadata = $this->getClassMetadata(get_class($object));
 		$accessor = $this->getClassFieldAccessor($classMetadata);
 

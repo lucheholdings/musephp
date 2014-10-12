@@ -14,6 +14,8 @@ use Terpsichore\Client\Service\Http\HttpSimpleClientService;
 use Terpsichore\Client\Auth\Token;
 use Terpsichore\Client\Request;
 
+use Terpsichore\Client\Auth\Request\HttpRequestResolver;
+
 /**
  * AbstractHttpProvider 
  * 
@@ -82,6 +84,11 @@ abstract class AbstractHttpProvider extends HttpSimpleClientService implements P
 	public function createHttpRequest($uri, $method, $body = null, array $headers = array())
 	{
 		return new AuthenticationRequest(parent::createHttpRequest($uri, $method, $body, $headers));
+	}
+
+	public function getRequestResolver()
+	{
+		return new HttpRequestResolver();
 	}
 }
 

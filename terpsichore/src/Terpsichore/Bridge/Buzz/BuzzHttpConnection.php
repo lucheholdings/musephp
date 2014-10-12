@@ -6,7 +6,8 @@ use Terpsichore\Client\Request;
 
 use Buzz\Client\ClientInterface as BuzzClient,
 	Buzz\Client\Curl as BuzzCurl;
-use Buzz\Message\BuzzRequest;
+use Buzz\Message\Request as BuzzRequest;
+use Buzz\Message\Response as BuzzResponse;
 use Buzz\Util\Url;
 
 /**
@@ -77,8 +78,8 @@ class BuzzHttpConnection extends HttpConnection
 	public function send(Request $request)
 	{
 		$request = $this->createBuzzRequestFromRequest($request);
-
-		$response = $this->getHttpClient()->send($request);
+		$response = new BuzzResponse(); 
+		$this->getHttpClient()->send($request, $response);
 
 		$contentType = $response->getHeader('Content-Type');
 		$contentType = explode(';', $contentType);
@@ -87,7 +88,7 @@ class BuzzHttpConnection extends HttpConnection
 		switch($contentType) {
 		case 'application/json':
 		case 'text/javascript':
-			return json_decode($response->getContent());
+			return json_decode($response->getContent(), true);
 			break;
 		case 'application/xml':
 			return $response->toDomDocument();
@@ -116,18 +117,15 @@ class BuzzHttpConnection extends HttpConnection
 			$params = array('body' => $resolver->resolveBody($request));
 		}
 
-
-		$request = new BuzzRequest(
-			$resolver->resolveMethod($request), 
-		);
+		$httpRequest = new BuzzRequest($resolver->resolveMethod($request));
 
 		$url = new Url($resolver->resolveUri($request));
-		$url->applyToRequest($request);
+		$url->applyToRequest($httpRequest);
 	
-		$request->addHeaders($resolver->resolveHeaders($request));
-		$request->setContent($resolver->resolveBody($request));
+		$httpRequest->addHeaders($resolver->resolveHeaders($request));
+		$httpRequest->setContent($resolver->resolveBody($request));
 
-		return $request;
+		return $httpRequest;
 	}
 }
 

@@ -23,11 +23,9 @@ abstract class AbstractOAuthProvider extends AbstractHttpProvider
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($tokenUri, array $options = array(), Connection $connection = null)
+	public function __construct($uri, $method = 'post', array $options = array(), Connection $connection = null, $name = null)
 	{
-		parent::__construct($connection, $options);
-
-		$this->tokenUri = $tokenUri;
+		parent::__construct($uri, $method, $options, $connection, $name);
 	}
 }
 

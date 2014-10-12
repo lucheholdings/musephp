@@ -33,9 +33,11 @@ class TypedProviderFactory extends TypedComponentFactory implements ProviderFact
 	 * @access public
 	 * @return void
 	 */
-	public function createProvider($type, array $args)
+	public function createProvider($type, array $args = array())
 	{
-		return $this->createByType($type, $args);
+		$provider  = $this->createByTypeArgs($type, $args);
+
+		return $provider;
 	}
 
 	/**
@@ -58,22 +60,6 @@ class TypedProviderFactory extends TypedComponentFactory implements ProviderFact
 		throw new \InvalidArgumentException('Token is not initialized by provider.');
 	}
 
-	protected function doCreateByType($type, array $args)
-	{
-		$factory = $this->getFactory($type);
-
-		if(is_string($factory)) {
-			$provider = $this->getDefaultFactory()->createInheritClassArgs($factory, $args);
-		} else {
-			$provider = parent::doCreateByType($type);
-		}
-
-		if($this->client) {
-			$provider->setClient($this->client);
-		}
-		return $provider;
-	}
-    
     public function getDefaultFactory()
     {
         return $this->defaultFactory;
@@ -84,5 +70,16 @@ class TypedProviderFactory extends TypedComponentFactory implements ProviderFact
         $this->defaultFactory = $defaultFactory;
         return $this;
     }
+
+	protected function resolveArgs(array $args)
+	{
+		$pre = array();
+		if(isset($args['uri'])) {
+			$pre[0] = $args['uri'];
+
+			unset($args['uri']);
+		}
+		return $pre + $args;
+	}
 }
 
