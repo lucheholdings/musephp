@@ -14,6 +14,13 @@ use Terpsichore\Client\Auth\OAuth\Token\OAuth2Token;
  */
 class GenericOAuth2Provider extends AbstractOAuthProvider
 {
+	/**
+	 * clientCredentials 
+	 * 
+	 * @param Token $reqToken 
+	 * @access public
+	 * @return void
+	 */
 	public function clientCredentials(Token $reqToken)
 	{
 		$token = clone $reqToken;
@@ -24,6 +31,13 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 		return $this->doAuthenticate($token);
 	}
 
+	/**
+	 * passwordCredentials 
+	 * 
+	 * @param Token $reqToken 
+	 * @access public
+	 * @return void
+	 */
 	public function passwordCredentials(Token $reqToken)
 	{
 		$token = clone $reqToken;
@@ -34,8 +48,20 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 		return $this->doAuthenticate($token);
 	}
 
-	public function authCode()
+	/**
+	 * authCode 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function authCode(Token $reqToken)
 	{
+		$token = clone $reqToken;
+		$token
+			->set('grant_type', 'authorization_code')
+		;
+
+		return $this->doAuthenticate($token);
 	}
 
 	/**
@@ -76,19 +102,25 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 		return $token;
 	}
 
-	public function getTokenByClientCredentials($clientId, $clientSecret)
-	{
-		$token = new OAuth2Token($token, $id, $secret);
-		// 
-
-		return $token;
-	}
-
+	/**
+	 * createRequestBodyFromToken 
+	 * 
+	 * @param Token $token 
+	 * @access protected
+	 * @return void
+	 */
 	protected function createRequestBodyFromToken(Token $token)
 	{
 		$grantType = $token->get('grant_type');
 		switch($grantType) {
-		case 'auth_code':
+		case 'authorization_code':
+			$contents = array(
+				'code'          => $token->get('code'),
+				'redirect_uri'  => $token->get('redirect_uri'),
+				'client_id'     => $token->get('client_id'),
+				'client_secret' => $token->get('client_secret'),
+				'scope'         => $token->get('scope')
+			);
 			break;
 		case 'client_credentials':
 			$contents = array(
@@ -116,6 +148,13 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 		return $contents;
 	}
 
+	/**
+	 * isValidToken 
+	 * 
+	 * @param Token $token 
+	 * @access protected
+	 * @return void
+	 */
 	protected function isValidToken(Token $token)
 	{
 		return ($token instanceof OAuth2TokenInterface);
