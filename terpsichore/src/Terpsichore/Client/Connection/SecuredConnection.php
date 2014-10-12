@@ -184,7 +184,7 @@ class SecuredConnection extends PassThruConnection implements \Serializable
     
     public function getRequestResolver()
     {
-        return $this->requestResolver;
+        return $this->getAuthenticationProvider()->getRequestResolver();
     }
     
     public function setRequestResolver(RequestResolver $requestResolver)

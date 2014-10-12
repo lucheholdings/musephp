@@ -90,13 +90,18 @@ class HttpSimpleClientService extends GenericClientService implements CallableSe
 	 */
 	public function createHttpRequest($uri, $method, $body = null, array $headers = array())
 	{
-		return $this->createRequest(
-			array_merge(
+		$request = $this->createRequest(
+			array_replace(
 				$headers,
-				$this->getStrictOptions()
+				array(
+					'uri' => $uri,
+					'method' => $method
+				)
 			),
 			$body
 		);
+
+		return $request;
 	}
     
 	/**

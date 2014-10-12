@@ -100,7 +100,6 @@ class Scope implements OAuth2Storage\ScopeInterface, StorageInterface
      */
     public function getDefaultScope($clientId = null)
     {
-		var_dump($clientId);exit;
 		// 
         if ($clientId) {
 			$client = $this->getClientProvider()->getClient($clientId);
