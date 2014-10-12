@@ -1,7 +1,0 @@
-terpsichore_oauth2_server.authorize:
-    pattern: /auth
-    defaults: 
-        _controller: terpsichore_oauth2_server.controller.authorize:authorizeAction
-    requirements:
-        _method: GET|POST
-
