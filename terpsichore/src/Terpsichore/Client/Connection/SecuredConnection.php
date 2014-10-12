@@ -5,7 +5,7 @@ use Terpsichore\Client\Connection;
 
 use Terpsichore\Client\Auth\Provider as AuthenticationProvider;
 use Terpsichore\Client\Auth\Token;
-use Terpsichore\Client\Auth\Request\AnonymousRequest;
+use Terpsichore\Client\Request\AnonymousRequest;
 use Terpsichore\Client\Request;
 use Terpsichore\Client\Auth\Request\RequestResolver;
 
@@ -18,7 +18,7 @@ use Terpsichore\Client\Auth\Request\RequestResolver;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SecuredConnection extends PassThruConnection 
+class SecuredConnection extends PassThruConnection implements \Serializable 
 {
 	/**
 	 * authenticationProvider 
@@ -192,5 +192,30 @@ class SecuredConnection extends PassThruConnection
         $this->requestResolver = $requestResolver;
         return $this;
     }
+
+
+	/**
+	 * serialize 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function serialize()
+	{
+		return serialize($this->token);
+	}
+
+	/**
+	 * unserialize 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
+	 */
+	public function unserialize($data)
+	{
+		$token = unserialize($data);
+		$this->token = $token;
+	}
 }
 

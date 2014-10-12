@@ -21,7 +21,7 @@ use Clio\Component\Util\Container\Map\Map;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PreAuthenticateToken implements Token 
+class PreAuthenticateToken implements Token
 {
 	/**
 	 * provider 
@@ -106,9 +106,12 @@ class PreAuthenticateToken implements Token
 		return $this->attributes->hasKey($key);
 	}
 
-	public function get($key)
+	public function get($key, $default = null)
 	{
-		return $this->attributes->get($key);
+		return $this->attributes->hasKey($key) 
+			? $this->attributes->get($key)
+			: $default
+		;
 	}
 
 	public function set($key, $value)

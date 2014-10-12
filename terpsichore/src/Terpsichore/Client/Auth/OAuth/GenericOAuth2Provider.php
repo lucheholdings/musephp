@@ -14,16 +14,14 @@ use Terpsichore\Client\Auth\OAuth\Token\OAuth2Token;
  */
 class GenericOAuth2Provider extends AbstractOAuthProvider
 {
-	public function clientCredentials()
+	public function clientCredentials(Token $reqToken)
 	{
-		$request  = $this->createHttpRequest(
-			$this->getUri(), $this->getMethod(),
-			array(
-				'client_id' => $token->getClientId(),
-				'client_secret' => $token->getClientSecret(),
-				'grant_type' => 'client_credentials',
-			)
-		);
+		$token = clone $reqToken;
+		$token
+			->set('grant_type', 'client_credentials')
+		;
+
+		return $this->doAuthenticate($token);
 	}
 
 	public function passwordCredentials()
@@ -33,10 +31,29 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	public function authCode()
 	{
 	}
+
+	/**
+	 * doAuthenticate 
+	 *     
+	 * @param Token $token 
+	 * @access protected
+	 * @return void
+	 */
 	protected function doAuthenticate(Token $token)
 	{
-		$response = $this->request($this->createHttpAuthenticationRequest($this->getUri(), $this->getMethod()));
-		
+		$response = $this->request($this->createHttpRequest(
+			$this->getUri(), 
+			$this->getMethod(), 
+			// Body
+			$this->createRequestBodyFromToken($token)
+		));
+
+		if(!$response) {
+			throw new \RuntimeException('Failed to authenticate.');
+		}
+
+
+		// Create Token from the response
 		$token = new OAuth2Token($this);
 		$token
 			->setToken($response['access_token'])
@@ -57,6 +74,32 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	{
 		$token = new OAuth2Token($token, $id, $secret);
 		// 
+
+		return $token;
+	}
+
+	protected function createRequestBodyFromToken(Token $token)
+	{
+		$grantType = $token->get('grant_type');
+		switch($grantType) {
+		case 'auth_code':
+			break;
+		case 'client_credentials':
+			$contents = array(
+				'grant_type'    => 'client_credentials',
+				'client_id'     => $token->get('client_id'),
+				'client_secret' => $token->get('client_secret'),
+				'scope'         => $token->get('scope'),
+			);
+			break;
+		case 'password':
+			break;
+		default:
+			throw new \Exception(sprintf('Invalid type of grant "%s".', $grantType));
+			break;
+		}
+
+		return $contents;
 	}
 
 	protected function isValidToken(Token $token)

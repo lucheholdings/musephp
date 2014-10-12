@@ -141,5 +141,16 @@ abstract class AbstractService implements Service
 	{
 		return new ServiceRequest($body, $headers);
 	}
+
+	/**
+	 * __toString 
+	 *    
+	 * @access public
+	 * @return void
+	 */
+	public function __toString()
+	{
+		return $this->getName();
+	}
 }
 

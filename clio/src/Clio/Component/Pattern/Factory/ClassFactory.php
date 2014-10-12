@@ -37,7 +37,7 @@ class ClassFactory extends AbstractFactory
 	{
 		$args = $this->resolveArgs($args);
 
-		return $this->getConstructor()->construct($clas, $args);
+		return $this->getConstructor()->construct($class, $args);
 	}
 
 	/**

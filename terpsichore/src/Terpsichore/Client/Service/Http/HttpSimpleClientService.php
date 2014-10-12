@@ -108,8 +108,8 @@ class HttpSimpleClientService extends GenericClientService implements CallableSe
 	protected function getStrictOptions()
 	{
 		return array(
-			'uri' => $uri,
-			'method' => $method,
+			'uri' => $this->getUri(),
+			'method' => $this->getMethod(),
 		);
 	}
 
