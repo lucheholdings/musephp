@@ -50,5 +50,6 @@ interface PropertyFieldAccessor extends FieldAccessor
 	 * @return void
 	 */
 	function clearValue($object);
+
 }
 

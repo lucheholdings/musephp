@@ -11,9 +11,9 @@ namespace Clio\Component\Util\FieldAccessor;
  */
 interface FieldAccessor
 {
-	const METHOD_TYPE_GET   = 'get';
-	const METHOD_TYPE_SET   = 'set';
-	const METHOD_TYPE_CLEAR = 'clear';
+	const METHOD_TYPE_GET      = 'get';
+	const METHOD_TYPE_SET      = 'set';
+	const METHOD_TYPE_CLEAR    = 'clear';
 	const METHOD_TYPE_IS_NULL  = 'is_null';
 
 	/**
