@@ -11,6 +11,8 @@ use OAuth2\ResponseInterface;
 
 use Terpsichore\Adapter\BshafferOAuth\ChainGrant\Storage\ChainUserCredentials;
 use Terpsichore\Adapter\BshafferOAuth\ChainGrant\Storage\ChainableClient;
+
+// Client OAuth2 Authentication
 use Terpsichore\Client\Auth\Provider as AuthenticationProvider;
 use Terpsichore\Client\Auth\Token\PreAuthenticateToken;
 use Terpsichore\Client\Auth\Provider\ProviderFactory as AuthenticationProviderFactory;
@@ -58,6 +60,14 @@ class Chain extends HttpBasic implements GrantTypeInterface
 		return 'chain';
 	}
 
+    /**
+     * validateRequest 
+     * 
+     * @param RequestInterface $request 
+     * @param ResponseInterface $response 
+     * @access public
+     * @return void
+     */
     public function validateRequest(RequestInterface $request, ResponseInterface $response)
 	{
 		if(!parent::validateRequest($request, $response)) {
@@ -78,12 +88,14 @@ class Chain extends HttpBasic implements GrantTypeInterface
 			$response->setError(400, 'invalid_provider', 'provider is not specified.');
 		}
 
+		// Create AuthenticatioinProvider from Token
 		$provider = $this->authProviderFactory->createForToken($token);
 		if(!$provider) {
-			$response->setError(400, 'invalid_grant', sprintf('Invalid provider specified: "%s" ', $providerName));
+			$response->setError(400, 'invalid_provider', sprintf('Invalid provider specified: "%s" ', $providerName));
 			return null;
 		}
-
+		
+		// 
 		$token = $this->updateTokenForProvider($provider, $token, $request);
 		if(!$token->isAuthenticated()) {
 			$response->setError(401, 'invalid_token', 'Invalid Token.');
@@ -185,8 +197,9 @@ class Chain extends HttpBasic implements GrantTypeInterface
 	protected function createToken($client, $providerName)
 	{
 		// Create defaults by Client
-		if($client instanceof ChainableClient) {
-			$token = $client->createAuthenticateToken($providerName);
+		if($client instanceof ChainedAuthenticationProvider) {
+			// Create token for specified provider
+			$token = $client->createChainedAuthenticatioinToken($providerName);
 		} else {
 			$token = new PreAuthenticateToken($providerName);
 		}
@@ -216,7 +229,8 @@ class Chain extends HttpBasic implements GrantTypeInterface
 			$reqToken  = $request->request->get('oauth_token');
 			$reqSecret = $request->request->get('oauth_token_secret');
 
-			$token = new OAuth\Token\OAuth1UserToken($provider);
+			// Set AuthenticatedToken for OAuth1
+			$token = new OAuth\Token\OAuth1Token($provider);
 			
 			$token
 				->setToken($reqToken)
@@ -227,7 +241,8 @@ class Chain extends HttpBasic implements GrantTypeInterface
 		} else if($provider instanceof OAuth\GenericOAuth2Provider) {
 			$reqToken = $request->request->get('oauth_token');
 
-			$token = new OAuth\Token\OAuth2UserToken($provider);
+			// Set AuthenticatedToken for OAuth2
+			$token = new OAuth\Token\OAuth2Token($provider);
 			$token
 				->setToken($reqToken)
 				->setClientId($preToken->get('client_id'))
@@ -235,10 +250,14 @@ class Chain extends HttpBasic implements GrantTypeInterface
 			if($preToken->has('client_secret')) {
 				$token->setClientSecret($preToken->get('client_secret'));
 			}
+			
+
 		} else if($provider instanceof BasicProvider) {
+			// Required username and password
 			$username = $requset->request->get('username');
 			$password = $requset->request->get('password');
-
+			
+			// Create PreAuthenticated Basic
 			$token = new BasicToken($provider, $user, $password);
 		} else {
 			throw new \Exception('Unknown authentication type is specified.');
