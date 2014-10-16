@@ -1,7 +1,6 @@
 <?php
 namespace Clio\Component\Util\FieldAccessor\Property;
 
-use Clio\Component\Util\FieldAccessor\Mapping\ClassMapping;
 /**
  * PublicPropertyFieldAccessor 
  * 

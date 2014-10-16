@@ -2,14 +2,15 @@
 namespace Clio\Component\Util\Accessor;
 
 /**
- * Accessor 
+ * SchemaAccessor 
+ *    SchemaAccessor is not 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Accessor
+interface SchemaAccessor
 {
 	const TYPE_GET    = 1;
 	const TYPE_SET    = 2;
@@ -24,7 +25,7 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function get($field);
+	function get($container, $field);
 
 	/**
 	 * set 
@@ -35,7 +36,7 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function set($field, $value);
+	function set($container, $field, $value);
 
 	/**
 	 * isEmpty 
@@ -46,7 +47,7 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function isEmpty($field);
+	function isEmpty($container, $field);
 
 	/**
 	 * clear
@@ -57,7 +58,7 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function clear($field);
+	function clear($container, $field);
 
 	/**
 	 * isSupportMethod 
@@ -68,7 +69,7 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function isSupportMethod($field, $methodType);
+	function isSupportMethod($container, $field, $methodType);
 
 	/**
 	 * getFieldNames 
@@ -76,7 +77,7 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function getFieldNames();
+	function getFieldNames($container = null);
 
 	/**
 	 * getFieldValues 
@@ -85,6 +86,6 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function getFieldValues();
+	function getFieldValues($container);
 }
 

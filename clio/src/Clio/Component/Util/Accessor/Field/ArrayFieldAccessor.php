@@ -1,9 +1,9 @@
 <?php
-namespace Clio\Compnent\Util\Accessor\Field;
+namespace Clio\Component\Util\Accessor\Field;
 
 /**
  * BasicFieldAccessor 
- * 
+ *    
  * @uses AbstractFieldAccessor
  * @uses FieldAccessorInterface
  * @package { PACKAGE }
@@ -11,7 +11,7 @@ namespace Clio\Compnent\Util\Accessor\Field;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ArrayFieldAccessor extends AbstractFieldAccessor implements FieldAccessorInterface 
+class ArrayFieldAccessor extends AbstractFieldAccessor 
 {
 	/**
 	 * get 
@@ -32,34 +32,31 @@ class ArrayFieldAccessor extends AbstractFieldAccessor implements FieldAccessorI
 	 * @access public
 	 * @return void
 	 */
-	public function set($container)
+	public function set($container, $value)
 	{
 		$container[$this->getFieldName()] = $value;
 		return $this;
 	}
 
 	/**
-	 * isExists 
+	 * isEmpty
 	 * 
 	 * @param mixed $container 
 	 * @access public
 	 * @return void
 	 */
-	public function isExists($container)
+	public function isEmpty($container)
 	{
-		return isset($container[$this->getFieldName()]);
+		return !isset($container[$this->getFieldName()]);
 	}
 
 	/**
-	 * delete 
-	 * 
-	 * @param mixed $container 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function delete($container)
+	public function clear($container)
 	{
 		unset($container[$this->getFieldName()]);
+		return $this;
 	}
 
 	/**

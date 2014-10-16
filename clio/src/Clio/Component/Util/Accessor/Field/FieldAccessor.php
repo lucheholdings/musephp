@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Accessor\Field;
 
 /**
  * FieldAccessor 
- * 
+ *   FieldAccessor is an accessor for specified field on container 
  * @uses Accessor
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }

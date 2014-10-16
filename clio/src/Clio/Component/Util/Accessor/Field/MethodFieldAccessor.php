@@ -1,7 +1,6 @@
 <?php
 namespace Clio\Component\Util\Accessor\Property;
 
-use Clio\Component\Util\Accessor\Mapping\ClassMapping;
 use Clio\Component\Util\Psr\Psr0;
 
 /**

@@ -1,143 +1,93 @@
 <?php
-namespace Clio\Component\Util\Accessor;
+namespace Clio\Component\Util\Accessor\Field;
 
+use Clio\Component\Util\Accessor\SchemaAccessor;
 /**
  * FieldAccessorCollection 
  * 
- * @uses AbstractFieldAccessor
+ * @uses Accessor
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorCollection extends AbstractAccessor 
+class FieldAccessorCollection implements SchemaAccessor
 {
 	/**
-	 * fields 
+	 * accessors 
 	 * 
 	 * @var array
 	 * @access private
 	 */
-	private $fields = array();
+	private $accessors = array();
 
 	/**
-	 * addFieldAccessor 
+	 * __construct 
 	 * 
-	 * @param PropertyFieldAccessor $accessor 
+	 * @param array $accessors 
 	 * @access public
 	 * @return void
 	 */
-	public function addFieldAccessor(FieldAccessor $accessor)
+	public function __construct(array $accessors = array())
 	{
-		$this->fields[$accessor->getFieldName()] = $accessor;
-
-		return $this;
-	}
-
-	/**
-	 * hasFieldAccessor 
-	 * 
-	 * @param mixed $field 
-	 * @access public
-	 * @return void
-	 */
-	public function hasFieldAccessor($field)
-	{
-		return isset($this->fields[$field]);
-	}
-
-	/**
-	 * getFieldAccessor 
-	 * 
-	 * @param mixed $field 
-	 * @access public
-	 * @return void
-	 */
-	public function getFieldAccessor($field)
-	{
-		if(!isset($this->fields[$field])) {
-			throw new \RuntimeException(sprintf('Field "%s" is not supported.', $field));
+		foreach($accessors as $field => $accessor) {
+			$this->addFieldAccessor($accessor);
 		}
-
-		return $this->fields[$field];
 	}
 
 	/**
 	 * get 
 	 * 
 	 * @param mixed $container 
-	 * @param mixed $key 
+	 * @param mixed $field 
 	 * @access public
 	 * @return void
 	 */
 	public function get($container, $field)
 	{
-		$accessor = $this->getFieldAccessor($field);
-
-		return $accessor->get($container); 
+		return $this->getFieldAccessor($field)->get($container);
 	}
-
+	
 	/**
 	 * set 
 	 * 
 	 * @param mixed $container 
-	 * @param mixed $key 
+	 * @param mixed $field 
 	 * @param mixed $value 
 	 * @access public
 	 * @return void
 	 */
 	public function set($container, $field, $value)
 	{
-		$accessor = $this->getFieldAccessor($field);
-		$accessor->set($container, $value);
-
+		$this->getFieldAccessor($field)->set($container, $value);
 		return $this;
-	}
-
-	/**
-	 * clear 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $key 
-	 * @access public
-	 * @return void
-	 */
-	public function clear($container, $key)
-	{
-		$accessor = $this->getFieldAccessor($key);
-		$accessor->clearValue($container);
-
-		return $this;
-	}
-
-	/**
-	 * isExists
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $key 
-	 * @access public
-	 * @return void
-	 */
-	public function isExists($container, $fieldName)
-	{
-		if(!$this->hasFieldAccessor($fieldName)) {
-			return false;	
-		}
-
-		return $this->getFieldAccessor()->isEmpty($container);
 	}
 
 	/**
 	 * isEmpty 
 	 * 
 	 * @param mixed $container 
-	 * @param mixed $fieldName 
+	 * @param mixed $field 
 	 * @access public
 	 * @return void
 	 */
-	public function isEmpty($container, $fieldName)
+	public function isEmpty($container, $field)
 	{
-		return $this->getFieldAccessor($fieldName)->isEmpty($container);
+		return $this->getFieldAccessor($field)->isEmpty($container);
+	}
+
+	/**
+	 * clear 
+	 * 
+	 * @param mixed $container 
+	 * @param mixed $field 
+	 * @access public
+	 * @return void
+	 */
+	public function clear($container, $field)
+	{
+		$container->getFieldAccessor($field)->clear($container);
+		return $this;
 	}
 
 	/**
@@ -170,7 +120,7 @@ class FieldAccessorCollection extends AbstractAccessor
 	{
 		$values = array();
 
-		foreach($this->fields as $field => $accessor) {
+		foreach($this->accessors as $field => $accessor) {
 			if($accessor instanceof IgnoreFieldAccessor)
 				continue;
 			$values[$field] = $accessor->get($container);
@@ -187,12 +137,55 @@ class FieldAccessorCollection extends AbstractAccessor
 	 */
 	public function getFieldNames($container = null)
 	{
-		return array_keys($this->fields);
-		//return array_keys(array_filter($this->fields, function($accessor){
+		return array_keys($this->accessors);
+		//return array_keys(array_filter($this->accessors, function($accessor){
 		//	if($accessor instanceof IgnoreFieldAccessor) {
 		//		return false;
 		//	}
 		//	return true;
 		//}));
+	}
+
+
+	/**
+	 * addFieldAccessor 
+	 * 
+	 * @param PropertyFieldAccessor $accessor 
+	 * @access public
+	 * @return void
+	 */
+	public function addFieldAccessor(FieldAccessor $accessor)
+	{
+		$this->accessors[$accessor->getFieldName()] = $accessor;
+
+		return $this;
+	}
+
+	/**
+	 * hasFieldAccessor 
+	 * 
+	 * @param mixed $field 
+	 * @access public
+	 * @return void
+	 */
+	public function hasFieldAccessor($field)
+	{
+		return isset($this->accessors[$field]);
+	}
+
+	/**
+	 * getFieldAccessor 
+	 * 
+	 * @param mixed $field 
+	 * @access public
+	 * @return void
+	 */
+	public function getFieldAccessor($field)
+	{
+		if(!isset($this->accessors[$field])) {
+			throw new \RuntimeException(sprintf('Field "%s" is not supported.', $field));
+		}
+
+		return $this->accessors[$field];
 	}
 }

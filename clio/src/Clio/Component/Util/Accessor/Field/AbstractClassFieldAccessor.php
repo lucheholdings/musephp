@@ -13,6 +13,12 @@ namespace Clio\Component\Util\Accessor\Field;
  */
 abstract class AbstractClassFieldAccessor extends AbstractFieldAccessor
 {
+	/**
+	 * classReflector 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $classReflector;
 
 	/**
@@ -32,6 +38,15 @@ abstract class AbstractClassFieldAccessor extends AbstractFieldAccessor
 		$this->initFieldReflector($classRefletor, $fieldName);
 	}
 
+	/**
+	 * initFieldReflector 
+	 * 
+	 * @param \ReflectionClass $classReflector 
+	 * @param mixed $fieldName 
+	 * @abstract
+	 * @access protected
+	 * @return void
+	 */
 	abstract protected function initFieldReflector(\ReflectionClass $classReflector, $fieldName);
 
 	/**
