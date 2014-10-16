@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Container\Iterator;
 
-use Clio\Component\Util\Psr\Psr;
+use Clio\Component\Util\Psr\Psr1;
 /**
  * PropertyFilterIterator
  * 
@@ -138,7 +138,7 @@ class PropertyFilterIterator extends \FilterIterator
 			throw new \Clio\Component\Exception\Exception('Value has to be an object.');
 		}
 
-		$method = Psr::methodName('get ' . $this->property);
+		$method = Psr1::formatMethodName('get ' . $this->property);
 
 		$reflection = new \ReflectionObject($object);
 		if($reflection->hasMethod($method)) {

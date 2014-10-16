@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\FieldAccessor\Mapping;
 
-use Clio\Component\Util\Psr\Psr;
+use Clio\Component\Util\Psr\Psr1;
 
 /**
  * PropertyFieldMapping 

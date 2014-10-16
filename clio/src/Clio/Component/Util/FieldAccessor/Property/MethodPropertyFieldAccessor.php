@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\FieldAccessor\Property;
 
 use Clio\Component\Util\FieldAccessor\Mapping\ClassMapping;
-use Clio\Component\Util\Psr\Psr;
+use Clio\Component\Util\Psr\Psr1;
 
 /**
  * MethodFieldAccessor
@@ -116,10 +116,10 @@ class MethodPropertyFieldAccessor extends AbstractPropertyFieldAccessor
 	{
 		if(!$this->getter) {
 			$field = $this->getField();
-			$method = $getMethod = Psr::methodName('get ' . $field);
+			$method = $getMethod = Psr1::formatMethodName('get ' . $field);
 
 			if(!$this->getClassMapping()->getReflectionClass()->hasMethod($method)) {
-				$method = $isMethod = Psr::methodName('is ' . $field);
+				$method = $isMethod = Psr1::formatMethodName('is ' . $field);
 				if(!$this->getClassMapping()->getReflectionClass()->hasMethod($method)) {
 					throw new \Clio\Component\Exception\RuntimeException(sprintf('Method "%s" or "%s" is not exsits on Class "%s".', $getMethod, $isMethod, $this->getClassMapping()->getReflectionClass()->getNamespaceName()));
 				}
@@ -134,7 +134,7 @@ class MethodPropertyFieldAccessor extends AbstractPropertyFieldAccessor
 	protected function getSetter()
 	{
 		if(!$this->setter) {
-			$method = Psr::methodName('set ' . $this->getField());
+			$method = Psr1::formatMethodName('set ' . $this->getField());
 
 			if(!$this->getClassMapping()->getReflectionClass()->hasMethod($method)) {
 				throw new \Clio\Component\Exception\RuntimeException(sprintf('Method "%s" is not exists.', $method));

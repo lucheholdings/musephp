@@ -5,7 +5,7 @@ use Clio\Component\Util\FieldAccessor\Mapping\ClassMapping;
 use Clio\Component\Util\FieldAccessor\Mapping\BasicFieldMapping,
 	Clio\Component\Util\FieldAccessor\Mapping\PropertyFieldMapping;
 
-use Clio\Component\Util\Psr\Psr;
+use Clio\Component\Util\Psr\Psr1;
 
 /**
  * BasicFieldMappingFactory 
@@ -79,7 +79,7 @@ class BasicFieldMappingFactory implements FieldMappingFactory
 	 */
 	protected function detectDefaultSetter(\ReflectionClass $class, $fieldName)
 	{
-		$method = Psr::methodName('set ' . $fieldName);
+		$method = Psr1::formatMethodName('set ' . $fieldName);
 
 		if(!$class->hasMethod($method)) {
 			$method = null;
@@ -90,10 +90,10 @@ class BasicFieldMappingFactory implements FieldMappingFactory
 
 	protected function detectDefaultGetter(\ReflectionClass $class, $fieldName)
 	{
-		$method = $getMethod = Psr::methodName('get ' . $fieldName);
+		$method = $getMethod = Psr1::formatMethodName('get ' . $fieldName);
 
 		if(!$class->hasMethod($method)) {
-			$method = $isMethod = Psr::methodName('is ' . $fieldName);
+			$method = $isMethod = Psr1::formatMethodName('is ' . $fieldName);
 			if(!$class->hasMethod($method)) {
 				$method = null;
 			}
