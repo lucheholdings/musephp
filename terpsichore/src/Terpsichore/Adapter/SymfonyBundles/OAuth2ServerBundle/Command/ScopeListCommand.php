@@ -7,10 +7,9 @@ use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
-use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ClientManagerInterface;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ScopeManagerInterface;
 /**
- * ClientListCommand 
+ * ScopeListCommand 
  * 
  * @uses Command
  * @package { PACKAGE }
@@ -18,7 +17,7 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ScopeManagerInte
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClientListCommand extends ContainerAwareCommand 
+class ScopeListCommand extends ContainerAwareCommand 
 {
 	/**
 	 * configure 
@@ -29,7 +28,7 @@ class ClientListCommand extends ContainerAwareCommand
 	protected function configure()
 	{
 		$this
-			->setName('oauth2:client:list')
+			->setName('oauth2:scope:list')
 		;
 	}
 
@@ -42,42 +41,36 @@ class ClientListCommand extends ContainerAwareCommand
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
 		// 
-		$clientManager = $this->getClientManager();
+		$scopeManager = $this->getScopeManager();
 
-		$clients = $clientManager->getClients();
-		
+		$scopes = $scopeManager->getScopes();
+
 		$table = $this->getHelper('table');
 		$table
-		    ->setHeaders(array('Name', 'ClientId', 'ClientSecret', 'Scope', 'GrantTypes'))
+		    ->setHeaders(array('Scope'))
 		;
 
-		foreach($clients as $client) {
-			$scopes = $client->getSupportedScopes();
-			$grants = $client->getAllowedGrantTypes();
-
+		foreach($scopes as $scope) {
 			$table->addRow(array(
-				$client->getName(),
-				$client->getClientId(),
-				$client->getClientSecret(),
-				implode("\n", $scopes),
-				implode("\n", $grants),
+				$scope->getScope()
 			));
 		}
 		$table->render($output);
+
 	}
 
 	/**
-	 * getClientManager 
+	 * getScopeManager 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	protected function getClientManager()
+	public function getScopeManager()
 	{
-		$manager = $this->getContainer()->get('terpsichore_oauth2_server.storage_strategy.client');
+		$manager = $this->getContainer()->get('terpsichore_oauth2_server.storage_strategy.scope');
 
-		if(!$manager instanceof ClientManagerInterface) {
-			throw new \RuntimeException('Client StorageStrategy is not a ClientManager.');
+		if(!$manager instanceof ScopeManagerInterface) {
+			throw new \RuntimeException('Scope StorageStrategy is not a ScopeManager.');
 		}
 
 		return $manager;
