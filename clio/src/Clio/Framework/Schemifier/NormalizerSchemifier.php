@@ -59,13 +59,7 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 
 		$mapper = $this->createFieldMapperFor($data, isset($options['field_mappings']) ? $options['field_mappings'] : array()); 
 
-		if(is_array($data)) {
-			try {
-				$model = $this->getNormalizer()->denormalize($data, $schemeClass, $mapper);
-			} catch(\Exception  $ex) {
-				throw new \RuntimeException(sprintf('Failed to denormalize class "%s"', $schemeClass), 0, $ex);
-			}
-		} else if(is_object($data)){
+		if(is_object($data)){
 			
 			if($data instanceof $schemeClass) {
 				// Already schemified
@@ -80,6 +74,8 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 
 				$data = $normalized;
 			}
+		} else if(!is_array($data)) {
+			throw new \InvalidArgumentException('schemify only support schemed data which is an array or an object.');
 		}
 
 		try {

@@ -127,7 +127,6 @@ class ClioFrameworkExtension extends Extension
 			// If configuration enabled, then load serializer.xml
 			$this->getLoader()->load('field_accessor.xml');
 
-
 		}
 	}
 	protected function configureJMSSerializer($container, $configs)

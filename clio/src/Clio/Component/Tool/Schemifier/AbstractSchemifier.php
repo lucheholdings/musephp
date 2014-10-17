@@ -2,6 +2,7 @@
 namespace Clio\Component\Tool\Schemifier;
 
 use Clio\Component\Tool\ArrayTool\KeyMapper;
+use Clio\Component\Tool\ArrayTool\DummyMapper;
 
 /**
  * AbstractSchemifier 
@@ -112,8 +113,8 @@ abstract class AbstractSchemifier implements Schemifier
 				$mapper = new KeyMapper($maps);
 			}
 		} else if(!$mapper) {
-			// Create Empty Mapper
-			$mapper = new KeyMapper();
+			// Do not map any
+			$mapper = new DummyMapper();
 		}
 
 		return $mapper;

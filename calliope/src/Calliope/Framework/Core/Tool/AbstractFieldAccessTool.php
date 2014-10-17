@@ -36,7 +36,7 @@ abstract class AbstractFieldAccessTool extends AbstractTool
 
 		if(!$this->classMetadata->hasMapping('field_accessor')) {
 			//
-			throw new RuntimeException('%s required "field_accessor" mapping on ClassMetadata.');
+			throw new \RuntimeException('%s required "field_accessor" mapping on ClassMetadata.');
 		}
 	}
 

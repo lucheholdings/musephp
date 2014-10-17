@@ -73,6 +73,7 @@ abstract class AbstractMetadata implements
 		try {
 			return (bool)$this->getMapping($alias);
 		} catch(\Exception $ex) {
+			throw $ex;
 			return false;
 		}
 	}
