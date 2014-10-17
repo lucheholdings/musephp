@@ -1,5 +1,5 @@
 <?php
-namespace Application\Core\Psr;
+namespace Clio\Component\Util\Psr;
 
 /**
  * Psr0 
