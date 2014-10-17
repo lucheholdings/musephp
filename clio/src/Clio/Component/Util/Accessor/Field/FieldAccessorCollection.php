@@ -64,16 +64,16 @@ class FieldAccessorCollection implements SchemaAccessor
 	}
 
 	/**
-	 * isEmpty 
+	 * isNull 
 	 * 
 	 * @param mixed $container 
 	 * @param mixed $field 
 	 * @access public
 	 * @return void
 	 */
-	public function isEmpty($container, $field)
+	public function isNull($container, $field)
 	{
-		return $this->getFieldAccessor($field)->isEmpty($container);
+		return $this->getFieldAccessor($field)->isNull($container);
 	}
 
 	/**

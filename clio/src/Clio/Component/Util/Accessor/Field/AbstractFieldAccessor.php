@@ -63,7 +63,7 @@ abstract class AbstractFieldAccessor implements FieldAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function isEmpty($container)
+	public function isNull($container)
 	{
 		return null === $this->get($container);
 	}

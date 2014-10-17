@@ -14,14 +14,6 @@ namespace Clio\Component\Util\Accessor\Field;
 abstract class AbstractClassFieldAccessor extends AbstractFieldAccessor
 {
 	/**
-	 * classReflector 
-	 * 
-	 * @var mixed
-	 * @access protected
-	 */
-	protected $classReflector;
-
-	/**
 	 * __construct 
 	 * 
 	 * @param \ClassReflector $reflectionClass 
@@ -29,13 +21,9 @@ abstract class AbstractClassFieldAccessor extends AbstractFieldAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(\ReflectionClass $reflectionClass, $fieldName)
+	public function __construct($fieldName)
 	{
 		parent::__construct($fieldName);
-
-		$this->classReflector = $classReflector;
-
-		$this->initFieldReflector($classRefletor, $fieldName);
 	}
 
 	/**

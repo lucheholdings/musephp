@@ -2,22 +2,23 @@
 namespace Clio\Component\Util\Accessor\Tests;
 use Clio\Component\Util\Accessor\ArrayAccessor;
 
-class ArrayAccessorTest extends \PHPUnit_Framework_TestCase 
+class ArrayAccessorTest extends AbstractAccessorTest
 {
-	public function testCreate()
+	const ACCESSOR_CLASS = 'Clio\Component\Util\Accessor\ArrayAccessor';
+
+	protected function getDefaultData()
 	{
-		$data = array('foo' => 'Foo', 'bar' => null, 'hoge' => false);
-		$accessor = new ArrayAccessor($data);
+		return array('foo' => 'Foo', 'bar' => null, 'hoge' => false);
+	}
 
+	protected function createAccessor($data = null)
+	{
+		if(!$data) {
+			$data = $this->getDefaultData();
+		}
 
-		$this->assertFalse($accessor->isEmpty('foo'));
-		// Null value is replaced 
-		$this->assertTrue($accessor->isEmpty('bar'));
-		// False is still a value 
-		$this->assertFalse($accessor->isEmpty('hoge'));
-
-		$this->assertContains('foo', $accessor->getFieldNames());
-		$this->assertNotContains('bar', $accessor->getFieldNames());
+		$class = self::ACCESSOR_CLASS;
+		return new $class($data);
 	}
 }
 

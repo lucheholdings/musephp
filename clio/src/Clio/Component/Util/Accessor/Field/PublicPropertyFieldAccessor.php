@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\FieldAccessor\Property;
+namespace Clio\Component\Util\Accessor\Field;
 
 /**
  * PublicPropertyFieldAccessor 
@@ -10,32 +10,29 @@ namespace Clio\Component\Util\FieldAccessor\Property;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PublicPropertyFieldAccessor extends AbstractClassFieldAccessor 
+class PublicPropertyFieldAccessor extends AbstractFieldAccessor 
 {
 	/**
-	 * fieldReflector 
+	 * propertyReflector 
 	 * 
 	 * @var mixed
 	 * @access protected
 	 */
-	protected $fieldReflector;
+	protected $propertyReflector;
 
 	/**
-	 * initFieldReflector 
-	 *   Validate after initialized the field 
+	 * __construct 
 	 * 
-	 * @access protected
+	 * @param mixed $fieldName 
+	 * @param \ReflectionProperty $propertyReflector 
+	 * @access public
 	 * @return void
 	 */
-	protected function initFieldReflector(\ReflectionClass $classReflector, $fieldName)
+	public function __construct($fieldName, \ReflectionProperty $propertyReflector)
 	{
-		if(!$classReflector->hasProperty($fieldName)) {
-			throw new \InvalidArgumentException(sprintf('Class "%s" dose not have property "%s"', $classReflector->getName(), $fieldName));
-		} else if(!$classReflector->getProperty($this->getFieldName())->isPublic()) {
-			throw new \InvalidArgumentException(sprintf('"%s::%s" is not a public access.', $classReflector->getName(), $fieldName));
-		}
+		parent::__construct($fieldName);
 
-		$this->setFieldReflector($classReflector->getProperty($fieldName));
+		$this->propertyReflector = $propertyReflector;
 	}
 
 	/**
@@ -48,7 +45,7 @@ class PublicPropertyFieldAccessor extends AbstractClassFieldAccessor
 	 */
 	public function set($object, $value)
 	{
-		$this->getFieldReflector()->setValue($object, $value);
+		$this->getPropertyReflector()->setValue($object, $value);
 		return $this;
 	}
 
@@ -61,30 +58,30 @@ class PublicPropertyFieldAccessor extends AbstractClassFieldAccessor
 	 */
 	public function get($object)
 	{
-		return $this->getFieldReflector()->getValue($object);
+		return $this->getPropertyReflector()->getValue($object);
 	}
     
     /**
-     * getFieldReflector 
+     * getPropertyReflector 
      * 
      * @access public
      * @return void
      */
-    public function getFieldReflector()
+    public function getPropertyReflector()
     {
-        return $this->fieldReflector;
+        return $this->propertyReflector;
     }
     
     /**
-     * setFieldReflector 
+     * setPropertyReflector 
      * 
-     * @param \Reflector $fieldReflector 
+     * @param \Reflector $propertyReflector 
      * @access public
      * @return void
      */
-    public function setFieldReflector(\Reflector $fieldReflector)
+    public function setPropertyReflector(\ReflectionProperty $propertyReflector)
     {
-        $this->fieldReflector = $fieldReflector;
+        $this->propertyReflector = $propertyReflector;
         return $this;
     }
 }

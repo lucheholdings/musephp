@@ -37,13 +37,13 @@ interface FieldAccessor
 	function set($container, $value);
 
 	/**
-	 * isEmpty
+	 * isNull
 	 * 
 	 * @param mixed $container 
 	 * @access public
 	 * @return void
 	 */
-	function isEmpty($container);
+	function isNull($container);
 
 	/**
 	 * clear

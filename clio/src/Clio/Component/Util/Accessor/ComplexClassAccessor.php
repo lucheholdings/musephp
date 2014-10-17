@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor;
 
 /**
- * ClassAccessor 
+ * ClassAccessorDecorator
  * 
  * @uses FieldAccessorCollection
  * @package { PACKAGE }
@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Accessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClassAccessor extends FieldAccessorCollection 
+class ClassAccessorDecorator extends ChainedFieldAccessor implements ClassAccessor
 {
 	/**
 	 * createDefaultAccessor 

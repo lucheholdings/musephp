@@ -39,13 +39,13 @@ class ArrayFieldAccessor extends AbstractFieldAccessor
 	}
 
 	/**
-	 * isEmpty
+	 * isNull
 	 * 
 	 * @param mixed $container 
 	 * @access public
 	 * @return void
 	 */
-	public function isEmpty($container)
+	public function isNull($container)
 	{
 		return !isset($container[$this->getFieldName()]);
 	}

@@ -12,18 +12,6 @@ namespace Clio\Component\Util\Accessor\Field;
  */
 class IgnoreFieldAccessor extends AbstractFieldAccessor 
 {
-	/**
-	 * set 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $value 
-	 * @access public
-	 * @return void
-	 */
-	public function set($container, $value)
-	{
-		return $this;
-	}
 
 	/**
 	 * get 
@@ -35,6 +23,19 @@ class IgnoreFieldAccessor extends AbstractFieldAccessor
 	public function get($container)
 	{
 		return null;
+	}
+
+	/**
+	 * set 
+	 * 
+	 * @param mixed $container 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
+	 */
+	public function set($container, $value)
+	{
+		return $this;
 	}
 
 	/**

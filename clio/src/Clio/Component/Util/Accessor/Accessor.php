@@ -11,10 +11,8 @@ namespace Clio\Component\Util\Accessor;
  */
 interface Accessor
 {
-	const TYPE_GET    = 1;
-	const TYPE_SET    = 2;
-	const TYPE_EMPTY  = 3;
-	const TYPE_CLEAR  = 4;
+	const ACCESS_GET = 1;
+	const ACCESS_SET = 2;
 
 	/**
 	 * get 
@@ -38,7 +36,7 @@ interface Accessor
 	function set($field, $value);
 
 	/**
-	 * isEmpty 
+	 * isNull 
 	 *   Check the value existed with the specified field on container
 	 * 
 	 * @param mixed $container 
@@ -46,7 +44,7 @@ interface Accessor
 	 * @access public
 	 * @return void
 	 */
-	function isEmpty($field);
+	function isNull($field);
 
 	/**
 	 * clear
@@ -58,6 +56,15 @@ interface Accessor
 	 * @return void
 	 */
 	function clear($field);
+
+	/**
+	 * existsField 
+	 * 
+	 * @param mixed $field 
+	 * @access public
+	 * @return void
+	 */
+	function existsField($field);
 
 	/**
 	 * isSupportMethod 
@@ -86,5 +93,13 @@ interface Accessor
 	 * @return void
 	 */
 	function getFieldValues();
+
+	/**
+	 * getData 
+	 *   Get target data 
+	 * @access public
+	 * @return void
+	 */
+	function getData();
 }
 

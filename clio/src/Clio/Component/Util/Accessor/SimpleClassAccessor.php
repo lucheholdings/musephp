@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor;
 
 /**
- * ClassAccessor 
+ * SimpleClassAccessor 
  * 
  * @uses FieldAccessorCollection
  * @package { PACKAGE }
@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Accessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClassAccessor extends FieldAccessorCollection 
+class SimpleClassAccessor extends FieldAccessorCollection implements ClassAccessor
 {
 	/**
 	 * createDefaultAccessor 

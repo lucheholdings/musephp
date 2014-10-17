@@ -3,7 +3,8 @@ namespace Clio\Component\Util\Accessor;
 
 /**
  * SchemaAccessor 
- *    SchemaAccessor is not 
+ *    SchemaAccessor is not for a specified data, 
+ *    but for a specified schema.
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
@@ -39,7 +40,7 @@ interface SchemaAccessor
 	function set($container, $field, $value);
 
 	/**
-	 * isEmpty 
+	 * isNull 
 	 *   Check the value existed with the specified field on container
 	 * 
 	 * @param mixed $container 
@@ -47,7 +48,7 @@ interface SchemaAccessor
 	 * @access public
 	 * @return void
 	 */
-	function isEmpty($container, $field);
+	function isNull($container, $field);
 
 	/**
 	 * clear

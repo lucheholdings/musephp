@@ -68,13 +68,13 @@ class ArrayAccessor implements Accessor
 	}
 
 	/**
-	 * isEmpty 
+	 * isNull 
 	 * 
 	 * @param mixed $field 
 	 * @access public
 	 * @return void
 	 */
-	public function isEmpty($field)
+	public function isNull($field)
 	{
 		return !isset($this->data[$field]) || (null === $this->data[$field]);
 	}
@@ -92,6 +92,18 @@ class ArrayAccessor implements Accessor
 	}
 
 	/**
+	 * existsField 
+	 * 
+	 * @param mixed $field 
+	 * @access public
+	 * @return void
+	 */
+	public function existsField($field)
+	{
+		return isset($this->data[$field]);
+	}
+
+	/**
 	 * getData 
 	 * 
 	 * @access public
@@ -102,16 +114,36 @@ class ArrayAccessor implements Accessor
 		return $this->data;
 	}
 
+	/**
+	 * getFieldValues 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getFieldValues()
 	{
 		return $this->data;
 	}
 
+	/**
+	 * getFieldNames 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getFieldNames()
 	{
 		return array_keys($this->data);
 	}
 
+	/**
+	 * isSupportMethod 
+	 * 
+	 * @param mixed $field 
+	 * @param mixed $methodType 
+	 * @access public
+	 * @return void
+	 */
 	public function isSupportMethod($field, $methodType)
 	{
 		return true;

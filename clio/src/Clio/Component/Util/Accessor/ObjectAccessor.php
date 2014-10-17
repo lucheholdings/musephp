@@ -60,15 +60,27 @@ class ObjectAccessor implements Accessor
 	}
 
 	/**
-	 * isEmpty 
+	 * isNull 
 	 * 
 	 * @param mixed $field 
 	 * @access public
 	 * @return void
 	 */
-	public function isEmpty($field)
+	public function isNull($field)
 	{
-		return $this->getSchemaAccessor()->isEmpty($this->getData(), $field);
+		return $this->getSchemaAccessor()->isNull($this->getData(), $field);
+	}
+
+	/**
+	 * existsField 
+	 * 
+	 * @param mixed $field 
+	 * @access public
+	 * @return void
+	 */
+	public function existsField($field)
+	{
+		return $this->getSchemaAccessor()->hasFieldAccessor($field);
 	}
 
 	/**
@@ -117,5 +129,42 @@ class ObjectAccessor implements Accessor
         $this->schemaAccessor = $schemaAccessor;
         return $this;
     }
+
+	/**
+	 * isSupportMethod 
+	 * 
+	 * @param mixed $container 
+	 * @param mixed $field 
+	 * @param mixed $methodType 
+	 * @access public
+	 * @return void
+	 */
+	public function isSupportMethod($field, $accessType)
+	{
+		return $this->getSchemaAccess()->isSupportMethod($this->getData(), $field, $accessType);
+	}
+
+	/**
+	 * getFieldNames 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getFieldNames()
+	{
+		return $this->getSchemaAccessor()->getFieldNames();
+	}
+
+	/**
+	 * getFieldValues 
+	 * 
+	 * @param mixed $object 
+	 * @access public
+	 * @return void
+	 */
+	public function getFieldValues()
+	{
+		return $this->getSchemaAccessor()->getFieldValues($this->getData());
+	}
 }
 
