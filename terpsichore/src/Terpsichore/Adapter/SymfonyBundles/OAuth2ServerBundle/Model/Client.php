@@ -184,6 +184,21 @@ class Client implements ClientInterface
 	 */
 	public function getDefaultScopes()
 	{
-		return $this->getSupportedScopes();
+		return $this->getSupportedScopeStrings();
+	}
+
+	/**
+	 * getSupportedScopeStrings 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getSupportedScopeStrings()
+	{
+		$scopes = array();
+		foreach($this->getSupportedScopes() as $scope) {
+			$scopes[] = $scope->getScope();
+		}
+		return $scopes;
 	}
 }
