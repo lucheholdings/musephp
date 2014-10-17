@@ -45,7 +45,6 @@ class TwitterTest extends \PHPUnit_Framework_TestCase
 		$this->assertInstanceof('Terpsichore\Service\Twitter\TweetService', $service->tweets);
 
 		$service->tweets->post('hello');
-		$this->asset
 	}
 
 	/*

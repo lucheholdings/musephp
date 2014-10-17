@@ -3,8 +3,6 @@ namespace Terpsichore\Client\Connection;
 
 use Terpsichore\Client\Request\Resolver\HttpRequestResolver;
 
-use Terpsichore\Core\Request\Resolver\HttpRequestResolver;
-
 /**
  * HttpConnection 
  * 
