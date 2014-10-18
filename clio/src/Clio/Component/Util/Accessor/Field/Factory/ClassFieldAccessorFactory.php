@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field\Factory;
 
+use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
+
 /**
  * ClassFieldAccessorFactory 
  * 
@@ -9,7 +11,7 @@ namespace Clio\Component\Util\Accessor\Field\Factory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface ClassFieldAccessorFactory 
+interface ClassFieldAccessorFactory extends FieldAccessorFactory 
 {
 	/**
 	 * createClassFieldAccessor 
@@ -19,7 +21,7 @@ interface ClassFieldAccessorFactory
 	 * @access public
 	 * @return void
 	 */
-	function createClassFieldAccessor(\ReflectionClass $classReflecctor, $fieldName);
+	function createClassFieldAccessor(\ReflectionClass $classReflecctor, $fieldName, array $options = array());
 
 	/**
 	 * isSupportedClassField 

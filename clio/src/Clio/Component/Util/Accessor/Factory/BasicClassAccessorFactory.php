@@ -18,7 +18,7 @@ use Clio\Component\Util\Accessor\SimpleClassAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class BasicClassAccessorFactory extends AbstractFactory 
+class BasicClassAccessorFactory extends AbstractClassAccessorFactory
 {
 	static public function createDefaultFactory()
 	{
@@ -26,39 +26,6 @@ class BasicClassAccessorFactory extends AbstractFactory
 			new PublicPropertyFieldAccessorFactory(),
 			new MethodFieldAccessorFactory(),
 		)));
-	}
-
-	/**
-	 * fieldAccessorFactory 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $fieldAccessorFactory;
-
-	/**
-	 * __construct 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct(FieldAccessorFactoryCollection $fieldAccessorFactory)
-	{
-		$this->fieldAccessorFactory = $fieldAccessorFactory;
-	}
-
-	/**
-	 * doCreate 
-	 * 
-	 * @param array $args 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doCreate(array $args)
-	{
-		$class = array_shift($args);
-		$options = array_shift($args);
-		return $this->createClassAccessor($class, $options);
 	}
 
 	/**
@@ -74,40 +41,24 @@ class BasicClassAccessorFactory extends AbstractFactory
 			$classReflector = $class;
 		} else if(is_object($class)) {
 			$classReflector = new \ReflectionClass($class);
+		} else if(is_string($class) && class_exists($class)) {
+			$classReflector = new \ReflectionClass($class);
 		} else {
 			throw new \InvalidArgumentException(sprintf('createClassAccessor only accept a ReflectionClass or an instance, but %s is given.', gettype($class)));
 		}
 
-		$fields = $this->createFieldAccessors($classReflector);
+		$fields = $this->createFieldAccessors($classReflector, array_map(function($property){
+				return $property->getName();
+			}, $classReflector->getProperties()));
 		return new SimpleClassAccessor($classReflector, $fields, $options);
 	}
 
 	/**
-	 * createFieldAccessors 
-	 * 
-	 * @param \ReflectionClass $classReflector 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function createFieldAccessors(\ReflectionClass $classReflector)
+	public function isSupportedClassSchema($class)
 	{
-		$fields = array();
-		foreach($classReflector->getProperties() as $property) {
-			$fields[$property->getName()] = $this->getFieldAccessorFactory()->createClassFieldAccessor($classReflector, $property->getName());
-		}
-
-		return $fields;
+		return is_object($class) || (is_string($class) && class_exists($class));
 	}
-    
-    public function getFieldAccessorFactory()
-    {
-        return $this->fieldAccessorFactory;
-    }
-    
-    public function setFieldAccessorFactory(FieldAccessorFactoryCollection $fieldAccessorFactory)
-    {
-        $this->fieldAccessorFactory = $fieldAccessorFactory;
-        return $this;
-    }
 }
 

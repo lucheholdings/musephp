@@ -25,6 +25,10 @@ class MethodFieldAccessorFactory extends AbstractClassFieldAccessorFactory
 		$getter = $this->getGetterReflector($classReflector, $fieldName, $options);
 		$setter = $this->getSetterReflector($classReflector, $fieldName, $options);
 
+		if(!$getter && !$setter) {
+			throw new \InvalidArgumentException(sprintf('Class "%s" does not have getter and setter.', $classReflector->getName()));
+		}
+
 		return new MethodFieldAccessor($fieldName, $getter, $setter);
 	}
 

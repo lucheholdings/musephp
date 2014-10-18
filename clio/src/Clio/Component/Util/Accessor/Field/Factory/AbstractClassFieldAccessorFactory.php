@@ -1,6 +1,5 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field\Factory;
-use Clio\Component\Pattern\Factory\AbstractFactory;
 
 /**
  * AbstractClassFieldAccessorFactory 
@@ -13,37 +12,22 @@ use Clio\Component\Pattern\Factory\AbstractFactory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractClassFieldAccessorFactory extends AbstractFactory implements ClassFieldAccessorFactory
+abstract class AbstractClassFieldAccessorFactory extends AbstractFieldAccessorFactory implements ClassFieldAccessorFactory
 {
 	/**
-	 * doCreate 
-	 * 
-	 * @param array $args 
-	 * @access protected
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	protected function doCreate(array $args)
+	public function createFieldAccessor($schema, $field, array $options = array())
 	{
-		$classReflector = array_shift($args);
-		$fieldName = array_shift($args);
-		$options = array_shift($args) ?: array();
-
-		return $this->createClassFieldAccessor($classReflector, $fieldName, $options);
+		return $this->createClassFieldAccessor($schema, $field, $options);
 	}
 
 	/**
-	 * isFactoryCreated 
-	 * 
-	 * @param array $args 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function isSupportedFactory(array $args = array())
+	public function isSupportedSchemaField($schema, $field)
 	{
-		$classReflector = array_shift($args);
-		$fieldName = array_shift($args);
-
-		return $this->isSupportedClassField($classReflector, $fieldName);
+		return $this->isSupportedClassField($schema, $field);
 	}
 }
 

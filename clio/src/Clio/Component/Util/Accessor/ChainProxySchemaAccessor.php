@@ -2,19 +2,29 @@
 namespace Clio\Component\Util\Accessor;
 
 /**
- * ChainedSchemaAccessor 
+ * ChainProxySchemaAccessor 
  *   Chain-of-responsibility with SchemaAccessor.
  *   Make sure you call isSupportMethod before call get, set, isNull, clear
  *   or the end of Chain is not chained.
  *   Otherwise, it might throw an OutOfRangeException. 
+ * 
+ *   $accessor = new ChainProxySchemaAccessor($decorateAccessor, $accessor);
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ChainedSchemaAccessor extends  
+class ChainProxySchemaAccessor implements SchemaAccessor
 {
+	/**
+	 * sourceAccessor 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $sourceAccessor;
+
 	/**
 	 * nextAccessor 
 	 * 
@@ -31,8 +41,9 @@ class ChainedSchemaAccessor extends
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(array $accessors = array(), SchemaAccessor $nextAccessor = null)
+	public function __construct(SchemaAccessor $sourceAccessor, SchemaAccessor $nextAccessor)
 	{
+		$this->sourceAccessor = $sourceAccessor;
 		$this->nextAccessor = $nextAccessor;
 	}
 
@@ -46,8 +57,8 @@ class ChainedSchemaAccessor extends
 	 */
 	public function get($container, $field)
 	{
-		if(parent::isSupportMethod($container, $field, self::ACCESS_GET)) {
-			return parent::get($container, $field);
+		if($this->getSourceAccessor()->isSupportMethod($container, $field, self::ACCESS_GET)) {
+			return $this->getSourceAccessor()->get($container, $field);
 		} else {
 			return $this->getNextAccessor()->get($container, $field);
 		}
@@ -64,8 +75,8 @@ class ChainedSchemaAccessor extends
 	 */
 	public function set($container, $field, $value)
 	{
-		if(parent::isSupportMethod($container, $field, self::ACCESS_SET) {
-			parent::set($container, $field, $value);
+		if($this->getSourceAccessor()->isSupportMethod($container, $field, self::ACCESS_SET) {
+			$this->getSourceAccessor()->set($container, $field, $value);
 		} else {
 			$this->getNextAccessor()->set($container, $field, $value);
 		}
@@ -82,8 +93,8 @@ class ChainedSchemaAccessor extends
 	 */
 	public function isNull($container, $field)
 	{
-		if(parent::isSupportMethod($container, $field, self::ACCESS_GET) {
-			return parent::set($container, $field);
+		if($this->getSourceAccessor()->isSupportMethod($container, $field, self::ACCESS_GET) {
+			return $this->getSourceAccessor()->set($container, $field);
 		} else {
 			return $this->getNextAccessor()->isNull($container, $field);
 		}
@@ -99,8 +110,8 @@ class ChainedSchemaAccessor extends
 	 */
 	public function clear($container, $field)
 	{
-		if(parent::isSupportMethod($container, $field, self::ACCESS_SET) {
-			parent::clear($container, $field);
+		if($this->getSourceAccessor()->isSupportMethod($container, $field, self::ACCESS_SET) {
+			$this->getSourceAccessor()->clear($container, $field);
 		} else {
 			$this->getNextAccessor()->clear($container, $field, $value);
 		}
@@ -115,7 +126,7 @@ class ChainedSchemaAccessor extends
 	 */
 	public function isSupportMethod()
 	{
-		if(parent::isSupportMethod($container, $field, $accessType)) {
+		if($this->getSourceAccessor()->isSupportMethod($container, $field, $accessType)) {
 			return true;
 		} else if(!$this->hasNextAccessor()) {
 			return $this->getNextAccessor()->isSupportMethod($container, $field, $accessType);
@@ -140,7 +151,7 @@ class ChainedSchemaAccessor extends
 
 		return array_merge(
 			$fields,
-			parent::getFieldNames($container)
+			$this->getSourceAccessor()->getFieldNames($container)
 		)
 	}
 
@@ -160,7 +171,7 @@ class ChainedSchemaAccessor extends
 
 		return array_replace(
 			$fields,
-			parent::getFieldValues($container)
+			$this->getSourceAccessor()->getFieldValues($container)
 		);
 	}
 
@@ -199,6 +210,30 @@ class ChainedSchemaAccessor extends
     public function setNextAccessor(SchemaAccessor $nextAccessor)
     {
         $this->nextAccessor = $nextAccessor;
+        return $this;
+    }
+    
+    /**
+     * getSourceAccessor 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getSourceAccessor()
+    {
+        return $this->sourceAccessor;
+    }
+    
+    /**
+     * setSourceAccessor 
+     * 
+     * @param mixed $sourceAccessor 
+     * @access public
+     * @return void
+     */
+    public function setSourceAccessor($sourceAccessor)
+    {
+        $this->sourceAccessor = $sourceAccessor;
         return $this;
     }
 }

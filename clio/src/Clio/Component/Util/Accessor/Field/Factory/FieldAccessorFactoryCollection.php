@@ -2,17 +2,34 @@
 namespace Clio\Component\Util\Accessor\Field\Factory;
 
 use Clio\Component\Pattern\Factory\FactoryCollection;
+use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
 
-class FieldAccessorFactoryCollection extends FactoryCollection implements ClassFieldAccessorFactory 
+/**
+ * FieldAccessorFactoryCollection 
+ * 
+ * @uses FactoryCollection
+ * @uses FieldAccessorFactory
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+class FieldAccessorFactoryCollection extends FactoryCollection implements FieldAccessorFactory 
 {
-	public function createClassFieldAccessor(\ReflectionClass $classReflector, $fieldName)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function createFieldAccessor($schema, $fieldName, array $options = array())
 	{
-		return $this->doCreate(array($classReflector, $fieldName));
+		return $this->doCreate(array($schema, $fieldName, $options));
 	}
 
-	public function isSupportedClassField(\ReflectionClass $classReflector, $fieldName)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedSchemaField($schema, $fieldName)
 	{
-		return $this->isSupportedFactory(array($classReflector, $fieldName));
+		return $this->isSupportedFactory(array($shema, $fieldName));
 	}
 }
 
