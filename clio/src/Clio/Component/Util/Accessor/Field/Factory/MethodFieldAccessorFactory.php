@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Field\Factory;
 
 use Clio\Component\Util\Psr\Psr1;
-use Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory;
+use Clio\Component\Util\Accessor\Field\MethodFieldAccessor;
 
 /**
  * MethodFieldAccessorFactory 
@@ -13,7 +13,7 @@ use Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class MethodFieldAccessorFactory implements ClassFieldAccessorFactory
+class MethodFieldAccessorFactory extends AbstractClassFieldAccessorFactory
 {
 	/**
 	 * {@inheritdoc}
@@ -25,7 +25,7 @@ class MethodFieldAccessorFactory implements ClassFieldAccessorFactory
 		$getter = $this->getGetterReflector($classReflector, $fieldName, $options);
 		$setter = $this->getSetterReflector($classReflector, $fieldName, $options);
 
-		return new PublicPropertyFieldAccessor($fieldName, $getter, $setter);
+		return new MethodFieldAccessor($fieldName, $getter, $setter);
 	}
 
 	/**
@@ -89,7 +89,7 @@ class MethodFieldAccessorFactory implements ClassFieldAccessorFactory
 	protected function guessMethod(\ReflectionClass $classReflector, array $methods)
 	{
 		foreach($methods as $method) {
-			if($calssReflector->hasMethod($method)) {
+			if($classReflector->hasMethod($method)) {
 				return $classReflector->getMethod($method);
 			}
 		}

@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Container\Map;
 
 use Clio\Component\Util\Container\Map as MapInterface;
+use Clio\Component\Util\Container\AbstractContainer;
 
 /**
  * Map
@@ -11,7 +12,7 @@ use Clio\Component\Util\Container\Map as MapInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license MIT
  */
-class Map implements MapInterface, \Serializable
+class Map extends AbstractContainer implements MapInterface, \Serializable
 {
 	/**
 	 * values
@@ -20,22 +21,6 @@ class Map implements MapInterface, \Serializable
 	 * @access protected
 	 */
 	private $values = array();
-
-	/**
-	 * keyValidator 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $keyValidator;
-
-	/**
-	 * valueValidator 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $valueValidator;
 
 	/**
 	 * __construct 
@@ -124,10 +109,10 @@ class Map implements MapInterface, \Serializable
 			throw new \Clio\Component\Exception\InvalidArgumentException('Map requires key to set value.');
 		}
 
-		if($this->getKeyValidator()) {
+		if($this->hasKeyValidator()) {
 			$key = $this->getKeyValidator()->validate($key);
 		}
-		if($this->getValueValidator()) {
+		if($this->hasValueValidator()) {
 			$value = $this->getValueValidator()->validate($value);
 		}
 
@@ -288,54 +273,6 @@ class Map implements MapInterface, \Serializable
 	{
 		$this->values = unserialize($serialized);
 	}
-    
-    /**
-     * Get keyValidator.
-     *
-     * @access public
-     * @return keyValidator
-     */
-    public function getKeyValidator()
-    {
-        return $this->keyValidator;
-    }
-    
-    /**
-     * Set keyValidator.
-     *
-     * @access public
-     * @param keyValidator the value to set.
-     * @return mixed Class instance for method-chanin.
-     */
-    public function setKeyValidator($keyValidator)
-    {
-        $this->keyValidator = $keyValidator;
-        return $this;
-    }
-    
-    /**
-     * Get valueValidator.
-     *
-     * @access public
-     * @return valueValidator
-     */
-    public function getValueValidator()
-    {
-        return $this->valueValidator;
-    }
-    
-    /**
-     * Set valueValidator.
-     *
-     * @access public
-     * @param valueValidator the value to set.
-     * @return mixed Class instance for method-chanin.
-     */
-    public function setValueValidator($valueValidator)
-    {
-        $this->valueValidator = $valueValidator;
-        return $this;
-    }
 
 	/**
 	 * getKeyValueArray 

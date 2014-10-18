@@ -23,12 +23,12 @@ class ObjectAccessor implements Accessor
 	/**
 	 * __construct 
 	 * 
-	 * @param ClassAccessor $schemaAccessor 
+	 * @param SchemaAccessor $schemaAccessor 
 	 * @param object $object 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ClassAccessor $schemaAccessor, object $object)
+	public function __construct(SchemaAccessor $schemaAccessor, $object)
 	{
 		$this->schemaAccessor = $schemaAccessor;
 		$this->object = $object;
@@ -43,7 +43,7 @@ class ObjectAccessor implements Accessor
 	 */
 	public function get($field)
 	{
-		return $this->getSchemaAccessor()->get($field);
+		return $this->getSchemaAccessor()->get($this->getData(), $field);
 	}
 
 	/**
@@ -56,7 +56,7 @@ class ObjectAccessor implements Accessor
 	 */
 	public function set($field, $value)
 	{
-		return $this->getSchemaAccessor()->get($this->getData, $field, $value);
+		return $this->getSchemaAccessor()->get($this->getData(), $field, $value);
 	}
 
 	/**

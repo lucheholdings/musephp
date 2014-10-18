@@ -29,5 +29,14 @@ interface Factory
 	 * @return void
 	 */
 	function createArgs(array $args = array());
+
+	/**
+	 * isSupportedFactory 
+	 * 
+	 * @param array $args 
+	 * @access public
+	 * @return bool support to create with the args or not.
+	 */
+	function isSupportedFactory(array $args = array());
 }
 

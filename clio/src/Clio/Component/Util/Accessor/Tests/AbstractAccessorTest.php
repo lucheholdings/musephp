@@ -30,7 +30,7 @@ abstract class AbstractAccessorTest extends \PHPUnit_Framework_TestCase
 		// Contain 
 		$this->assertFalse($accessor->existsField('var'));
 
-		$this->assertEquals(array('foo', 'bar', 'hoge'), $this->getFieldNames());
+		$this->assertEquals(array('foo', 'bar', 'hoge'), $accessor->getFieldNames());
 	}
 
 	/**

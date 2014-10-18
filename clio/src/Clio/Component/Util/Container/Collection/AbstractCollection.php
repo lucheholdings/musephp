@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Container\Collection;
 
 use Clio\Component\Util\Container\Collection as CollectionInterface;
+use Clio\Component\Util\Container\AbstractContainer;
 
 /**
  * AbstractCollection 
@@ -13,7 +14,7 @@ use Clio\Component\Util\Container\Collection as CollectionInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractCollection implements CollectionInterface
+abstract class AbstractCollection extends AbstractContainer implements CollectionInterface
 {
 	/**
 	 * offsetExists 

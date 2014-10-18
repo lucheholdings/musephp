@@ -13,7 +13,7 @@ use Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PublicPropertyFieldAccessorFactory implements ClassFieldAccessorFactory
+class PublicPropertyFieldAccessorFactory extends AbstractClassFieldAccessorFactory implements ClassFieldAccessorFactory
 {
 	/**
 	 * {@inheritdoc}

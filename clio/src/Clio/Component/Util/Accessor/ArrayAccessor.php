@@ -57,13 +57,8 @@ class ArrayAccessor implements Accessor
 	 */
 	public function set($field, $value)
 	{
-		if(null === $value) {
-			if(isset($this->data[$field])) {
-				unset($this->data[$field]);
-			}
-		} else { 
-			$this->data[$field] = $value;
-		}
+		$this->data[$field] = $value;
+	
 		return $this;
 	}
 
@@ -88,7 +83,7 @@ class ArrayAccessor implements Accessor
 	 */
 	public function clear($field)
 	{
-		unset($this->data[$field]);
+		$this->set($field, null);
 	}
 
 	/**
@@ -100,7 +95,7 @@ class ArrayAccessor implements Accessor
 	 */
 	public function existsField($field)
 	{
-		return isset($this->data[$field]);
+		return array_key_exists($field, $this->data);
 	}
 
 	/**
@@ -110,6 +105,13 @@ class ArrayAccessor implements Accessor
 	 * @return void
 	 */
 	public function getData()
+	{
+		return array_filter($this->data, function($v) {
+			return null !== $v;		
+		});
+	}
+
+	public function getRaw()
 	{
 		return $this->data;
 	}

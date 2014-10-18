@@ -2,6 +2,8 @@
 namespace Clio\Component\Util\Container\Set;
 
 use Clio\Component\Util\Container\Set as SetInterface;
+use Clio\Component\Util\Container\AbstractContainer;
+
 /**
  * Set 
  * 
@@ -11,7 +13,7 @@ use Clio\Component\Util\Container\Set as SetInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Set implements SetInterface, \Serializable
+class Set extends AbstractContainer implements SetInterface, \Serializable
 {
 	/**
 	 * values
@@ -20,14 +22,6 @@ class Set implements SetInterface, \Serializable
 	 * @access protected
 	 */
 	private $values = array();
-
-	/**
-	 * validator 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $validator;
 
 	/**
 	 * __construct 
@@ -108,8 +102,8 @@ class Set implements SetInterface, \Serializable
 	 */
 	public function add($value)
 	{
-		if($this->getValidator()) {
-			$value = $this->getValidator()->validate($value);
+		if($this->hasValueValidator()) {
+			$value = $this->getValueValidator()->validate($value);
 		}
 		$this->values[] = $value;
 
@@ -233,29 +227,5 @@ class Set implements SetInterface, \Serializable
 		}
 		return null;
 	}
-    
-    /**
-     * Get validator.
-     *
-     * @access public
-     * @return validator
-     */
-    public function getValidator()
-    {
-        return $this->validator;
-    }
-    
-    /**
-     * Set validator.
-     *
-     * @access public
-     * @param validator the value to set.
-     * @return mixed Class instance for method-chanin.
-     */
-    public function setValidator($validator)
-    {
-        $this->validator = $validator;
-        return $this;
-    }
 }
 

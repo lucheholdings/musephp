@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Accessor\Property;
+namespace Clio\Component\Util\Accessor\Field;
 
 use Clio\Component\Util\Psr\Psr1;
 
@@ -12,7 +12,7 @@ use Clio\Component\Util\Psr\Psr1;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class MethodPropertyFieldAccessor extends AbstractFieldAccessor 
+class MethodFieldAccessor extends AbstractFieldAccessor 
 {
 	/**
 	 * getterReflector 
@@ -39,12 +39,12 @@ class MethodPropertyFieldAccessor extends AbstractFieldAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($fieldName, \ReflectionMethod $getter = null, \ReflectionMethod $setter = null)
+	public function __construct($fieldName, \ReflectionMethod $getterReflector = null, \ReflectionMethod $setterReflector = null)
 	{
 		parent::__construct($fieldName);
 
 		$this->getterReflector = $getterReflector;
-		$this->setterReflector = $setterReflector
+		$this->setterReflector = $setterReflector;
 	}
 
 
@@ -72,7 +72,7 @@ class MethodPropertyFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function get($object)
 	{
-		$method = $this->getGetterRefelctor();
+		$method = $this->getGetterReflector();
 
 		return $method->invoke($object);
 	}

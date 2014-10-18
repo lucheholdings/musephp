@@ -24,7 +24,6 @@ abstract class AbstractFactory implements Factory
 	 */
 	private $constructor;
 
-
 	/**
 	 * create 
 	 * 
@@ -83,6 +82,18 @@ abstract class AbstractFactory implements Factory
 	public function setConstructor(Constructor $constructor)
 	{
 		$this->constructor = $constructor;
+	}
+
+	/**
+	 * isSupportedFactory 
+	 * 
+	 * @param array $args 
+	 * @access public
+	 * @return void
+	 */
+	public function isSupportedFactory(array $args = array())
+	{
+		return true;
 	}
 }
 

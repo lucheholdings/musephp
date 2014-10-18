@@ -1,21 +1,28 @@
 <?php
 namespace Clio\Component\Pattern\Factory;
 
-use Clio\Component\Util\Container\Map\Map;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Exception\UnsupportedException;
+use Clio\Component\Util\Container\Set\Set;
+use Clio\Component\Util\Container\Validator\ClassValidator;
+
 /**
- * FactoryMap
- * 
- * @package ${ PACKAGE }
- * @subpackage 
- * @author ${ AUTHOR }
+ * FactoryCollection 
+ *   FactoryCollection is a composite pattern of a factory
+ *   which resolve supported factory and create.
+ *
+ * @uses Collection
+ * @uses Factory
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
  */
-class FactoryMap extends Map implements Factory 
+class FactoryCollection extends Set implements Factory
 {
 	/**
 	 * __construct 
-	 * 
-	 * @param array $factories 
+	 *  
+	 * @param array $factories instance of Factory or string as classname 
 	 * @access public
 	 * @return void
 	 */
@@ -25,30 +32,9 @@ class FactoryMap extends Map implements Factory
 
 		$this->setValueValidator(new ClassValidator($this->getValidatedFactoryClass()));
 
-		foreach($factories as $key => $factory) {
-			$this->set($key, $factory);
+		foreach($factories as $factory) {
+			$this->add($factory);		
 		}
-	}
-
-	/**
-	 * set 
-	 * 
-	 * @param mixed $key 
-	 * @param mixed $value 
-	 * @access public
-	 * @return void
-	 */
-	public function set($key, $value)
-	{
-		// Convert if string 
-		if(($value instanceof \ReflectionClass) ||
-		   (is_string($value) && class_exists($value))) 
-		{
-			$value = new ComponentFactory($value);
-		}
-
-		parent::set($key, $value);
-		return $this;
 	}
 
 	/**
@@ -84,21 +70,19 @@ class FactoryMap extends Map implements Factory
 	 */
 	protected function doCreate(array $args)
 	{
-		$key = array_shift($args);
-		return $this->createByKeyArgs($key, $args);
-	}
+		$instance = null;
+		foreach($this->getValues() as $factory) {
+			if($factory->isSupportedFactory($args)) {
+				$instance = $factory->createArgs($args);
+				break;
+			}
+		}
 
-	/**
-	 * createByKeyArgs 
-	 * 
-	 * @param mixed $alias 
-	 * @param array $args 
-	 * @access public
-	 * @return void
-	 */
-	public function createByKeyArgs($alias, array $args = array())
-	{
-		return $this->get($alias)->createArgs($args);
+		if(!$instance) {
+			throw new UnsupportedException('Failed to create an instance. There are no supported factory to create.');
+		}
+
+		return $instance;
 	}
 
 	/**
@@ -110,8 +94,13 @@ class FactoryMap extends Map implements Factory
 	 */
 	public function isSupportedFactory(array $args = array())
 	{
-		$key = array_shift($args);
-		return $this->get($key)->isSupportedFactory($args);
+		foreach($this->getFactories() as $factory) {
+			if($factory->isSupportedFactory($args)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**
@@ -127,13 +116,13 @@ class FactoryMap extends Map implements Factory
 
 	/**
 	 * getFactories 
-	 *   Alias of getKeyValues 
+	 * 
 	 * @access public
 	 * @return void
 	 */
 	public function getFactories()
 	{
-		return $this->getKeyValues();
+		return $this->getValues();
 	}
 }
 
