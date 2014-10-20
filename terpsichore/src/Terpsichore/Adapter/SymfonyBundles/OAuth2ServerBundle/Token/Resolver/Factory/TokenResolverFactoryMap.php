@@ -1,18 +1,18 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory;
 
-use Clio\Component\Pattern\Factory\FactoryMap;
+use Clio\Component\Pattern\Factory\FactoryCollection;
 
 /**
  * TokenResolverFactoryMap 
  * 
- * @uses FactoryMap
+ * @uses FactoryCollection
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TokenResolverFactoryMap extends FactoryMap  
+class TokenResolverFactoryMap extends FactoryCollection  
 {
 	/**
 	 * creaetTokenResolver 
@@ -28,20 +28,7 @@ class TokenResolverFactoryMap extends FactoryMap
 			throw new \InvalidArgumentException(sprintf('Invalid TokenResolver type "%s", choose one from [%s]', $type, implode(',', $this->getKeys())));
 		}
 
-		return $this->createByKeyArgs($type, $options);
-	}
-
-	/**
-	 * doCreate 
-	 * 
-	 * @param mixed $type 
-	 * @param array $args 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doCreate($type, array $args)
-	{
-		return $this->get($type)->createTokenResolver($type, $args);
+		return $this->createByKeyArgs($type, array($options));
 	}
 
 	/**

@@ -2,13 +2,15 @@
 namespace Clio\Component\Pattern\Factory;
 
 use Clio\Component\Exception\UnsupportedException;
-use Clio\Component\Util\Container\Set\Set;
+use Clio\Component\Util\Container\Collection\Collection;
 use Clio\Component\Util\Container\Validator\ClassValidator;
 
 /**
  * FactoryCollection 
- *   FactoryCollection is a composite pattern of a factory
- *   which resolve supported factory and create.
+ *   FactoryCollection supports two type of creation.
+ * 
+ *   - Create with "isSupportedFactory" guessing.
+ *   - Create by Key as MappedFactory
  *
  * @uses Collection
  * @uses Factory
@@ -17,7 +19,7 @@ use Clio\Component\Util\Container\Validator\ClassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FactoryCollection extends Set implements Factory
+class FactoryCollection extends Collection implements MappedFactory, Factory 
 {
 	/**
 	 * __construct 
@@ -45,7 +47,7 @@ class FactoryCollection extends Set implements Factory
 	 */
 	public function create()
 	{
-		return $this->doCreate(func_get_args());
+		return $this->createArgs(func_get_args());
 	}
 
 	/**
@@ -56,19 +58,6 @@ class FactoryCollection extends Set implements Factory
 	 * @return void
 	 */
 	public function createArgs(array $args = array())
-	{
-		return $this->doCreate($args);
-	}
-
-	/**
-	 * doCreate 
-	 * 
-	 * @param mixed $alias 
-	 * @param mixed $args 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doCreate(array $args)
 	{
 		$instance = null;
 		foreach($this->getValues() as $factory) {
@@ -83,6 +72,29 @@ class FactoryCollection extends Set implements Factory
 		}
 
 		return $instance;
+	}
+
+	public function createByKey()
+	{
+		$args = func_get_args();
+		$key = array_shift($args);
+
+		return $this->createByKeyArgs($key, $args);
+	}
+
+	public function createByKeyArgs($key, array $args = array())
+	{
+		if(!$this->hasKey($key)) {
+			throw new \InvalidArgumentException(sprintf('Factory "%s" is not exixsted.', $key));
+		}
+
+		$factory = $this->get($key);
+
+		if($factory instanceof MappedFactory) {
+			return $factory->createByKeyArgs($key, $args);
+		}
+
+		return $factory->createArgs($args);
 	}
 
 	/**

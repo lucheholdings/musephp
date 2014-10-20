@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\WebQuery;
 
-use Clio\Component\Pattern\Factory\TypedComponentFactory;
+use Clio\Component\Pattern\Factory\MappedComponentFactory;
 
 /**
  * ComponentFactory 
@@ -12,7 +12,7 @@ use Clio\Component\Pattern\Factory\TypedComponentFactory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ComponentFactory extends TypedComponentFactory
+class ComponentFactory extends MappedComponentFactory
 {
 	/**
 	 * create 
@@ -39,7 +39,7 @@ class ComponentFactory extends TypedComponentFactory
 	 */
 	public function createBuilder(LiteralSet $literals)
 	{
-		return $this->createByAlias('builder', array($literals));
+		return $this->createByKeyArgs('builder', array($literals));
 	}
 
 	/**
@@ -51,7 +51,7 @@ class ComponentFactory extends TypedComponentFactory
 	 */
 	public function createParser(LiteralSet $literals)
 	{
-		return $this->createByAlias('parser', array($literals));
+		return $this->createByKeyArgs('parser', array($literals));
 	}
 }
 

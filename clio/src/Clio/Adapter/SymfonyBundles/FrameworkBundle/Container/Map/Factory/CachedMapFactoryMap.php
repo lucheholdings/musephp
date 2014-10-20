@@ -12,13 +12,13 @@ use Symfony\Component\DependencyInjection\ContainerInterface,
 	Symfony\Component\DependencyInjection\ContainerAwareInterface
 ;
 use Clio\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheFactoryInterface;
-use Clio\Component\Pattern\Factory\FactoryMap;
+use Clio\Component\Pattern\Factory\FactoryCollection;
 
 use Clio\Bridge\DoctrineCache\Container\CachedMap;
 
 use Doctrine\Common\Cache\Cache as DoctrineCache;
 
-class CachedMapFactoryMap extends FactoryMap implements ContainerAwareInterface 
+class CachedMapFactoryMap extends FactoryCollection implements ContainerAwareInterface 
 {
 	private $container;
 

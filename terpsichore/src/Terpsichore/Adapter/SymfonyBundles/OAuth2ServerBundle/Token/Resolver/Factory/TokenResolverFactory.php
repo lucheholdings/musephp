@@ -4,6 +4,7 @@ namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\F
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver as Resolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Clio\Component\Pattern\Factory\MappedFactory;
 
 /**
  * TokenResolverFactory 
@@ -13,7 +14,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TokenResolverFactory implements Factory 
+class TokenResolverFactory implements Factory, MappedFactory 
 {
 	/**
 	 * container 
@@ -57,6 +58,19 @@ class TokenResolverFactory implements Factory
 		}
 
 		return $resolver;
+	}
+
+	public function createByKey()
+	{
+		$args = func_get_args();
+		$key = array_shift($args);
+
+		return $this->createByKeyArgs($key, $args);
+	}
+
+	public function createByKeyArgs($key, array $args = array())
+	{
+		return $this->createTokenResolver($key, array_shift($args));
 	}
     
     /**
