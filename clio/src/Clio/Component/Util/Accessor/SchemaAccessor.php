@@ -88,5 +88,15 @@ interface SchemaAccessor
 	 * @return void
 	 */
 	function getFieldValues($container);
+
+	/**
+	 * existsField 
+	 * 
+	 * @param mixed $container 
+	 * @param mixed $field 
+	 * @access public
+	 * @return void
+	 */
+	function existsField($container, $field);
 }
 

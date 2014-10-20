@@ -2,6 +2,9 @@
 namespace Clio\Framework\Accessor;
 
 use Clio\Component\Util\Attribute\AttributeAccessor;
+use Clio\Component\Util\Accessor\AbstractSchemaAccessor;
+
+use Clio\Component\Exception\UnsupportedException;
 /**
  * AttributeContainerAccessor 
  * 
@@ -11,7 +14,7 @@ use Clio\Component\Util\Attribute\AttributeAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AttributeContainerAccessor implements SchemaAccessor 
+class AttributeContainerAccessor extends AbstractSchemaAccessor 
 {
 	/**
 	 * attributeAccessor 
@@ -70,7 +73,7 @@ class AttributeContainerAccessor implements SchemaAccessor
 	 */
 	public function isNull($container, $key)
 	{
-		return (!$container->getAttributes()->hasKey($key) || (null === $container->getAttributes()->get($key)->getValue()));
+		return ($container->getAttributes()->hasKey($key) && (null === $container->getAttributes()->get($key)->getValue()));
 	}
 
 	/**
@@ -104,13 +107,13 @@ class AttributeContainerAccessor implements SchemaAccessor
 
 
 	/**
-	 * getFields 
+	 * getFieldValues 
 	 * 
 	 * @param mixed $container 
 	 * @access public
 	 * @return void
 	 */
-	public function getFields($container)
+	public function getFieldValues($container)
 	{
 		return $container->getAttributes()->getKeyValueArray();
 	}
@@ -128,6 +131,14 @@ class AttributeContainerAccessor implements SchemaAccessor
 			return $container->getAttributes()->getKeys();
 		}
 		throw new UnsupportedException('AttributeContainerAccessor requires $container for getFeildNames()');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function existsField($container, $field)
+	{
+		return $container->getAttributes()->hasKey($field);
 	}
 
 	/**

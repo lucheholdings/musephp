@@ -46,7 +46,7 @@ class AttributeComponentFactory extends ComponentFactory implements AttributeFac
 	 * @access public
 	 * @return void
 	 */
-	public function createAttribute($key, $value, AttributeContainerAware $owner = null)
+	public function createAttribute($key, $value, $owner = null)
 	{
 		return $this->createComponent(array($key, $value, $owner));
 	}

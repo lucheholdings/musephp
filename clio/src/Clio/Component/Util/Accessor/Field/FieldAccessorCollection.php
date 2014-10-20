@@ -11,7 +11,7 @@ use Clio\Component\Util\Accessor\SchemaAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorCollection implements SchemaAccessor
+class FieldAccessorCollection 
 {
 	/**
 	 * accessors 
@@ -144,6 +144,14 @@ class FieldAccessorCollection implements SchemaAccessor
 		//	}
 		//	return true;
 		//}));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function existsField($container, $field)
+	{
+		return $this->hasFieldAccessor($field) && !$this->isNull($container, $field);
 	}
 
 

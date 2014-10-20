@@ -4,41 +4,32 @@ namespace Clio\Component\Util\Accessor\Tests\Field;
 use Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor;
 use Clio\Component\Util\Accessor\Tests\Models;
 
-class PublicPropertyFieldAccessorTest extends \PHPUnit_Framework_TestCase 
+class PublicPropertyFieldAccessorTest extends FieldAccessorTestCase
 {
-	public function testGet()
-	{
-		$model = $this->getDefaultData();
+	private $data;
 
-		$fieldAccessor = $this->createFieldAccessor('foo', $model);
-		$this->assertFalse($fieldAccessor->isNull($model));
-		$this->assertEquals('Foo', $fieldAccessor->get($model));
+	protected function getData()
+	{
+		if(!$this->data) {
+			$this->data = new Models\AccessorTestModel();
+		}
+		return $this->data;
 	}
 
-	public function testSet()
+	protected function getBasicTestField()
 	{
-		$model = $this->getDefaultData();
-
-		$fieldAccessor = $this->createFieldAccessor('foo', $model);
-		$this->assertEquals('Foo', $fieldAccessor->get($model));
-
-		$fieldAccessor->set($model, 'Bar');
-		$this->assertEquals('Bar', $fieldAccessor->get($model));
-
-		$fieldAccessor->clear($model);
-		$this->assertTrue($fieldAccessor->isNull($model));
-
+		return 'foo';
 	}
 
-	protected function getDefaultData()
+	protected function getFieldData($field)
 	{
-		return new Models\AccessorTestModel();
+		return $this->getData()->{'get' . ucfirst($field)}();
 	}
 
 	protected function createFieldAccessor($field, $data = null)
 	{
 		if(!$data) {
-			$data = $this->getDefaultData();
+			$data = $this->getData();
 		}
 		$reflector = new \ReflectionObject($data);
 

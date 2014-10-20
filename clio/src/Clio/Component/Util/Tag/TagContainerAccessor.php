@@ -25,7 +25,7 @@ class TagContainerAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(TagFactory $tagFactory)
+	public function __construct(TagFactory $tagFactory = null)
 	{
 		$this->tagFactory = $tagFactory;
 	}
@@ -100,6 +100,9 @@ class TagContainerAccessor
      */
     public function getTagFactory()
     {
+		if(!$this->tagFactory) {
+			$this->tagFactory = new TagComponentFactory('Clio\Component\Util\Tag\SimpleTag');
+		}
         return $this->tagFactory;
     }
     

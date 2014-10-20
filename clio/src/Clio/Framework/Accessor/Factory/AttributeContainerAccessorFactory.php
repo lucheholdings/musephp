@@ -1,8 +1,11 @@
 <?php
-namespace Clio\Framework\Accessor\Field\Factory;
+namespace Clio\Framework\Accessor\Factory;
 
-use Clio\Component\Util\Accessor\Field\Factory\ClassAccessorFactory;
-use Clio\Framework\Accessor\Field\AttributeFieldAccessor;
+use Clio\Component\Util\Accessor\Factory\AbstractClassAccessorFactory;
+use Clio\Framework\Accessor\AttributeContainerAccessor;
+use Clio\Component\Util\Attribute\AttributeAccessor,
+	Clio\Component\Util\Attribute\AttributeComponentFactory
+;
 
 /**
  * AttributeContainerAccessorFactory
@@ -13,15 +16,15 @@ use Clio\Framework\Accessor\Field\AttributeFieldAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AttributeContainerAccessorFactory implements ClassAccessorFactory 
+class AttributeContainerAccessorFactory extends AbstractClassAccessorFactory
 {
 	/**
-	 * attributeClass 
+	 * attributeFactory 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
-	private $attributeClass;
+	private $attributeFactory;
 
 	/**
 	 * {@inheritdoc}
@@ -32,35 +35,63 @@ class AttributeContainerAccessorFactory implements ClassAccessorFactory
 			throw new \InvalidArgumentException(sprintf('Class "%s" is not implements AttributeContainerAware interface.', $classReflector->getName()));
 		}
 
-		if(isset($options['attribute_class'])) {
-			$attributeClass = $options['attribute_class'];
-		} else {
-			$attributeClass = $this->getAttributeClass();
+
+		// If attributeFactory is not initialize, then craete with attributeClass
+		if(!$this->attributeFactory) {
+			$attributeClass = null;
+			if(isset($options['attribute_class'])) {
+				$attributeClass = $options['attribute_class'];
+			}
+			$this->attributeFactory = new AttributeComponentFactory($attributeClass);
 		}
-		return new AttributeContainerAccessor(new AttributeAccessor(new AttributeComponentFactory($attributeClass)));
+		return new AttributeContainerAccessor($this->createAttributeAccessor($this->getAttributeFactory()));
+	}
+
+	/**
+	 * createAttributeAccessor 
+	 * 
+	 * @param mixed $factory 
+	 * @access protected
+	 * @return void
+	 */
+	protected function createAttributeAccessor($factory)
+	{
+		return new AttributeAccessor($factory);
+	}
+
+	/**
+	 * isSupportedClassSchema 
+	 * 
+	 * @param mixed $schema 
+	 * @access public
+	 * @return void
+	 */
+	public function isSupportedClassSchema($schema)
+	{
+		return $schema->implementsInterface('Clio\Component\Util\Attribute\AttributeContainerAware');
 	}
     
     /**
-     * getAttributeClass 
+     * getAttributeFactory 
      * 
      * @access public
      * @return void
      */
-    public function getAttributeClass()
+    public function getAttributeFactory()
     {
-        return $this->attributeClass;
+        return $this->attributeFactory;
     }
     
     /**
-     * setAttributeClass 
+     * setAttributeFactory 
      * 
-     * @param mixed $attributeClass 
+     * @param mixed $attributeFactory 
      * @access public
      * @return void
      */
-    public function setAttributeClass($attributeClass)
+    public function setAttributeFactory($attributeFactory)
     {
-        $this->attributeClass = $attributeClass;
+        $this->attributeFactory = $attributeFactory;
         return $this;
     }
 }

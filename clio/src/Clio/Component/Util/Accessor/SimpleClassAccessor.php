@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Util\Accessor;
 
+use Clio\Component\Util\Accessor\Field\FieldAccessorCollection;
+
 /**
  * SimpleClassAccessor 
  * 
@@ -10,7 +12,7 @@ namespace Clio\Component\Util\Accessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SimpleClassAccessor extends AbstractSchemaAccessor
+class SimpleClassAccessor extends FieldAccessorCollection implements SchemaAccessor 
 {
 	/**
 	 * createDefaultAccessor 
@@ -35,6 +37,14 @@ class SimpleClassAccessor extends AbstractSchemaAccessor
 	}
 
 	/**
+	 * schema 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $schema;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param \ReflectionClass $classReflector 
@@ -44,7 +54,9 @@ class SimpleClassAccessor extends AbstractSchemaAccessor
 	 */
 	public function __construct(\ReflectionClass $classReflector, array $accessors = array(), array $options = array())
 	{
-		parent::__construct($classReflector, $accessors);
+		parent::__construct($accessors);
+
+		$this->schema = $classReflector;
 	}
     
     /**
@@ -68,6 +80,17 @@ class SimpleClassAccessor extends AbstractSchemaAccessor
     public function setClassReflector(\ReflectionClass $classReflector)
     {
 		return $this->setSchema($classReflector);
+    }
+    
+    public function getSchema()
+    {
+        return $this->schema;
+    }
+    
+    public function setSchema($schema)
+    {
+        $this->schema = $schema;
+        return $this;
     }
 }
 

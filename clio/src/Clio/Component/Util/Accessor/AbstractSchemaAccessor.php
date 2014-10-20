@@ -13,7 +13,7 @@ use Clio\Component\Util\Accessor\Field\FieldAccessorCollection;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractSchemaAccessor extends FieldAccessorCollection
+abstract class AbstractSchemaAccessor implements SchemaAccessor 
 {
 	/**
 	 * {@inheritdoc}
@@ -23,10 +23,8 @@ abstract class AbstractSchemaAccessor extends FieldAccessorCollection
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct($schema, array $fields = array())
+	public function __construct($schema)
 	{
-		parent::__construct($fields);
-
 		$this->schema = $schema;
 	}
     

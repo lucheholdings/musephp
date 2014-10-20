@@ -32,7 +32,7 @@ abstract class AbstractSchemaAccessorFactory extends AbstractFactory implements 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(FieldAccessorFactory $fieldAccessorFactory)
+	public function __construct(FieldAccessorFactory $fieldAccessorFactory = null)
 	{
 		$this->fieldAccessorFactory = $fieldAccessorFactory;
 	}
@@ -58,8 +58,12 @@ abstract class AbstractSchemaAccessorFactory extends AbstractFactory implements 
 	protected function createFieldAccessors($schema, $fields)
 	{
 		$fieldAccessors = array();
-		foreach($fields as $field) {
-			$fieldAccessors[$field] = $this->getFieldAccessorFactory()->createFieldAccessor($schema, $field);
+		
+		$fieldAccessorFactory = $this->getFieldAccessorFactory();
+		if($fieldAccessorFactory) {
+			foreach($fields as $field) {
+				$fieldAccessors[$field] = $fieldAccessorFactory->createFieldAccessor($schema, $field);
+			}
 		}
 		return $fieldAccessors;
 	}

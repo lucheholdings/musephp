@@ -28,8 +28,11 @@ class AttributeAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(AttributeFactory $factory)
+	public function __construct(AttributeFactory $factory = null)
 	{
+		if($factory) {
+			$factory = new AttributeComponentFactory();
+		}
 		$this->attributeFactory = $factory;
 	}
 
