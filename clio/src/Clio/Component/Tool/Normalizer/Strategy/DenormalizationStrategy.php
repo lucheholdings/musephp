@@ -1,16 +1,19 @@
 <?php
-namespace Clio\Component\Tool\Normalizer;
+namespace Clio\Component\Tool\Normalizer\Strategy;
+
+use Clio\Component\Tool\Normalizer\Strategy;
+use Clio\Component\Tool\Normalizer\Context;
 
 /**
  * DenormalizationStrategy 
  * 
- * @uses NormalizerStrategy
+ * @uses Strategy
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface DenormalizationStrategy extends NormalizerStrategy
+interface DenormalizationStrategy extends Strategy
 {
 	/**
 	 * denormalize 
@@ -20,7 +23,7 @@ interface DenormalizationStrategy extends NormalizerStrategy
 	 * @access public
 	 * @return void
 	 */
-	function denormalize($object, $class);
+	function denormalize($object, $type, Context $context = null);
 
 	/**
 	 * canDenormalize 
@@ -30,6 +33,6 @@ interface DenormalizationStrategy extends NormalizerStrategy
 	 * @access public
 	 * @return void
 	 */
-	function canDenormalize($object, $class);
+	function canDenormalize($object, $type, Context $context);
 }
 

@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
 
+use Clio\Component\Exception\UnsupportedException;
 /**
  * CompositeStrategy 
  * 
@@ -23,11 +24,11 @@ class CompositeStrategy implements
 	/**
 	 * addStrategy 
 	 * 
-	 * @param NormalizerStrategy $strategy 
+	 * @param Strategy $strategy 
 	 * @access public
 	 * @return void
 	 */
-	public function addStrategy(NormalizerStrategy $strategy)
+	public function addStrategy(Strategy $strategy)
 	{
 		$this->strategies[] = $strategy;
 	}
@@ -39,17 +40,17 @@ class CompositeStrategy implements
 	 * @access public
 	 * @return void
 	 */
-	public function normalize($object)
+	public function normalize($object, $type = null, Context $context = null)
 	{
 		foreach($this->strategies as $strategy) {
 			if( ($strategy instanceof NormalizationStrategy) && 
-				$strategy->canNormalize($object)) 
+				$strategy->canNormalize($object, $type, $context)) 
 			{
-				return $strategy->normalize($object);
+				return $strategy->normalize($object, $type, $context);
 			}
 		}
 
-		throw new \Clio\Component\Exception\RuntimeException('No strategy supports to normalize.');
+		throw new UnsupportedException('No strategy supports to normalize.');
 	}
 
 	/**
@@ -59,11 +60,11 @@ class CompositeStrategy implements
 	 * @access public
 	 * @return void
 	 */
-	public function canNormalize($object)
+	public function canNormalize($object, $type, Context $context)
 	{
 		foreach($this->strategies as $strategy) {
 			if( ($strategy instanceof NormalizationStrategy) && 
-				$strategy->canNormalize($object)) 
+				$strategy->canNormalize($object, $type, $context)) 
 			{
 				return true;
 			}
@@ -80,17 +81,17 @@ class CompositeStrategy implements
 	 * @access public
 	 * @return void
 	 */
-	public function denormalize($data, $class)
+	public function denormalize($data, $type, Context $context)
 	{
 		foreach($this->strategies as $strategy) {
 			if( ($strategy instanceof DenormalizationStrategy) && 
-				$strategy->canDenormalize($data, $class)) 
+				$strategy->canDenormalize($data, $type, $context)) 
 			{
-				return $strategy->denormalize($data, $class);
+				return $strategy->denormalize($data, $type, $context);
 			}
 		}
 
-		throw new \Clio\Component\Exception\RuntimeException('No strategy supports to denormalize.');
+		throw new UnsupportedException('No strategy supports to denormalize.');
 	}
 
 	/**
@@ -101,11 +102,11 @@ class CompositeStrategy implements
 	 * @access public
 	 * @return void
 	 */
-	public function canDenormalize($data, $class)
+	public function canDenormalize($data, $type, Context $context)
 	{
 		foreach($this->strategies as $strategy) {
 			if( ($strategy instanceof DenormalizationStrategy) && 
-				$strategy->canDenormalize($data, $class)) 
+				$strategy->canDenormalize($data, $type, $context)) 
 			{
 				return true;
 			}

@@ -2,6 +2,7 @@
 namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\Exception\UnsupportedException;
 
 /**
  * Normalizer 
@@ -26,11 +27,11 @@ class Normalizer implements
 	/**
 	 * __construct 
 	 * 
-	 * @param NormalizerStrategy $strategy 
+	 * @param Strategy $strategy 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(NormalizerStrategy $strategy)
+	public function __construct(Strategy $strategy)
 	{
 		$this->strategy = $strategy;
 	}
@@ -42,65 +43,64 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function canNormalize($object)
+	public function canNormalize($object, $type, Context $context)
 	{
-		return $this->getstrategy()->canNormalize($object);
+		return $this->getStrategy()->canNormalize($object, $type, $context);
 	}
 
 	/**
 	 * normalize 
+	 *   TopDown Normalizer 
 	 * 
 	 * @param mixed $object 
 	 * @access public
 	 * @return void
 	 */
-	public function normalize($object, Mapper $mapper = null)
+	public function normalize($object, $type = null, Context $context = null)
 	{
+		if(!$context) {
+			$context = new Context();
+		}
+
+		if(!$type) {
+			$type = $context->getTypeRegsitry()->guessType($type);
+		} else {
+			$type = $context->getTypeRegistry()->getType($type);
+		}
+
 		$strategy = $this->getStrategy();
 		if(!$strategy instanceof NormalizationStrategy) {
-			throw new \Clio\Component\Exception\RuntimeException('Normalizer Strategy dose not support denormalize.');
+			throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
 		}
 
-		$data = $strategy->normalize($object);
+		$data = $strategy->normalize($object, $type, $context);
 
-		if($mapper && is_array($data)) {
-			$data = $mapper->map($data);
-		}
-		return $data;
+		return $context->getMapper()->map($data);
 	}
 
 	/**
-	 * canDenormalize 
-	 * 
-	 * @param mixed $object 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function canDenormalize($data, $class)
+	public function canDenormalize($data, $type, Context $context)
 	{
-		return $this->getstrategy()->canDenormalize($data, $class);
+		return $this->getstrategy()->canDenormalize($data, $type, $context);
 	}
 
 	/**
-	 * denormalize 
-	 * 
-	 * @param mixed $object 
-	 * @param mixed $class 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function denormalize($object, $class, Mapper $mapper = null)
+	public function denormalize(array $data, $class, Context $context = null)
 	{
+		if(!$context) {
+			$context = new Context();
+		}
+
 		$strategy = $this->getStrategy();
 		if(!$strategy instanceof DenormalizationStrategy) {
-			throw new \Clio\Component\Exception\RuntimeException('Normalizer Strategy dose not support denormalize.');
+			throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
 		}
 
-		if(is_array($object) && $mapper) {
-			$object = $mapper->map($object);
-		}
-
-		return $strategy->denormalize($object, $class);
+		return $strategy->denormalize($context->getMapper()->map($data), $class, $context); 
 	}
     
     /**
@@ -121,7 +121,7 @@ class Normalizer implements
      * @param strategy the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setStrategy(NormalizerStrategy $strategy)
+    public function setStrategy(Strategy $strategy)
     {
         $this->strategy = $strategy;
         return $this;
