@@ -11,7 +11,7 @@ namespace Clio\Component\Util\Accessor\Factory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractClassAccessorFactory extends AbstractSchemaAccessorFactory
+abstract class AbstractClassAccessorFactory extends AbstractSchemaAccessorFactory implements ClassAccessorFactory
 {
 	/**
 	 * {@inheritdoc}

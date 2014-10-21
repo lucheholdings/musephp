@@ -9,7 +9,7 @@ namespace Clio\Component\Util\Accessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Factory
+interface AccessorFactory
 {
 	/**
 	 * createAccessor 

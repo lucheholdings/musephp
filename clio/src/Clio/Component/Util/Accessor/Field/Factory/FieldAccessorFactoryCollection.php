@@ -21,7 +21,7 @@ class FieldAccessorFactoryCollection extends FactoryCollection implements FieldA
 	 */
 	public function createFieldAccessor($schema, $fieldName, array $options = array())
 	{
-		return $this->doCreate(array($schema, $fieldName, $options));
+		return $this->createArgs(array($schema, $fieldName, $options));
 	}
 
 	/**

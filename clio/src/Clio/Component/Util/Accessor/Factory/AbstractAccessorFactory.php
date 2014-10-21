@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Accessor\Factory;
 
-use Clio\Component\Util\Accessor\Factory\AccessorFactory;
+use Clio\Component\Util\Accessor\AccessorFactory;
 
 /**
  * AbstractAccessorFactory 
@@ -22,7 +22,8 @@ abstract class AbstractAccessorFactory implements AccessorFactory
 	{
 		$data = array_shift($args);
 		$options = array_shift($args) ?: array();
-		return $this->createAccessor($data, $options)
+
+		return $this->createAccessor($data, $options);
 	}
 
 	/**
