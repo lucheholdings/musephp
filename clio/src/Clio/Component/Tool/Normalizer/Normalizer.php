@@ -1,7 +1,6 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
 
-use Clio\Component\Tool\ArrayTool\Mapper;
 use Clio\Component\Exception\UnsupportedException;
 
 /**
@@ -13,8 +12,8 @@ use Clio\Component\Exception\UnsupportedException;
  * @license { LICENSE }
  */
 class Normalizer implements 
-	NormalizationStrategy,
-	DenormalizationStrategy
+	Strategy\NormalizationStrategy,
+	Strategy\DenormalizationStrategy
 {
 	/**
 	 * strategy 
@@ -56,26 +55,27 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function normalize($object, $type = null, Context $context = null)
+	public function normalize($data, $type = null, Context $context = null)
 	{
 		if(!$context) {
 			$context = new Context();
+			$context->setNormalizer($this);
 		}
 
 		if(!$type) {
-			$type = $context->getTypeRegsitry()->guessType($type);
-		} else {
+			$type = $context->getTypeRegistry()->guessType($data);
+		} else if(!$type instanceof Type) {
 			$type = $context->getTypeRegistry()->getType($type);
 		}
 
 		$strategy = $this->getStrategy();
-		if(!$strategy instanceof NormalizationStrategy) {
+		if(!$strategy instanceof Strategy\NormalizationStrategy) {
 			throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
 		}
 
-		$data = $strategy->normalize($object, $type, $context);
+		$normalized = $strategy->normalize($data, $type, $context);
 
-		return $context->getMapper()->map($data);
+		return $normalized;
 	}
 
 	/**
@@ -89,18 +89,23 @@ class Normalizer implements
 	/**
 	 * {@inheritdoc}
 	 */
-	public function denormalize(array $data, $class, Context $context = null)
+	public function denormalize($data, $type, Context $context = null)
 	{
 		if(!$context) {
 			$context = new Context();
+			$context->setNormalizer($this);
+		}
+
+		if(!$type instanceof Type) {
+			$type = $context->getType($type);
 		}
 
 		$strategy = $this->getStrategy();
-		if(!$strategy instanceof DenormalizationStrategy) {
+		if(!$strategy instanceof Strategy\DenormalizationStrategy) {
 			throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
 		}
 
-		return $strategy->denormalize($context->getMapper()->map($data), $class, $context); 
+		return $strategy->denormalize($data, $type, $context); 
 	}
     
     /**

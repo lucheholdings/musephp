@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
 
+use Clio\Component\Exception\CircularException as BaseException;
+
 /**
  * CircularException 
  * 
@@ -10,7 +12,7 @@ namespace Clio\Component\Tool\Normalizer;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class CircularException extends Exception 
+class CircularException extends BaseException 
 {
 	private $data;
 

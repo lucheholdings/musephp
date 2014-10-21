@@ -7,6 +7,14 @@ use Clio\Component\Tool\Normalizer\Type\Factory\BasicFactory;
 class TypeRegistry 
 {
 	/**
+	 * types 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $types;
+
+	/**
 	 * typeFactory 
 	 * 
 	 * @var mixed
@@ -23,6 +31,7 @@ class TypeRegistry
 	 */
 	public function __construct(TypeFactory $typeFactory = null)
 	{
+		$this->types = array();
 		if(!$typeFactory) {
 			$typeFactory = new BasicFactory();
 		}
@@ -42,6 +51,8 @@ class TypeRegistry
 			$type = get_class($data);
 		} else if(is_array($data)) {
 			$type = 'array';
+		} else if(is_null($data)){
+			$type = 'null';
 		} else {
 			$type = gettype($data);
 		}
@@ -58,7 +69,13 @@ class TypeRegistry
 	 */
 	public function getType($type)
 	{
-		return isset($this->types[$type]) ? $this->types[$type] : $this->createType($type);
+		return ($type instanceof Type) 
+			? $type 
+			: (isset($this->types[(string)$type]) 
+				? $this->types[(string)$type] 
+				: $this->createType($type)
+			  )
+		;
 	}
 
 	/**
@@ -70,9 +87,9 @@ class TypeRegistry
 	 */
 	protected function createType($type)
 	{
-		$this->types[$type] = $this->getTypeFactory()->createType($type);
+		$this->types[(string)$type] = $this->getTypeFactory()->createType($type);
 
-		return $this->types[$type];
+		return $this->types[(string)$type];
 	}
     
     /**

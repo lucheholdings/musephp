@@ -1,6 +1,17 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
+use Clio\Component\Tool\Normalizer\Type;
+
+/**
+ * ReferenceType 
+ * 
+ * @uses Type
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
 class ReferenceType implements Type 
 {
 	private $originalType;
@@ -20,6 +31,11 @@ class ReferenceType implements Type
 		return $this->getName();
 	}
 
+	public function getFieldType($field)
+	{
+		return $this->getOriginalType()->getFieldType($field);
+	}
+
 	public function getIdentifierFields()
 	{
 		return $this->getOriginalType()->getIdentifierFields();
@@ -28,6 +44,11 @@ class ReferenceType implements Type
 	public function getIdentifierValues($data)
 	{
 		return $this->getOriginalType()->getIdentifierValues($data);
+	}
+
+	public function getClassReflector()
+	{
+		return $this->getOriginalType()->getClassReflector();
 	}
 
     

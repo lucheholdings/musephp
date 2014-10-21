@@ -3,9 +3,11 @@ namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Strategy;
 use Clio\Component\Tool\Normalizer\Type,
-	Clio\Component\Tool\Normalizer\Type\ObjectType
+	Clio\Component\Tool\Normalizer\Type\ObjectType,
+	Clio\Component\Tool\Normalizer\Type\ReferenceType
 ;
 use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Tool\Normalizer\CircularException;
 
 abstract class AbstractStrategy implements Strategy
 {
@@ -25,20 +27,24 @@ abstract class AbstractStrategy implements Strategy
 			$context->enterScope($data, $type);
 		} catch(CircularException $ex) {
 			// if data type can refer then avoid circularException.
-			$type = $context->getTypeRegistry()->guessType($data);
-			if(!($type instanceof ObjectType) || !$type->canReference()) {
+			if(!$type->canReference()) {
 				throw $ex;
 			}
-			$context->enterScope($data, $type->reference());
+			return $context->getNormalizer()->normalize($data, $type->reference(), $context);
+			//$context->enterScope($data, $type->reference());
 		}
 		
 		// normalize the data to array
 		$normalized = $this->doNormalize($data, $type, $context);
 		
 		if(is_array($normalized)) {
-			array_walk($normalized, function(&$value, $key, $context) {
-				$value = $context->getNormalizer()->normalize($value, $context);
-			}, $context);
+			// recursively call normalize
+			array_walk($normalized, function(&$value, $key, $data) {
+				list($context, $type) = $data;
+
+				$fieldType = $type->getFieldType($key);
+				$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+			}, array($context, $type));
 		}
 
 		$context->leaveScope();
@@ -73,7 +79,7 @@ abstract class AbstractStrategy implements Strategy
 					$fieldType = $context->getTypeRegistry()->guessType($value);
 				}
 				// 
-				$value = $context->getDenormalizer()->denormalize($value, $fieldType, $context);
+				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
 			}, $type, $context);
 		}
 		

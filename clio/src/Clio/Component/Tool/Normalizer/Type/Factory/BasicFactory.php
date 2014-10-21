@@ -27,7 +27,9 @@ class BasicFactory implements Factory
 		case 'float':
 		case 'double':
 		case 'bool':
+		case 'boolean':
 		case 'array':
+		case 'null':
 			return $this->createPrimitiveType($name);
 			break;
 		default:

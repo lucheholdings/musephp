@@ -1,18 +1,20 @@
 <?php
-namespace Clio\Component\Tool\Normalizer;
+namespace Clio\Component\Tool\Normalizer\Strategy;
 
-class ReferenceStrategy
+use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Tool\Normalizer\Type\ReferenceType;
+
+class ReferenceStrategy implements NormalizationStrategy 
 {
-	public function canNormalize($data, $type)
+	public function canNormalize($data, $type, Context $context)
 	{
 		return ($type instanceof ReferenceType);
 	}
 
-	public function doNormalize($data, $context)
+	public function normalize($data, $type = null, Context $context = null)
 	{
-		$type = $this->getCurrentScope()->getType();
 		if(!$type instanceof ReferenceType) {
-			throw new \InvalidArgumentException(sprintf('ReferenceStrategy requires an instanceof of ReferenceType to doNormalize, but "%s" is given.', get_class($data)));
+			throw new \InvalidArgumentException(sprintf('ReferenceStrategy requires an instanceof of ReferenceType to doNormalize, but "%s" is given.', get_class($type)));
 		}
 
 		return $type->getIdentifierValues($data);

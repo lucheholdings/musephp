@@ -1,7 +1,8 @@
 <?php
-namespace Clio\Component\Tool\Normalizer;
+namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Tool\Normalizer\Type\ObjectType;
 
 /**
  * ObjectStrategy

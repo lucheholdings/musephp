@@ -1,16 +1,20 @@
 <?php
-namespace Clio\Component\Tool\Normalizer;
+namespace Clio\Component\Tool\Normalizer\Strategy;
 
+use Clio\Component\Tool\Normalizer\Strategy;
+use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Tool\Normalizer\Type;
 use Clio\Component\Exception\UnsupportedException;
+
 /**
- * CompositeStrategy 
+ * StrategyCollection 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class CompositeStrategy implements
+class StrategyCollection implements
 	NormalizationStrategy,
 	DenormalizationStrategy
 {
@@ -50,7 +54,7 @@ class CompositeStrategy implements
 			}
 		}
 
-		throw new UnsupportedException('No strategy supports to normalize.');
+		throw new UnsupportedException(sprintf('No strategy supports to normalize for type "%s[%s]".', get_class($type), (string)$type));
 	}
 
 	/**
@@ -81,7 +85,7 @@ class CompositeStrategy implements
 	 * @access public
 	 * @return void
 	 */
-	public function denormalize($data, $type, Context $context)
+	public function denormalize($data, $type, Context $context = null)
 	{
 		foreach($this->strategies as $strategy) {
 			if( ($strategy instanceof DenormalizationStrategy) && 
@@ -91,7 +95,7 @@ class CompositeStrategy implements
 			}
 		}
 
-		throw new UnsupportedException('No strategy supports to denormalize.');
+		throw new UnsupportedException(sprintf('No strategy supports to normalize for type "%s[%s]".', get_class($type), (string)$type));
 	}
 
 	/**

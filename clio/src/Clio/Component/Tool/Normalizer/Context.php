@@ -11,6 +11,8 @@ namespace Clio\Component\Tool\Normalizer;
  */
 class Context 
 {
+	private $normalizer;
+
 	/**
 	 * stack 
 	 * 
@@ -167,9 +169,11 @@ class Context
 	 */
 	public function enterScope($data, Type $type)
 	{
-		foreach($this->stack as $scope) {
-			if($data === $scope->getData()) {
-				throw new CircularException('The target object is already in scope.', $data);
+		if(is_object($data)) {
+			foreach($this->stack as $scope) {
+				if($data === $scope->getData()) {
+					throw new CircularException('The target object is already in scope.', $data);
+				}
 			}
 		}
 		
@@ -197,5 +201,16 @@ class Context
 	{
 		return $this->typeRegistry;
 	}
+    
+    public function getNormalizer()
+    {
+        return $this->normalizer;
+    }
+    
+    public function setNormalizer(Normalizer $normalizer)
+    {
+        $this->normalizer = $normalizer;
+        return $this;
+    }
 }
 
