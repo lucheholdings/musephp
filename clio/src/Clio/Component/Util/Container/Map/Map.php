@@ -30,18 +30,18 @@ class Map extends AbstractContainer implements MapInterface, \Serializable
 	 */
 	public function __construct(array $values = array())
 	{
-		$this->init();
+		$this->initContainer();
 
 		$this->values = $values;
 	}
 
 	/**
-	 * init 
+	 * initContainer 
 	 *    
 	 * @access protected
 	 * @return void
 	 */
-	protected function init()
+	protected function initContainer()
 	{
 		/* Initialize class definition and more */
 	}

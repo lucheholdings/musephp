@@ -35,12 +35,12 @@ abstract class LazyLoadCollection extends ProxyCollection
 	}
 
 	/**
-	 * init 
+	 * initContainer 
 	 *    
 	 * @access protected
 	 * @return void
 	 */
-	protected function init()
+	protected function initContainer()
 	{
 	}
 

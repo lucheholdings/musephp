@@ -27,7 +27,7 @@ abstract class AbstractContainer
 	 * @access private
 	 */
 	private $valueValidator;
-
+	
 	/**
 	 * hasKeyValidator 
 	 * 

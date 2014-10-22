@@ -33,16 +33,16 @@ class Set extends AbstractContainer implements SetInterface, \Serializable
 	{
 		$this->values = $values;
 
-		$this->init();
+		$this->initContainer();
 	}
 
 	/**
-	 * init 
+	 * initContainer 
 	 *    
 	 * @access protected
 	 * @return void
 	 */
-	protected function init()
+	protected function initContainer()
 	{
 		/* Initialize class definition and more */
 	}

@@ -44,7 +44,7 @@ abstract class StoragedContainer implements Container
 	{
 		$this->storage = $storage;
 
-		$this->init();
+		$this->initContainer();
 	}
 
 	/**
@@ -59,13 +59,14 @@ abstract class StoragedContainer implements Container
 	}
     
 	/**
-	 * init 
+	 * initContainer 
 	 * 
 	 * @access protected
 	 * @return void
 	 */
-	protected function init()
+	protected function initContainer()
 	{
+		/* Initialize class definition and more */
 	}
 
     /**

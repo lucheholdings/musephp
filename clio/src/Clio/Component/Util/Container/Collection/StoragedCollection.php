@@ -22,17 +22,6 @@ class StoragedCollection extends StoragedContainer implements CollectionInterfac
 	}
 
 	/**
-	 * init 
-	 *    
-	 * @access protected
-	 * @return void
-	 */
-	protected function init()
-	{
-		/* Initialize class definition and more */
-	}
-
-	/**
 	 * toArray
 	 *   Get collection pool
 	 * @access public
