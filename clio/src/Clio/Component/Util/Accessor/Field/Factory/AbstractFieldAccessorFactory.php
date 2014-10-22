@@ -37,7 +37,7 @@ abstract class AbstractFieldAccessorFactory extends AbstractFactory implements F
 		$schema = array_shift($args);
 		$field = array_shift($args);
 
-		return $this->isSupportedSchemaField($schema, $field);
+		return $this->isSupportedField($schema, $field);
 	}
 }
 

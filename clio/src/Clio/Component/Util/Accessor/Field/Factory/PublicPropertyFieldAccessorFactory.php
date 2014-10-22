@@ -7,22 +7,22 @@ use Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor;
 /**
  * PublicPropertyFieldAccessorFactory 
  * 
- * @uses ClassFieldAccessorFactory
+ * @uses FieldAccessorFactory
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PublicPropertyFieldAccessorFactory extends AbstractClassFieldAccessorFactory implements ClassFieldAccessorFactory
+class PublicPropertyFieldAccessorFactory extends AbstractFieldAccessorFactory 
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createClassFieldAccessor(\ReflectionClass $classReflector, $fieldName, array $options = array())
+	public function createFieldAccessor($schema, $fieldName, array $options = array())
 	{
-		$reflector = $classReflector->getProperty($fieldName);
+		$reflector = $schema->getProperty($fieldName);
 
-		$propertyReflector = $this->getPropertyReflector($classReflector, $fieldName, $options);
+		$propertyReflector = $this->getPropertyReflector($schema, $fieldName, $options);
 
 		return new PublicPropertyFieldAccessor($fieldName, $propertyReflector);
 	}
@@ -30,9 +30,9 @@ class PublicPropertyFieldAccessorFactory extends AbstractClassFieldAccessorFacto
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedClassField(\ReflectionClass $classReflector, $fieldName)
+	public function isSupportedField($schema, $fieldName)
 	{
-		if($classReflector->hasProperty($fieldName) && $classReflector->getProperty($fieldName)->isPublic()) {
+		if(($schema instanceof \ReflectionClass) && $schema->hasProperty($fieldName) && $schema->getProperty($fieldName)->isPublic()) {
 			return true;
 		}
 
@@ -42,15 +42,15 @@ class PublicPropertyFieldAccessorFactory extends AbstractClassFieldAccessorFacto
 	/**
 	 * getPropertyReflector 
 	 * 
-	 * @param \ReflectionClass $classReflector 
+	 * @param \ReflectionClass $schema 
 	 * @param mixed $fieldName 
 	 * @param array $options 
 	 * @access protected
 	 * @return void
 	 */
-	protected function getPropertyReflector(\ReflectionClass $classReflector, $fieldName, array $options)
+	protected function getPropertyReflector(\ReflectionClass $schema, $fieldName, array $options)
 	{
-		return $classReflector->getProperty($fieldName);
+		return $schema->getProperty($fieldName);
 	}
 }
 

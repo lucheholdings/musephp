@@ -7,26 +7,26 @@ use Clio\Component\Util\Accessor\Field\MethodFieldAccessor;
 /**
  * MethodFieldAccessorFactory 
  * 
- * @uses ClassFieldAccessorFactory
+ * @uses FieldAccessorFactory
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class MethodFieldAccessorFactory extends AbstractClassFieldAccessorFactory
+class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createClassFieldAccessor(\ReflectionClass $classReflector, $fieldName, array $options = array())
+	public function createFieldAccessor($schema, $fieldName, array $options = array())
 	{
-		$reflector = $classReflector->getProperty($fieldName);
+		$reflector = $schema->getProperty($fieldName);
 
-		$getter = $this->getGetterReflector($classReflector, $fieldName, $options);
-		$setter = $this->getSetterReflector($classReflector, $fieldName, $options);
+		$getter = $this->getGetterReflector($schema, $fieldName, $options);
+		$setter = $this->getSetterReflector($schema, $fieldName, $options);
 
 		if(!$getter && !$setter) {
-			throw new \InvalidArgumentException(sprintf('Class "%s" does not have getter and setter.', $classReflector->getName()));
+			throw new \InvalidArgumentException(sprintf('Class "%s" does not have getter and setter.', $schema->getName()));
 		}
 
 		return new MethodFieldAccessor($fieldName, $getter, $setter);
@@ -35,21 +35,21 @@ class MethodFieldAccessorFactory extends AbstractClassFieldAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedClassField(\ReflectionClass $classReflector, $fieldName)
+	public function isSupportedField($schema, $fieldName)
 	{
-		return true;
+		return ($schema instanceof \ReflectionClass);
 	}
 
 	/**
 	 * getGetterReflector 
 	 * 
-	 * @param \ReflectionClass $classReflector 
+	 * @param \ReflectionClass $schema 
 	 * @param mixed $fieldName 
 	 * @param array $options 
 	 * @access protected
 	 * @return void
 	 */
-	protected function getGetterReflector(\ReflectionClass $classReflector, $fieldName, array $options)
+	protected function getGetterReflector(\ReflectionClass $schema, $fieldName, array $options)
 	{
 		$getters = array();
 		if(array_key_exists('getter', $options)) {
@@ -58,19 +58,19 @@ class MethodFieldAccessorFactory extends AbstractClassFieldAccessorFactory
 			$getters = array(Psr1::formatMethodName('get'.ucfirst($fieldName), 'is'.ucfirst($fieldName)));
 		}
 		
-		return $this->guessMethod($classReflector, $getters);
+		return $this->guessMethod($schema, $getters);
 	}
 
 	/**
 	 * getSetterReflector 
 	 * 
-	 * @param \ReflectionClass $classReflector 
+	 * @param \ReflectionClass $schema 
 	 * @param mixed $fieldName 
 	 * @param array $options 
 	 * @access protected
 	 * @return void
 	 */
-	protected function getSetterReflector(\ReflectionClass $classReflector, $fieldName, array $options)
+	protected function getSetterReflector(\ReflectionClass $schema, $fieldName, array $options)
 	{
 		$setters = array();
 		if(array_key_exists('setter', $options)) {
@@ -79,22 +79,22 @@ class MethodFieldAccessorFactory extends AbstractClassFieldAccessorFactory
 			$setters = array(Psr1::formatMethodName('set'.ucfirst($fieldName)));
 		}
 		
-		return $this->guessMethod($classReflector, $setters);
+		return $this->guessMethod($schema, $setters);
 	}
 
 	/**
 	 * guessMethod 
 	 * 
-	 * @param \ReflectionClass $classReflector 
+	 * @param \ReflectionClass $schema 
 	 * @param array $methods 
 	 * @access protected
 	 * @return void
 	 */
-	protected function guessMethod(\ReflectionClass $classReflector, array $methods)
+	protected function guessMethod(\ReflectionClass $schema, array $methods)
 	{
 		foreach($methods as $method) {
-			if($classReflector->hasMethod($method)) {
-				return $classReflector->getMethod($method);
+			if($schema->hasMethod($method)) {
+				return $schema->getMethod($method);
 			}
 		}
 

@@ -5,7 +5,9 @@ use Clio\Component\Util\Accessor\ChainProxySchemaAccessor;
 
 /**
  * ClassAccessorFactoryCollection
- * 
+ *   Support Composite pattern of Accessor Factory.
+ *
+ *   Call creaetClassAccessor() to create ChainedProxySchemaAccessor 
  * @uses ComponentFactory
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
@@ -14,24 +16,14 @@ use Clio\Component\Util\Accessor\ChainProxySchemaAccessor;
  */
 class ClassAccessorFactoryCollection extends FactoryCollection implements ClassAccessorFactory 
 {
-	/**
-	 * doCreate 
-	 * 
-	 * @param array $args 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doCreate(array $args)
+	protected function initContainer()
 	{
-		$classReflector = array_shift($args);
-		$options = array_shift($args);
-
-		return $this->creaetClassAccessor($classReflector, $options);
+		$this->setValueValidator(new ClassValidator('Clio\Component\Util\Accessor\Factory\ClassAccessorFactory'));
 	}
 
 	/**
 	 * createClassAccessor 
-	 * 
+	 *    Create an instance which Chained all created accessor 
 	 * @param mixed $class 
 	 * @param array $options 
 	 * @access public
@@ -42,8 +34,10 @@ class ClassAccessorFactoryCollection extends FactoryCollection implements ClassA
 		$accessor = null;
 		foreach($this->getFactories() as $factory) {
 			if($accessor) {
-				$decorateAccessor = $factory->createClassAccessor($class, $options);
-				$accessor = new ChainProxySchemaAccessor($decorateAccessor, $accessor);
+				if(!$accessor instanceof ChainProxySchemaAccessor) {
+					$accessor = new ChainProxySchemaAccessor($accessor);
+				}
+				$accessor->setNext($factory->createClassAccessor($class, $options));
 			} else {
 				$accessor = $factory->createClassAccessor($class, $options);
 			}
@@ -51,74 +45,4 @@ class ClassAccessorFactoryCollection extends FactoryCollection implements ClassA
 
 		return $accessor;
 	}
-
-	/**
-	 * doCreate 
-	 * 
-	 * @param array $args 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doCreate(array $args)
-	{
-		$class = array_shift($args);
-		$options = array_shift($args);
-		return $this->createClassAccessor($class, $options);
-	}
-
-	/**
-	 * createClassAccessor 
-	 * 
-	 * @param mixed $class 
-	 * @access public
-	 * @return void
-	 */
-	public function createClassAccessor($class, array $options = array())
-	{
-		$accessor = parent::createClassAccessor($class, $options);
-
-		return new 
-		
-		$decorator = $this->createDecorator();
-
-		if($class instanceof \ReflectionClass) {
-			$classReflector = $class;
-		} else if(is_object($class)) {
-			$classReflector = new \ReflectionClass($class);
-		} else {
-			throw new \InvalidArgumentException(sprintf('createClassAccessor only accept a ReflectionClass or an instance, but %s is given.', gettype($class)));
-		}
-
-		$fields = $this->createFieldAccessors($classReflector);
-		return new SimpleClassAccessor($classReflector, $fields, $options);
-	}
-
-	/**
-	 * createFieldAccessors 
-	 * 
-	 * @param \ReflectionClass $classReflector 
-	 * @access public
-	 * @return void
-	 */
-	public function createFieldAccessors(\ReflectionClass $classReflector)
-	{
-		$fields = array();
-		foreach($classReflector->getProperties() as $property) {
-			$fields[$property->getName()] = $this->getFieldAccessorFactory()->createClassFieldAccessor($classReflector, $property->getName());
-		}
-
-		return $fields;
-	}
-    
-    public function getFieldAccessorFactory()
-    {
-        return $this->fieldAccessorFactory;
-    }
-    
-    public function setFieldAccessorFactory(FieldAccessorFactoryCollection $fieldAccessorFactory)
-    {
-        $this->fieldAccessorFactory = $fieldAccessorFactory;
-        return $this;
-    }
 }
-

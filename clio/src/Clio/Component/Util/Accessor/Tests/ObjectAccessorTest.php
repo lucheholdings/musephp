@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Tests;
 
 use Clio\Component\Util\Accessor\Tests\Models;
-use Clio\Component\Util\Accessor\SimpleClassAccessor;
+use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
 use Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor,
 	Clio\Component\Util\Accessor\Field\MethodFieldAccessor
 ;
@@ -37,7 +37,7 @@ class ObjectAccessorTest extends AbstractAccessorTest
 	{
 		$classReflector = new \ReflectionClass($data);
 
-		return new SimpleClassAccessor($classReflector, array(
+		return new SimpleSchemaAccessor($classReflector, array(
 			'foo'  => new PublicPropertyFieldAccessor('foo', $classReflector->getProperty('foo')),
 			'bar'  => new MethodFieldAccessor('bar', $classReflector->getMethod('getBar'), $classReflector->getMethod('setBar')),
 			'hoge' => new MethodFieldAccessor('hoge', $classReflector->getMethod('getHoge'), $classReflector->getMethod('setHoge')),

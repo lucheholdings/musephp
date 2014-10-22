@@ -2,12 +2,11 @@
 namespace Clio\Component\Util\Accessor\Factory;
 
 use Clio\Component\Pattern\Factory\AbstractFactory;
-use Clio\Component\Util\Accessor\Field\Factory\ClassFieldAccessorFactory;
 use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
 use Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory,
 	Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory
 ;
-use Clio\Component\Util\Accessor\SimpleClassAccessor;
+use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
 
 /**
  * BasicClassAccessorFactory 
@@ -18,24 +17,28 @@ use Clio\Component\Util\Accessor\SimpleClassAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class BasicClassAccessorFactory extends AbstractClassAccessorFactory
+class BasicClassAccessorFactory extends AbstractSchemaAccessorFactory
 {
-	static public function createDefaultFactory()
+	static public function createFactory(array $fieldFactories = array())
 	{
-		return new static(new FieldAccessorFactoryCollection(array(
-			new PublicPropertyFieldAccessorFactory(),
-			new MethodFieldAccessorFactory(),
-		)));
+		// Use defualt fieldFactories
+		if(empty($fieldFactories)) {
+			$fieldFactories = array(
+				new PublicPropertyFieldAccessorFactory(),
+				new MethodFieldAccessorFactory(),
+			);
+		}
+		return new static(new FieldAccessorFactoryCollection($fieldFactories));
 	}
 
 	/**
-	 * createClassAccessor 
+	 * createSchemaAccessor 
 	 * 
 	 * @param mixed $class 
 	 * @access public
 	 * @return void
 	 */
-	public function createClassAccessor($class, array $options = array())
+	public function createSchemaAccessor($class, array $options = array())
 	{
 		if($class instanceof \ReflectionClass) {
 			$classReflector = $class;
@@ -50,13 +53,13 @@ class BasicClassAccessorFactory extends AbstractClassAccessorFactory
 		$fields = $this->createFieldAccessors($classReflector, array_map(function($property){
 				return $property->getName();
 			}, $classReflector->getProperties()));
-		return new SimpleClassAccessor($classReflector, $fields, $options);
+		return new SimpleSchemaAccessor($classReflector, $fields, $options);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedClassSchema($class)
+	public function isSupportedSchema($class)
 	{
 		return is_object($class) || (is_string($class) && class_exists($class));
 	}

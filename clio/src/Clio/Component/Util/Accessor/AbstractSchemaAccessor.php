@@ -35,14 +35,5 @@ abstract class AbstractSchemaAccessor implements SchemaAccessor
     {
         return $this->schema;
     }
-    
-    /**
-     * {@inheritdoc}
-     */
-    public function setSchema($schema)
-    {
-        $this->schema = $schema;
-        return $this;
-    }
 }
 

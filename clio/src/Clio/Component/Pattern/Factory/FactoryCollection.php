@@ -71,6 +71,8 @@ class FactoryCollection extends Collection implements MappedFactory, Factory
 	public function createArgs(array $args = array())
 	{
 		$instance = null;
+
+		// Traverse each factory to create an instance
 		foreach($this->getValues() as $factory) {
 			if($factory->isSupportedFactory($args)) {
 				$instance = $factory->createArgs($args);

@@ -23,13 +23,13 @@ interface FieldAccessorFactory
 	function createFieldAccessor($schema, $field, array $options = array());
 
 	/**
-	 * isSupportedSchemaField 
+	 * isSupportedField 
 	 * 
 	 * @param mixed $schema 
 	 * @param mixed $field 
 	 * @access public
 	 * @return void
 	 */
-	function isSupportedSchemaField($schema, $field);
+	function isSupportedField($schema, $field);
 }
 

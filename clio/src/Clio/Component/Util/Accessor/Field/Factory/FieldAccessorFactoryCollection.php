@@ -27,7 +27,7 @@ class FieldAccessorFactoryCollection extends FactoryCollection implements FieldA
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedSchemaField($schema, $fieldName)
+	public function isSupportedField($schema, $fieldName)
 	{
 		return $this->isSupportedFactory(array($shema, $fieldName));
 	}

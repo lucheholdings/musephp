@@ -16,9 +16,9 @@ class BasicClassAccessorFactoryTest extends \PHPUnit_Framework_TestCase
 	{
 		$model = new Models\AccessorTestModel();
 
-		$factory = BasicClassAccessorFactory::createDefaultFactory();
+		$factory = BasicClassAccessorFactory::createFactory();
 
-		$accessor = $factory->createClassAccessor($model);
+		$accessor = $factory->createSchemaAccessor($model);
 
 		$this->assertTrue($accessor->hasFieldAccessor('foo'));
 		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor', $accessor->getFieldAccessor('foo'));

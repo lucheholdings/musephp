@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Accessor\Factory;
 
 use Clio\Component\Util\Accessor\ObjectAccessor;
+use Clio\Component\Util\Accessor\SchemaAccessorFactory;
 
 /**
  * ObjectAccessorFactory 
@@ -22,7 +23,7 @@ class ObjectAccessorFactory extends AbstractAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(ClassAccessorFactory $schemaAccessorFactory)
+	public function __construct(SchemaAccessorFactory $schemaAccessorFactory)
 	{
 		$this->schemaAccessorFactory = $schemaAccessorFactory;
 	}
