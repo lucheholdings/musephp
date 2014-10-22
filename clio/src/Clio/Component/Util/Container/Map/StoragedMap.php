@@ -37,12 +37,12 @@ class StoragedMap extends StoragedContainer implements MapInterface
 	}
 
 	/**
-	 * init 
+	 * initContainer
 	 *    
 	 * @access protected
 	 * @return void
 	 */
-	protected function init()
+	protected function initContainer()
 	{
 		/* Initialize class definition and more */
 	}

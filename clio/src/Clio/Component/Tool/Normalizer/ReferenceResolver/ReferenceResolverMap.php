@@ -3,7 +3,7 @@ namespace Clio\Component\Tool\Normalizer\ReferenceResolver;
 
 class ReferenceResolverMap extends Map 
 {
-	protected function init()
+	protected function initContainer()
 	{
 		$this->setValueValidator(new ClassValidator('Clio\Component\Tool\Normalizer\ReferenceResolver'));
 	}
