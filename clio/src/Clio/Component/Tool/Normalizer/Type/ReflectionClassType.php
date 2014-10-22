@@ -104,7 +104,12 @@ class ReflectionClassType implements ObjectType
 			$property = $this->classReflector->getProperty($field);
 			$property->setAccessible(true);;
 
-			$identifiers[$field] = $property->getValue($data); 
+			$value = $property->getValue($data); 
+
+			if(!$value) {
+				throw new \RuntimeException(sprintf('Identifier "%s" is not filled.', $field));
+			}
+			$identifiers[$field] = $value;
 		}
 
 		return $identifiers;
@@ -139,7 +144,7 @@ class ReflectionClassType implements ObjectType
 	public function getDataPool()
 	{
 		if(!$this->dataPool) {
-			$this->dataPool = new DataPool();
+			$this->dataPool = new DataPool($this);
 		}
 
 		return $this->dataPool;

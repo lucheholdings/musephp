@@ -6,8 +6,8 @@ use Clio\Framework\Tests\Models;
 
 use Clio\Framework\Metadata\Mapping\Factory\SchemifierMappingFactory;
 
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Framework\Tests\DummyNormalizerStrategy;
+use Clio\Framework\Normalizer\AccessorNormalizer;
+
 use Clio\Framework\Schemifier\Factory\NormalizerSchemifierFactory;
 
 
@@ -31,14 +31,17 @@ class NormalizerSchemifierTest extends FrameworkTestCase
 		$this->assertInstanceof('Clio\Framework\Schemifier\NormalizerSchemifier', $schemifier);
 		$this->assertInstanceof('Clio\Component\Tool\Normalizer\Normalizer', $schemifier->getNormalizer());
 
-		$object = $schemifier->schemify(array('dummy'));
+		$object = $schemifier->schemify(array('privateProperty' => 'private', 'publicProperty' => 'public'));
 
 		$this->assertInstanceof('Clio\Framework\Tests\Models\TestModel01', $object);
+
+		$this->assertEquals('private', $object->getPrivateProperty());
+		$this->assertEquals('public', $object->publicProperty);
 	}
 
 	public function getSchemifierMappingFactory()
 	{
-		$normalizer = new Normalizer(new DummyNormalizerStrategy(new \ReflectionClass('Clio\Framework\Tests\Models\TestModel01')));
+		$normalizer = AccessorNormalizer::createDefault();
 
 		return new SchemifierMappingFactory(new NormalizerSchemifierFactory($normalizer)); 
 	}

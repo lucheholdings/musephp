@@ -78,8 +78,13 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 			throw new \InvalidArgumentException('schemify only support schemed data which is an array or an object.');
 		}
 
+		// Mapping 
+		if($mapper) {
+			$mapper->map($data);
+		}
+
 		try {
-			$model = $this->getNormalizer()->denormalize($data, $schemeClass, $mapper);
+			$model = $this->getNormalizer()->denormalize($data, $schemeClass);
 		} catch(SerializerException $ex) {
 			throw new \RuntimeException(sprintf('Failed to denormalize class "%s"', $schemeClass), 0, $ex);
 		}

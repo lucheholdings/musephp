@@ -23,16 +23,7 @@ abstract class AbstractStrategy implements Strategy
 			throw new \InvalidArgumentException('Strategy requires $type is an instanceof of Type.');
 		}
 
-		try {
-			$context->enterScope($data, $type);
-		} catch(CircularException $ex) {
-			// if data type can refer then avoid circularException.
-			if(!$type->canReference()) {
-				throw $ex;
-			}
-			return $context->getNormalizer()->normalize($data, $type->reference(), $context);
-			//$context->enterScope($data, $type->reference());
-		}
+		$context->enterScope($data, $type);
 		
 		// normalize the data to array
 		$normalized = $this->doNormalize($data, $type, $context);
@@ -42,8 +33,7 @@ abstract class AbstractStrategy implements Strategy
 			array_walk($normalized, function(&$value, $key, $data) {
 				list($context, $type) = $data;
 
-				$fieldType = $type->getFieldType($key);
-				$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+				$value = $context->getNormalizer()->normalize($value, null, $context);
 			}, array($context, $type));
 		}
 
@@ -71,7 +61,8 @@ abstract class AbstractStrategy implements Strategy
 
 		// Convert data before denormalize
 		if(is_array($data)) {
-			array_walk($data, function(&$value, $key, $type, $context) {
+			array_walk($data, function(&$value, $key, $data) {
+				list($type, $context) = $data;
 				// Field Type
 				if($fieldType = $type->getFieldType($key)) {
 					$fieldType = $context->getTypeRegistry()->getType($fieldType);
@@ -80,34 +71,10 @@ abstract class AbstractStrategy implements Strategy
 				}
 				// 
 				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
-			}, $type, $context);
+			}, array($type, $context));
 		}
 		
-		// after all denormalize child fields, denormalize the data. 
-		// But first check the pool if the data exists
-		$object = null;
-		if($type instanceof ObjectType) {
-			$identifiers = array();
-			foreach($type->getIdentifierFields() as $field) {
-				if(!isset($data[$field])) {
-					$identifiers = null;
-					break;
-				}
-
-				$identifiers[$field] = $data[$field];
-			}
-
-			if($identifiers) {
-				// use this as object
-				$object = $type->getDataPool()->getByIdentifiers($identifiers);
-			}
-		}
-
-		$denormalized = $this->doDenormalize($data, $type, $context, $object);
-
-		if($type instanceof ObjectType) { 
-			$type->getDataPool()->add($denormalized);
-		}
+		$denormalized = $this->doDenormalize($data, $type, $context);
 
 		$context->leaveScope();
 

@@ -7,6 +7,7 @@ use Clio\Component\Tool\Normalizer\Strategy\NormalizationStrategy,
 ;
 use Clio\Component\Util\Accessor\Factory\ObjectAccessorFactory;
 use Clio\Component\Util\Accessor\SchemaAccessorFactory;
+use Clio\Component\Util\Accessor\Factory\BasicClassAccessorFactory;
 use Clio\Component\Tool\Normalizer\Context,
 	Clio\Component\Tool\Normalizer\Type
 ;
@@ -22,6 +23,11 @@ use Clio\Component\Tool\Normalizer\Context,
  */
 class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy, DenormalizationStrategy
 {
+	static public function createDefault()
+	{
+		return new self(BasicClassAccessorFactory::createDefaultFactory());
+	}
+
 	private $accessorFactory;
 
 	/**

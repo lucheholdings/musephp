@@ -25,6 +25,18 @@ abstract class StrategyTestCase extends \PHPUnit_Framework_TestCase
 		$this->assertEquals($this->getResultData(), $normalized);
 	}
 
+	public function testDenormalize()
+	{
+		$data = $this->getTestData();
+		$type = $this->createType($data);
+
+		$normalizer = $this->getNormalizer();
+
+		$denormalized = $normalizer->denormalize($this->getResultData(), $type, $this->getContext());
+
+		$this->assertEquals($data, $denormalized);
+	}
+
 	protected function initNormalizer()
 	{
 		$strategy = $this->createStrategy();

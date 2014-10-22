@@ -49,5 +49,10 @@ class PrimitiveType implements Type
 	{
 		return $this->name;
 	}
+
+	public function getFieldType($field)
+	{
+		return null;
+	}
 }
 

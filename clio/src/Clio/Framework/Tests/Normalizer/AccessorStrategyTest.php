@@ -28,6 +28,8 @@ class AccessorStrategyTest extends StrategyTestCase
 				'hoge' => 'Hoge',
 			);
 		parent::testNormalize();
+
+		parent::testDenormalize();
 	}
 
 	public function testComplex()
@@ -46,9 +48,14 @@ class AccessorStrategyTest extends StrategyTestCase
 		$type = $this->createType($this->testData);
 
 		$type->setIdentifierFields(array('id'));
+		$type->setFieldType('self', 'Clio\Framework\Tests\Models\NormalizerComplexTestModel'); 
+		$type->setFieldType('child', 'Clio\Framework\Tests\Models\NormalizerTestModel'); 
 
 		parent::testNormalize();
+
+		parent::testDenormalize();
 	}
+
 
 	protected function createStrategy()
 	{

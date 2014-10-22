@@ -9,7 +9,6 @@
 namespace Clio\Framework\Normalizer;
 
 use Clio\Framework\Registry\AliasServiceRegistry;
-
 use Clio\Component\Tool\Normalizer\Normalizer;
 
 /**

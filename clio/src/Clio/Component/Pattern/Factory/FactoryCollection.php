@@ -32,11 +32,22 @@ class FactoryCollection extends Collection implements MappedFactory, Factory
 	{
 		parent::__construct();
 
-		$this->setValueValidator(new ClassValidator($this->getValidatedFactoryClass()));
+		$this->initFactory();
 
-		foreach($factories as $factory) {
-			$this->add($factory);		
+		foreach($factories as $key => $factory) {
+			$this->set($key, $factory);		
 		}
+	}
+
+	/**
+	 * initFactory 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function initFactory()
+	{
+		$this->setValueValidator(new ClassValidator('Clio\Component\Pattern\Factory\Factory'));
 	}
 
 	/**
@@ -116,17 +127,6 @@ class FactoryCollection extends Collection implements MappedFactory, Factory
 	}
 
 	/**
-	 * getValidatedFactoryClass 
-	 * 
-	 * @access protected
-	 * @return void
-	 */
-	protected function getValidatedFactoryClass()
-	{
-		return 'Clio\Component\Pattern\Factory\Factory';
-	}
-
-	/**
 	 * getFactories 
 	 * 
 	 * @access public
@@ -135,6 +135,18 @@ class FactoryCollection extends Collection implements MappedFactory, Factory
 	public function getFactories()
 	{
 		return $this->getValues();
+	}
+
+	/**
+	 * hasFactory 
+	 * 
+	 * @param mixed $key 
+	 * @access public
+	 * @return void
+	 */
+	public function hasFactory($key)
+	{
+		return $this->hasKey($key);
 	}
 }
 

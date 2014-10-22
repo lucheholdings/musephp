@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
+use Clio\Component\Tool\Normalizer\Type;
 use Clio\Component\Util\Container\Map\Map;
 
 class DataPool extends Map 
@@ -18,7 +19,9 @@ class DataPool extends Map
 		
 		$key = implode('-', $ids);
 
+
 		$this->set($key, $data);
+		return $this;
 	}
 
 	public function getByIdentifiers(array $ids)

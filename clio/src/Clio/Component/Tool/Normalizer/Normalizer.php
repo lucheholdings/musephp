@@ -91,21 +91,26 @@ class Normalizer implements
 	 */
 	public function denormalize($data, $type, Context $context = null)
 	{
-		if(!$context) {
-			$context = new Context();
-			$context->setNormalizer($this);
-		}
+		try {
+			if(!$context) {
+				$context = new Context();
+				$context->setNormalizer($this);
+			}
 
-		if(!$type instanceof Type) {
-			$type = $context->getType($type);
-		}
+			if(!$type instanceof Type) {
+				$type = $context->getTypeRegistry()->getType($type);
+			}
 
-		$strategy = $this->getStrategy();
-		if(!$strategy instanceof Strategy\DenormalizationStrategy) {
-			throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
-		}
+			$strategy = $this->getStrategy();
+			if(!$strategy instanceof Strategy\DenormalizationStrategy) {
+				throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
+			}
 
-		return $strategy->denormalize($data, $type, $context); 
+			return $strategy->denormalize($data, $type, $context); 
+			
+		} catch(\Exception $ex) {
+			throw new \Exception(sprintf('Failed to denormalize data [%s]', json_encode($data)), 0, $ex);
+		}
 	}
     
     /**
