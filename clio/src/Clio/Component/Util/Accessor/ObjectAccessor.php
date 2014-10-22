@@ -56,7 +56,8 @@ class ObjectAccessor implements Accessor
 	 */
 	public function set($field, $value)
 	{
-		return $this->getSchemaAccessor()->get($this->getData(), $field, $value);
+		$this->getSchemaAccessor()->set($this->getData(), $field, $value);
+		return $this;
 	}
 
 	/**

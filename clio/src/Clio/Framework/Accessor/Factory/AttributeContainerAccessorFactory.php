@@ -29,7 +29,7 @@ class AttributeContainerAccessorFactory extends AbstractClassAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createClassAccessor(\ReflectionClass $classReflector, $fieldName, array $options = array())
+	public function createClassAccessor($classReflector, array $options = array())
 	{
 		if(!$classReflector->implementsInterface('Clio\Component\Util\Attribute\AttributeContainerAware')) {
 			throw new \InvalidArgumentException(sprintf('Class "%s" is not implements AttributeContainerAware interface.', $classReflector->getName()));
