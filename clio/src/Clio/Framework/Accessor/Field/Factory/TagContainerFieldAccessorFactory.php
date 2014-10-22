@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Framework\Accessor\Field\Factory;
 
-use Clio\Component\Util\Accessor\Field\Factory\AbstractClassFieldAccessorFactory;
+use Clio\Component\Util\Accessor\Field\Factory\AbstractFieldAccessorFactory;
 use Clio\Component\Util\Tag\TagContainerAware,
 	Clio\Component\Util\Tag\TagContainerAccessor,
 	Clio\Component\Util\Tag\TagComponentFactory
@@ -11,13 +11,13 @@ use Clio\Framework\Accessor\Field\TagContainerFieldAccessor;
 /**
  * TagContainerFieldAccessorFactory 
  * 
- * @uses AbstractClassFieldAccessorFactory
+ * @uses AbstractFieldAccessorFactory
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TagContainerFieldAccessorFactory extends AbstractClassFieldAccessorFactory 
+class TagContainerFieldAccessorFactory extends AbstractFieldAccessorFactory 
 {
 	/**
 	 * tagFieldName 
@@ -50,7 +50,7 @@ class TagContainerFieldAccessorFactory extends AbstractClassFieldAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createClassFieldAccessor(\ReflectionClass $classReflector, $fieldName, array $options = array())
+	public function createFieldAccessor($schema, $fieldName, array $options = array())
 	{
 		if(!$this->tagFactory) {
 			$tagClass = null;
@@ -65,9 +65,9 @@ class TagContainerFieldAccessorFactory extends AbstractClassFieldAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedClassField(\ReflectionClass $classReflector, $fieldName)
+	public function isSupportedField($schema, $fieldName)
 	{
-		if(($fieldName == $this->getTagFieldName()) && ($classReflector instanceof TagContainerAware)) {
+		if(($schema instanceof \ReflectionClass) && ($fieldName == $this->getTagFieldName()) && ($schema instanceof TagContainerAware)) {
 			return true;
 		}
 		return false;

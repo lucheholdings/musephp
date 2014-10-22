@@ -1,22 +1,22 @@
 <?php
 namespace Clio\Framework\Accessor\Factory;
 
-use Clio\Component\Util\Accessor\Factory\AbstractClassAccessorFactory;
+use Clio\Component\Util\Accessor\Factory\AbstractSchemaAccessorFactory;
 use Clio\Framework\Accessor\AttributeContainerAccessor;
 use Clio\Component\Util\Attribute\AttributeAccessor,
 	Clio\Component\Util\Attribute\AttributeComponentFactory
 ;
 
 /**
- * AttributeContainerAccessorFactory
+ * AttributeContainerAccessorFactory 
  * 
- * @uses ClassFieldAccessorFactory
+ * @uses AbstractSchemaAccessorFactory
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AttributeContainerAccessorFactory extends AbstractClassAccessorFactory
+class AttributeContainerAccessorFactory extends AbstractSchemaAccessorFactory
 {
 	/**
 	 * attributeFactory 
@@ -29,10 +29,10 @@ class AttributeContainerAccessorFactory extends AbstractClassAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createClassAccessor($classReflector, array $options = array())
+	public function createSchemaAccessor($schema, array $options = array())
 	{
-		if(!$classReflector->implementsInterface('Clio\Component\Util\Attribute\AttributeContainerAware')) {
-			throw new \InvalidArgumentException(sprintf('Class "%s" is not implements AttributeContainerAware interface.', $classReflector->getName()));
+		if(!$schema->implementsInterface('Clio\Component\Util\Attribute\AttributeContainerAware')) {
+			throw new \InvalidArgumentException(sprintf('Class "%s" is not implements AttributeContainerAware interface.', $schema->getName()));
 		}
 
 
@@ -60,13 +60,13 @@ class AttributeContainerAccessorFactory extends AbstractClassAccessorFactory
 	}
 
 	/**
-	 * isSupportedClassSchema 
+	 * isSupportedSchema 
 	 * 
 	 * @param mixed $schema 
 	 * @access public
 	 * @return void
 	 */
-	public function isSupportedClassSchema($schema)
+	public function isSupportedSchema($schema)
 	{
 		return $schema->implementsInterface('Clio\Component\Util\Attribute\AttributeContainerAware');
 	}

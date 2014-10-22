@@ -14,7 +14,7 @@ class AccessorNormalizer extends Normalizer
 	static public function createDefault(SchemaAccessorFactory $accessorFactory = null)
 	{
 		if(!$accessorFactory) {
-			$accessorFactory = BasicClassAccessorFactory::createDefaultFactory();
+			$accessorFactory = BasicClassAccessorFactory::createFactory();
 		}
 		$strategy = new StrategyCollection(array(
 			new AccessorStrategy($accessorFactory),

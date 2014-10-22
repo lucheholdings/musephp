@@ -59,7 +59,7 @@ class AccessorStrategyTest extends StrategyTestCase
 
 	protected function createStrategy()
 	{
-		return new AccessorStrategy(BasicClassAccessorFactory::createDefaultFactory());
+		return new AccessorStrategy(BasicClassAccessorFactory::createFactory());
 	}
 
 	protected function getTestData()
