@@ -195,6 +195,11 @@ class Collection extends AbstractCollection implements CollectionInterface, \Ser
 		return false;
 	}
 
+	public function find($value)
+	{
+		return array_search($value, $this->values, true);
+	}
+
 	/**
 	 * removeByKey 
 	 *   Remove aliased value from collection pool.
