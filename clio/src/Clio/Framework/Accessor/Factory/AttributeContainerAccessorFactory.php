@@ -37,12 +37,14 @@ class AttributeContainerAccessorFactory extends AbstractSchemaAccessorFactory
 
 
 		// If attributeFactory is not initialize, then craete with attributeClass
-		if(!$this->attributeFactory) {
+		if($this->attributeFactory) {
+			$attributeFactory = $this->getAttributeFactory();
+		} else {
 			$attributeClass = null;
 			if(isset($options['attribute_class'])) {
 				$attributeClass = $options['attribute_class'];
 			}
-			$this->attributeFactory = new AttributeComponentFactory($attributeClass);
+			$attributeFactory = new AttributeComponentFactory($attributeClass);
 		}
 		return new AttributeContainerAccessor($this->createAttributeAccessor($this->getAttributeFactory()));
 	}

@@ -52,6 +52,24 @@ class AliasServiceRegistry implements ServiceRegistryInterface
 		throw new \RuntimeException('AliasServiceRegistry cannot set Service. Please use setAlias and getRegistry::set() to set actual service.');
 	}
 
+	public function remove($alias)
+	{
+		return $this->getRegistry()->remove($this->getAlias($alias));
+	}
+
+	public function count()
+	{
+		return $this->getRegistry()->count();
+	}
+
+	public function clear()
+	{
+		$this->getRegsitry()->clear();
+		$this->aliases = array();
+
+		return $this;
+	}
+
 	public function hasAlias($id)
 	{
 		return isset($this->aliases[$id]);
@@ -80,17 +98,6 @@ class AliasServiceRegistry implements ServiceRegistryInterface
 		return is_object($service);
 	}
     
-    public function getRegistry()
-    {
-        return $this->registry;
-    }
-    
-    public function setRegistry($registry)
-    {
-        $this->registry = $registry;
-        return $this;
-    }
-    
     public function getAliases()
     {
         return $this->aliases;
@@ -99,6 +106,17 @@ class AliasServiceRegistry implements ServiceRegistryInterface
     public function setAliases($aliases)
     {
         $this->aliases = $aliases;
+        return $this;
+    }
+    
+    public function getRegistry()
+    {
+        return $this->registry;
+    }
+    
+    public function setRegistry($registry)
+    {
+        $this->registry = $registry;
         return $this;
     }
 }

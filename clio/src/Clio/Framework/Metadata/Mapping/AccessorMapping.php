@@ -1,22 +1,28 @@
 <?php
 namespace Clio\Framework\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping;
+use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
 use Clio\Component\Util\Accessor\SchemaAccessor;
 
 /**
- * TagContainerAwareMapping 
- * 
+ * AccessorMapping 
+ *    
  * @uses AbstractMapping
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TagContainerAwareMapping extends AbstractMapping 
+abstract class AccessorMapping extends AbstractMapping 
 {
-	public function __construct()
+	abstract public function getAccessor();
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getName()
 	{
+		return 'accessor';
 	}
 }
 
