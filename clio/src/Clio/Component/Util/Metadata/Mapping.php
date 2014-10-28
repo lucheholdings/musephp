@@ -1,7 +1,15 @@
 <?php
 namespace Clio\Component\Util\Metadata;
 
-interface Mapping
+/**
+ * Mapping 
+ * 
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+interface Mapping extends \Serializable
 {
 	/**
 	 * getName 
@@ -12,12 +20,12 @@ interface Mapping
 	function getName();
 
 	/**
-	 * getMetadat 
+	 * getMetadata 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function getMetadat();
+	function getMetadata();
 
 	/**
 	 * __toString 

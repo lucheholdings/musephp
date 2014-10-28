@@ -1,8 +1,9 @@
 <?php
 namespace Clio\Component\Util\Metadata\Mapping;
 
+use Clio\Component\Util\Metadata\Mapping;
 use Clio\Component\Util\Container\Collection\Collection;
-use Clio\Component\Util\Container\Validator\ClassValidator;
+use Clio\Component\Util\Validator\ClassValidator;
 
 /**
  * MappingCollection 

@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Metadata\Mapping;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
-use Clio\Component\Util\Container\Validator\ClassValidator;
+use Clio\Component\Util\Validator\ClassValidator;
 
 /**
  * LazyMappingCollection 
@@ -15,6 +15,8 @@ use Clio\Component\Util\Container\Validator\ClassValidator;
  */
 class LazyMappingCollection extends MappingCollection
 {
+	private $metadata;
+
 	private $factoryCollection;
 
 	/**
@@ -24,10 +26,11 @@ class LazyMappingCollection extends MappingCollection
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(FactoryCollection $factoryCollection)
+	public function __construct($metadata, FactoryCollection $factoryCollection = null)
 	{
 		parent::__construct();
 
+		$this->metadata = $metadata;
 		$this->factoryCollection = $factoryCollection;
 	}
 
@@ -51,12 +54,18 @@ class LazyMappingCollection extends MappingCollection
 	 */
 	public function get($name)
 	{
-		if(parent::hasKey($name)) {
+		if(!parent::hasKey($name)) {
+			$metadata = $this->getMetadata();
 			if(!$this->getFactoryCollection()->hasFactory($name)) {
 				throw new \InvalidArgumentException(sprintf('Mapping "%s" is not exists with Metadata "%s"', $name, $metadata));
 			}
 
-			$this->set($name, $this->getFactoryCollection()->createTypeMapping($metadata, $name));
+			$factory = $this->getFactoryCollection()->getFactory($name);
+			if($factory->isSupportedMetadata($metadata)) {
+				$this->set($name, $this->createMapping($metadata));
+			} else {
+				throw new \Exception(sprintf('Metadata dose not support Mapping "%s"', $name));
+			}
 		}
 
 		return parent::get($name);
@@ -71,7 +80,7 @@ class LazyMappingCollection extends MappingCollection
 	 */
 	public function hasKey($name)
 	{
-		return parent::hasKey($name) || $this->getFactoryCollection()->hasFactory($name);
+		return parent::hasKey($name) || ($this->getFactoryCollection()->hasFactory($name) && $this->getFactoryCollection()->getFactory($name)->isSupportedMetadata($this->getMetadata()));
 	}
     
     /**
@@ -82,6 +91,9 @@ class LazyMappingCollection extends MappingCollection
      */
     public function getFactoryCollection()
     {
+		if(!$this->factoryCollection) {
+			throw new \RuntimeException(sprintf('FactoryCollection is not initialized yet.'));
+		}
         return $this->factoryCollection;
     }
     
@@ -92,9 +104,20 @@ class LazyMappingCollection extends MappingCollection
      * @access public
      * @return void
      */
-    public function setFactoryCollection($factoryCollection)
+    public function setFactoryCollection(FactoryCollection $factoryCollection)
     {
         $this->factoryCollection = $factoryCollection;
+        return $this;
+    }
+    
+    public function getMetadata()
+    {
+        return $this->metadata;
+    }
+    
+    public function setMetadata($metadata)
+    {
+        $this->metadata = $metadata;
         return $this;
     }
 }

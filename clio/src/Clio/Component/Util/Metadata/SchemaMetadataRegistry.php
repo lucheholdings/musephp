@@ -2,21 +2,22 @@
 namespace Clio\Component\Util\Metadata;
 
 /**
- * SchemaMetadata 
+ * SchemaMetadataRegistry 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface SchemaMetadata extends Metadata, \Serializable
+interface SchemaMetadataRegistry 
 {
 	/**
-	 * getFields 
-	 *    
+	 * getSchemaMetadata 
+	 * 
+	 * @param mixed $schemaName 
 	 * @access public
-	 * @return array<FieldMetadata>
+	 * @return void
 	 */
-	function getFields();
+	public function getSchemaMetadata($schemaName);
 }
 

@@ -2,21 +2,21 @@
 namespace Clio\Component\Util\Metadata;
 
 /**
- * SchemaMetadata 
+ * InheritableMetadata 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface SchemaMetadata extends Metadata, \Serializable
+interface InheritableMetadata
 {
 	/**
-	 * getFields 
-	 *    
+	 * getParent 
+	 * 
 	 * @access public
-	 * @return array<FieldMetadata>
+	 * @return void
 	 */
-	function getFields();
+	function getParent();
 }
 

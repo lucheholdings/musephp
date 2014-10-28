@@ -5,6 +5,7 @@ use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
 use Clio\Component\Util\Metadata\Mapping\MappingCollection,
 	Clio\Component\Util\Metadata\Mapping\LazyMappingCollection
 ;
+use Clio\Component\Pattern\Factory\MappedFactory;
 
 /**
  * SchemaMetadataFactory 
@@ -14,7 +15,7 @@ use Clio\Component\Util\Metadata\Mapping\MappingCollection,
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class SchemaMetadataFactory 
+abstract class SchemaMetadataFactory implements MappedFactory 
 {
 	/**
 	 * schemaMappingFactory 
@@ -47,6 +48,24 @@ abstract class SchemaMetadataFactory
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function createByKey()
+	{
+		$args = func_get_args();
+
+		return $this->createMetadata(array_shift($args));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function createByKeyArgs($key, array $args = array())
+	{
+		return $this->createMetadata($key);
+	}
+
+	/**
 	 * createMetadata 
 	 * 
 	 * @param mixed $schema 
@@ -58,7 +77,7 @@ abstract class SchemaMetadataFactory
 		$schemaMetadata = $this->doCreateMetadata($schema);
 
 		if($this->getSchemaMappingFactory()) {
-			$schemaMetadata->setMappings(new LazyMappingCollection($this->getSchemaMappingFactory()));
+			$schemaMetadata->setMappings($this->getSchemaMappingFactory()->createMapping($schemaMetadata));
 		}
 
 		return $schemaMetadata;
@@ -76,7 +95,7 @@ abstract class SchemaMetadataFactory
 		$fieldMetadata = $this->doCreateFieldMetadata($field);
 
 		if($this->getFieldMappingFactory()) {
-			$fieldMetadata->setMappings(new LazyMappingCollection($this->fieldMappingFactory));
+			$fieldMetadata->setMappings($this->getFieldMappingFactory()->createMapping($fieldMetadata));
 		}
 
 		return $fieldMetadata;
@@ -123,5 +142,36 @@ abstract class SchemaMetadataFactory
         $this->fieldMappingFactory = $fieldMappingFactory;
         return $this;
     }
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedFactory(array $args = array())
+	{
+		return $this->isSupportedKeyArgs(array_shift($args), $args);
+	}
+
+	/**
+	 * isSupportedKeyArgs 
+	 * 
+	 * @param mixed $key 
+	 * @param array $args 
+	 * @access public
+	 * @return void
+	 */
+	public function isSupportedKeyArgs($key, array $args = array())
+	{
+		return $this->isSupportedSchema($key);
+	}
+
+	/**
+	 * isSupportedSchema 
+	 * 
+	 * @param mixed $schema 
+	 * @abstract
+	 * @access protected
+	 * @return void
+	 */
+	abstract public function isSupportedSchema($schema);
 }
 

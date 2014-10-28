@@ -45,6 +45,10 @@ abstract class AbstractMetadata implements Metadata
     public function setMappings(MappingCollection $mappings)
     {
 		$this->mappings = $mappings;
+
+		foreach($mappings as $mapping) {
+			$mapping->setMetadata($this);
+		}
         return $this;
     }
 
@@ -70,6 +74,7 @@ abstract class AbstractMetadata implements Metadata
 	public function setMapping($name, Mapping $mapping)
 	{
 		$this->mappings->setMapping($name, $mapping);
+		$mapping->setMetadata($this);
 		return $this;
 	}
 }

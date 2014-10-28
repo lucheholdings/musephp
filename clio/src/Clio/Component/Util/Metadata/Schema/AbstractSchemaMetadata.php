@@ -4,6 +4,7 @@ namespace Clio\Component\Util\Metadata\Schema;
 use Clio\Component\Util\Metadata\AbstractMetadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Clio\Component\Util\Metadata\FieldMetadata;
+use Clio\Component\Util\Metadata\Mapping\MappingCollection;
 
 /**
  * AbstractSchemaMetadata 
@@ -102,6 +103,29 @@ abstract class AbstractSchemaMetadata extends AbstractMetadata implements Schema
 	{
 		$this->fields[$field->getName()] = $field;
 		return $this;
+	}
+
+	public function serialize()
+	{
+		return serialize(array(
+			$this->getFields(),
+			$this->getMappings()->toArray()
+		));
+	}
+
+	public function unserialize($serialized)
+	{
+		$data = unserialize($serialized);
+		if(!$data) {
+			throw new \RuntimeException(sprintf('Failed to unserialize "%s"', __CLASS__));
+		}
+
+		list(
+			$this->fields,
+			$mappings
+		) = $data;
+
+		$this->setMappings(new MappingCollection($mappings));
 	}
 }
 

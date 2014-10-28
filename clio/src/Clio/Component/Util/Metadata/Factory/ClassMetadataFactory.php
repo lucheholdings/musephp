@@ -4,9 +4,7 @@ namespace Clio\Component\Util\Metadata\Factory;
 use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 use Clio\Component\Util\Metadata\Field\PropertyMetadata;
 use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
-use Clio\Component\Util\Metadata\Mapping\MappingCollection,
-	Clio\Component\Util\Metadata\Mapping\LazyMappingCollection
-;
+use Clio\Component\Util\Metadata\Mapping\MappingCollection;
 
 /**
  * ClassMetadataFactory 
@@ -27,8 +25,12 @@ class ClassMetadataFactory extends SchemaMetadataFactory
 	 */
 	protected function doCreateMetadata($schema)
 	{
+		if(is_string($schema) && class_exists($schema)) {
+			$schema = new \ReflectionClass($schema);
+		}
+
 		if(!$schema instanceof \ReflectionClass) {
-			throw new \InvalidArgumentException();
+			throw new \InvalidArgumentException('ClassMetadataFactory only accept ReflectionClass or an existing class name.');
 		}
 
 		$schemaMetadata = new ClassMetadata($schema);
@@ -55,6 +57,14 @@ class ClassMetadataFactory extends SchemaMetadataFactory
 		}
 
 		return new PropertyMetadata($field);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedSchema($schema)
+	{
+		return ($schema instanceof \ReflectionClass) || (is_string($schema) && class_exists($schema));
 	}
 }
 

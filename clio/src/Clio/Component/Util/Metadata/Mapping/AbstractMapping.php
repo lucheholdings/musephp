@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\Mapping;
 
+use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\Mapping;
 
 /**
@@ -56,5 +57,30 @@ abstract class AbstractMapping implements Mapping
     {
         return $this->metadata;
     }
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setMetadata(Metadata $metadata)
+	{
+		$this->metadata = $metadata;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function serialize()
+	{
+		return serialize(array());
+	}
+	
+	/**
+	 * {@inheritdoc}
+	 */
+	public function unserialize($serialized)
+	{
+		// do nothing
+		$this->metadata = null;
+	}
 }
 

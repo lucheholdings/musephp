@@ -13,6 +13,32 @@ use Clio\Component\Util\Metadata\Metadata;
  */
 interface Factory
 {
+	/**
+	 * createMapping 
+	 * 
+	 * @param Metadata $metadata 
+	 * @access public
+	 * @return void
+	 */
 	function createMapping(Metadata $metadata);
+
+	/**
+	 * isSupportedMetadata 
+	 * 
+	 * @param Metadata $metadata 
+	 * @access public
+	 * @return void
+	 */
+	function isSupportedMetadata(Metadata $metadata);
+
+	/**
+	 * getInjector 
+	 *   Get Injector to inject dependencies into Mapping.
+	 *   Ex)
+	 *     AccessorMapping required AccessorFactory to create Accessor
+	 * @access public
+	 * @return void
+	 */
+	function getInjector();
 }
 
