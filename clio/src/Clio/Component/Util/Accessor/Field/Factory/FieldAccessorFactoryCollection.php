@@ -24,12 +24,25 @@ class FieldAccessorFactoryCollection extends FactoryCollection implements FieldA
 		return $this->createArgs(array($schema, $fieldName, $options));
 	}
 
+	public function createFieldAccessorByType($type, $schema, $fieldName, array $options = array())
+	{
+		return $this->createByKeyArgs($type, array($schema, $fieldName, $options));
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedField($schema, $fieldName)
+	public function isSupportedField($schema, $fieldName, array $options = array())
 	{
-		return $this->isSupportedFactory(array($shema, $fieldName));
+		return $this->isSupportedFactory(array($shema, $fieldName, $options));
+	}
+
+	public function isSupportedFieldType($type, $schema, $filedName, array $options = array())
+	{
+		if(!$this->has($type)) {
+			throw new \Exception(sprintf('Unsupported Type "%s"', $type));
+		}
+		return $this->get($type)->isSupportedFactory(array($schema, $fieldName, $options));
 	}
 }
 

@@ -20,4 +20,14 @@ interface SchemaAccessorFactory
 	 * @return void
 	 */
 	function createSchemaAccessor($schema, array $options = array());
+
+	/**
+	 * isSupportedSchema 
+	 *    true if the schema is valid schema. 
+	 *    false otherwise
+	 * @param mixed $schema 
+	 * @access public
+	 * @return boolean
+	 */
+	function isSupportedSchema($schema);
 }

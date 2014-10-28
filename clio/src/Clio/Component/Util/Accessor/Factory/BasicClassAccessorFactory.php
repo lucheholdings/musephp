@@ -17,7 +17,7 @@ use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class BasicClassAccessorFactory extends AbstractSchemaAccessorFactory
+class BasicClassAccessorFactory extends FieldSchemaAccessorFactory
 {
 	static public function createFactory(array $fieldFactories = array())
 	{
@@ -31,37 +31,25 @@ class BasicClassAccessorFactory extends AbstractSchemaAccessorFactory
 		return new static(new FieldAccessorFactoryCollection($fieldFactories));
 	}
 
-	/**
-	 * createSchemaAccessor 
-	 * 
-	 * @param mixed $class 
-	 * @access public
-	 * @return void
-	 */
-	public function createSchemaAccessor($class, array $options = array())
+	protected function getFieldsFromSchema($schema)
 	{
-		if($class instanceof \ReflectionClass) {
-			$classReflector = $class;
-		} else if(is_object($class)) {
-			$classReflector = new \ReflectionClass($class);
-		} else if(is_string($class) && class_exists($class)) {
-			$classReflector = new \ReflectionClass($class);
-		} else {
-			throw new \InvalidArgumentException(sprintf('createClassAccessor only accept a ReflectionClass or an instance, but %s is given.', gettype($class)));
+		if(!$class instanceof \ReflectionClass) {
+			throw new \InvalidArgumentException('Schema has to be an instanceof ReflectionClass.');
 		}
 
-		$fields = $this->createFieldAccessors($classReflector, array_map(function($property){
-				return $property->getName();
-			}, $classReflector->getProperties()));
-		return new SimpleSchemaAccessor($classReflector, $fields, $options);
+		$fields = array_map(function($property){
+			return $property->getName();
+		}, $schema->getProperties());
+
+		return $fields;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedSchema($class)
+	public function isSupportedSchema($schema)
 	{
-		return is_object($class) || (is_string($class) && class_exists($class));
+		return ($schema instanceof \ReflectionClass);
 	}
 }
 
