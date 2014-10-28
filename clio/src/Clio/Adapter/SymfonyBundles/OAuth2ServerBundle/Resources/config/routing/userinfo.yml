@@ -1,9 +1,0 @@
-clio_oauth2_server.tokeninfo:
-    pattern: /userinfo.{_format}
-    defaults: 
-        _controller: ClioOAuth2ServerBundle:User:userinfo
-        _format: json
-    requirements:
-        _method: GET|POST
-        _format: json|xml
-
