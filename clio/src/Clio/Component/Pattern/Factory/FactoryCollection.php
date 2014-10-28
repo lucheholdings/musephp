@@ -2,8 +2,8 @@
 namespace Clio\Component\Pattern\Factory;
 
 use Clio\Component\Exception\UnsupportedException;
-use Clio\Component\Util\Container\Collection\Collection;
-use Clio\Component\Util\Container\Validator\ClassValidator;
+use Clio\Component\Util\Container\Collection\PriorityCollection;
+use Clio\Component\Util\Validator\ClassValidator;
 
 /**
  * FactoryCollection 
@@ -19,7 +19,7 @@ use Clio\Component\Util\Container\Validator\ClassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FactoryCollection extends Collection implements MappedFactory, Factory 
+class FactoryCollection extends PriorityCollection implements MappedFactory, Factory 
 {
 	/**
 	 * __construct 
@@ -119,13 +119,24 @@ class FactoryCollection extends Collection implements MappedFactory, Factory
 	 */
 	public function isSupportedFactory(array $args = array())
 	{
-		foreach($this->getFactories() as $factory) {
-			if($factory->isSupportedFactory($args)) {
-				return true;
-			}
-		}
+		return $this->isSupportedKeyArgs(array_shift($args), $args);
+	}
 
-		return false;
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedKeyArgs($key, array $args = array())
+	{
+		if(!$this->hasFactory($key)) {
+			return false;
+		}
+		
+		$factory = $this->getFactory($key);
+		if($factory instanceof MappedFactory) {
+			return $factory->isSupportedKeyArgs($key, $args);
+		} else {
+			return $factory->isSupportedFactory($args);
+		}
 	}
 
 	/**
@@ -136,7 +147,23 @@ class FactoryCollection extends Collection implements MappedFactory, Factory
 	 */
 	public function getFactories()
 	{
-		return $this->getValues();
+		return $this->getValuesOrdered();
+	}
+	
+	/**
+	 * getFactoriesReversed 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getFactoriesReversed()
+	{
+		return $this->getValuesReversed();
+	}
+
+	public function getFactory($key)
+	{
+		return $this->get($key);
 	}
 
 	/**

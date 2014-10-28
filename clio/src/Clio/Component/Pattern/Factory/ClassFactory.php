@@ -28,13 +28,31 @@ class ClassFactory extends AbstractFactory
 	/**
 	 * createClass 
 	 * 
-	 * @param \ReflectionClass $class 
+	 * @param string|ReflectionClass $class 
+	 * @access public
+	 * @return void
+	 */
+	public function createClass($class)
+	{
+		$args = func_get_args();
+		$class = array_shift($args);
+
+		return $this->createClassArgs($class, $args);
+	}
+
+	/**
+	 * createClassArgs 
+	 * 
+	 * @param mixed $class 
 	 * @param array $args 
 	 * @access public
 	 * @return void
 	 */
-	public function createClass(\ReflectionClass $class, array $args = array())
+	public function createClassArgs($class, array $args = array())
 	{
+		if(!$class instanceof \ReflectionClass) {
+			$class = new \ReflectionClass($class);
+		}
 		$args = $this->resolveArgs($args);
 
 		return $this->getConstructor()->construct($class, $args);
@@ -50,6 +68,14 @@ class ClassFactory extends AbstractFactory
 	protected function resolveArgs(array $args)
 	{
 		return $args;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedFactory(array $args = array())
+	{
+		return class_exists(array_shift($args));
 	}
 }
 

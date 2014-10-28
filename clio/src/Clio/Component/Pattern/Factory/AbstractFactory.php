@@ -24,6 +24,22 @@ abstract class AbstractFactory implements Factory
 	 */
 	private $constructor;
 
+	public function __construct()
+	{
+		$this->initFactory();
+	}
+
+	/**
+	 * initFactory 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function initFactory()
+	{
+
+	}
+
 	/**
 	 * create 
 	 * 

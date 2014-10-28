@@ -31,6 +31,9 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	public function __construct(array $classes = array())
 	{
 		$this->classes = array();
+
+		parent::__construct();
+
 		foreach($classes as $key => $class) {
 			$this->setMappedClass($key, $class);
 		}
@@ -74,9 +77,9 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	 */
 	public function createByKeyArgs($key, array $args = array())
 	{
-		$args = $this->resolveArgs($args);
+		$args = $this->resolveKeyArgs($key, $args);
 
-		return $this->createClass($this->getMappedClass($key), $args);
+		return $this->createClassArgs($this->getMappedClass($key), $args);
 	}
 
 	/**
@@ -111,6 +114,27 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 			throw new \InvalidArgumentException(sprintf('Type "%s" is not specified.', $key));
 		}
 		return $this->classes[$key];
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedFactory(array $args = array())
+	{
+		return $this->isSupportedKeyArgs(array_shift($args), $args);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedKeyArgs($key, array $args = array())
+	{
+		return array_key_exists($this->classes[$key]);
+	}
+
+	protected function resolveKeyArgs($key, array $args = array())
+	{
+		return $args;
 	}
 }
 
