@@ -1,9 +1,9 @@
 <?php
 namespace Calliope\Framework\Core\Metadata\Mapping\Factory;
 
-use Clio\Component\Pce\Metadata\MappingFactory;
-use Clio\Component\Pce\Metadata\Metadata,
-	Clio\Component\Pce\Metadata\ClassMetadata;
+use Clio\Component\Util\Metadata\Schema\MappingFactory;
+use Clio\Component\Util\Metadata\SchemaMetadata,
+	Clio\Component\Util\Metadata\Schema\ClassMetadata;
 
 use Clio\Component\Pattern\Factory\ComponentFactory;
 
@@ -26,7 +26,7 @@ class SchemeMappingFactory implements MappingFactory
 	 * @access public
 	 * @return void
 	 */
-	public function createMapping(Metadata $metadata, array $options = array())
+	public function createMapping(SchemaMetadata $metadata, array $options = array())
 	{
 		$mapping = null;
 		if($metadata instanceof ClassMetadata) {

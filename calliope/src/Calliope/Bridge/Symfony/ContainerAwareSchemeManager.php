@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Bridge\Symfony;
 
-use Clio\Component\Pce\Metadata\ClassMetadata;
+use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 use Calliope\Framework\Core\SchemeManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface,
 	Symfony\Component\DependencyInjection\ContainerInterface

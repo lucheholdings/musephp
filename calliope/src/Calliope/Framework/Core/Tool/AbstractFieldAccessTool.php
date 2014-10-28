@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Tool;
 
-use Clio\Component\Pce\Metadata\ClassMetadata;
+use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 
 /**
  * AbstractFieldAccessTool 

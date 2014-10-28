@@ -72,6 +72,23 @@ class TokenResolverFactory implements Factory, MappedFactory
 	{
 		return $this->createTokenResolver($key, array_shift($args));
 	}
+
+	public function isSupportedArgs(array $args = array())
+	{
+		$key = array_shift($args);
+		return isSupportedKeyArgs($key, $args);
+	}
+
+	public function isSupportedKeyArgs($key, array $args = array())
+	{
+		switch($key) {
+		case 'server':
+		case 'trust':
+			return true;
+		default:
+			return false;
+		}
+	}
     
     /**
      * Get container.

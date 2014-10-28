@@ -2,7 +2,7 @@
 namespace Calliope\Framework\Core\Metadata\Mapping;
 
 use Clio\Component\Pattern\Factory\ComponentFactory;
-use Clio\Component\Pce\Metadata\AbstractClassMapping;
+use Clio\Component\Util\Metadata\Schema\AbstractClassMapping;
 
 use Calliope\Framework\Core\Tool\Merger,
 	Calliope\Framework\Core\Tool\Replacer

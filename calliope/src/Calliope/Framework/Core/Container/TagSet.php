@@ -4,7 +4,7 @@ namespace Calliope\Framework\Core\Container;
 use Clio\Component\Util\Container\Set\OnMemorySet;
 use Clio\Component\Util\Tag\TagContainer;
 
-use Clio\Component\Util\Container\Validator\ClassValidator;
+use Clio\Component\Util\Validator\ClassValidator;
 /**
  * TagSet 
  *   Value  validation 

@@ -5,7 +5,7 @@ use Calliope\Framework\Core\Connection;
 use Clio\Component\Schemifier\SchemifierInterface;
 use Calliope\Framework\Core\Model\SchemeModelInterface;
 
-use Clio\Component\Pce\Metadata\ClassMetadata;
+use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 use Calliope\Framework\Core\Connection\Paging\ConnectionFetchPager;
 
 /**

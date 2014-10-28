@@ -2,7 +2,7 @@
 namespace Calliope\Extension\Media\Core\Factory;
 
 use Clio\Component\Util\Container\Map\Map;
-use Clio\Component\Util\Container\Validator\ClassValidator;
+use Clio\Component\Util\Validator\ClassValidator;
 
 use Calliope\Extension\Media\Core\Factory\MediaFactory;
 

@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Framework\Core\Factory;
 
-use Clio\Component\Pattern\Factory\InheritComponentFactory;
-use Clio\Framework\Metadata\ClassMetadataRegistry;
+use Clio\Component\Pattern\Factory\ClassFactory;
+use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
 use Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory;
 use Calliope\Framework\Core\Filter\Factory\FilterDelegatorFactory;
 
@@ -11,23 +11,23 @@ use Calliope\Framework\Core\Connection\FilterConnection;
 /**
  * SchemeManagerComponentFactory 
  * 
- * @uses InheritComponentFactory
+ * @uses ClassFactory 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SchemeManagerComponentFactory extends InheritComponentFactory
+class SchemeManagerComponentFactory extends ClassFactory 
 {
 	const DEFAULT_MANAGER_CLASS = 'Calliope\Framework\Core\SchemeManager';
 
 	/**
-	 * classMetadataRegistry 
+	 * schemaMetadataRegistry 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
-	private $classMetadataRegistry;
+	private $metadataRegistry;
 
 	/**
 	 * typeConnectionFactory 
@@ -48,14 +48,14 @@ class SchemeManagerComponentFactory extends InheritComponentFactory
 	/**
 	 * __construct 
 	 * 
-	 * @param ClassMetadataRegistry $registry 
+	 * @param SchemaMetadataRegistry $registry 
 	 * @param TypeConnectionFactory $typeConnectionFactory 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(ClassMetadataRegistry $registry, TypeConnectionFactory $typeConnectionFactory, FilterDelegatorFactory $filterFactory)
+	public function __construct(SchemaMetadataRegistry $registry, TypeConnectionFactory $typeConnectionFactory, FilterDelegatorFactory $filterFactory)
 	{
-		$this->classMetadataRegistry = $registry;
+		$this->schemaMetadataRegistry = $registry;
 		$this->typeConnectionFactory = $typeConnectionFactory;
 		$this->filterFactory = $filterFactory;
 
@@ -63,26 +63,26 @@ class SchemeManagerComponentFactory extends InheritComponentFactory
 	}
     
     /**
-     * Get classMetadataRegistry.
+     * Get schemaMetadataRegistry.
      *
      * @access public
-     * @return classMetadataRegistry
+     * @return schemaMetadataRegistry
      */
-    public function getClassMetadataRegistry()
+    public function getSchemaMetadataRegistry()
     {
-        return $this->classMetadataRegistry;
+        return $this->schemaMetadataRegistry;
     }
     
     /**
-     * Set classMetadataRegistry.
+     * Set schemaMetadataRegistry.
      *
      * @access public
-     * @param classMetadataRegistry the value to set.
+     * @param schemaMetadataRegistry the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setClassMetadataRegistry($classMetadataRegistry)
+    public function setSchemaMetadataRegistry($schemaMetadataRegistry)
     {
-        $this->classMetadataRegistry = $classMetadataRegistry;
+        $this->schemaMetadataRegistry = $schemaMetadataRegistry;
         return $this;
     }
     
@@ -131,9 +131,9 @@ class SchemeManagerComponentFactory extends InheritComponentFactory
 
 		// Create SchemeManager
 		if(isset($options['manager_class'])) {
-			$schemeManager = $this->createInheritClass($options['manager_class'], $classMetadata);
+			$schemeManager = $this->createClass($options['manager_class'], $classMetadata);
 		} else {
-			$schemeManager = $this->create($classMetadata);
+			$schemeManager = $this->createClass(self::DEFAULT_MANAGER_CLASS, $classMetadata);
 		}
 
 		// Create FilterDelegator 
@@ -175,7 +175,7 @@ class SchemeManagerComponentFactory extends InheritComponentFactory
 	 */
 	public function getClassMetadata($schemeClass)
 	{
-		return $this->getClassMetadataRegistry()->get($schemeClass);
+		return $this->getSchemaMetadataRegistry()->get($schemeClass);
 	}
     
     /**

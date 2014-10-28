@@ -4,7 +4,7 @@ namespace Calliope\Framework\Core\Tests;
 use Clio\Component\Pattern\Factory\Tests\ComponentBuilderTestCase;
 use Calliope\Framework\Core\Builder\SchemeModelBuilder;
 
-use Clio\Component\Pce\Metadata\BasicClassMetadataFactory;
+use Clio\Component\Util\Metadata\Schema\BasicClassMetadataFactory;
 use Clio\Framework\Metadata\Mapping\Factory\FieldAccessorMappingFactory;
 
 /**

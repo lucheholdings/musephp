@@ -43,7 +43,7 @@ class CalliopeFrameworkExtension extends Extension
 		// Map Service Aliases
 		{
 			// Map Component Services
-			$container->setAlias('calliope_framework.class_metadata_registry', $config['services']['class_metadata_registry'] ?: 'clio_framework.class_metadata_registry');
+			$container->setAlias('calliope_framework.class_metadata_registry', $config['services']['class_metadata_registry'] ?: 'clio_framework.metadata.registry');
 		}
 	
 		$loader->load('services.xml');

@@ -4,7 +4,7 @@ namespace Calliope\Bridge\Doctrine\Filter;
 use Calliope\Framework\Core\Filter\Condition\ConnectCondition;
 use Calliope\Bridge\Doctrine\Connection\DoctrineOrmConnection;
 use Doctrine\Common\Persistence\ObjectManager;
-use Clio\Component\Pce\Metadata\ClassMetadata;
+use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 
 /**
  * DoctrineOrmFilter 

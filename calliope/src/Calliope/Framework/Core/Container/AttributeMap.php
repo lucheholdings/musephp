@@ -6,8 +6,8 @@ use Clio\Component\Util\Attribute\Attribute;
 use Clio\Component\Util\Attribute\AttributeContainer;
 use Clio\Component\Util\Attribute\AttributeContainerAware;
 
-use Clio\Component\Util\Container\Validator\PrimitiveTypeValidator,
-	Clio\Component\Util\Container\Validator\ClassValidator
+use Clio\Component\Util\Validator\PrimitiveTypeValidator,
+	Clio\Component\Util\Validator\ClassValidator
 ;
 /**
  * AttributeMap 

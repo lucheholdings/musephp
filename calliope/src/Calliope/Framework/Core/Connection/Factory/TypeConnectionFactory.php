@@ -2,7 +2,7 @@
 namespace Calliope\Framework\Core\Connection\Factory;
 
 use Clio\Component\Util\Container\Map\Map;
-use Clio\Component\Util\Container\Validator\ClassValidator;
+use Clio\Component\Util\Validator\ClassValidator;
 
 /**
  * TypeConnectionFactory 
