@@ -1,11 +1,4 @@
 <?php
-/**
- * ${ FILENAME }
- * 
- * @copyright ${ COPYRIGHT }
- * @license ${ LICENSE }
- * 
- */
 namespace Clio\Component\Pattern\Registry;
 
 /**
@@ -19,31 +12,46 @@ namespace Clio\Component\Pattern\Registry;
 interface Registry
 {
 	/**
-	 * has 
-	 * 
-	 * @param mixed $key 
-	 * @access public
-	 * @return void
-	 */
-	function has($key);
-
-	/**
 	 * get 
 	 * 
 	 * @param mixed $key 
 	 * @access public
-	 * @return void
+	 * @return mixed|null 
 	 */
 	function get($key);
 
 	/**
-	 * set 
+	 * set
 	 * 
 	 * @param mixed $key 
-	 * @param mixed $value 
+	 * @param mixed $entry 
 	 * @access public
 	 * @return void
 	 */
-	function set($key, $value);
-}
+	function set($key, $entry);
 
+	/**
+	 * remove 
+	 * 
+	 * @param mixed $key 
+	 * @access public
+	 * @return void
+	 */
+	function remove($key);
+
+	/**
+	 * clear 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function clear();
+
+	/**
+	 * count 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function count();
+}
