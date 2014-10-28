@@ -1,27 +1,20 @@
 <?php
-namespace Clio\Adapter\DoctrineExtensions\Cache;
-
+namespace Clio\Bridge\DoctrineCache\Factory;
 
 use Clio\Component\Pattern\Factory\MappedComponentFactory;
 use Clio\Component\Exception\UnsupportedException;
 
-/**
- * CacheFactory 
- * 
- * @uses MappedComponentFactory
- * @package { PACKAGE }
- * @copyright { COPYRIGHT } (c) { COMPANY }
- * @author Yoshi Aoki <yoshi@44services.jp> 
- * @license { LICENSE }
- */
-class CacheFactory extends MappedComponentFactory 
+class DefaultCacheFactory extends MappedComponentFactory 
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function initFactory()
 	{
-		$this->setMappedClass('jsonfile', 'Clio\Adapter\DoctrineExtensions\Cache\JsonFileCache');
+		$this->setMappedClass('phpfile', 'Doctrine\Common\Cache\PhpFileCache');
+		$this->setMappedClass('filesystem', 'Doctrine\Common\Cache\FilesystemCache');
+		$this->setMappedClass('memcache', 'Doctrine\Common\Cache\MemcacheCache');
+		$this->setMappedClass('memcached', 'Doctrine\Common\Cache\MemcachedCache');
 	}
 
 	/**
@@ -30,8 +23,17 @@ class CacheFactory extends MappedComponentFactory
 	public function createByKeyArgs($key, array $args = array())
 	{
 		switch($key) {
-		case 'jsonfile':
+		case 'phpfile':
+		case 'filesystem':
 			$cache = parent::createByKeyArgs($key, $args);
+			break;
+		case 'memcache':
+			$cache = parent::createByKeyArgs($key);
+			$cache->setMemcache(array_shift($args));
+			break;
+		case 'memcached':
+			$cache = parent::createByKeyArgs($key);
+			$cache->setMemcache(array_shift($args));
 			break;
 		default:
 			throw new UnsupportedException(sprintf('Cache type "%s" is not supported type.', $key));
@@ -46,7 +48,10 @@ class CacheFactory extends MappedComponentFactory
 	public function isSupportedKeyArgs($key, array $args = array())
 	{
 		switch($key) {
-		case 'jsonfile':
+		case 'phpfile':
+		case 'filesystem':
+		case 'memcache':
+		case 'memcached':
 			return true;
 		default:
 			return false;
@@ -57,7 +62,8 @@ class CacheFactory extends MappedComponentFactory
 	{
 		$options = array_shift($args);
 		switch($key) {
-		case 'jsonfile':
+		case 'phpfile':
+		case 'filesystem':
 			return array($options['directory'], isset($options['extension']) ? $options['extension'] : null);
 		default:
 			return array();

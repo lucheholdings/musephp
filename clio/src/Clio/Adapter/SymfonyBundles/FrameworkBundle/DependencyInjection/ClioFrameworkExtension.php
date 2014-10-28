@@ -29,17 +29,85 @@ class ClioFrameworkExtension extends Extension
         $this->loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $this->loader->load('services.xml');
 
+		$this->configureAccessor($container, $config['accessor']);
+		$this->configureCache($container, $config['cache']);
 		$this->configureFormat();
-		$this->configureCounter($container, $config['counter']);
-		$this->configureKvs($container, $config['kvs']);
-		$this->configureNormalizer($container, $config['normalizer']);
-		$this->configureSerializer($container, $config['serializer']);
-		$this->configureSchemifier($container, $config['schemifier']);
-		$this->configureFieldAccessor($container, $config['field_accessor']);
-		$this->configureClassMetadata($container, $config['class_metadata']);
+		$this->configureMetadata($container, $config['metadata']);
+		//$this->configureCounter($container, $config['counter']);
+		//$this->configureKvs($container, $config['kvs']);
+		//$this->configureNormalizer($container, $config['normalizer']);
+		//$this->configureSerializer($container, $config['serializer']);
+		//$this->configureSchemifier($container, $config['schemifier']);
+		//$this->configureFieldAccessor($container, $config['field_accessor']);
+		//$this->configureClassMetadata($container, $config['class_metadata']);
 
-		$this->configureJMSSerializer($container, $config['jms_serializer']);
+		//$this->configureJMSSerializer($container, $config['jms_serializer']);
     }
+
+
+	/**
+	 * configureAccessor 
+	 * 
+	 * @param mixed $container 
+	 * @param mixed $configs 
+	 * @access protected
+	 * @return void
+	 */
+	protected function configureAccessor($container, $configs)
+	{
+		if(isset($configs['enabled'])) {
+			// If configuration enabled, then load serializer.xml
+			$this->getLoader()->load('accessor.xml');
+
+		}
+	}
+
+	protected function configureCache($container, $configs)
+	{
+		if(isset($configs['enabled'])) {
+			// If configuration enabled, then load serializer.xml
+			$this->getLoader()->load('cache.xml');
+
+		}
+	}
+
+	/**
+	 * configureMetadata 
+	 * 
+	 * @param mixed $container 
+	 * @param mixed $configs 
+	 * @access protected
+	 * @return void
+	 */
+	protected function configureMetadata($container, $configs)
+	{
+		if($configs['enabled']) {
+			$this->getLoader()->load('metadata.xml');
+
+			$loaderRegistry = $container->getDefinition('clio_framework.metadata.registry.loader');
+			if($configs['cache']['enabled']) {
+				switch($configs['cache']['type']) {
+				case 'alias':
+					$container->setAlias('clio_framework.metadata.cached_regsitry.cache', $configs['cache']['id']);
+					break;
+				default:
+					$cacheDefinition = new DefinitionDecorator('clio_framework.cache.prototype');
+					$cacheDefinition->replaceArgument(0, $configs['cache']['type']);
+					$cacheDefinition->replaceArgument(1, $configs['cache']['options']);
+				
+					$container->setDefinition(
+						'clio_framework.metadata.cached_registry.cache',
+						$cacheDefinition
+					);
+					break;
+				}
+
+				$loaderRegistry->replaceArgument(0, new Reference('clio_framework.metadata.registry.cache'));
+			} else {
+				$loaderRegistry->replaceArgument(0, new Reference('clio_framework.metadata.registry.map'));
+			}
+		}
+	}
 
 	/**
 	 * configureFormat 
@@ -93,42 +161,7 @@ class ClioFrameworkExtension extends Extension
 		}
 	}
 
-	protected function configureClassMetadata($container, $configs)
-	{
-		if($configs['enabled']) {
-			$this->getLoader()->load('class_metadata.xml');
 
-			$container->setAlias(
-				'clio_framework.class_metadata_factory',
-				$configs['factory_id']
-			);
-
-			foreach($configs['default_mapping_factories'] as $type => $isEnabled) {
-
-				if($isEnabled) {
-					$definition = new DefinitionDecorator('clio_framework.class_metadata_mapping_factory.' . $type . '.default');
-					
-					$definition->addTag(
-						'clio_framework.class_metadata_mapping_factory'
-					);
-
-					$container->setDefinition(
-						'clio_framework.class_metadata_mapping_factory.' . $type,
-						$definition
-					);
-				}
-			}
-		}
-	}
-
-	protected function configureFieldAccessor($container, $configs)
-	{
-		if(isset($configs['enabled'])) {
-			// If configuration enabled, then load serializer.xml
-			$this->getLoader()->load('field_accessor.xml');
-
-		}
-	}
 	protected function configureJMSSerializer($container, $configs)
 	{
 		if(isset($configs['enabled'])) {

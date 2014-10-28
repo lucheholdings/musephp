@@ -1,0 +1,57 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+
+		<!-- Schema Accessor Factory -->
+        <parameter key="clio_framework.cache.factory_collection.class">Clio\Component\Pattern\Factory\FactoryCollection</parameter>
+        <parameter key="clio_framework.cache.default_cache_factory.class">Clio\Bridge\DoctrineCache\Factory\DefaultCacheFactory</parameter>
+        <parameter key="clio_framework.cache.extension_cache_factory.class">Clio\Adapter\DoctrineExtensions\Cache\CacheFactory</parameter>
+        <parameter key="clio_framework.cache.prototype.class">Doctrine\Common\Cache\Cache</parameter>
+    </parameters>
+
+	<services>
+		<service
+			id="clio_framework.cache.factory"
+			alias="clio_framework.cache.factory.collection"
+		/>
+
+		<!-- Cache Prototype -->
+		<service 
+			id="clio_framework.cache.prototype"
+			class="%clio_framework.cache.prototype.class%"
+			factory-service="clio_framework.cache.factory"
+			factory-method="createByKey"
+		>
+			<argument></argument><!-- type -->
+			<argument type="collection"></argument><!-- otions -->
+		</service>
+
+		<!-- Cache Factory -->
+		<service 
+			id="clio_framework.cache.factory.collection"
+			class="%clio_framework.cache.factory_collection.class%"
+		>
+		</service>
+
+		<service
+			id="clio_framework.cache.factory.default"
+			class="%clio_framework.cache.default_cache_factory.class%"
+		>
+			<tag name="clio_framework.cache.factory" for="phpfile"/>
+			<tag name="clio_framework.cache.factory" for="filesystem"/>
+			<tag name="clio_framework.cache.factory" for="memcache"/>
+			<tag name="clio_framework.cache.factory" for="memcached"/>
+		</service>
+
+		<service
+			id="clio_framework.cache.factory.extends"
+			class="%clio_framework.cache.extension_cache_factory.class%"
+		>
+			<tag name="clio_framework.cache.factory" for="jsonfile"/>
+		</service>
+	</services>	
+</container>

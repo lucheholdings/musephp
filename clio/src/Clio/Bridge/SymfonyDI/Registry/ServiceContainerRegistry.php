@@ -78,5 +78,21 @@ class ServiceContainerRegistry implements ServiceRegistryInterface
 		$this->container->set($id, $service);
 		return $this;
 	}
+
+	public function count()
+	{
+		return $this->container->count();
+	}
+
+	public function remove($id)
+	{
+		$this->container->remove($id);
+		return $this;
+	}
+
+	public function clear()
+	{
+		$this->container->clear();
+	}
 }
 

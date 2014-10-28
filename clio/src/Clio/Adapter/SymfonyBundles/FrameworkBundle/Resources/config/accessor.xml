@@ -1,0 +1,87 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+
+		<!-- Schema Accessor Factory -->
+        <parameter key="clio_framework.accessor.schema_accessor_factory_collection.class">Clio\Component\Util\Accessor\Factory\SchemaAccessorFactoryCollection</parameter>
+        <parameter key="clio_framework.accessor.basic_accessor_factory.class">Clio\Component\Util\Accessor\Factory\FieldSchemaAccessorFactory</parameter>
+        <parameter key="clio_framework.accessor.attribute_container_accessor_factory.class">Clio\Framework\Accessor\Factory\AttributeContainerAccessorFactory</parameter>
+
+		<!-- Field Accessor Factory -->
+        <parameter key="clio_framework.accessor.public_property_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory</parameter>
+        <parameter key="clio_framework.accessor.method_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory</parameter>
+        <parameter key="clio_framework.accessor.tag_container_field_accessor_factory.class">Clio\Framework\Accessor\Field\Factory\TagContainerFieldAccessorFactory</parameter>
+
+		<!-- Schema Accessor Classes -->
+        <parameter key="clio_framework.accessor.schema_accessor.interface">Clio\Component\Util\Accessor\SimpleSchemaAccessor</parameter>
+        <parameter key="clio_framework.accessor.attribute_container_accessor.class">Clio\Framework\Accessor\AttributeContainerAccessor</parameter>
+		<!-- FieldAccessor Classes -->
+        <parameter key="clio_framework.accessor.public_property_field_accessor.class">Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor</parameter>
+        <parameter key="clio_framework.accessor.method_field_accessor.class">Clio\Component\Util\Accessor\Field\MethodFieldAccessor</parameter>
+        <parameter key="clio_framework.accessor.tag_container_field_accessor.class">Clio\Framework\Accessor\Field\TagContainerFieldAccessor</parameter>
+    </parameters>
+
+	<services>
+		<service
+			id="clio_framework.accessor.accessor_factory"
+			alias="clio_framework.accessor.accessor_factory.collection"
+		/>
+
+		<!-- Class Accessor Factory -->
+		<service 
+			id="clio_framework.accessor.accessor_factory.collection"
+			class="%clio_framework.accessor.schema_accessor_factory_collection.class%"
+		>
+		<!-- Items are injected by "clio_framework.accessor.class_accessor_factory" tag -->
+		</service>
+	
+		<!-- Schema Accessor -->
+		<service 
+			id="clio_framework.accessor.accessor_factory.basic"
+			class="%clio_framework.accessor.basic_accessor_factory.class%"
+		>
+		  <!-- Items are injected by "clio_framework.accessor.class_field_accessor_factory" tag -->
+		  <tag name="clio_framework.accessor.accessor_factory" priority="-100"/>
+		</service>
+		<service
+			id="clio_framework.accessor.accessor_factory.attribute"
+			class="%clio_framework.accessor.attribute_container_accessor_factory.class%"
+		>
+			<argument></argument>
+			<tag name="clio_framework.accessor.accessor_factory" priority="100"/>
+		</service>
+		
+		<!-- Default Field Accessor Factories -->
+		<service 
+			id="clio_framework.accessor.field_accessor_factory"
+			class="Clio\Component\Util\Accessor\Field\Factory\FactoryCollection"
+			factory-service="clio_framework.accessor.accessor_factory.basic"
+			factory-method="getFieldAccessorFactory"
+		>
+		</service>
+		<service 
+			id="clio_framework.accessor.field_accessor_factory.public_property"
+			class="%clio_framework.accessor.public_property_field_accessor_factory.class%"
+		>
+		    <tag name="clio_framwork.accessor.field_accessor_factory" priority="0"/>
+		</service>
+		
+		<service 
+			id="clio_framework.accessor.field_accessor_factory.method"
+			class="%clio_framework.accessor.method_field_accessor_factory.class%"
+		>
+			<tag name="clio_framwork.accessor.field_accessor_factory" priority="0"/>
+		</service>
+		
+		<service 
+			id="clio_framework.accessor.field_accessor_factory.tag"
+			class="%clio_framework.accessor.tag_container_field_accessor_factory.class%"
+		>
+			<tag name="clio_framwork.accessor.field_accessor_factory" priority="0"/>
+		</service>
+	</services>	
+</container>

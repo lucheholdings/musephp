@@ -26,20 +26,36 @@ class Configuration implements ConfigurationInterface
 
 		$rootNode
 			->children()
-				->append($this->buildClassMetadataSection())
-				->append($this->buildFieldAccessorSection())
-				->append($this->buildSerializerSection())
-				->append($this->buildSchemifierSection())
-				->append($this->buildNormalizerSection())
-				->append($this->buildCounterSection())
-				->append($this->buildKvsSection())
-				// Advanced 
-				->append($this->buildJMSSerializerSection(array('hash', 'hash_collection', 'key_value', 'key_value_collection', 'tag_collection'), array()))
+				->append($this->buildCacheSection())
+				->append($this->buildAccessorSection())
+				->append($this->buildMetadataSection())
+				//->append($this->buildSerializerSection())
+				//->append($this->buildSchemifierSection())
+				//->append($this->buildNormalizerSection())
+				//->append($this->buildCounterSection())
+				//->append($this->buildKvsSection())
+				//// Advanced 
+				//->append($this->buildJMSSerializerSection(array('hash', 'hash_collection', 'key_value', 'key_value_collection', 'tag_collection'), array()))
 			->end()
 		;
 
         return $treeBuilder;
     }
+
+	protected function buildCacheSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('cache');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+			->end()
+		;
+
+		return $node;
+	}
 
 	protected function buildSerializerSection()
 	{
@@ -57,10 +73,10 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	protected function buildFieldAccessorSection()
+	protected function buildAccessorSection()
 	{
 		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->root('field_accessor');
+		$node = $treeBuilder->root('accessor');
 
 		$node
 			->canBeEnabled()
@@ -87,24 +103,32 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	protected function buildClassMetadataSection()
+	protected function buildMetadataSection()
 	{
 		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->root('class_metadata');
+		$node = $treeBuilder->root('metadata');
 
 		$node
-			->canBeEnabled()
+			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
-				->scalarNode('factory_id')->defaultValue('clio_framework.class_metadata_factory.default')->end()
-				->arrayNode('default_mapping_factories')
+				->arrayNode('cache')
+					->canBeDisabled()
+					->beforeNormalization()
+						->ifString()
+						->then(function($v){
+							return array('type' => 'alias', 'id' => $v);	
+						})
+					->end()
 					->addDefaultsIfNotSet()
 					->children()
-						->booleanNode('field_accessor')->defaultTrue()->end()
-						->booleanNode('schemifier')->defaultTrue()->end()
-
-						->booleanNode('attribute')->defaultTrue()->end()
-						->booleanNode('tag')->defaultTrue()->end()
+						->scalarNode('type')->defaultValue('filesystem')->end()
+						->scalarNode('id')->end()
+						->arrayNode('options')
+							->defaultValue(array('directory' => '%kernel.cache_dir%/clio_metadata', 'extension' => '.cache.php'))
+							->prototype('variable')
+							->end()
+						->end()
 					->end()
 				->end()
 			->end()

@@ -1,0 +1,120 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+		<!-- Registry -->
+	    <parameter key="clio_framework.metadata.registry.class">Clio\Component\Util\Metadata\ProxySchemaMetadataRegistry</parameter>
+	    <parameter key="clio_framework.metadata.loadable_registry.class">Clio\Component\Pattern\Registry\LoadableRegistry</parameter>
+	    <parameter key="clio_framework.metadata.cached_registry.class">Clio\Bridge\DoctrineCache\Registry\CachedRegistry</parameter>
+	    <parameter key="clio_framework.metadata.map_registry.class">Clio\Component\Pattern\Registry\MapRegistry</parameter>
+
+        <parameter key="clio_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Factory\ClassMetadataFactory</parameter>
+		<!-- Loader -->
+        <parameter key="clio_framework.metadata.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
+        <!-- mapping fatories -->
+		<parameter key="clio_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection</parameter>
+		<parameter key="clio_framework.metadata.accessor_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
+		<parameter key="clio_framework.metadata.attribute_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\AttributeContainerAwareMappingFactory</parameter>
+		<parameter key="clio_framework.metadata.tag_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\TagContainerAwareMappingFactory</parameter>
+
+		<!-- Mapping Injector -->
+		<parameter key="clio_framework.metadata.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
+
+		<parameter key="clio_framework.metadata.cache_clearer.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer</parameter>
+
+    </parameters>
+
+	<services>
+
+		<!-- Metadata Registry -->
+		<service
+			id="clio_framework.metadata.registry.loader"
+			class="%clio_framework.metadata.loadable_registry.class%"
+		>
+			<argument></argument><!-- clio_framework.metadata.registry.cache or clio_framework.metadata.registry.map will be injected by configuration-->
+		</service>
+
+		<service 
+			id="clio_framework.metadata.registry.cache"
+			class="%clio_framework.metadata.cached_registry.class%"
+		>
+			<argument type="service" id="clio_framework.metadata.registry.map"/>
+			<argument type="service" id="clio_framework.metadata.cached_registry.cache" on-invalid="null"/>
+			<argument>0</argument>
+			<argument type="service" id="clio_framework.metadata.rebuilder"/>
+		</service>
+		<service
+			id="clio_framework.metadata.registry.map"
+			class="%clio_framework.metadata.map_registry.class%"
+		>
+		</service>
+
+		<service id="clio_framework.metadata.registry" class="%clio_framework.metadata.registry.class%">
+			<argument type="service" id="clio_framework.metadata.registry.loader"/>
+		</service>
+
+		<!-- Metadata Loader -->
+		<service
+			id="clio_framework.metadata.class_metadata_factory_loader"
+			class="%clio_framework.metadata.mapped_factory_loader.class%"
+		>
+			<argument type="service" id="clio_framework.metadata.class_metadata_factory"/>
+
+			<tag name="clio_framework.metadata.loader" />
+		</service>
+
+		<!-- Class Factory -->
+		<service
+			id="clio_framework.metadata.class_metadata_factory"
+			class="%clio_framework.metadata.class_metadata_factory.class%"
+		>
+			<argument type="service" id="clio_framework.metadata.mapping_factory.collection"/>
+		</service>
+
+		<!-- Mapping Factory -->
+		<service
+			id="clio_framework.metadata.mapping_factory.collection"
+			class="%clio_framework.metadata.mapping_factory_collection.class%"
+		>
+		</service>
+		<service
+			id="clio_framework.metadata.mapping_factory.accessor"
+			class="%clio_framework.metadata.accessor_mapping_factory.class%"
+		>
+			<argument type="service" id="clio_framework.accessor.accessor_factory" on-invalid="null"/>
+			<argument type="service" id="clio_framework.accessor.field_accessor_factory" on-invalid="null"/>
+			<tag name="clio_framework.metadata.mapping_factory" for="accessor"/>
+		</service>
+		<service
+			id="clio_framework.metadata.mapping_factory"
+			alias="clio_framework.metadata.mapping_factory.collection"
+		/>
+
+		<!-- Injector -->
+		<service
+			id="clio_framework.metadata.mapping_injector"
+			class="Clio\Component\Util\Injection\Injector"
+			factory-service="clio_framework.metadata.mapping_factory"
+			factory-method="getInjector"
+		>
+		</service>
+		<!-- Injector Invoker -->
+		<service
+			id="clio_framework.metadata.rebuilder"
+			class="%clio_framework.metadata.rebuilder.class%"
+		>
+			<argument type="service" id="clio_framework.metadata.mapping_injector"/>
+		</service>
+
+		<service
+			id="clio_framework.metadata.cache_clearer"
+			class="%clio_framework.metadata.cache_clearer.class%"
+		>
+			<argument type="service" id="clio_framework.metadata.cached_registry.cache" on-invalid="null"/>
+			<tag name="kernel.cache_clearer"/>
+		</service>
+	</services>	
+</container>

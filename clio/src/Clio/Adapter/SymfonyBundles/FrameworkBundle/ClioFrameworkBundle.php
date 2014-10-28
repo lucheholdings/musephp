@@ -3,10 +3,8 @@ namespace Clio\Adapter\SymfonyBundles\FrameworkBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Clio\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler\SerializerAdapterFactoryCompilerPass;
-use Clio\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler\ClassMetadataMappingFactoryCompilerPass;
-use Clio\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler\FieldAccessorLayerFactoryCompilerPass;
-use Clio\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler\PropertyFieldAccessorFactoryCompilerPass;
+
+use Clio\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler;
 
 class ClioFrameworkBundle extends Bundle
 {
@@ -21,16 +19,20 @@ class ClioFrameworkBundle extends Bundle
 	{
 		parent::build($container);
 		
+		$container->addCompilerPass(new Compiler\AccessorCompilerPass());
+		$container->addCompilerPass(new Compiler\MetadataCompilerPass());
+		$container->addCompilerPass(new Compiler\CacheCompilerPass());
+
 		// Gather compoents tagged "metadata_manager"
-		$container->addCompilerPass(new SerializerAdapterFactoryCompilerPass());
-		$container->addCompilerPass(new ClassMetadataMappingFactoryCompilerPass());
+		//$container->addCompilerPass(new SerializerAdapterFactoryCompilerPass());
+		//$container->addCompilerPass(new ClassMetadataMappingFactoryCompilerPass());
 
 	
-		$container->addCompilerPass(new PropertyFieldAccessorFactoryCompilerPass());
-		$container->addCompilerPass(new FieldAccessorLayerFactoryCompilerPass());
+		//$container->addCompilerPass(new PropertyFieldAccessorFactoryCompilerPass());
+		//$container->addCompilerPass(new FieldAccessorLayerFactoryCompilerPass());
 
-		$container->addCompilerPass(new DependencyInjection\Compiler\CounterCompilerPass());
-		$container->addCompilerPass(new DependencyInjection\Compiler\KvsCompilerPass());
-		$container->addCompilerPass(new DependencyInjection\Compiler\FieldMapperCompilerPass());
+		//$container->addCompilerPass(new DependencyInjection\Compiler\CounterCompilerPass());
+		//$container->addCompilerPass(new DependencyInjection\Compiler\KvsCompilerPass());
+		//$container->addCompilerPass(new DependencyInjection\Compiler\FieldMapperCompilerPass());
 	}
 }
