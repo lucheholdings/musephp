@@ -11,24 +11,8 @@ namespace Clio\Component\Util\Container;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Map extends Container, \IteratorAggregate, \ArrayAccess
+interface Map extends Container, \ArrayAccess
 {
-	/**
-	 * toArray 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function toArray();
-
-	/**
-	 * clear 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function clear();
-
 	/**
 	 * getValues 
 	 * 
@@ -89,6 +73,6 @@ interface Map extends Container, \IteratorAggregate, \ArrayAccess
 	 * @access public
 	 * @return void
 	 */
-	function getKeyValueArray();
+	function getKeyValues();
 }
 

@@ -1,101 +1,140 @@
 <?php
 namespace Clio\Component\Util\Container;
 
+use Clio\Component\Util\Container\Storage\ValidatableStorage;
+
 /**
  * AbstractContainer 
  * 
+ * @uses Container
  * @abstract
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractContainer
+abstract class AbstractContainer implements Container
 {
 	/**
-	 * keyValidator 
-	 * 
-	 * @var mixed
-	 * @access private
+	 * {@inheritdoc}
 	 */
-	private $keyValidator;
+	protected $storage;
 
 	/**
-	 * valueValidator 
-	 * 
-	 * @var mixed
-	 * @access private
+	 * {@inheritdoc}
 	 */
-	private $valueValidator;
-	
+	public function __construct(array $values = array(), Storage $storage = null)
+	{
+		$this->storage = $storage;
+
+		$this->initContainer($values);
+	}
+
 	/**
-	 * hasKeyValidator 
+	 * {@inheritdoc}
+	 */
+	protected function initContainer(array $values)
+	{
+		if(!$this->storage) {
+			$this->storage = new Storage\ArrayStorage();
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function clear()
+	{
+		$this->storage->reomveAll();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function toArray()
+	{
+		return $this->storage->toArray();
+	}
+
+	/**
+	 * getValues 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function hasKeyValidator()
+	public function getValues()
 	{
-		return (bool)$this->keyValidator;
+		return array_values($this->toArray());
 	}
-    
-    /**
-     * getKeyValidator 
-     * 
-     * @access public
-     * @return void
-     */
-    public function getKeyValidator()
-    {
-        return $this->keyValidator;
-    }
-    
-    /**
-     * setKeyValidator 
-     * 
-     * @param mixed $keyValidator 
-     * @access public
-     * @return void
-     */
-    public function setKeyValidator($keyValidator)
-    {
-        $this->keyValidator = $keyValidator;
-        return $this;
-    }
 
 	/**
-	 * hasValueValidator 
-	 * 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function hasValueValidator()
+	public function getStorage()
 	{
-		return (bool)$this->valueValidator;
+		return $this->storage;
 	}
-    
-    /**
-     * getValueValidator 
-     * 
-     * @access public
-     * @return void
-     */
-    public function getValueValidator()
-    {
-        return $this->valueValidator;
-    }
-    
-    /**
-     * setValueValidator 
-     * 
-     * @param mixed $valueValidator 
-     * @access public
-     * @return void
-     */
-    public function setValueValidator($valueValidator)
-    {
-        $this->valueValidator = $valueValidator;
-        return $this;
-    }
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function setStorage(Storage $storage)
+	{
+		$this->storage = $storage;
+		return $this;
+	}
+
+	public function getIterator()
+	{
+		return $this->getStorage()->getIterator();
+	}
+
+	public function count()
+	{
+		if(!$this->storage instanceof \Countable) {
+			throw new \RuntimeException('Storage is not countable.');
+		}
+		return $this->storage->count();
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function serialize()
+	{
+		if(!$this->storage instanceof \Serializable) {
+			throw new \RuntimeException('Container storage is not serializable.');
+		}
+
+		return serialize(array(
+			$this->storage
+		));
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function unserialize($serialized)
+	{
+		$data = unserialize($serialized);
+
+		list(
+			$this->storage
+		) = $data;
+	}
+
+	public function enableStorageValidation()
+	{
+		if(!$this->storage instanceof ValidatableStorage) {
+			$this->storage = new ValidatableStorage($this->storage);
+		}
+	}
+
+	public function disableStorageValidation()
+	{
+		if($this->storage instanceof ValidatableStorage) {
+			$this->storage = $this->storage->getSource();
+		}
+	}
 }
 

@@ -11,10 +11,7 @@ namespace Clio\Component\Util\Container;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Collection extends 
-  Container,
-  \IteratorAggregate,
-  \ArrayAccess
+interface Collection extends Container, \ArrayAccess
 {
 	/**
 	 * toArray 

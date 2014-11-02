@@ -1,33 +1,15 @@
 <?php
 namespace Clio\Component\Util\Container;
 
-/**
- * Storage 
- * 
- * @package { PACKAGE }
- * @copyright { COPYRIGHT } (c) { COMPANY }
- * @author Yoshi Aoki <yoshi@44services.jp> 
- * @license { LICENSE }
- */
-interface Storage extends \Countable
+interface Storage extends \IteratorAggregate 
 {
-	
-	/**
-	 * load
-	 *   Load from storage. 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function load();
+	const ITERATE_FORWARD = 0;
+	const ITERATE_BACKWARD= 1;
 
-	/**
-	 * save 
-	 *   Save into storage. 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function save();
+	const ITERATE_FIFO    = 0;
+	const ITERATE_LIFO    = 8;
+
+	function removeAll();
+
+	function getIterator($mode = null);
 }
-

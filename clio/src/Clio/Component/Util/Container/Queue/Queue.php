@@ -1,87 +1,52 @@
 <?php
 namespace Clio\Component\Util\Container\Queue;
 
-use Clio\Component\Util\Container\Queue as QueueInterface;
-
-/**
- * Queue
- *   Simple Queue implementatimon 
- * @uses QueueInterface
- * @package { PACKAGE }
- * @copyright { COPYRIGHT } (c) { COMPANY }
- * @author Yoshi Aoki <yoshi@44services.jp> 
- * @license { LICENSE }
- */
-class Queue implements QueueInterface
+class Queue extends AbstractContainer
 {
-	/**
-	 * values 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $values = array();
-
-	/**
-	 * getRaw 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getRaw()
-	{
-		return $values;
-	}
-
-	/**
-	 * enqueue 
-	 * 
-	 * @param mixed $value 
-	 * @access public
-	 * @return void
-	 */
 	public function enqueue($value)
 	{
-		// 
-		array_push($this->values, $value);
+		$this->getStorage()->insertEnd($value);
 	}
 
-	/**
-	 * dequeue 
-	 * 
-	 * @access public
-	 * @return void
-	 */
 	public function dequeue()
 	{
-		return array_shift($this->values);
+		return $this->getStorage()->removeBegin();
 	}
 
-	/**
-	 * peek 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function peek()
+	public function begin()
 	{
-		return reset($this->values);
+		return $this->getStorage()->begin();
 	}
 
-	/**
-	 * count 
-	 * 
-	 * @access public
-	 * @return void
-	 */
+	public function end()
+	{
+		return $this->getStorage()->end();
+	}
+
 	public function count()
 	{
-		return count($this->values);
+		return count($this->getStorage());
 	}
 
-	public function getValues()
+	public function getIterator()
 	{
-		return $this->values;
+		return $this->getStorage()->getIterator(IterationMode::MODE_LIFO);
+	}
+
+	public function setStorage(Storage $storage)
+	{
+		if(!$storage instanceof SequencialAccessable) {
+			throw new \InvalidArgumentException('Queue requires SequencialAccessable');
+		}
+		parent::setStorage($storage);
+	}
+
+	public function setStorage(Storage $storage)
+	{
+		if(!$storage instanceof SequencialAccessable) {
+			throw new \InvalidArgumentException('Storage has to be an SequencialAccessable.');	
+		}
+		parent::setStorage($storage);
 	}
 }
 

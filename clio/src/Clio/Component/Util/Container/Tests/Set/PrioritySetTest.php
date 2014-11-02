@@ -1,17 +1,17 @@
 <?php
 namespace Clio\Component\Util\Container\Tests\Set;
 
-use Clio\Component\Util\Container\Set\Set;
+use Clio\Component\Util\Container\Set\PrioritySet;
 
 /**
- * SetTest 
+ * PrioritySetTest 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SetTest extends \PHPUnit_Framework_TestCase
+class PrioritySetTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * testSuccess 
@@ -26,11 +26,13 @@ class SetTest extends \PHPUnit_Framework_TestCase
 		$this->assertCount(0, $set);
 		$set->add('foo');
 		$this->assertCount(1, $set);
-		$set->add('bar');
+		$set->add('bar', 10);
 		$this->assertCount(2, $set);
 
 		$this->assertTrue($set->contains('foo'));
 		$this->assertCount(2, $set);
+
+		$this->assertEquals(array('bar', 'foo'), $set->toArray());
 	
 		$set->remove('foo');
 		$this->assertCount(1, $set);
@@ -44,7 +46,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
 	 */
 	private function createSet()
 	{
-		return new Set();
+		return new PrioritySet();
 	}
 }
 
