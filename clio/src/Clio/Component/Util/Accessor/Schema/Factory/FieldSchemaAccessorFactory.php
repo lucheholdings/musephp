@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Accessor\Schema\Factory;
 
 use Clio\Component\Util\Accessor\Schema;
 use Clio\Component\Pattern\Factory\AbstractFactory;
-use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
+use Clio\Component\Util\Accessor\Field;
 use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
 use Clio\Component\Util\Accessor\Schema\SimpleSchemaAccessor;
 
@@ -34,7 +34,7 @@ class FieldSchemaAccessorFactory extends AbstractSchemaAccessorFactory
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(FieldAccessorFactory $fieldAccessorFactory = null)
+	public function __construct(FieldAccessorFactoryCollection $fieldAccessorFactory = null)
 	{
 		if(!$fieldAccessorFactory) {
 			$fieldAccessorFactory = new FieldAccessorFactoryCollection();
@@ -67,22 +67,27 @@ class FieldSchemaAccessorFactory extends AbstractSchemaAccessorFactory
 	 */
 	protected function createFieldAccessors(Schema $schema)
 	{
-		$fieldAccessors = array();
-		
 		$factory = $this->getFieldAccessorFactory();
+
+		$accessors = $namedCollection = new Field\NamedCollection();
 
 		if($factory) {
 			foreach($schema->getFields() as $field) {
-				$accessor = $factory->createFieldAccessor($field);
+				$accessor = $factory->createFieldAccessorWithoutType($field);
 
-				if($accessor instanceof SingleFieldAccessor) {
-					$this->fieldAccessors->addAccessor($accessor, PRIORITY_SINGLE_FIELD);
-				} else {
-					$this->fieldAccessors->addAccessor($accessor, PRIORITY_MULTI_FIELD);
+				if($accessor instanceof Field\SingleFieldAccessor) {
+					$namedCollection->addFieldAccessor($accessor);
+				} else if($accessor instanceof Field\MultiFieldAccessor){
+					if(!$accessors instanceof Field\ChainedFieldAccessor) {
+						var_dump($accessor, $accessors);exit;
+						$accessors = new Field\ChainedFieldAccessor($namedCollection, $accessor);
+					} else {
+						$accessors->addNext($accessor);
+					}
 				}
 			}
 		}
-		return $fieldAccessors;
+		return $accessors;
 	}
 
     /**
@@ -103,7 +108,7 @@ class FieldSchemaAccessorFactory extends AbstractSchemaAccessorFactory
      * @access public
      * @return void
      */
-    public function setFieldAccessorFactory(FieldAccessorFactory $fieldAccessorFactory)
+    public function setFieldAccessorFactory(Field\FieldAccessorFactory $fieldAccessorFactory)
     {
         $this->fieldAccessorFactory = $fieldAccessorFactory;
         return $this;

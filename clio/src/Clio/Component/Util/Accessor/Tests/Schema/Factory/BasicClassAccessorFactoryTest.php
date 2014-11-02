@@ -3,6 +3,7 @@ namespace Clio\Component\Util\Accessor\Tests\Schema\Factory;
 
 use Clio\Component\Util\Accessor\Tests\Models;
 use Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory;
+use Clio\Component\Util\Accessor\Schema\ClassSchema;
 
 class BasicClassAccessorFactoryTest extends \PHPUnit_Framework_TestCase 
 {
@@ -18,17 +19,22 @@ class BasicClassAccessorFactoryTest extends \PHPUnit_Framework_TestCase
 
 		$factory = BasicClassAccessorFactory::createFactory();
 
-		$accessor = $factory->createSchemaAccessor($model);
+		$accessor = $factory->createSchemaAccessor(new ClassSchema(new \ReflectionClass($model)));
 
-		$this->assertTrue($accessor->hasFieldAccessor('foo'));
-		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor', $accessor->getFieldAccessor('foo'));
+		$this->assertInstanceof('Clio\Component\Util\Accessor\Schema\SimpleSchemaAccessor', $accessor);
+		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\NamedCollection', $accessor->getFieldAccessors());
 
-		$this->assertTrue($accessor->hasFieldAccessor('bar'));
-		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\MethodFieldAccessor', $accessor->getFieldAccessor('bar'));
+		$fieldAccessors = $accessor->getFieldAccessors();
+
+		$this->assertTrue($fieldAccessors->hasFieldAccessor('foo'));
+		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor', $fieldAccessors->getFieldAccessor('foo'));
+
+		$this->assertTrue($fieldAccessors->hasFieldAccessor('bar'));
+		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\MethodFieldAccessor', $fieldAccessors->getFieldAccessor('bar'));
 
 		// check hoge field
-		$this->assertTrue($accessor->hasFieldAccessor('hoge'));
-		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\MethodFieldAccessor', $accessor->getFieldAccessor('hoge'));
+		$this->assertTrue($fieldAccessors->hasFieldAccessor('hoge'));
+		$this->assertInstanceof('Clio\Component\Util\Accessor\Field\MethodFieldAccessor', $fieldAccessors->getFieldAccessor('hoge'));
 	}
 }
 

@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Accessor\Schema;
 
 use Clio\Component\Util\Accessor\Schema;
+use Clio\Component\Util\Accessor\Field\NamedField;
 /**
  * ClassSchema 
  * 
@@ -50,7 +51,7 @@ class ClassSchema implements Schema, ReflectionClassAwarable
 			$this->fields = array();
 
 			foreach($this->getReflectionClass()->getProperties() as $property) {
-				$this->fields[] = new Field($this, $property->getName());
+				$this->fields[] = new NamedField($this, $property->getName());
 			}
 		}
 
@@ -60,7 +61,7 @@ class ClassSchema implements Schema, ReflectionClassAwarable
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isRelectionClassAwared()
+	public function isReflectionClassAwared()
 	{
 		return true;
 	}

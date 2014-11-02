@@ -89,7 +89,7 @@ class SchemaDataAccessor implements Accessor
 	 */
 	public function existsField($field)
 	{
-		return $this->getSchemaAccessor()->hasFieldAccessor($field);
+		return $this->getSchemaAccessor()->existsField($this->getData(), $field);
 	}
 
 	/**

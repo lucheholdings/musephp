@@ -6,7 +6,7 @@ use Clio\Component\Util\Metadata\Mapping\Factory\AbstractFactory as AbstractMapp
 
 class DummyMappingFactory extends AbstractMappingFactory 
 {
-	public function createMapping(Metadata $metadata)
+	public function doCreateMapping(Metadata $metadata)
 	{
 		return new DummyMapping($metadata);
 	}

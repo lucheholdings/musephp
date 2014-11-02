@@ -45,7 +45,7 @@ abstract class AbstractContainer implements Container
 	 */
 	public function clear()
 	{
-		$this->storage->reomveAll();
+		$this->storage->removeAll();
 	}
 
 	/**

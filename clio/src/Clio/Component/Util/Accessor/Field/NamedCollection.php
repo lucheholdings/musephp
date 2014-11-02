@@ -56,12 +56,13 @@ class NamedCollection extends AbstractCollection
 	 */
 	public function getFieldNames($container = null)
 	{
-		return $this->getAccessors()->filter(function($accessor){
+		$filtered = array_filter($this->getAccessors()->toArray(), function($accessor){
 			if($accessor instanceof IgnoreFieldAccessor) {
 				return false;
 			}
 			return true;
-		})->getKeys();
+		});
+		return array_keys($filtered);
 	}
 
 	/**
@@ -94,7 +95,7 @@ class NamedCollection extends AbstractCollection
 	 */
 	public function getFieldAccessor($field)
 	{
-		if($this->getAccessors()->hasKey($field)) {
+		if(!$this->getAccessors()->hasKey($field)) {
 			throw new \RuntimeException(sprintf('Field "%s" is not supported.', $field));
 		}
 

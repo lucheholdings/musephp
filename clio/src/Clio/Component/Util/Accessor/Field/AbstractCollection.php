@@ -97,7 +97,7 @@ abstract class AbstractCollection implements MultiFieldAccessor
 	 */
 	public function existsField($container, $field)
 	{
-		return $this->hasFieldAccessor($field) && !$this->isNull($container, $field);
+		return $this->hasFieldAccessor($field);
 	}
 	
     public function getAccessors()

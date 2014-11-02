@@ -25,7 +25,7 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function clean()
 	{
-		foreach($this->mappings as $mapping) {
+		foreach($this->getMappings() as $mapping) {
 			$mapping->clean();
 		}
 	}

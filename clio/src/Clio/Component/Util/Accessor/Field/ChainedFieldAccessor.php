@@ -158,10 +158,10 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
      */
     public function addNext(MultiFieldAccessor $nextAccessor)
     {
-		if($this->nextAccessor && ($this->nextAccessor instanceof ChainFieldAccessor)) {
+		if($this->nextAccessor && ($this->nextAccessor instanceof ChainedFieldAccessor)) {
 			$this->nextAccessor->addNext($nextAccessor);
 		} else {
-			$this->nextAccessor = new ChainFieldAccessor($this->nextAccessor, $nextAccessor);
+			$this->nextAccessor = new ChainedFieldAccessor($this->nextAccessor, $nextAccessor);
 		}
         return $this;
     }

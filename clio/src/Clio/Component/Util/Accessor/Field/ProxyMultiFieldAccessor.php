@@ -56,7 +56,7 @@ class ProxyMultiFieldAccessor implements MultiFieldAccessor
 	 */
 	public function isNull($container, $field)
 	{
-		return $this->getAccessor()->isNull($contaier, $field);
+		return $this->getAccessor()->isNull($container, $field);
 	}
 
 	

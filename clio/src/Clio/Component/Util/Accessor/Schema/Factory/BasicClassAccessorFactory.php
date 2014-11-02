@@ -24,8 +24,8 @@ class BasicClassAccessorFactory extends FieldSchemaAccessorFactory
 		// Use defualt fieldFactories
 		if(empty($fieldFactories)) {
 			$fieldFactories = array(
-				new PublicPropertyFieldAccessorFactory(),
-				new MethodFieldAccessorFactory(),
+				'public_property' => new PublicPropertyFieldAccessorFactory(),
+				'method' => new MethodFieldAccessorFactory(),
 			);
 		}
 		return new static(new FieldAccessorFactoryCollection($fieldFactories));

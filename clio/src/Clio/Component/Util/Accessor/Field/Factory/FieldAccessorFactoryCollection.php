@@ -5,6 +5,8 @@ use Clio\Component\Pattern\Factory\NamedCollection as NamedFactoryCollection;
 use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
 
 use Clio\Component\Util\Accessor\Field;
+use Clio\Component\Util\Accessor\Schema;
+use Clio\Component\Exception\UnsupportedException;
 
 /**
  * FieldAccessorFactoryCollection 
@@ -16,30 +18,19 @@ use Clio\Component\Util\Accessor\Field;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorFactoryCollection extends NamedFactoryCollection implements FieldAccessorFactory 
+class FieldAccessorFactoryCollection extends NamedFactoryCollection 
 {
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createFieldAccessor(Field $field, array $options = array())
+	public function createFieldAccessorWithoutType(Field $field, array $options = array())
 	{
-		$accessor = $namedAccessor = new Field\NamedCollection();
-		foreach($this as $factory) {
-			$fieldAccessor = $factory->createFieldAccessor($field, $options);
-
-			if($fieldAccessor instanceof Field\SingleFieldAccessor) {
-				$namedAccessor->set($fieldAccessor->getName(), $fieldAccessor);	
-			} else if($fieldAccessor instanceof Field\MultiFieldAccessor) {
-				if(!$accessor instanceof Field\ChainedFieldAccessor) {
-					$accessor = new Field\ChainedFieldAccessor($accessor);
-				}
-				$accessor->addNext($fieldAccessor);
-			}
-		}
-
-		return $accessor;
+		return $this->createByKeyArgs($this->guessFieldType($field), array($field, $options));
 	}
 
+	/**
+	 * {@inheritdoc}
+	 */
 	public function createFieldAccessorByType($type, Field $field, array $options = array())
 	{
 		return $this->createByKeyArgs($type, array($field, $options));
@@ -59,6 +50,22 @@ class FieldAccessorFactoryCollection extends NamedFactoryCollection implements F
 			throw new \Exception(sprintf('Unsupported Type "%s"', $type));
 		}
 		return $this->get($type)->isSupportedArgs(array($field, $options));
+	}
+
+	protected function guessFieldType(Field $field)
+	{
+		if($field->getSchema() instanceof Schema\ClassSchema) {
+			$classReflector = $field->getSchema()->getReflectionClass();
+			if($classReflector->hasProperty($field->getName()) && $classReflector->getProperty($field->getName())->isPublic()) {
+				return 'public_property';
+			} else {
+				return 'method';
+			}
+		} else if($field->getSchema() instanceof Schema\ArraySchema) {
+			return 'array_field';
+		}
+
+		throw new UnsupportedException('Failed to guess the field type.');
 	}
 }
 

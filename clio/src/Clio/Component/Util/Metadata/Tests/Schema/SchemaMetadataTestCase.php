@@ -19,7 +19,7 @@ class SchemaMetadataTestCase extends \PHPUnit_Framework_TestCase
 
 		$this->assertEmpty($metadata->getFields());
 
-		$metadata->addField(new VirtualFieldMetadata('hoge'));
+		$metadata->addField(new VirtualFieldMetadata($metadata, 'hoge'));
 
 		$this->assertCount(1, $metadata->getFields());
 	}

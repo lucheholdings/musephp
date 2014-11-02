@@ -83,5 +83,10 @@ class SimpleSchemaAccessor extends ProxyMultiFieldAccessor implements SchemaAcce
         $this->options = $options;
         return $this;
     }
+
+	public function getFieldAccessors()
+	{
+		return $this->getAccessor();
+	}
 }
 
