@@ -12,19 +12,19 @@ namespace Clio\Component\Util\Attribute;
 interface AttributeContainerAware
 {
 	/**
-	 * getAttributes 
+	 * getAttributeMap 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function getAttributes();
+	function getAttributeMap();
 
 	/**
-	 * setAttributes 
+	 * setAttributeMap 
 	 * 
 	 * @param mixed $attributes 
 	 * @access public
 	 * @return void
 	 */
-	function setAttributes(AttributeContainer $attributes);
+	function setAttributeMap(AttributeContainer $attributes);
 }

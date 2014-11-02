@@ -26,5 +26,16 @@ interface Metadata
 	 * @return void
 	 */
 	function __toString();
+
+	/**
+	 * clean 
+	 *   Clean Metadata.
+	 *   This method is called after create complete metadata.
+	 *   We clean each Mapping as well
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function clean();
 }
 

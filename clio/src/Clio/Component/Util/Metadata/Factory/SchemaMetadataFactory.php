@@ -2,11 +2,9 @@
 namespace Clio\Component\Util\Metadata\Factory;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
-use Clio\Component\Util\Metadata\Mapping\MappingCollection,
-	Clio\Component\Util\Metadata\Mapping\LazyMappingCollection
-;
+use Clio\Component\Util\Metadata\Mapping\MappingCollection;
 use Clio\Component\Pattern\Factory\MappedFactory;
-
+use Clio\Component\Util\Metadata\SchemaMetadata;
 /**
  * SchemaMetadataFactory 
  * 
@@ -18,33 +16,23 @@ use Clio\Component\Pattern\Factory\MappedFactory;
 abstract class SchemaMetadataFactory implements MappedFactory 
 {
 	/**
-	 * schemaMappingFactory 
+	 * mappingFactory 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
-	private $schemaMappingFactory;
-
-	/**
-	 * fieldMappingFactory 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $fieldMappingFactory;
+	private $mappingFactory;
 
 	/**
 	 * __construct 
 	 * 
-	 * @param mixed $schemaMappingFactory 
-	 * @param mixed $fieldMappingFactory 
+	 * @param mixed $mappingFactory 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(FactoryCollection $schemaMappingFactory = null, FactoryCollection $fieldMappingFactory = null)
+	public function __construct(FactoryCollection $mappingFactory = null)
 	{
-		$this->schemaMappingFactory = $schemaMappingFactory;
-		$this->fieldMappingFactory = $fieldMappingFactory;
+		$this->mappingFactory = $mappingFactory;
 	}
 
 	/**
@@ -76,9 +64,13 @@ abstract class SchemaMetadataFactory implements MappedFactory
 	{
 		$schemaMetadata = $this->doCreateMetadata($schema);
 
-		if($this->getSchemaMappingFactory()) {
-			$schemaMetadata->setMappings($this->getSchemaMappingFactory()->createMapping($schemaMetadata));
+		if($this->getMappingFactory()) {
+			$schemaMetadata->setMappings($this->getMappingFactory()->createMapping($schemaMetadata));
 		}
+
+		// CleanUp Metadata 
+		// This calls to resolve mapping relation.
+		$schemaMetadata->clean();
 
 		return $schemaMetadata;
 	}
@@ -90,12 +82,12 @@ abstract class SchemaMetadataFactory implements MappedFactory
 	 * @access public
 	 * @return void
 	 */
-	public function createFieldMetadata($field)
+	public function createFieldMetadata(SchemaMetadata $schema, $fieldName)
 	{
-		$fieldMetadata = $this->doCreateFieldMetadata($field);
+		$fieldMetadata = $this->doCreateFieldMetadata($schema, $fieldName);
 
-		if($this->getFieldMappingFactory()) {
-			$fieldMetadata->setMappings($this->getFieldMappingFactory()->createMapping($fieldMetadata));
+		if($this->getMappingFactory()) {
+			$fieldMetadata->setMappings($this->getMappingFactory()->createMapping($fieldMetadata));
 		}
 
 		return $fieldMetadata;
@@ -119,34 +111,23 @@ abstract class SchemaMetadataFactory implements MappedFactory
 	 * @access protected
 	 * @return void
 	 */
-	abstract protected function doCreateFieldMetadata($field);
+	abstract protected function doCreateFieldMetadata(SchemaMetadata $schema, $fieldName);
     
-    public function getSchemaMappingFactory()
+    public function getMappingFactory()
     {
-        return $this->schemaMappingFactory;
+        return $this->mappingFactory;
     }
     
-    public function setSchemaMappingFactory($schemaMappingFactory)
+    public function setMappingFactory($mappingFactory)
     {
-        $this->schemaMappingFactory = $schemaMappingFactory;
+        $this->mappingFactory = $mappingFactory;
         return $this;
     }
     
-    public function getFieldMappingFactory()
-    {
-        return $this->fieldMappingFactory;
-    }
-    
-    public function setFieldMappingFactory($fieldMappingFactory)
-    {
-        $this->fieldMappingFactory = $fieldMappingFactory;
-        return $this;
-    }
-
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedFactory(array $args = array())
+	public function isSupportedArgs(array $args = array())
 	{
 		return $this->isSupportedKeyArgs(array_shift($args), $args);
 	}

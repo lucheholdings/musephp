@@ -1,6 +1,11 @@
 <?php
 namespace Clio\Framework\Metadata\Mapping;
 
+use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Util\Metadata\Metadata;
+use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
+use Clio\Component\Util\Accessor\Field as AccessorField;
+use Clio\Component\Util\Accessor\Field\NamedField;
 /**
  * FieldAccessorMapping 
  * 
@@ -10,7 +15,7 @@ namespace Clio\Framework\Metadata\Mapping;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorMapping extends AccessorMapping 
+class FieldAccessorMapping extends AccessorMapping implements AccessorField 
 {
 	/**
 	 * type 
@@ -29,6 +34,14 @@ class FieldAccessorMapping extends AccessorMapping
 	private $accessorFactory;
 
 	/**
+	 * accessor 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $accessor;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param mixed $type 
@@ -36,11 +49,30 @@ class FieldAccessorMapping extends AccessorMapping
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($type, array $options = array())
+	public function __construct(Metadata $metadata, $type, array $options = array())
 	{
 		$this->type = $type;
 
-		parent::__construct($options);
+		parent::__construct($metadata);
+	}
+
+	/**
+	 * clean 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function clean()
+	{
+		$fieldMetadata = $this->getMetadata();
+		$schemaMetadata = $this->getMetadata()->getSchemaMetadata();
+
+		if($schemaMetadata->hasMapping('attribute_container') && ($fieldMetadata->getName() == $schemaMetadata->getMapping('attribute_container')->getFieldName())) {
+			$this->type = 'attributes';
+
+		} else if($schemaMetadata->hasMapping('tag_container') && ($fieldMetadata->getName() == $schemaMetadata->getMapping('tag_container')->getFieldName())) {
+			$this->type = 'tags';
+		}
 	}
     
     /**
@@ -104,7 +136,7 @@ class FieldAccessorMapping extends AccessorMapping
         return $this->accessorFactory;
     }
     
-    public function setAccessorFactory($accessorFactory)
+    public function setAccessorFactory(FieldAccessorFactory $accessorFactory)
     {
         $this->accessorFactory = $accessorFactory;
         return $this;
@@ -113,7 +145,8 @@ class FieldAccessorMapping extends AccessorMapping
 	public function getAccessor()
 	{
 		if(!$this->accessor) {
-			$this->accessor = $this->getAccessorFactory()->createFieldAccessorByType($this->type, $this->getMetadata(), $this->getMetadata()->getName());
+			$accessorField = new NamedField($this->getMetadata()->getSchemaMetadata()->getMapping('accessor'), $this->getMetadata()->getName());
+			$this->accessor = $this->getAccessorFactory()->createFieldAccessorByType($this->type, $accessorField, $this->getOptions());
 		}
 
 		return $this->accessor;

@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Filter\Condition;
 
-use Calliope\Framework\Core\SchemeManagerInterface;
+use Calliope\Framework\Core\SchemaManagerInterface;
 
 /**
  * ConnectCondition 

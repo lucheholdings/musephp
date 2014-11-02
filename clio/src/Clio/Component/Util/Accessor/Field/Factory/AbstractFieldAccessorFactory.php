@@ -32,7 +32,7 @@ abstract class AbstractFieldAccessorFactory extends AbstractFactory implements F
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedFactory(array $args = array())
+	public function isSupportedArgs(array $args = array())
 	{
 		$schema = array_shift($args);
 		$field = array_shift($args);

@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field\Factory;
 
+use Clio\Component\Util\Accessor\Field;
 use Clio\Component\Util\Psr\Psr1;
 use Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor;
 
@@ -18,39 +19,27 @@ class PublicPropertyFieldAccessorFactory extends AbstractFieldAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createFieldAccessor($schema, $fieldName, array $options = array())
+	public function createFieldAccessor(Field $field, array $options = array())
 	{
-		$reflector = $schema->getProperty($fieldName);
+		$classReflector = $field->getSchema()->getReflectionClass();
 
-		$propertyReflector = $this->getPropertyReflector($schema, $fieldName, $options);
+		$propertyReflector = $classReflector->getProperty($field->getName());
 
-		return new PublicPropertyFieldAccessor($fieldName, $propertyReflector);
+		return new PublicPropertyFieldAccessor($field->getName(), $propertyReflector);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedField($schema, $fieldName)
+	public function isSupportedField(Field $field)
 	{
-		if(($schema instanceof \ReflectionClass) && $schema->hasProperty($fieldName) && $schema->getProperty($fieldName)->isPublic()) {
-			return true;
+		if(($field->getSchema() instanceof ReflectionClassAwarable) && $field->getSchema()->isReflectionClassAwared()) {
+			$classReflector = $field->getSchema()->getReflectionClass();
+
+			return ($classReflector->hasProperty($field->getName()) && $classReflector->getProperty($field->getName())->isPublic());
 		}
 
 		return false;
-	}
-
-	/**
-	 * getPropertyReflector 
-	 * 
-	 * @param \ReflectionClass $schema 
-	 * @param mixed $fieldName 
-	 * @param array $options 
-	 * @access protected
-	 * @return void
-	 */
-	protected function getPropertyReflector(\ReflectionClass $schema, $fieldName, array $options)
-	{
-		return $schema->getProperty($fieldName);
 	}
 }
 

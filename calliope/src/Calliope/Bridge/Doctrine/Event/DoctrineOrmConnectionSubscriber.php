@@ -28,20 +28,20 @@ class DoctrineOrmConnectionSubscriber
 			$classMetadata = $event->getManager()->getClassMetadata();
 			$em = $event->getConnection()->getObjectManager();
 			// 
-			$this->doUpdateSchemeAttributeInfo($em, $classMetadata);
-			$this->doUpdateSchemeTagInfo($em, $classMetadata);
+			$this->doUpdateSchemaAttributeInfo($em, $classMetadata);
+			$this->doUpdateSchemaTagInfo($em, $classMetadata);
 		}
 	}
 
 	/**
-	 * doUpdateSchemeInfo 
+	 * doUpdateSchemaInfo 
 	 * 
 	 * @param ObjectManager $em 
 	 * @param ClassMetadata $classMetadata 
 	 * @access protected
 	 * @return void
 	 */
-	protected function doUpdateSchemeAttributeInfo(ObjectManager $em, ClassMetadata $classMetadata)
+	protected function doUpdateSchemaAttributeInfo(ObjectManager $em, ClassMetadata $classMetadata)
 	{
 		$attributeField = 'attributes';
 
@@ -56,12 +56,12 @@ class DoctrineOrmConnectionSubscriber
 	}
 
 	/**
-	 * doUpdateSchemeTagInfo 
+	 * doUpdateSchemaTagInfo 
 	 * 
 	 * @access protected
 	 * @return void
 	 */
-	protected function doUpdateSchemeTagInfo(ObjectManager $em, ClassMetadata $classMetadata)
+	protected function doUpdateSchemaTagInfo(ObjectManager $em, ClassMetadata $classMetadata)
 	{
 		$tagField = 'tags';
 

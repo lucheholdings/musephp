@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Connection;
 
-use Calliope\Framework\Core\SchemeRegistryInterface;
+use Calliope\Framework\Core\SchemaRegistryInterface;
 
 /**
  * LazyBindProxyManagerConnection 
@@ -36,7 +36,7 @@ class LazyBindProxyManagerConnection extends ProxyManagerConnection
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(SchemeRegistryInterface $registry, $connectName, array $options = array())
+	public function __construct(SchemaRegistryInterface $registry, $connectName, array $options = array())
 	{
 		parent::__construct(null, $options);
 
@@ -55,7 +55,7 @@ class LazyBindProxyManagerConnection extends ProxyManagerConnection
 		$connectTo = parent::getConnectTo();
 		
 		if(!$connectTo) {
-			$connectTo = $this->getRegistry()->getSchemeManager(
+			$connectTo = $this->getRegistry()->getSchemaManager(
 				$this->getConnectName()
 			);
 

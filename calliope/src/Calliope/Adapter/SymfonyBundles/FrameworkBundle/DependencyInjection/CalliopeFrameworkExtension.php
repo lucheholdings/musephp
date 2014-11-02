@@ -51,8 +51,8 @@ class CalliopeFrameworkExtension extends Extension
 
 
 		$this->registerFilters($container, $config['filters']);
-		// Register Scheme Managers
-		$this->registerSchemes($container, $config['schemes']);
+		// Register Schema Managers
+		$this->registerSchemas($container, $config['schemes']);
 
 		//$this->registerDoctrineEventListeners($container, $config['schemes']);
 
@@ -60,14 +60,14 @@ class CalliopeFrameworkExtension extends Extension
     }
 
 	/**
-	 * registerSchemes 
+	 * registerSchemas 
 	 * 
 	 * @param mixed $container 
 	 * @param array $schemes 
 	 * @access protected
 	 * @return void
 	 */
-	protected function registerSchemes($container, array $schemes)
+	protected function registerSchemas($container, array $schemes)
 	{
 		foreach($schemes as $name => $params) {
 			if(isset($params['manager_class'])) {

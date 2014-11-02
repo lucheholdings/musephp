@@ -23,6 +23,16 @@ abstract class AbstractMetadata implements Metadata
 	/**
 	 * {@inheritdoc}
 	 */
+	public function clean()
+	{
+		foreach($this->mappings as $mapping) {
+			$mapping->clean();
+		}
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function __toString()
 	{
 		return $this->getName();

@@ -1,18 +1,18 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\Factory;
 
-use Clio\Component\Util\Container\Collection\Collection;
+use Clio\Component\Util\Container\Map\Map;
 
 /**
  * TypedStrategyFactory 
  * 
- * @uses Collection
+ * @uses Map 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TypedStrategyFactory extends Collection 
+class TypedStrategyFactory extends Map 
 {
 	/**
 	 * createTokenManager 

@@ -5,6 +5,7 @@ use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 use Clio\Component\Util\Metadata\Field\PropertyMetadata;
 use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
 use Clio\Component\Util\Metadata\Mapping\MappingCollection;
+use Clio\Component\Util\Metadata\SchemaMetadata;
 
 /**
  * ClassMetadataFactory 
@@ -35,9 +36,9 @@ class ClassMetadataFactory extends SchemaMetadataFactory
 
 		$schemaMetadata = new ClassMetadata($schema);
 
-		// 
+		// Create Fields for default class properties 
 		foreach($schema->getProperties() as $property) {
-			$schemaMetadata->addField($this->createFieldMetadata($property));
+			$schemaMetadata->addField($this->createFieldMetadata($schemaMetadata, $property->getName()));
 		}
 
 		return $schemaMetadata;
@@ -50,13 +51,9 @@ class ClassMetadataFactory extends SchemaMetadataFactory
 	 * @access protected
 	 * @return void
 	 */
-	protected function doCreateFieldMetadata($field)
+	protected function doCreateFieldMetadata(SchemaMetadata $schema, $fieldName)
 	{
-		if(!$field instanceof \ReflectionProperty) {
-			throw new \InvalidArgumentException('Field has to be an instanceof ReflectionProperty.');
-		}
-
-		return new PropertyMetadata($field);
+		return new PropertyMetadata($schema, $fieldName);
 	}
 
 	/**

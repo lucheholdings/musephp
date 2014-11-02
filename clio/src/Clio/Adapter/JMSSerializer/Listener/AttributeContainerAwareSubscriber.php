@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Adapter\JMSSerializer\Listener;
 
-use Clio\Framework\Metadata\ClassMetadataRegistry;
+use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
 use JMS\Serializer\EventDispatcher\EventSubscriberInterface;
 use JMS\Serializer\EventDispatcher\PreDeserializeEvent;
 use JMS\Serializer\EventDispatcher\ObjectEvent;
@@ -25,7 +25,7 @@ class AttributeContainerAwareSubscriber implements EventSubscriberInterface
 
 	private $registry;
 
-	public function __construct(ClassMetadataRegistry $registry)
+	public function __construct(SchemaMetadataRegistry $registry)
 	{
 		$this->registry = $registry;
 	}

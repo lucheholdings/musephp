@@ -17,8 +17,8 @@
         <!-- mapping fatories -->
 		<parameter key="clio_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection</parameter>
 		<parameter key="clio_framework.metadata.accessor_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
-		<parameter key="clio_framework.metadata.attribute_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\AttributeContainerAwareMappingFactory</parameter>
-		<parameter key="clio_framework.metadata.tag_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\TagContainerAwareMappingFactory</parameter>
+		<parameter key="clio_framework.metadata.attribute_container_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\AttributeContainerMappingFactory</parameter>
+		<parameter key="clio_framework.metadata.tag_container_mapping_factory.class">Clio\Framework\Metadata\Mapping\Factory\TagContainerMappingFactory</parameter>
 
 		<!-- Mapping Injector -->
 		<parameter key="clio_framework.metadata.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
@@ -84,9 +84,21 @@
 			id="clio_framework.metadata.mapping_factory.accessor"
 			class="%clio_framework.metadata.accessor_mapping_factory.class%"
 		>
-			<argument type="service" id="clio_framework.accessor.accessor_factory" on-invalid="null"/>
+			<argument type="service" id="clio_framework.accessor.schema_accessor_factory.metadata" on-invalid="null"/>
 			<argument type="service" id="clio_framework.accessor.field_accessor_factory" on-invalid="null"/>
 			<tag name="clio_framework.metadata.mapping_factory" for="accessor"/>
+		</service>
+		<service
+			id="clio_framework.metadata.mapping_factory.attribute_container"
+			class="%clio_framework.metadata.attribute_container_mapping_factory.class%"
+		>
+			<tag name="clio_framework.metadata.mapping_factory" for="attribute"/>
+		</service>
+		<service
+			id="clio_framework.metadata.mapping_factory.tag_container"
+			class="%clio_framework.metadata.tag_container_mapping_factory.class%"
+		>
+			<tag name="clio_framework.metadata.mapping_factory" for="tag"/>
 		</service>
 		<service
 			id="clio_framework.metadata.mapping_factory"

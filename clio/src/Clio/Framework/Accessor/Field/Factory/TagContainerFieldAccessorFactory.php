@@ -1,12 +1,14 @@
 <?php
 namespace Clio\Framework\Accessor\Field\Factory;
 
+use Clio\Component\Util\Accessor\Field;
 use Clio\Component\Util\Accessor\Field\Factory\AbstractFieldAccessorFactory;
 use Clio\Component\Util\Tag\TagContainerAware,
 	Clio\Component\Util\Tag\TagContainerAccessor,
 	Clio\Component\Util\Tag\TagComponentFactory
 ;
 use Clio\Framework\Accessor\Field\TagContainerFieldAccessor;
+use Clio\Framework\Accessor\Schema\ReflectionClassAwarable;
 
 /**
  * TagContainerFieldAccessorFactory 
@@ -50,7 +52,7 @@ class TagContainerFieldAccessorFactory extends AbstractFieldAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createFieldAccessor($schema, $fieldName, array $options = array())
+	public function createFieldAccessor(Field $field, array $options = array())
 	{
 		if(!$this->tagFactory) {
 			$tagClass = null;
@@ -65,9 +67,9 @@ class TagContainerFieldAccessorFactory extends AbstractFieldAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedField($schema, $fieldName)
+	public function isSupportedField(Field $field)
 	{
-		if(($schema instanceof \ReflectionClass) && ($fieldName == $this->getTagFieldName()) && ($schema instanceof TagContainerAware)) {
+		if(($field->getSchema() instanceof ReflectionClassAwarable) && ($field->getName() == $this->getTagFieldName()) && ($field->getSchema()->getReflectionClass() instanceof TagContainerAware)) {
 			return true;
 		}
 		return false;

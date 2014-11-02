@@ -5,7 +5,7 @@ use Calliope\Framework\Core\Model\TaggableFlexibleModel;
 /**
  * Content 
  * 
- * @uses TaggableFlexibleScheme
+ * @uses TaggableFlexibleSchema
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 

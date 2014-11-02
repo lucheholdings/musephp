@@ -1,19 +1,19 @@
 <?php
 namespace Calliope\Extension\Transport\Model;
 
-use Clio\Frame\Schemify\Core\Model\TaggableFlexibleScheme;
+use Clio\Frame\Schemify\Core\Model\TaggableFlexibleSchema;
 
 /**
  * Line 
  * 
- * @uses TaggableFlexibleScheme
+ * @uses TaggableFlexibleSchema
  * @uses LineInterface
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Line extends TaggableFlexibleScheme implements LineInterface 
+class Line extends TaggableFlexibleSchema implements LineInterface 
 {
 	/**
 	 * getStationHashes 

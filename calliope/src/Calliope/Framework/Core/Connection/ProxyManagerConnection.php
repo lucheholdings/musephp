@@ -16,11 +16,11 @@ class ProxyManagerConnection extends AbstractConnection
 	/**
 	 * __construct 
 	 * 
-	 * @param SchemeManagerInterface $connectTo 
+	 * @param SchemaManagerInterface $connectTo 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(SchemeManagerInterface $connectTo = null, array $options = array())
+	public function __construct(SchemaManagerInterface $connectTo = null, array $options = array())
 	{
 		parent::__construct($connectTo, $options);
 	}
@@ -133,7 +133,7 @@ class ProxyManagerConnection extends AbstractConnection
 	 */
 	protected function validateConnectTo($connectTo)
 	{
-		return ($connectTo instanceof SchemeManagerInterface);
+		return ($connectTo instanceof SchemaManagerInterface);
 	}
 }
 

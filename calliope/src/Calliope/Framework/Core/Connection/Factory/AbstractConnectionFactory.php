@@ -1,6 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Connection\Factory;
 
+use Clio\Component\Pattern\Factory\AbstractFactory;
 /**
  * AbstractConnectionFactory 
  * 
@@ -11,20 +12,18 @@ namespace Calliope\Framework\Core\Connection\Factory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractConnectionFactory implements ConnectionFactoryInterface
+abstract class AbstractConnectionFactory extends AbstractFactory implements ConnectionFactoryInterface
 {
 	/**
-	 * create 
+	 * doCreate 
 	 * 
-	 * @access public
+	 * @param array $args 
+	 * @access protected
 	 * @return void
 	 */
-	public function create()
+	protected function doCreate(array $args)
 	{
-		return call_user_func_array(
-			array($this, 'createConnection'),
-			func_get_args()
-		);
+		return $this->createConnection($args);
 	}
 }
 

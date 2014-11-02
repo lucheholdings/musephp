@@ -4,6 +4,8 @@ namespace Calliope\Framework\Core\Model;
 use Clio\Component\Util\Tag\TagContainerAware;
 use Clio\Component\Util\Tag\TagContainer;
 use Calliope\Framework\Core\Container\TagSet;
+
+use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
 /**
  * TaggbleModel 
  * 
@@ -16,50 +18,36 @@ use Calliope\Framework\Core\Container\TagSet;
  */
 class TaggableModel extends Model implements TagContainerAware 
 {
-	/**
-	 * tags 
-	 * 
-	 * @var mixed
-	 * @access protected
-	 */
-	protected $_tags;
+	protected $tags;
 
-	/**
-	 * __construct 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-
-		$this->_tags = new TagSet();
-	}
+	private $_tags;
     
-    /**
-     * Get tags.
-     *
-     * @access public
-     * @return _tags
-     */
     public function getTags()
     {
+        return $this->tags;
+    }
+    
+    public function setTags($tags)
+    {
+        $this->tags = $tags;
+
+		$this->_tags = null;
+        return $this;
+    }
+    
+    public function getTagSet()
+    {
+		if(!$this->_tags) {
+			$this->_tags = new TagSet(array(), new DoctrineCollectionStorage($this->tags));
+		}
         return $this->_tags;
     }
     
-    /**
-     * Set tags.
-     *
-     * @access public
-     * @param tags the value to set.
-     * @return mixed Class instance for method-chanin.
-     */
-    public function setTags(TagContainer $tags)
+    public function setTagSet(TagContainer $set)
     {
-        $this->_tags = $tags;
+        $this->_tags = $set;
+		$this->tags = $set->getRaw();
 
-		$this->_tags->setOwner($this);
         return $this;
     }
 }

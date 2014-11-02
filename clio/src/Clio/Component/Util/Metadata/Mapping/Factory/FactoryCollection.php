@@ -4,7 +4,7 @@ namespace Clio\Component\Util\Metadata\Mapping\Factory;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\Mapping\Factory;
 use Clio\Component\Util\Metadata\Mapping\MappingCollection;
-use Clio\Component\Pattern\Factory\FactoryCollection as BaseFactoryCollection;
+use Clio\Component\Pattern\Factory\NamedCollection;
 use Clio\Component\Util\Validator\ClassValidator;
 
 use Clio\Component\Util\Injection\InjectorCollection;
@@ -17,7 +17,7 @@ use Clio\Component\Util\Injection\InjectorCollection;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FactoryCollection extends BaseFactoryCollection implements Factory 
+class FactoryCollection extends NamedCollection implements Factory 
 {
 	/**
 	 * injector 
@@ -53,7 +53,7 @@ class FactoryCollection extends BaseFactoryCollection implements Factory
 	 */
 	protected function initFactory()
 	{
-		$this->setValueValidator(new ClassValidator('Clio\Component\Util\Metadata\Mapping\Factory'));
+		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Metadata\Mapping\Factory'));
 	}
 
 	/**

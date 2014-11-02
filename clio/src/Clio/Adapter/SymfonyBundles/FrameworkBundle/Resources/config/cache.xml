@@ -7,7 +7,7 @@
     <parameters>
 
 		<!-- Schema Accessor Factory -->
-        <parameter key="clio_framework.cache.factory_collection.class">Clio\Component\Pattern\Factory\FactoryCollection</parameter>
+        <parameter key="clio_framework.cache.factory_collection.class">Clio\Component\Pattern\Factory\NamedCollection</parameter>
         <parameter key="clio_framework.cache.default_cache_factory.class">Clio\Bridge\DoctrineCache\Factory\DefaultCacheFactory</parameter>
         <parameter key="clio_framework.cache.extension_cache_factory.class">Clio\Adapter\DoctrineExtensions\Cache\CacheFactory</parameter>
         <parameter key="clio_framework.cache.prototype.class">Doctrine\Common\Cache\Cache</parameter>

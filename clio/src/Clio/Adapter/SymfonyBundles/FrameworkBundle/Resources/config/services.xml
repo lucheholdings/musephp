@@ -8,7 +8,7 @@
         <parameter key="clio_framework.event_listener.exception_listener.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\EventListener\ExceptionListener</parameter>
 
         <parameter key="clio_framework.service_registry.class">Clio\Bridge\SymfonyDI\Registry\ServiceContainerRegistry</parameter>
-        <parameter key="clio_framework.factory_map.class">Clio\Component\Pattern\Factory\FactoryCollection</parameter>
+        <parameter key="clio_framework.factory_map.class">Clio\Component\Pattern\Factory\NamedCollection</parameter>
         <parameter key="clio_framework.component_factory.class">Clio\Component\Pattern\Factory\ComponentFactory</parameter>
 
         <parameter key="clio_framework.doctrine_cache_factory.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\Cache\DoctrineCacheFactory</parameter>

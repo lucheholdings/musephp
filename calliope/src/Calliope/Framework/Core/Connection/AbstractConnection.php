@@ -2,7 +2,7 @@
 namespace Calliope\Framework\Core\Connection;
 
 use Calliope\Framework\Core\Connection;
-use Calliope\Framework\Core\SchemeManagerInterface;
+use Calliope\Framework\Core\SchemaManagerInterface;
 
 /**
  * AbstractConnection 
@@ -43,7 +43,7 @@ abstract class AbstractConnection implements Connection
 	/**
 	 * __construct 
 	 * 
-	 * @param SchemeManagerInterface $connectFrom 
+	 * @param SchemaManagerInterface $connectFrom 
 	 * @param mixed $connectTo 
 	 * @access public
 	 * @return void
@@ -76,7 +76,7 @@ abstract class AbstractConnection implements Connection
      * @param connectFrom the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setConnectFrom(SchemeManagerInterface $connectFrom)
+    public function setConnectFrom(SchemaManagerInterface $connectFrom)
     {
         $this->connectFrom = $connectFrom;
         return $this;

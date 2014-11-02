@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Container;
 
-use Clio\Component\Util\Container\Set\OnMemorySet;
+use Clio\Component\Util\Container\Set\Set;
 use Clio\Component\Util\Tag\TagContainer;
 
 use Clio\Component\Util\Validator\ClassValidator;
@@ -15,17 +15,16 @@ use Clio\Component\Util\Validator\ClassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TagSet extends OnMemorySet implements TagContainer
+class TagSet extends Set implements TagContainer
 {
 	/**
-	 * __construct 
-	 * 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function __construct()
+	protected function initContainer(array $values)
 	{
-		$this->validator = new ClassValidator('Clio\Component\Util\Tag\Tag');
+		parent::initContainer($values);
+		$this->enableStorageValidation();
+		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Tag\Tag'));
 	}
 
 	/**
@@ -44,6 +43,19 @@ class TagSet extends OnMemorySet implements TagContainer
 		}
 
 		return false;
+	}
+
+	/**
+	 * getNameArray 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getNameArray()
+	{
+		return array_map(function($tag) {
+			return $tag->getName();
+		}, $this->getValues());
 	}
 }
 

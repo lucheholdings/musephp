@@ -119,7 +119,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedFactory(array $args = array())
+	public function isSupportedArgs(array $args = array())
 	{
 		return $this->isSupportedKeyArgs(array_shift($args), $args);
 	}

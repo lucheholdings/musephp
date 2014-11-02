@@ -73,7 +73,7 @@ class ClassFactory extends AbstractFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedFactory(array $args = array())
+	public function isSupportedArgs(array $args = array())
 	{
 		return class_exists(array_shift($args));
 	}

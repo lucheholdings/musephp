@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field\Factory;
 
+use Clio\Component\Util\Accessor\Field;
 use Clio\Component\Util\Psr\Psr1;
 use Clio\Component\Util\Accessor\Field\MethodFieldAccessor;
 
@@ -18,26 +19,24 @@ class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createFieldAccessor($schema, $fieldName, array $options = array())
+	public function createFieldAccessor(Field $field, array $options = array())
 	{
-		$reflector = $schema->getProperty($fieldName);
-
-		$getter = $this->getGetterReflector($schema, $fieldName, $options);
-		$setter = $this->getSetterReflector($schema, $fieldName, $options);
+		$getter = $this->getGetterReflector($field->getSchema()->getReflectionClass(), $field->getName(), $options);
+		$setter = $this->getSetterReflector($field->getSchema()->getReflectionClass(), $field->getName(), $options);
 
 		if(!$getter && !$setter) {
-			throw new \InvalidArgumentException(sprintf('Class "%s" does not have getter and setter.', $schema->getName()));
+			throw new \InvalidArgumentException(sprintf('Class "%s" does not have getter and setter.', $field->getSchema()->getName()));
 		}
 
-		return new MethodFieldAccessor($fieldName, $getter, $setter);
+		return new MethodFieldAccessor($field->getName(), $getter, $setter);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedField($schema, $fieldName)
+	public function isSupportedField(Field $field)
 	{
-		return ($schema instanceof \ReflectionClass);
+		return ($field->getSchema() instanceof \ReflectionClass);
 	}
 
 	/**

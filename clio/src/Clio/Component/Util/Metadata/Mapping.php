@@ -28,6 +28,15 @@ interface Mapping extends \Serializable
 	function getMetadata();
 
 	/**
+	 * clean 
+	 *   Clean Mapping information 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function clean();
+
+	/**
 	 * __toString 
 	 * 
 	 * @access protected

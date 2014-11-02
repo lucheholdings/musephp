@@ -30,6 +30,20 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 		$metadata = array_shift($args);
 		$mapping = $this->createMapping($metadata);
 
+	}
+
+	/**
+	 * createMapping 
+	 * 
+	 * @param Metadata $metadata 
+	 * @final
+	 * @access public
+	 * @return void
+	 */
+	public final function createMapping(Metadata $metadata)
+	{
+		$mapping = $this->doCreateMapping($metadata);
+
 		// Inject Dependencies
 		$injector = $this->getInjector();
 		if($injector) {
@@ -39,9 +53,19 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 	}
 
 	/**
+	 * doCreateMapping 
+	 * 
+	 * @param Metadata $metadata 
+	 * @abstract
+	 * @access protected
+	 * @return void
+	 */
+	abstract protected function doCreateMapping(Metadata $metadata);
+
+	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedFactory(array $args = array())
+	public function isSupportedArgs(array $args = array())
 	{
 		$metadata = array_shift($args);
 		return ($metadata instanceof Metadata) && $this->isSupportedMetadata($metadata);

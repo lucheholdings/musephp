@@ -2,19 +2,19 @@
 namespace Clio\Component\Pattern\Registry\Loader;
 
 use Clio\Component\Pattern\Registry\EntryLoader;
-use Clio\Component\Util\Container\Collection\PriorityCollection;
+use Clio\Component\Util\Container\Set\PrioritySet;
 
 /**
  * LoaderCollection 
  * 
- * @uses PriorityCollection
+ * @uses PrioritySet
  * @uses EntryLoader
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class LoaderCollection extends PriorityCollection implements EntryLoader
+class LoaderCollection extends PrioritySet implements EntryLoader
 {
 	/**
 	 * {@inheritdoc}

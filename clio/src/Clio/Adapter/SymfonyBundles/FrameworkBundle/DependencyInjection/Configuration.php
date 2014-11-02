@@ -236,42 +236,4 @@ class Configuration implements ConfigurationInterface
 
 		return $node;
 	}
-
-	protected function buildJMSSerializerSection()
-	{
-		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->root('jms_serializer');
-
-		$node
-			->canBeEnabled()
-			->addDefaultsIfNotSet()
-			->children()
-				->arrayNode('handlers')
-					->addDefaultsIfNotSet()
-					->children()
-						->booleanNode('attribute_container')->defaultTrue()->end()
-						->booleanNode('attribute')->defaultFalse()->end()
-						->booleanNode('tag')->defaultFalse()->end()
-						// For Doctrine Adatpters
-						->booleanNode('doctrine_proxy_collection')->defaultTrue()->end()
-						->booleanNode('doctrine_attribute_collection')->defaultTrue()->end()
-						->booleanNode('doctrine_tag_collection')->defaultTrue()->end()
-						->booleanNode('doctrine_reference')->defaultTrue()->end()
-						->booleanNode('doctrine_id_reference')->defaultTrue()->end()
-						->booleanNode('doctrine_reference_collection')->defaultTrue()->end()
-						->booleanNode('doctrine_id_reference_collection')->defaultTrue()->end()
-					->end()
-				->end()
-				->arrayNode('listeners')
-					->addDefaultsIfNotSet()
-					->children()
-						->booleanNode('attribute_container_aware')->defaultTrue()->end()
-						->booleanNode('doctrine_reference')->defaultTrue()->end()
-					->end()
-				->end()
-			->end()
-		;
-
-		return $node;
-	}
 }

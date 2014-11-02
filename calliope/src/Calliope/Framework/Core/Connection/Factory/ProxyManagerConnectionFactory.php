@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Framework\Core\Connection\Factory;
 
-use Calliope\Framework\Core\SchemeRegistryInterface;
-use Calliope\Framework\Core\SchemeManagerInterface;
+use Calliope\Framework\Core\SchemaRegistryInterface;
+use Calliope\Framework\Core\SchemaManagerInterface;
 
 use Calliope\Framework\Core\Connection\LazyBindProxyManagerConnection;
 
@@ -31,7 +31,7 @@ class ProxyManagerConnectionFactory extends AbstractConnectionFactory implements
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(SchemeRegistryInterface $registry)
+	public function __construct(SchemaRegistryInterface $registry)
 	{
 		$this->registry = $registry;
 	}
@@ -55,16 +55,16 @@ class ProxyManagerConnectionFactory extends AbstractConnectionFactory implements
 				);
 			} else {
 				throw new \RuntimeException(sprintf(
-					'SchemeManager for "%s" is not registered on SchemeManagerRegistry.',
+					'SchemaManager for "%s" is not registered on SchemaManagerRegistry.',
 					$connectTo
 				));
 			}
-		} else if($connectTo instanceof SchemeManagerInterface) {
+		} else if($connectTo instanceof SchemaManagerInterface) {
 			$connection = new ProxyManagerConnection($connectTo);
 		}
 
 		if(!$connection) {
-			throw new \Exception('Failed to create a connection for SchemeManager Proxy.');
+			throw new \Exception('Failed to create a connection for SchemaManager Proxy.');
 		}
 
 		return $connection;
@@ -88,7 +88,7 @@ class ProxyManagerConnectionFactory extends AbstractConnectionFactory implements
      * @param registry the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setRegistry(SchemeRegistryInteface $registry)
+    public function setRegistry(SchemaRegistryInteface $registry)
     {
         $this->registry = $registry;
         return $this;

@@ -21,7 +21,8 @@ abstract class AbstractInjector implements Injector
 		try {
 			$refObject = new \ReflectionObject($object);
 			$this->doInject($refObject, $object);
-		} catch(\Exception $ex) {
+
+		} catch(InjectionException $ex) {
 			if($throwable) {
 				throw $ex;
 			}

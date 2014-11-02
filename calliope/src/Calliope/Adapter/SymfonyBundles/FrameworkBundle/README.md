@@ -12,7 +12,7 @@ on app/config/config.yml,
 		schemes:
         	scheme_alias:
 				# Required.
-            	class: Path\To\Namespaced\SchemeClass
+            	class: Path\To\Namespaced\SchemaClass
 				# Optional.
 				manager_class: Path\To\Namespaced\ManagerClass
 				# Required.

@@ -2,19 +2,19 @@
 namespace Calliope\Extension\Media\Core;
 
 use Calliope\Extension\Media\Core\Media;
-use Calliope\Framework\Core\SchemeProviderInterface;
+use Calliope\Framework\Core\SchemaProviderInterface;
 
-use Calliope\Framework\Extension\ProxySchemeProvider;
+use Calliope\Framework\Extension\ProxySchemaProvider;
 /**
  * TypeFilterContentProvider 
  * 
- * @uses ProxySchemeProvider
+ * @uses ProxySchemaProvider
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TypeFilterContentProvider extends ProxySchemeProvider  
+class TypeFilterContentProvider extends ProxySchemaProvider  
 {
 	/**
 	 * media 
@@ -28,11 +28,11 @@ class TypeFilterContentProvider extends ProxySchemeProvider
 	 * __construct 
 	 * 
 	 * @param Media $media 
-	 * @param SchemeProviderInterface $provider 
+	 * @param SchemaProviderInterface $provider 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(SchemeProviderInterface $provider, Media $media)
+	public function __construct(SchemaProviderInterface $provider, Media $media)
 	{
 		parent::__construct($provider);
 

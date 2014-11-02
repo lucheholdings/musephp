@@ -161,36 +161,6 @@ class ClioFrameworkExtension extends Extension
 		}
 	}
 
-
-	protected function configureJMSSerializer($container, $configs)
-	{
-		if(isset($configs['enabled'])) {
-
-			$this->getLoader()->load('jms_serializer.xml');
-			foreach($configs['handlers'] as $name => $enableHandler) {
-				if($enableHandler) {
-					$definition = new DefinitionDecorator('clio_framework.jms_serializer_handler.' . $name . '.default');
-					$definition->addTag('jms_serializer.subscribing_handler');
-					$container->setDefinition(
-						'clio_framework.jms_serializer_handler.' . $name,
-						$definition
-					);
-				}
-			}
-
-			foreach($configs['listeners'] as $name => $enableHandler) {
-				if($enableHandler) {
-					$definition = new DefinitionDecorator('clio_framework.jms_serializer_event_subscriber.' . $name . '.default');
-					$definition->addTag('jms_serializer.event_subscriber');
-					$container->setDefinition(
-						'clio_framework.jms_serializer_event_subscriber.' . $name,
-						$definition
-					);
-				}
-			}
-		}
-	}
-
 	public function configureKvs($container, array $configs)
 	{
 		if(isset($configs['enabled'])) {

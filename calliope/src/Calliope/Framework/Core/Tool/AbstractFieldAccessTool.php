@@ -6,7 +6,7 @@ use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 /**
  * AbstractFieldAccessTool 
  * 
- * @uses SchemeTool
+ * @uses SchemaTool
  * @abstract
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }

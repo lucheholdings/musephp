@@ -41,7 +41,7 @@ class MetadataRebuilder extends Invoker
 		if($metadata instanceof SchemaMetadata) {
 			foreach($metadata->getFields() as $field) {
 				foreach($field->getMappings() as $mapping) {
-					$this->injector->inject($mapping);
+					$this->injector->inject($mapping, false);
 				}
 			}
 		}

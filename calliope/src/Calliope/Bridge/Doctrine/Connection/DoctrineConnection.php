@@ -5,7 +5,7 @@ use Calliope\Framework\Core\Connection;
 use Doctrine\Common\Persistence\ObjectManager,
 	Doctrine\Common\Persistence\ObjectRepository;
 
-use Calliope\Framework\Core\SchemeModelProviderInterface;
+use Calliope\Framework\Core\SchemaModelProviderInterface;
 use Calliope\Framework\Core\Connection\AbstractConnection;
 
 use Calliope\Framework\Core\Exception\DuplicateException;
@@ -234,7 +234,7 @@ abstract class DoctrineConnection extends AbstractConnection implements Connecti
 	 */
 	public function countBy(array $criteria) 
 	{
-		if(($this->getRepository() instanceof SchemeModelProviderInterface) ||
+		if(($this->getRepository() instanceof SchemaModelProviderInterface) ||
 		  (method_exists($this->getRepository(), 'countBy'))) 
 		{
 			return $this->getRepository()->countBy($criteria);

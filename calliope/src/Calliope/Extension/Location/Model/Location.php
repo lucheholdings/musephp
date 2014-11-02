@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Extension\Location\Model;
 
-use Clio\Frame\Schemify\Core\Model\FlexibleScheme;
-use Clio\Frame\Schemify\Core\Model\FlexibleSchemeInterface;
+use Clio\Frame\Schemify\Core\Model\FlexibleSchema;
+use Clio\Frame\Schemify\Core\Model\FlexibleSchemaInterface;
 use Calliope\Extension\Location\LocationTags;
 
 use Clio\Component\Tag\Collection\TagCollection;
@@ -10,16 +10,16 @@ use Clio\Component\Tag\Collection\TagCollection;
 /**
  * Location 
  * 
- * @uses FlexibleScheme
+ * @uses FlexibleSchema
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Location extends FlexibleScheme
+class Location extends FlexibleSchema
   implements 
     LocationInterface,
-    FlexibleSchemeInterface
+    FlexibleSchemaInterface
 {
 	/**
 	 * hash 

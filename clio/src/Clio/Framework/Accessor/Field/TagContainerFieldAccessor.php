@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Framework\Accessor\Field;
 
-use Clio\Component\Util\Accessor\Field\AbstractFieldAccessor;
+use Clio\Component\Util\Accessor\Field\AbstractSingleFieldAccessor;
 use Clio\Component\Util\Tag\TagContainerAccessor;
 
 /**
@@ -13,7 +13,7 @@ use Clio\Component\Util\Tag\TagContainerAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TagContainerFieldAccessor extends AbstractFieldAccessor 
+class TagContainerFieldAccessor extends AbstractSingleFieldAccessor 
 {
 	/**
 	 * tagAccessor 
@@ -42,8 +42,8 @@ class TagContainerFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function get($object)
 	{
-		if($object->getTags()) {
-			return $object->getTags()->getNameArray();
+		if($object->getTagSet()) {
+			return $object->getTagSet()->getNameArray();
 		}
 
 		return array();
@@ -55,7 +55,7 @@ class TagContainerFieldAccessor extends AbstractFieldAccessor
 	public function set($object, $value)
 	{
 		$value = (array)$value;
-		return $this->getContainerAccessor()->replace($object->getTags(), $value);
+		return $this->getContainerAccessor()->replace($object->getTagSet(), $value);
 	}
 
 	/**
@@ -63,7 +63,7 @@ class TagContainerFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function isNull($object)
 	{
-		return (!$object->getTags() || (0 == count($object->getTags())));
+		return (!$object->getTagSet() || (0 == count($object->getTagSet())));
 	}
 
 	/**
@@ -71,7 +71,7 @@ class TagContainerFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function clear($object)
 	{
-		$object->getTags()->removeAll();
+		$object->getTagSet()->clear();
 
 		return $this;
 	}

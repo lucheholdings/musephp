@@ -25,15 +25,32 @@ abstract class AbstractMapping implements Mapping
 	private $metadata;
 
 	/**
+	 * options 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $options;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param Metadata $metadata 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Metadata $metadata)
+	public function __construct(Metadata $metadata, array $options = array())
 	{
 		$this->metadata = $metadata;
+		$this->options = $options;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function clean()
+	{
+		// Please override clean() if it is needed
 	}
 
 	/**
@@ -71,7 +88,9 @@ abstract class AbstractMapping implements Mapping
 	 */
 	public function serialize()
 	{
-		return serialize(array());
+		return serialize(array(
+			$this->getOptions()
+		));
 	}
 	
 	/**
@@ -79,8 +98,23 @@ abstract class AbstractMapping implements Mapping
 	 */
 	public function unserialize($serialized)
 	{
+		$data = unserialize($serialized);
+		list(
+			$this->options
+		) = $data;
 		// do nothing
 		$this->metadata = null;
 	}
+    
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
+    public function setOptions($options)
+    {
+        $this->options = $options;
+        return $this;
+    }
 }
 

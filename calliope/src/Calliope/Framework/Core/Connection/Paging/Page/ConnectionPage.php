@@ -3,7 +3,9 @@ namespace Calliope\Framework\Core\Connection\Paging\Page;
 
 use Calliope\Framework\Core\Connection\Paging\ConnectionFetchPagerInterface;
 use Clio\Component\Util\Container\Collection\LazyLoadCollection;
-use Clio\Component\Util\Container\Collection\Collection;
+use Clio\Component\Util\Container\Storage\ArrayStorage;
+use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
+
 
 /**
  * ConnectionPage 
@@ -62,6 +64,8 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 		$this->pager = $pager;
 		$this->requestSize = $size;
 		$this->offset = $offset;
+
+		$this->setLoader(array($this, 'doLoad'));
 	}
 
 	/**
@@ -70,7 +74,7 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 	 * @access protected
 	 * @return void
 	 */
-	protected function _load()
+	public function doLoad()
 	{
 		$collection = $this->getConnection()->findBy(
 			$this->getCriteria(),
@@ -79,14 +83,15 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 			$this->getOffset()
 		);
 
-		if(is_array($collection)) {
-			$collection = new Collection($collection);
-		} 
+		if($collection instanceof DoctrineCollection) {
+			$storage = new DoctrineCollectionStorage($collection);
+		} else if(is_array($collection)) {
+			$storage = new ArrayStorage($collection);
+		} else {
+			throw new \RuntimeException('Failed to load');
+		}
 
-		$this->setCollection($collection);
-		$this->setSize(count($collection));
-
-		return $this->getCollection();
+		return $storage;
 	}
 
     
@@ -131,20 +136,7 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
      */
     public function getSize()
     {
-        return $this->size;
-    }
-    
-    /**
-     * Set size.
-     *
-     * @access public
-     * @param size the value to set.
-     * @return mixed Class instance for method-chanin.
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-        return $this;
+        return $this->getStorage()->count();
     }
     
     /**

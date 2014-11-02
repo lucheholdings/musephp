@@ -4,13 +4,13 @@ namespace Calliope\Framework\Core\Builder;
 /**
  * TaggableModelBuilder 
  * 
- * @uses SchemeModelBuilder
+ * @uses SchemaModelBuilder
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TaggableModelBuilder extends SchemeModelBuilder 
+class TaggableModelBuilder extends SchemaModelBuilder 
 {
 	/**
 	 * tags 

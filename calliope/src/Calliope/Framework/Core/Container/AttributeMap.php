@@ -1,9 +1,10 @@
 <?php
 namespace Calliope\Framework\Core\Container;
 
-use Clio\Component\Util\Container\Map\OnMemoryMap;
-use Clio\Component\Util\Attribute\Attribute;
+use Clio\Component\Util\Container\Map\Map;
 use Clio\Component\Util\Attribute\AttributeContainer;
+
+use Clio\Component\Util\Attribute\Attribute;
 use Clio\Component\Util\Attribute\AttributeContainerAware;
 
 use Clio\Component\Util\Validator\PrimitiveTypeValidator,
@@ -19,7 +20,7 @@ use Clio\Component\Util\Validator\PrimitiveTypeValidator,
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AttributeMap extends OnMemoryMap implements AttributeContainer
+class AttributeMap extends Map implements AttributeContainer
 {
 	/**
 	 * owner 
@@ -29,10 +30,14 @@ class AttributeMap extends OnMemoryMap implements AttributeContainer
 	 */
 	private $owner;
 
-	public function __construct()
+	protected function initContainer(array $values)
 	{
-		$this->keyValidator = new PrimitiveTypeValidator('string');
-		$this->valueValidator = new ClassValidator('Clio\Component\Util\Attribute\Attribute');
+		parent::initContainer($values);
+
+		$this->enableStorageValidation();
+
+		$this->getStorage()->setKeyValidator(new PrimitiveTypeValidator('string'));
+		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Attribute\Attribute'));
 	}
 
 	/**
@@ -96,5 +101,12 @@ class AttributeMap extends OnMemoryMap implements AttributeContainer
         $this->owner = $owner;
         return $this;
     }
+
+	public function getKeyValueArray()
+	{
+		return array_map(function($attr) {
+			return $attr->getValue();
+		}, $this->getKeyValues());
+	}
 }
 

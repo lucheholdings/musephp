@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field;
 
+use Clio\Component\Util\Accessor\Field;
+
 /**
  * FieldAccessorFactory 
  * 
@@ -20,7 +22,7 @@ interface FieldAccessorFactory
 	 * @access public
 	 * @return void
 	 */
-	function createFieldAccessor($schema, $field, array $options = array());
+	function createFieldAccessor(Field $field, array $options = array());
 
 	/**
 	 * isSupportedField 
@@ -30,6 +32,6 @@ interface FieldAccessorFactory
 	 * @access public
 	 * @return void
 	 */
-	function isSupportedField($schema, $field);
+	function isSupportedField(Field $field);
 }
 

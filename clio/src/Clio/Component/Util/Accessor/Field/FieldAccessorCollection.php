@@ -1,32 +1,25 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field;
 
-use Clio\Component\Util\Accessor\SchemaAccessor;
 /**
  * FieldAccessorCollection 
  * 
- * @uses Accessor
+ * @uses MultiFieldAccessor
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorCollection 
+class FieldAccessorCollection implements MultiFieldAccessor 
 {
-	/**
-	 * accessors 
-	 * 
-	 * @var array
-	 * @access private
-	 */
-	private $accessors = array();
 
 	/**
-	 * __construct 
-	 * 
-	 * @param array $accessors 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
+	 */
+	private $accessors = array();
+	
+	/**
+	 * {@inheritdoc}
 	 */
 	public function __construct(array $accessors = array())
 	{
@@ -34,28 +27,17 @@ class FieldAccessorCollection
 			$this->addFieldAccessor($accessor);
 		}
 	}
-
+	
 	/**
-	 * get 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $field 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function get($container, $field)
 	{
 		return $this->getFieldAccessor($field)->get($container);
 	}
-	
+		
 	/**
-	 * set 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $field 
-	 * @param mixed $value 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function set($container, $field, $value)
 	{
@@ -64,25 +46,16 @@ class FieldAccessorCollection
 	}
 
 	/**
-	 * isNull 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $field 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function isNull($container, $field)
 	{
 		return $this->getFieldAccessor($field)->isNull($container);
 	}
 
+	
 	/**
-	 * clear 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $field 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function clear($container, $field)
 	{
@@ -90,14 +63,9 @@ class FieldAccessorCollection
 		return $this;
 	}
 
+	
 	/**
-	 * isSupportMethod 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $field 
-	 * @param mixed $type 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function isSupportMethod($container, $field, $type)
 	{
@@ -111,10 +79,7 @@ class FieldAccessorCollection
 	}
 
 	/**
-	 * getFieldValues 
-	 *   Get field values array
-	 * @access public
-	 * @return array
+	 * {@inheritdoc}
 	 */
 	public function getFieldValues($container)
 	{
@@ -129,23 +94,21 @@ class FieldAccessorCollection
 		return $values;
 	}
 
+	
 	/**
-	 * getFieldNames 
-	 * 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function getFieldNames($container = null)
 	{
-		return array_keys($this->accessors);
-		//return array_keys(array_filter($this->accessors, function($accessor){
-		//	if($accessor instanceof IgnoreFieldAccessor) {
-		//		return false;
-		//	}
-		//	return true;
-		//}));
+		return array_keys(array_filter($this->accessors, function($accessor){
+			if($accessor instanceof IgnoreFieldAccessor) {
+				return false;
+			}
+			return true;
+		}));
 	}
 
+	
 	/**
 	 * {@inheritdoc}
 	 */
@@ -153,16 +116,11 @@ class FieldAccessorCollection
 	{
 		return $this->hasFieldAccessor($field) && !$this->isNull($container, $field);
 	}
-
-
+	
 	/**
-	 * addFieldAccessor 
-	 * 
-	 * @param PropertyFieldAccessor $accessor 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
-	public function addFieldAccessor(FieldAccessor $accessor)
+	public function addFieldAccessor(SingleFieldAccessor $accessor)
 	{
 		$this->accessors[$accessor->getFieldName()] = $accessor;
 
@@ -170,23 +128,15 @@ class FieldAccessorCollection
 	}
 
 	/**
-	 * hasFieldAccessor 
-	 * 
-	 * @param mixed $field 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function hasFieldAccessor($field)
 	{
 		return isset($this->accessors[$field]);
 	}
-
+	
 	/**
-	 * getFieldAccessor 
-	 * 
-	 * @param mixed $field 
-	 * @access public
-	 * @return void
+	 * {@inheritdoc}
 	 */
 	public function getFieldAccessor($field)
 	{

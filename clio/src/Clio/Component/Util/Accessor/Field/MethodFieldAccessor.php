@@ -12,7 +12,7 @@ use Clio\Component\Util\Psr\Psr1;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class MethodFieldAccessor extends AbstractFieldAccessor 
+class MethodFieldAccessor extends AbstractSingleFieldAccessor 
 {
 	/**
 	 * getterReflector 
@@ -33,7 +33,7 @@ class MethodFieldAccessor extends AbstractFieldAccessor
 	/**
 	 * __construct 
 	 * 
-	 * @param mixed $field 
+	 * @param mixed $fieldName 
 	 * @param \ReflectionMethod $getter 
 	 * @param \ReflectionMethod $setter 
 	 * @access public
@@ -124,7 +124,7 @@ class MethodFieldAccessor extends AbstractFieldAccessor
      * @access public
      * @return void
      */
-    public function setGetterReflector($getterReflector)
+    public function setGetterReflector(\ReflectionMethod $getterReflector)
     {
         $this->getterReflector = $getterReflector;
         return $this;
@@ -148,7 +148,7 @@ class MethodFieldAccessor extends AbstractFieldAccessor
      * @access public
      * @return void
      */
-    public function setSetterReflector($setterReflector)
+    public function setSetterReflector(\ReflectionMethod $setterReflector)
     {
         $this->setterReflector = $setterReflector;
         return $this;

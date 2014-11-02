@@ -4,14 +4,14 @@ namespace Clio\Component\Util\Accessor\Field;
 /**
  * BasicFieldAccessor 
  *    
- * @uses AbstractFieldAccessor
+ * @uses AbstractSingleFieldAccessor
  * @uses FieldAccessorInterface
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ArrayFieldAccessor extends AbstractFieldAccessor 
+class ArrayFieldAccessor extends AbstractSingleFieldAccessor 
 {
 	/**
 	 * get 
@@ -22,7 +22,7 @@ class ArrayFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function get($container)
 	{
-		return $container[$this->getFieldName()];
+		return $container[$this->getField()->getName()];
 	}
 
 	/**
@@ -34,7 +34,7 @@ class ArrayFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function set($container, $value)
 	{
-		$container[$this->getFieldName()] = $value;
+		$container[$this->getField()->getName()] = $value;
 		return $this;
 	}
 
@@ -47,7 +47,7 @@ class ArrayFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function isNull($container)
 	{
-		return !isset($container[$this->getFieldName()]);
+		return !isset($container[$this->getField()->getName()]);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class ArrayFieldAccessor extends AbstractFieldAccessor
 	 */
 	public function clear($container)
 	{
-		unset($container[$this->getFieldName()]);
+		unset($container[$this->getField()->getName()]);
 		return $this;
 	}
 

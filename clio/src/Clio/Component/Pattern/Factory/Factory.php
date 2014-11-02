@@ -31,12 +31,12 @@ interface Factory
 	function createArgs(array $args = array());
 
 	/**
-	 * isSupportedFactory 
+	 * isSupportedArgs 
 	 * 
 	 * @param array $args 
 	 * @access public
 	 * @return bool support to create with the args or not.
 	 */
-	function isSupportedFactory(array $args = array());
+	function isSupportedArgs(array $args = array());
 }
 

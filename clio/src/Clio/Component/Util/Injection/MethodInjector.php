@@ -42,7 +42,7 @@ class MethodInjector extends AbstractInjector
 			throw new InjectionException(sprintf('Method "%s::%s" dose not exist.', $refObject->getName(), $this->methodName));
 		}
 
-		$refMethod = $reflectionObject->getMethod($this->methodName);
+		$refMethod = $refObject->getMethod($this->methodName);
 
 		if(!$refMethod->isPublic()) {
 			throw new InjectionException('Method "%s::%s" is not a public method.', $refObject->getName(), $refMethod->getName());

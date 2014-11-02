@@ -39,7 +39,7 @@ abstract class AbstractAccessorFactory implements AccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedFactory(array $args)
+	public function isSupportedArgs(array $args)
 	{
 		return $this->isSupportedData(array_shift($args));
 	}

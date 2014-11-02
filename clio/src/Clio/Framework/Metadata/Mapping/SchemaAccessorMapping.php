@@ -1,7 +1,10 @@
 <?php
 namespace Clio\Framework\Metadata\Mapping;
 
+use Clio\Component\Util\Accessor\Schema;
+use Clio\Component\Util\Accessor\Schema\ReflectionClassAwarable;
 use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
+use Clio\Component\Util\Accessor\Schema\Factory as SchemaAccessorFactory;
 
 /**
  * SchemaAccessorMapping 
@@ -12,7 +15,7 @@ use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SchemaAccessorMapping extends AccessorMapping 
+class SchemaAccessorMapping extends AccessorMapping implements Schema, ReflectionClassAwarable
 {
 	/**
 	 * accessor 
@@ -23,6 +26,22 @@ class SchemaAccessorMapping extends AccessorMapping
 	private $accessor;
 
 	/**
+	 * accessorFactory 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $accessorFactory;
+
+	/**
+	 * fields 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $fields;
+
+	/**
 	 * getAccessor 
 	 * 
 	 * @access public
@@ -31,17 +50,46 @@ class SchemaAccessorMapping extends AccessorMapping
 	public function getAccessor()
 	{
 		if(!$this->accessor) {
-			// Create SchemaAccessor with Fields
-			$this->accessor = new SimpleSchemaAccessor($this);
+			$this->accessor = $this->getAccessorFactory()->createSchemaAccessor($this);
+		}
 
+		return $this->accessor;
+	}
+
+    
+    public function getAccessorFactory()
+    {
+        return $this->accessorFactory;
+    }
+    
+    public function setAccessorFactory(SchemaAccessorFactory $accessorFactory)
+    {
+        $this->accessorFactory = $accessorFactory;
+        return $this;
+    }
+
+	public function isReflectionClassAwared()
+	{
+		return true;
+	}
+
+	public function getReflectionClass()
+	{
+		return $this->getMetadata()->getReflectionClass();
+	}
+
+	public function getFields()
+	{
+		if(!$this->fields) {
+			$this->fields = array();
 			foreach($this->getMetadata()->getFields() as $field) {
 				if($field->hasMapping('accessor')) {
-					$this->accessor->addFieldAccessor($field->getMapping('accessor')->getAccessor());
+					$this->fields[$field->getName()] = $field->getMapping('accessor');
 				}
 			}
 		}
 
-		return $this->accessor;
+		return $this->fields;
 	}
 }
 

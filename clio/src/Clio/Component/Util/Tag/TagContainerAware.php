@@ -17,7 +17,7 @@ interface TagContainerAware
 	 * @access public
 	 * @return void
 	 */
-	function getTags();
+	function getTagSet();
 
 	/**
 	 * setTags 
@@ -26,6 +26,6 @@ interface TagContainerAware
 	 * @access public
 	 * @return void
 	 */
-	function setTags(TagContainer $container);
+	function setTagSet(TagContainer $container);
 }
 

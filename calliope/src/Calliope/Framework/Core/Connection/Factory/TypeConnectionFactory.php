@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Connection\Factory;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Pattern\Factory\NamedCollection;
 use Clio\Component\Util\Validator\ClassValidator;
 
 /**
@@ -13,13 +13,11 @@ use Clio\Component\Util\Validator\ClassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TypeConnectionFactory extends Map
+class TypeConnectionFactory extends NamedCollection
 {
-	public function __construct()
+	public function initFactory()
 	{
-		parent::__construct();
-
-		$this->setValueValidator(new ClassValidator('Calliope\Framework\Core\Connection\Factory\ConnectionFactoryInterface'));
+		$this->getStorage()->setValueValidator(new ClassValidator('Calliope\Framework\Core\Connection\Factory\ConnectionFactoryInterface'));
 	}
 
 	/**

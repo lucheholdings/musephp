@@ -2,7 +2,7 @@
 namespace Calliope\Framework\Core\Filter;
 
 use Symfony\Component\EventDispatcher\EventDispatcher;
-use Calliope\Framework\Core\SchemeManagerInterface;
+use Calliope\Framework\Core\SchemaManagerInterface;
 /**
  * FilterDelegator 
  * 
@@ -40,7 +40,7 @@ class EventDispatcherFilterDelegator implements FilterDelegator
 	/**
 	 * __construct 
 	 * 
-	 * @param SchemeManager $manager 
+	 * @param SchemaManager $manager 
 	 * @access public
 	 * @return void
 	 */

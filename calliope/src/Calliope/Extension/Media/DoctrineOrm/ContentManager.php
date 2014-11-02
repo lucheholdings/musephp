@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Extension\Media\DoctrineOrm;
 
-use Calliope\Framework\Core\SchemeManager;
-use Calliope\Framework\Core\Model\FlexibleSchemeInterface;
+use Calliope\Framework\Core\SchemaManager;
+use Calliope\Framework\Core\Model\FlexibleSchemaInterface;
 
 /**
  * ContentManager
@@ -13,7 +13,7 @@ use Calliope\Framework\Core\Model\FlexibleSchemeInterface;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ContentManager extends SchemeManager
+class ContentManager extends SchemaManager
 {
 	
 }

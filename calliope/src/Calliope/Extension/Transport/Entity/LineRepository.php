@@ -1,18 +1,18 @@
 <?php
 namespace Calliope\Extension\Transport\Entity;
 
-use Calliope\Adapter\Doctrine\Core\Entity\CriteriaSchemeRepository;
+use Calliope\Adapter\Doctrine\Core\Entity\CriteriaSchemaRepository;
 
 /**
  * LineRepository 
  * 
- * @uses SchemeRepository
+ * @uses SchemaRepository
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class LineRepository extends CriteriaSchemeRepository
+class LineRepository extends CriteriaSchemaRepository
 {
 }
 

@@ -10,29 +10,31 @@ namespace Clio\Component\Util\Accessor\Field;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PublicPropertyFieldAccessor extends AbstractFieldAccessor 
+class PublicPropertyFieldAccessor extends AbstractSingleFieldAccessor 
 {
 	/**
 	 * propertyReflector 
 	 * 
 	 * @var mixed
-	 * @access protected
+	 * @access private
 	 */
-	protected $propertyReflector;
+	private $propertyReflector;
 
-	/**
-	 * __construct 
-	 * 
-	 * @param mixed $fieldName 
-	 * @param \ReflectionProperty $propertyReflector 
-	 * @access public
-	 * @return void
-	 */
 	public function __construct($fieldName, \ReflectionProperty $propertyReflector)
 	{
 		parent::__construct($fieldName);
-
 		$this->propertyReflector = $propertyReflector;
+	}
+
+	/**
+	 * getPropertyReflector 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function getPropertyReflector()
+	{
+		return $this->propertyReflector;
 	}
 
 	/**
@@ -60,29 +62,5 @@ class PublicPropertyFieldAccessor extends AbstractFieldAccessor
 	{
 		return $this->getPropertyReflector()->getValue($object);
 	}
-    
-    /**
-     * getPropertyReflector 
-     * 
-     * @access public
-     * @return void
-     */
-    public function getPropertyReflector()
-    {
-        return $this->propertyReflector;
-    }
-    
-    /**
-     * setPropertyReflector 
-     * 
-     * @param \Reflector $propertyReflector 
-     * @access public
-     * @return void
-     */
-    public function setPropertyReflector(\ReflectionProperty $propertyReflector)
-    {
-        $this->propertyReflector = $propertyReflector;
-        return $this;
-    }
 }
 

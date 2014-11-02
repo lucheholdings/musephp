@@ -5,11 +5,11 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
 	<parameters>
-		<!--<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Framework\Core\AliasedSchemeManagerRegistry</parameter>-->
+		<!--<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Framework\Core\AliasedSchemaManagerRegistry</parameter>-->
 		<parameter key="calliope_framework.service_registry.class">Clio\Bridge\SymfonyDI\Registry\ServiceContainerRegistry</parameter>
-		<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\SchemeManagerRegistry</parameter>
+		<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\SchemaManagerRegistry</parameter>
 
-		<parameter key="calliope_framework.scheme_manager_factory.class">Calliope\Bridge\Symfony\Factory\ContainerAwareSchemeManagerFactory</parameter>
+		<parameter key="calliope_framework.scheme_manager_factory.class">Calliope\Bridge\Symfony\Factory\ContainerAwareSchemaManagerFactory</parameter>
 
 		<parameter key="calliope_framework.type_connection_factory.class">Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory</parameter>
 
@@ -17,7 +17,7 @@
 		<parameter key="calliope_framework.connection_factory.doctrine_orm.class">Calliope\Bridge\Doctrine\Connection\DoctrineOrmConnectionFactory</parameter>
 		<parameter key="calliope_framework.connection_factory.doctrine_repository.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Connection\DoctrineRepositoryConnectionFactory</parameter>
 
-		<parameter key="calliope_framework.class_metadata_mapping_factory.scheme.class">Calliope\Adapter\Doctrine\Core\Metadata\Mapping\Factory\AnnotationSchemeMappingFactory</parameter>
+		<parameter key="calliope_framework.class_metadata_mapping_factory.scheme.class">Calliope\Adapter\Doctrine\Core\Metadata\Mapping\Factory\AnnotationSchemaMappingFactory</parameter>
 	</parameters>
 
 	<services>

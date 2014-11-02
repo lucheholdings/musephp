@@ -3,11 +3,12 @@ namespace Clio\Framework\Metadata\Mapping\Factory;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\AbstractFactory;
 use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\FieldMetadata;
 use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Clio\Component\Util\Accessor\SchemaAccessorFactory;
-use Clio\Component\Util\Accessor\Factory\SchemaAccessorFactoryCollection;
-use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
+use Clio\Component\Util\Metadata\FieldMetadata,
+	Clio\Component\Util\Metadata\Field\PropertyMetadata
+;
+use Clio\Component\Util\Accessor\Schema\Factory as SchemaAccessorFactory;
+use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
 
 use Clio\Framework\Metadata\Mapping\SchemaAccessorMapping,
 	Clio\Framework\Metadata\Mapping\FieldAccessorMapping
@@ -16,6 +17,7 @@ use Clio\Framework\Metadata\Mapping\SchemaAccessorMapping,
 use Clio\Component\Exception\UnsupportedException;
 
 use Clio\Component\Util\Injection\ClassInjector;
+use Clio\Component\Util\Injection\InjectorCollection;
 
 /**
  * AccessorMappingFactory 
@@ -30,19 +32,28 @@ class AccessorMappingFactory extends AbstractFactory
 {
 	private $injector;
 
-	public function __construct(SchemaAccessorFactoryCollection $accessorFactory, FieldAccessorFactoryCollection $fieldAccessorFactory)
+	private $schemaAccessorFactory;
+
+	private $fieldAccessorFactory;
+
+	private $ignoreUnderscored;
+
+	public function __construct(SchemaAccessorFactory $schemaAccessorFactory, FieldAccessorFactory $fieldAccessorFactory, $ignoreUnderscored = true)
 	{
-		$this->accessorFactory = $accessorFactory;
+		$this->schemaAccessorFactory = $schemaAccessorFactory;
+		$this->fieldAccessorFactory = $fieldAccessorFactory;
+
+		$this->ignoreUnderscored = $ignoreUnderscored;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createMapping(Metadata $metadata)
+	protected function doCreateMapping(Metadata $metadata)
 	{
 		if($metadata instanceof ClassMetadata) {
 			$mapping = new SchemaAccessorMapping($metadata);
-		} else if(($metadata instanceof FieldMetadata && ($metadata->getSchemaMetadata() instanceof ClassMetadata))) {
+		} else if(($metadata instanceof FieldMetadata)) {
 			$mapping = $this->createFieldMapping($metadata);
 		} else {
 			throw new UnsupportedException('SchemaMetadata is not an instance of ClassMetadata');
@@ -51,9 +62,14 @@ class AccessorMappingFactory extends AbstractFactory
 		return $mapping;
 	}
 
-	protected function createFeildMapping($metadata)
+	/**
+	 * {@inheritdoc}
+	 */
+	protected function createFieldMapping($metadata)
 	{
-		if($metadata instanceof PropertyMetadata) {
+		if($this->ignoreUnderscored && (0 === strpos($metadata->getName(), '_'))) {
+			$accessType = 'ignore';
+		} else if($metadata instanceof PropertyMetadata) {
 			if($metadata->getReflectionProperty()->isPublic()) {
 				$accessType = 'property';
 			} else { 
@@ -70,30 +86,41 @@ class AccessorMappingFactory extends AbstractFactory
 	 */
 	public function isSupportedMetadata(Metadata $metadata)
 	{
-		return ($metadata instanceof ClassMetadata) || (($metadata instanceof FieldMetadata) && ($metadata->getSchemaMetadata() instanceof ClassMetadata));
+		return ($metadata instanceof ClassMetadata) || (($metadata instanceof FieldMetadata));
 	}
     
     /**
-     * getAccessorFactory 
+     * getFieldAccessorFactory 
      * 
      * @access public
      * @return void
      */
-    public function getAccessorFactory()
+    public function getFieldAccessorFactory()
     {
-        return $this->accessorFactory;
+        return $this->fieldAccessorFactory;
     }
     
     /**
-     * setAccessorFactory 
+     * setFieldAccessorFactory 
      * 
-     * @param mixed $accessorFactory 
+     * @param mixed $fieldAccessorFactory 
      * @access public
      * @return void
      */
-    public function setAccessorFactory($accessorFactory)
+    public function setFieldAccessorFactory($fieldAccessorFactory)
     {
-        $this->accessorFactory = $accessorFactory;
+        $this->fieldAccessorFactory = $fieldAccessorFactory;
+        return $this;
+    }
+    
+    public function getSchemaAccessorFactory()
+    {
+        return $this->schemaAccessorFactory;
+    }
+    
+    public function setSchemaAccessorFactory($schemaAccessorFactory)
+    {
+        $this->schemaAccessorFactory = $schemaAccessorFactory;
         return $this;
     }
 
@@ -104,7 +131,10 @@ class AccessorMappingFactory extends AbstractFactory
 	{
 		if(!$this->injector) {
 			// 
-			$this->injector = new ClassInjector('Clio\Framework\Metadata\Mapping\FieldAccessorMapping', 'setAccessorFactory', array($this->getAccessorFactory()));
+			$this->injector = new InjectorCollection(array(
+				new ClassInjector('Clio\Framework\Metadata\Mapping\SchemaAccessorMapping', 'setAccessorFactory', array($this->getSchemaAccessorFactory())),
+				new ClassInjector('Clio\Framework\Metadata\Mapping\FieldAccessorMapping', 'setAccessorFactory', array($this->getFieldAccessorFactory()))
+			));
 		}
 		return $this->injector;
 	}

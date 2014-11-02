@@ -101,13 +101,13 @@ abstract class AbstractFactory implements Factory
 	}
 
 	/**
-	 * isSupportedFactory 
+	 * isSupportedArgs 
 	 * 
 	 * @param array $args 
 	 * @access public
 	 * @return void
 	 */
-	public function isSupportedFactory(array $args = array())
+	public function isSupportedArgs(array $args = array())
 	{
 		return true;
 	}

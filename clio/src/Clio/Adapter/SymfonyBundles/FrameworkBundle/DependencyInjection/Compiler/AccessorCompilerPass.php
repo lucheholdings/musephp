@@ -18,41 +18,55 @@ class AccessorCompilerPass implements CompilerPassInterface
 	 */
 	public function process(ContainerBuilder $container)
 	{
-		$this->processClassFieldAccessorFactory($container);
-		$this->processClassAccessorFactory($container);
+		$this->processSchemaAccessorFactory($container);
+		$this->processSchemaFieldAccessorFactory($container);
 	}
 
-	protected function processClassAccessorFactory(ContainerBuilder $container)
+	protected function processSchemaAccessorFactory(ContainerBuilder $container)
 	{
-		if($container->hasDefinition('clio_framework.accessor.accessor_factory.collection')) {
-			$collection = $container->getDefinition('clio_framework.accessor.accessor_factory.collection');
+		if($container->hasDefinition('clio_framework.accessor.schema_accessor_factory.collection')) {
+			$collection = $container->getDefinition('clio_framework.accessor.schema_accessor_factory.collection');
 
-			foreach($container->findTaggedServiceIds('clio_framework.accessor.accessor_factory') as $id => $tags) {
+			foreach($container->findTaggedServiceIds('clio_framework.accessor.schema_accessor_factory') as $id => $tags) {
 				foreach($tags as $params) {
 					$priority = isset($params['priority']) ? $params['priority'] : 0;
 
-					$collection->addMethodCall(
-						'add',
-						array(new Reference($id), $priority)
-					);
+					if(isset($params['for'])) {
+						$collection->addMethodCall(
+							'set',
+							array($params['for'], new Reference($id), $priority)
+						);
+					} else {
+						$collection->addMethodCall(
+							'add',
+							array(new Reference($id), $priority)
+						);
+					}
 				}
 			}
 		}
 	}
 
-	protected function processClassFieldAccessorFactory(ContainerBuilder $container)
+	protected function processSchemaFieldAccessorFactory(ContainerBuilder $container)
 	{
-		if($container->hasDefinition('clio_framework.accessor.accessor_factory.basic')) {
-			$collection = $container->getDefinition('clio_framework.accessor.accessor_factory.basic');
+		if($container->hasDefinition('clio_framework.accessor.field_accessor_factory.collection')) {
+			$collection = $container->getDefinition('clio_framework.accessor.field_accessor_factory.collection');
 
 			foreach($container->findTaggedServiceIds('clio_framework.accessor.field_accessor_factory') as $id => $tags) {
 				foreach($tags as $params) {
 					$priority = isset($params['priority']) ? $params['priority'] : 0;
 
-					$collection->addMethodCall(
-						'add',
-						array(new Reference($id), $priority)
-					);
+					if(isset($params['for'])) {
+						$collection->addMethodCall(
+							'set',
+							array($params['for'], new Reference($id), $priority)
+						);
+					} else {
+						$collection->addMethodCall(
+							'add',
+							array(new Reference($id), $priority)
+						);
+					}
 				}
 			}
 		}

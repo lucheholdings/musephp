@@ -1,7 +1,6 @@
 <?php
 namespace Clio\Component\Util\Metadata\Field;
 
-use Clio\Component\Util\Metadata\Mapping\MappingCollection;
 /**
  * PropertyMetadata 
  * 
@@ -13,27 +12,6 @@ use Clio\Component\Util\Metadata\Mapping\MappingCollection;
  */
 class PropertyMetadata extends AbstractFieldMetadata 
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	private $reflectionProperty;
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function __construct(\ReflectionProperty $reflectionProperty)
-	{
-		$this->reflectionProperty = $reflectionProperty;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getName()
-	{
-		return $this->getReflectionProperty()->getName();
-	}
-    
     /**
      * getReflectionProperty 
      * 
@@ -42,41 +20,7 @@ class PropertyMetadata extends AbstractFieldMetadata
      */
     public function getReflectionProperty()
     {
-        return $this->reflectionProperty;
+        return $this->getSchemaMetadata()->getReflectionClass()->getProperty($this->getName());
     }
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getType()
-	{
-		return 'property';
-	}
-
-	public function serialize()
-	{
-		return serialize(array(
-			$this->getReflectionProperty()->getDeclaringClass()->getName(),
-			$this->getReflectionProperty()->getName(),
-			$this->getMappings()->toArray()
-		));
-	}
-
-	public function unserialize($serialized)
-	{
-		$data = unserialize($serialized);
-		if(!$data) {
-			throw new \RuntimeException(sprintf('Failed to unserialize "%s"', __CLASS__));
-		}
-		list(
-			$class,
-			$name,
-			$mappings
-		) = $data;
-
-		$class = new \ReflectionClass($class);
-		$this->reflectionProperty = $class->getProperty($name);
-		$this->setMappings(new MappingCollection($mappings));
-	}
 }
 

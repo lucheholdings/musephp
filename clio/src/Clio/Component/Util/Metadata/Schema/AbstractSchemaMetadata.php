@@ -40,6 +40,23 @@ abstract class AbstractSchemaMetadata extends AbstractMetadata implements Schema
 			$this->addField($field);
 		}
 	}
+
+	/**
+	 * clean 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function clean()
+	{
+		// clean owned mapping
+		parent::clean();
+		
+		// clean each field
+		foreach($this->fields as $field) {
+			$field->clean();
+		}
+	}
     
     /**
      * getFields 
@@ -102,6 +119,7 @@ abstract class AbstractSchemaMetadata extends AbstractMetadata implements Schema
 	public function addField(FieldMetadata $field)
 	{
 		$this->fields[$field->getName()] = $field;
+		$field->setSchemaMetadata($this);
 		return $this;
 	}
 

@@ -5,6 +5,7 @@ use Clio\Component\Util\Attribute\AttributeContainer;
 use Clio\Component\Util\Attribute\AttributeContainerAware;
 use Calliope\Framework\Core\Container\AttributeMap;
 
+use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
 /**
  * FlexibleModel 
  * 
@@ -22,18 +23,15 @@ class FlexibleModel extends Model implements AttributeContainerAware
 	 * @var mixed
 	 * @access protected
 	 */
-	protected $_attributes;
+	private $_attributes;
 
 	/**
-	 * __construct 
+	 * attributes 
 	 * 
-	 * @access public
-	 * @return void
+	 * @var mixed
+	 * @access protected
 	 */
-	public function __construct()
-	{
-		$this->_attributes = new AttributeMap();
-	}
+	protected $attributes;
 
     /**
      * Get attributes.
@@ -41,8 +39,11 @@ class FlexibleModel extends Model implements AttributeContainerAware
      * @access public
      * @return _attributes
      */
-    public function getAttributes()
+    public function getAttributeMap()
     {
+		if(!$this->_attributes) {
+			$this->_attributes = new AttributeMap(array(), new DoctrineCollectionStorage($this->attributes));
+		}
         return $this->_attributes;
     }
     
@@ -53,11 +54,25 @@ class FlexibleModel extends Model implements AttributeContainerAware
      * @param _attributes the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setAttributes(AttributeContainer $attributes)
+    public function setAttributeMap(AttributeContainer $attributes)
     {
         $this->_attributes = $attributes;
-
 		$this->_attributes->setOwner($this);
+
+		$this->attributes = $attributes->getRaw();
+        return $this;
+    }
+    
+    public function getAttributes()
+    {
+        return $this->attributes;
+    }
+    
+    public function setAttributes($attributes)
+    {
+        $this->attributes = $attributes;
+
+		$this->_attributes = null;
         return $this;
     }
 }

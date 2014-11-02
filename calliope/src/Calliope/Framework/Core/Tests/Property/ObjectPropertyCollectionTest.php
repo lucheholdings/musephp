@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Tests\Property;
 
-use Calliope\Framework\Core\Tests\TestFlexibleSchemeModel,
+use Calliope\Framework\Core\Tests\TestFlexibleSchemaModel,
 	Calliope\Framework\Core\Metadata\ClassMetadata,
 	Calliope\Framework\Core\Property\ObjectPropertyCollection
 ;
@@ -34,7 +34,7 @@ class ObjectPropertyCollectionTest extends \PHPUnit_Framework_TestCase
 
 	public function setUp()
 	{
-		$this->metadata = new TestFlexibleSchemeModel(); 
+		$this->metadata = new TestFlexibleSchemaModel(); 
 		$this->classMetadata = new ClassMetadata(new \ReflectionClass($this->metadata));
 	}
 

@@ -4,13 +4,13 @@ namespace Clio\Component\Util\Accessor\Field;
 /**
  * IgnoreFieldAccessor 
  * 
- * @uses AbstractFieldAccessor
+ * @uses AbstractSingleFieldAccessor
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class IgnoreFieldAccessor extends AbstractFieldAccessor 
+class IgnoreFieldAccessor extends AbstractSingleFieldAccessor 
 {
 
 	/**

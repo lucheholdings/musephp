@@ -4,7 +4,7 @@ namespace Calliope\Framework\Core\Tests;
 use Calliope\Framework\Core\Container\AttributeMap;
 use Clio\Component\Tag\Collection\TagSet;
 use Calliope\Framework\Core\Model\Attribute,
-	Calliope\Framework\Core\Model\SchemeModelInterface,
+	Calliope\Framework\Core\Model\SchemaModelInterface,
 	Clio\Component\Tag\Tag;
 
 use Clio\Component\Serializer\Object\ArraySerializable,
@@ -21,7 +21,7 @@ use Clio\Component\Serializer\Object\ArraySerializable,
  * 
  */
 class TestModel implements 
-	SchemeModelInterface,
+	SchemaModelInterface,
 	ArraySerializable,	
 	ArrayDeserializable	
 {
