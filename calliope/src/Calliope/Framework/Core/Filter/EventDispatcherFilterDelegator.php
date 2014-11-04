@@ -285,7 +285,7 @@ class EventDispatcherFilterDelegator implements FilterDelegator
 		if(null == $event) {
 			foreach($this->events as $eventName => $method) {
 				if(method_exists($filter, $method)) {
-					$this->getEventDispatcher()->removeListener($eventName, array($filter, $method));
+					$this->getEventDispatcher()->removeListener('connection.' . $eventName, array($filter, $method));
 				}
 			}
 		} else {
