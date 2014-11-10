@@ -52,7 +52,7 @@ class Map extends AbstractMap
 	/**
 	 * {@inheritdoc}
 	 */
-	public function hasKey($key)
+	public function has($key)
 	{
 		return $this->getStorage()->existsAt($key);
 	}

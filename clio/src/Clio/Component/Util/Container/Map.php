@@ -29,7 +29,7 @@ interface Map extends Container, \ArrayAccess
 	 * @access public
 	 * @return void
 	 */
-	function hasKey($key);
+	function has($key);
 
 	/**
 	 * set 

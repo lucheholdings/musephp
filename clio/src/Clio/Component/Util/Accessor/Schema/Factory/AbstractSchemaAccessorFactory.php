@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Schema\Factory;
 
 use Clio\Component\Pattern\Factory\AbstractFactory;
-use Clio\Component\Util\Accessor\Schema\Factory as SchemaAccessorFactory;
+use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
 use Clio\Component\Util\Accessor\Schema;
 

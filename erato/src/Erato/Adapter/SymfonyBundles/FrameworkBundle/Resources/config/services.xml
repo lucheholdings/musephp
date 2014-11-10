@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="erato_framework.event_listener.exception_listener.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\EventListener\ExceptionListener</parameter>
+
+        <parameter key="erato_framework.service_registry.class">Clio\Bridge\SymfonyDI\Registry\ServiceContainerRegistry</parameter>
+        <parameter key="erato_framework.factory_map.class">Clio\Component\Pattern\Factory\NamedCollection</parameter>
+        <parameter key="erato_framework.component_factory.class">Clio\Component\Pattern\Factory\ComponentFactory</parameter>
+
+        <parameter key="erato_framework.doctrine_cache_factory.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\DoctrineCacheFactory</parameter>
+    </parameters>
+
+    <services>
+        <service id="erato_framework.service_registry" class="%erato_framework.service_registry.class%">
+			<argument type="service" id="service_container"/>
+        </service>
+
+        <service id="erato_framework.doctrine_cache_factory" class="%erato_framework.doctrine_cache_factory.class%">
+			<argument type="service" id="service_container"/>
+        </service>
+
+		<service id="erato_framework.cache_factory" alias="erato_framework.doctrine_cache_factory"/>
+    </services>
+</container>

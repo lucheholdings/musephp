@@ -20,6 +20,7 @@ class ClioFrameworkBundle extends Bundle
 		parent::build($container);
 		
 		$container->addCompilerPass(new Compiler\AccessorCompilerPass());
+		$container->addCompilerPass(new Compiler\NormalizerCompilerPass());
 		$container->addCompilerPass(new Compiler\MetadataCompilerPass());
 		$container->addCompilerPass(new Compiler\CacheCompilerPass());
 

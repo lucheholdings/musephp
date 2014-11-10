@@ -2,10 +2,10 @@
 namespace Calliope\Framework\Core\Container;
 
 use Clio\Component\Util\Container\Map\Map;
-use Clio\Component\Util\Attribute\AttributeContainer;
+use Clio\Component\Util\Attribute\AttributeMap;
 
 use Clio\Component\Util\Attribute\Attribute;
-use Clio\Component\Util\Attribute\AttributeContainerAware;
+use Clio\Component\Util\Attribute\AttributeMapAware;
 
 use Clio\Component\Util\Validator\PrimitiveTypeValidator,
 	Clio\Component\Util\Validator\ClassValidator
@@ -14,13 +14,13 @@ use Clio\Component\Util\Validator\PrimitiveTypeValidator,
  * AttributeMap 
  * 
  * @uses ObjectMap
- * @uses AttributeContainer
+ * @uses AttributeMap
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AttributeMap extends Map implements AttributeContainer
+class AttributeMap extends Map implements AttributeMap
 {
 	/**
 	 * owner 
@@ -96,7 +96,7 @@ class AttributeMap extends Map implements AttributeContainer
      * @param owner the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setOwner(AttributeContainerAware $owner)
+    public function setOwner(AttributeMapAware $owner)
     {
         $this->owner = $owner;
         return $this;

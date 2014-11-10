@@ -1,20 +1,31 @@
 <?php
 namespace Clio\Component\Util\Tag;
 
-use Clio\Component\Util\Container\Set\Set;
-
-class TagSet extends Set implements TagContainer
+/**
+ * TagSet 
+ * 
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+interface TagSet
 {
-	public function containsName($name)
-	{
-		return in_array($name, $this->toArray());
-	}
+	/**
+	 * containsName 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	function containsName($name);
 
-	public function getNameArray()
-	{
-		return array_map(function($tag) {
-			return $tag->getName();	
-		}, $this->toArray());
-	}
+	/**
+	 * getNameArray 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getNameArray();
 }
 

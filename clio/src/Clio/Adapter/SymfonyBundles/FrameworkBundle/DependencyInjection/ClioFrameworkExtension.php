@@ -35,7 +35,7 @@ class ClioFrameworkExtension extends Extension
 		$this->configureMetadata($container, $config['metadata']);
 		//$this->configureCounter($container, $config['counter']);
 		//$this->configureKvs($container, $config['kvs']);
-		//$this->configureNormalizer($container, $config['normalizer']);
+		$this->configureNormalizer($container, $config['normalizer']);
 		//$this->configureSerializer($container, $config['serializer']);
 		//$this->configureSchemifier($container, $config['schemifier']);
 		//$this->configureFieldAccessor($container, $config['field_accessor']);
@@ -126,11 +126,38 @@ class ClioFrameworkExtension extends Extension
 			// If configuration enabled, then load serializer.xml
 			$this->getLoader()->load('normalizer.xml');
 
-			// Map Strategy
-			$container->setAlias(
-				'clio_framework.normalizer_strategy',
-				$configs['strategy']
+			$strategies = array(
+				'jms'  => array('enabled' => false, 'id' => null, 'priority' => 0, 'options' => array()),
+				'accessor'  => array('enabled' => true, 'id' => null, 'priority' => 0, 'options' => array()),
+				'scalar'  => array('enabled' => true, 'id' => null, 'priority' => null, 'options' => array()),
+				'reference'  => array('enabled' => true, 'id' => null, 'priority' => null, 'options' => array()),
+				'datetime'  => array('enabled' => true, 'id' => null, 'priority' => null, 'options' => array('format' => 'Y-m-d H:i:s')),
 			);
+
+			$strategies = array_merge($strategies, $configs['strategies']);
+			foreach($strategies as $name => $strategyConfig) {
+				if(!isset($strategyConfig['id'])) {
+					$definition = new DefinitionDecorator('clio_framework.normalizer.default_strategy.' . $name);
+				} else {
+					$definition = new DefinitionDecorator($id);
+				}
+
+				// Set options
+				if(isset($strategyConfig['options'])) {
+					$definition->addMethodCall('setOptions', array($strategyConfig['options']));
+				}
+
+				$definition->addTag('clio_framework.normalizer.strategy', array(
+					'for'      => $name,
+					'priority' => $strategyConfig['priority'] ? : 100,
+				));
+
+
+				$container->setDefinition(
+					'clio_framework.normalizer.strategy.' . $name,
+					$definition
+				);
+			}
 		}
 	}
 

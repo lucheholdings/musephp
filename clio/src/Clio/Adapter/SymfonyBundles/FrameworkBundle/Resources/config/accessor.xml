@@ -13,21 +13,21 @@
 
 		<!-- Field Accessor Factory -->
         <parameter key="clio_framework.accessor.field_accessor_factory_collection.class">Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection</parameter>
-        <parameter key="clio_framework.accessor.attribute_container_field_accessor_factory.class">Clio\Framework\Accessor\Field\Factory\AttributeContainerAccessorFactory</parameter>
+        <parameter key="clio_framework.accessor.attribute_map_field_accessor_factory.class">Clio\Framework\Accessor\Field\Factory\AttributeMapAccessorFactory</parameter>
         <parameter key="clio_framework.accessor.ignore_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory</parameter>
         <parameter key="clio_framework.accessor.public_property_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory</parameter>
         <parameter key="clio_framework.accessor.method_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory</parameter>
-        <parameter key="clio_framework.accessor.tag_container_field_accessor_factory.class">Clio\Framework\Accessor\Field\Factory\TagContainerFieldAccessorFactory</parameter>
+        <parameter key="clio_framework.accessor.tag_set_field_accessor_factory.class">Clio\Framework\Accessor\Field\Factory\TagSetFieldAccessorFactory</parameter>
 
 		<!-- Schema Accessor Classes -->
         <parameter key="clio_framework.accessor.schema_accessor.interface">Clio\Component\Util\Accessor\Schema\SimpleSchemaAccessor</parameter>
-        <parameter key="clio_framework.accessor.attribute_container_accessor.class">Clio\Framework\Accessor\AttributeContainerAccessor</parameter>
+        <parameter key="clio_framework.accessor.attribute_map_accessor.class">Clio\Framework\Accessor\AttributeMapAccessor</parameter>
 		<!-- FieldAccessor Classes -->
         <parameter key="clio_framework.accessor.field_accessor_collection.class">Clio\Component\Util\Accessor\Field\FieldAccessorCollection</parameter>
         <parameter key="clio_framework.accessor.ignore_field_accessor.class">Clio\Component\Util\Accessor\Field\Ignore</parameter>
         <parameter key="clio_framework.accessor.public_property_field_accessor.class">Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor</parameter>
         <parameter key="clio_framework.accessor.method_field_accessor.class">Clio\Component\Util\Accessor\Field\MethodFieldAccessor</parameter>
-        <parameter key="clio_framework.accessor.tag_container_field_accessor.class">Clio\Framework\Accessor\Field\TagContainerFieldAccessor</parameter>
+        <parameter key="clio_framework.accessor.tag_set_field_accessor.class">Clio\Framework\Accessor\Field\TagSetFieldAccessor</parameter>
     </parameters>
 
 	<services>
@@ -97,13 +97,13 @@
 		
 		<service 
 			id="clio_framework.accessor.field_accessor_factory.tag"
-			class="%clio_framework.accessor.tag_container_field_accessor_factory.class%"
+			class="%clio_framework.accessor.tag_set_field_accessor_factory.class%"
 		>
 			<tag name="clio_framework.accessor.field_accessor_factory" for="tags"/>
 		</service>
 		<service
 			id="clio_framework.accessor.field_accessor_factory.attribute"
-			class="%clio_framework.accessor.attribute_container_field_accessor_factory.class%"
+			class="%clio_framework.accessor.attribute_map_field_accessor_factory.class%"
 		>
 			<argument></argument>
 			<tag name="clio_framework.accessor.field_accessor_factory" for="attributes"/>

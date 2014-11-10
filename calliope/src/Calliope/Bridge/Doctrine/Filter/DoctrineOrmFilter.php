@@ -47,13 +47,13 @@ class DoctrineOrmFilter
 	{
 		$attributeField = 'attributes';
 
-		if($classMetadata->hasMapping('attribute_container_aware')) {
+		if($classMetadata->hasMapping('attribute_map_aware')) {
 			$doctrineClassMetadata = $em->getClassMetadata($classMetadata->getName());
 			//
 			$attributeMapping = $doctrineClassMetadata->getAssociationMapping($attributeField);
 			$attributeClass = $attributeMapping['targetEntity'];
 
-			$classMetadata->getMapping('attribute_container_aware')->setAttributeClass($attributeClass);
+			$classMetadata->getMapping('attribute_map_aware')->setAttributeClass($attributeClass);
 		}
 	}
 
@@ -67,12 +67,12 @@ class DoctrineOrmFilter
 	{
 		$tagField = 'tags';
 
-		if($classMetadata->hasMapping('tag_container_aware')) {
+		if($classMetadata->hasMapping('tag_set_aware')) {
 			$doctrineClassMetadata = $em->getClassMetadata($classMetadata->getName());
 			$mapping = $doctrineClassMetadata->getAssociationMapping($tagField);
 			$tagClass = $mapping['targetEntity'];
 
-			$classMetadata->getMapping('tag_container_aware')->setTagClass($tagClass);
+			$classMetadata->getMapping('tag_set_aware')->setTagClass($tagClass);
 		}
 	}
 }

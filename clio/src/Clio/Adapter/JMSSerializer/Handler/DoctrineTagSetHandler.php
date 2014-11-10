@@ -8,7 +8,7 @@ use JMS\Serializer\VisitorInterface,
 	JMS\Serializer\Context
 ;
 /**
- * DoctrineTagContainer 
+ * DoctrineTagSet 
  *    
  * @uses DoctrineProxyCollectionHandler
  * @package { PACKAGE }

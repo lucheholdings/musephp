@@ -4,8 +4,8 @@ namespace Calliope\Adapter\Doctrine\Core\Entity\MappedSuperclass;
 use Doctrine\ORM\Mapping as ORM;
 use Calliope\Framework\Core\Model\TaggableModel as BaseModel;
 
-use Clio\Component\Util\Attribute\AttributeContainer;
-use Clio\Component\Util\Tag\TagContainer;
+use Clio\Component\Util\Attribute\AttributeMap;
+use Clio\Component\Util\Tag\TagSet;
 use Clio\Bridge\Doctrine\Container\ProxyAttributeMap;
 use Clio\Bridge\Doctrine\Container\ProxyTagSet;
 
@@ -116,11 +116,11 @@ abstract class TaggableModel extends BaseModel
 	/**
 	 * setTags 
 	 * 
-	 * @param TagContainer $tags 
+	 * @param TagSet $tags 
 	 * @access public
 	 * @return void
 	 */
-	public function setTags(TagContainer $tags)
+	public function setTags(TagSet $tags)
 	{
 		parent::setTags($tags);
 

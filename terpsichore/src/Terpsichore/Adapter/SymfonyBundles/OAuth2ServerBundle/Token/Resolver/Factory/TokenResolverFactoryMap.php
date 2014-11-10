@@ -30,7 +30,7 @@ class TokenResolverFactoryMap extends NamedCollection
 	 */
 	public function createTokenResolver($type, array $options = array())
 	{
-		if(!$this->hasKey($type)) {
+		if(!$this->has($type)) {
 			throw new \InvalidArgumentException(sprintf('Invalid TokenResolver type "%s", choose one from [%s]', $type, implode(',', $this->getKeys())));
 		}
 

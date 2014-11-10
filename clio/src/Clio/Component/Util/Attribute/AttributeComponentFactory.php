@@ -42,7 +42,7 @@ class AttributeComponentFactory extends ComponentFactory implements AttributeFac
 	 * 
 	 * @param mixed $key 
 	 * @param mixed $value 
-	 * @param AttributeContainerAware $owner 
+	 * @param AttributeMapAware $owner 
 	 * @access public
 	 * @return void
 	 */

@@ -6,8 +6,8 @@ Clio.Util.Attributeは、Clio.Util.Container.Mapを拡張した、クラスの�
 Interfaces
 -----
   - AttributeInterface
-  - AttributeContainer
-  - AttributeContainerAware
+  - AttributeMap
+  - AttributeMapAware
 
 Class
 ----

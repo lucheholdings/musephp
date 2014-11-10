@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Pattern\Tests\Registry;
 
-use Clio\Component\Pattern\Registry\MapRegistry;
+use Clio\Component\Pattern\Registry\RegistryMap;
 use Clio\Component\Pattern\Registry\LoadableRegistry;
 use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader;
 use Clio\Component\Pattern\Factory\MappedComponentFactory;
@@ -27,7 +27,7 @@ use Clio\Component\Pattern\Factory\MappedComponentFactory;
 	public function getRegistry()
 	{
 		if(!$this->registry) {
-			$this->registry = new LoadableRegistry(new MapRegistry());
+			$this->registry = new LoadableRegistry(new RegistryMap());
 		}
 
 		return $this->registry;

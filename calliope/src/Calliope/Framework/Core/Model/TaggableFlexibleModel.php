@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Framework\Core\Model;
 
-use Clio\Component\Util\Tag\TagContainerAware;
-use Clio\Component\Util\Tag\TagContainer;
+use Clio\Component\Util\Tag\TagSetAware;
+use Clio\Component\Util\Tag\TagSet as TagSetInterface;
 use Calliope\Framework\Core\Container\TagSet;
 
 use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
@@ -10,13 +10,13 @@ use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
  * TaggbleFlexibleModel 
  * 
  * @uses FlexibleModel
- * @uses TagContainerAware
+ * @uses TagSetAware
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TaggableFlexibleModel extends FlexibleModel implements TagContainerAware 
+class TaggableFlexibleModel extends FlexibleModel implements TagSetAware 
 {
 	protected $tags;
 
@@ -43,7 +43,7 @@ class TaggableFlexibleModel extends FlexibleModel implements TagContainerAware
         return $this->_tags;
     }
     
-    public function setTagSet(TagContainer $set)
+    public function setTagSet(TagSetInterface $set)
     {
         $this->_tags = $set;
 		$this->tags = $set->getRaw();

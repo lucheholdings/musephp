@@ -4,8 +4,8 @@ namespace Calliope\Adapter\Doctrine\Core\Entity\MappedSuperclass;
 use Doctrine\ORM\Mapping as ORM;
 use Calliope\Framework\Core\Model\TaggableFlexibleModel as BaseModel;
 
-use Clio\Component\Util\Attribute\AttributeContainer;
-use Clio\Component\Util\Tag\TagContainer;
+use Clio\Component\Util\Attribute\AttributeMap;
+use Clio\Component\Util\Tag\TagSet;
 
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\Common\Collections\ArrayCollection;

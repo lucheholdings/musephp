@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Schema\Factory;
 
 use Clio\Component\Util\Accessor\Schema;
-use Clio\Component\Util\Accessor\Schema\Factory as SchemaAccessorFactory;
+use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 use Clio\Component\Pattern\Factory\NamedCollection;
 use Clio\Component\Util\Accessor\ChainProxySchemaAccessor;
 use Clio\Component\Util\Validator\ClassValidator;
@@ -22,7 +22,7 @@ class SchemaAccessorFactoryCollection extends NamedCollection
 {
 	protected function initFactory()
 	{
-		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Accessor\Schema\Factory'));
+		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Accessor\Schema\AccessorFactory'));
 	}
 
 	/**

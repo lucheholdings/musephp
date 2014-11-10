@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Attribute;
 
-use Clio\Component\Util\Attribute\AttributeContainer,
+use Clio\Component\Util\Attribute\AttributeMap,
 	Clio\Component\Util\Attribute\Attribute;
 
 /**
@@ -52,15 +52,15 @@ class AttributeAccessor
 	/**
 	 * get 
 	 * 
-	 * @param AttributeContainer $container 
+	 * @param AttributeMap $container 
 	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	public function get(AttributeContainer $container, $key)
+	public function get(AttributeMap $container, $key)
 	{
 		if(!$container->hasKey($key)) {
-			throw new \Clio\Component\Exception\InvalidArgumentException(sprintf('AttributeContainer dose not have "%s"', $key));
+			throw new \Clio\Component\Exception\InvalidArgumentException(sprintf('AttributeMap dose not have "%s"', $key));
 		}
 
 		return $container->get($key)->getValue();	
@@ -69,13 +69,13 @@ class AttributeAccessor
 	/**
 	 * set 
 	 * 
-	 * @param AttributeContainer $container 
+	 * @param AttributeMap $container 
 	 * @param mixed $key 
 	 * @param mixed $value 
 	 * @access public
 	 * @return void
 	 */
-	public function set(AttributeContainer $container, $key, $value, $owner = null)
+	public function set(AttributeMap $container, $key, $value, $owner = null)
 	{
 		if($container->hasKey($key)) {
 			$container->get($key)->setValue($value);
@@ -94,7 +94,7 @@ class AttributeAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function add(AttributeContainer $container, $key, $value, $owner = null)
+	public function add(AttributeMap $container, $key, $value, $owner = null)
 	{
 		if(!$container->hasKey($key)) {
 			$container->set($key, $this->createAttribute($key, $value, $owner));
@@ -110,7 +110,7 @@ class AttributeAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function remove(AttributeContainer $container, $key)
+	public function remove(AttributeMap $container, $key)
 	{
 		$container->removeAttribute($container, $key);
 		return $this;
@@ -119,12 +119,12 @@ class AttributeAccessor
 	/**
 	 * replace
 	 * 
-	 * @param AttributeContainer $container 
+	 * @param AttributeMap $container 
 	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	public function replace(AttributeContainer $container, array $keyValues)
+	public function replace(AttributeMap $container, array $keyValues)
 	{
 		// once remove all attrs
 		$deleteSchedules = $container->getKeys();

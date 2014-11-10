@@ -67,7 +67,7 @@ class TagFilter
 	{
 		//
 		$model = $condition->getModel();
-		if($model instanceof TagContainerAware) {
+		if($model instanceof TagSetAware) {
 			//
 		}
 	}

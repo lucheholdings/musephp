@@ -84,20 +84,20 @@ class NamedCollection extends Map implements MappedFactory, Factory
 	 */
 	public function createArgs(array $args = array())
 	{
-		return $this->createByKeyArgs(array_shift($args), $args);
+		return $this->createByKeyArgs($this->shiftArg($args), $args);
 	}
 
 	public function createByKey()
 	{
 		$args = func_get_args();
-		$key = array_shift($args);
+		$key = $this->shiftArg($args);
 
 		return $this->createByKeyArgs($key, $args);
 	}
 
 	public function createByKeyArgs($key, array $args = array())
 	{
-		if(!$this->hasKey($key)) {
+		if(!$this->has($key)) {
 			throw new \InvalidArgumentException(sprintf('Factory "%s" is not existed.', $key));
 		}
 
@@ -110,6 +110,11 @@ class NamedCollection extends Map implements MappedFactory, Factory
 		return $factory->createArgs($args);
 	}
 
+	public function isSupported()
+	{
+		return $this->isSupportedArgs(func_get_args());
+	}
+
 	/**
 	 * isSupportedArgs 
 	 * 
@@ -119,7 +124,7 @@ class NamedCollection extends Map implements MappedFactory, Factory
 	 */
 	public function isSupportedArgs(array $args = array())
 	{
-		return $this->isSupportedKeyArgs(array_shift($args), $args);
+		return $this->isSupportedKeyArgs($this->shiftArg($args), $args);
 	}
 
 	/**
@@ -171,7 +176,21 @@ class NamedCollection extends Map implements MappedFactory, Factory
 	 */
 	public function hasFactory($key)
 	{
-		return $this->hasKey($key);
+		return $this->has($key);
+	}
+
+	public function shiftArg(array &$args, $aliasKey = null) 
+	{
+		// we try to use the aliasKey to grab the arg, iff aliasKey is specified
+		if($aliasKey && array_key_exists($aliasKey, $args)) {
+			$arg = $args[$aliasKey];
+			unset($args[$aliasKey]);
+		} else {
+			// just shift arg
+			$arg = array_shift($args);
+		}
+
+		return $arg;
 	}
 }
 

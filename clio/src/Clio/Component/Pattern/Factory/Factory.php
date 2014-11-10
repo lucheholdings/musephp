@@ -31,6 +31,14 @@ interface Factory
 	function createArgs(array $args = array());
 
 	/**
+	 * isSupported 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function isSupported();
+
+	/**
 	 * isSupportedArgs 
 	 * 
 	 * @param array $args 

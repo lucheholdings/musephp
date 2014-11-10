@@ -1,0 +1,67 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="erato_framework.serializer.class">Clio\Component\Serializer\Serializer</parameter>
+        <parameter key="erato_framework.serializer_adapter_factory.jms.class">Clio\Bridge\JMS\Serializer\Adapter\JMSSerializerAdapterFactory</parameter>
+    </parameters>
+
+	<services>
+		<service
+			id="erato_framework.serializer"
+			class="%erato_framework.serializer.class%"
+			factory-service="erato_framework.serializer_factory"
+			factory-method="createSerializerFromService"
+		>
+			<argument type="service" id="erato_framework.serializer_strategy" /><!-- Strategy Service. This might be another Serializer like SymfonySerializer, JMSSerializer or ClioSerializer -->
+		</service>
+
+		<service
+			id="erato_framework.serializer_factory"
+			class="Erato\Adapter\SymfonyBundles\FrameworkBundle\Serializer\SerializerFactory"
+		>
+			<argument type="service" id="erato_framework.serializer_adapter_factory"/>
+		</service>
+		
+		<service
+			id="erato_framework.serializer_adapter_factory"
+			class="Clio\Component\Serializer\Adapter\CompositeAdapterFactory"
+		>
+		</service>
+		<service
+			id="erato_framework.serializer_strategy.default"
+			class="Clio\Component\Serializer\Strategy\CompositeStrategy"
+		>
+			<argument type="service" id="erato_framework.serializer_strategy.std_class_serialization"/>
+			<argument type="service" id="erato_framework.serializer_strategy.json_serialization"/>
+			<argument type="service" id="erato_framework.serializer_strategy.array_serialization"/>
+			<argument type="service" id="erato_framework.serializer_strategy.internal_array"/>
+		</service>
+
+		<service id="erato_framework.serializer_strategy.std_class_serialization" class="Clio\Component\Serializer\Strategy\StdClassSerializationStrategy">
+		</service>
+		<service id="erato_framework.serializer_strategy.array_serialization" class="Clio\Component\Serializer\Strategy\ArraySerializableStrategy">
+		</service>
+		<service id="erato_framework.serializer_strategy.json_serialization" class="Clio\Component\Serializer\Strategy\JsonSerializableStrategy">
+		</service>
+		<service id="erato_framework.serializer_strategy.internal_array" class="Clio\Component\Serializer\Strategy\InternalArrayStrategy">
+			<argument type="service" id="erato_framework.serializer_tool.array_parser"/>
+		</service>
+
+		<service id="erato_framework.serializer_tool.array_parser" class="Clio\Component\Serializer\Tool\ArrayParser">
+			<argument type="collection">
+				<argument key="json">
+					<argument type="service" id="erato_framework.format.json" />
+				</argument>
+			</argument>
+		</service>
+
+		<service id="erato_framework.serializer_adapter_factory.jms" class="%erato_framework.serializer_adapter_factory.jms.class%">
+			<tag name="erato_framework.serializer_adapter_factory"/>
+		</service>
+	</services>	
+</container>
+

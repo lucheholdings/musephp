@@ -17,10 +17,10 @@ class MapSubscriber implements EventSubscriberInterface
 	}
 
 	private $defineTypes = array(
-		'AttributeContainer',
+		'AttributeMap',
 		'AttributeCollection',
 		'DoctrineAttributeCollection',
-		'DoctrineAttributeContainer',
+		'DoctrineAttributeMap',
 		'Map',
 
 	);

@@ -7,7 +7,7 @@ class ScopeRoleMap extends Map
 {
 	public function hasScope($scope)
 	{
-		return $this->hasKey($scope);
+		return $this->has($scope);
 	}
 
 	public function getRole($scope)

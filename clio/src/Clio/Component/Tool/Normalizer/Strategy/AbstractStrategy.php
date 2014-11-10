@@ -11,6 +11,13 @@ use Clio\Component\Tool\Normalizer\CircularException;
 
 abstract class AbstractStrategy implements Strategy
 {
+	private $options;
+
+	public function __construct(array $options = array())
+	{
+		$this->options = $options;
+	}
+
 	public function normalize($data, $type = null, Context $context = null)
 	{
 		if(!$context) {
@@ -103,5 +110,26 @@ abstract class AbstractStrategy implements Strategy
 	 * @return void
 	 */
 	abstract protected function doDenormalize($data, Type $type, Context $context, $object = null);
+    
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+	public function getOption($name, $default = null) 
+	{
+		return isset($this->options[$name]) ? $this->options[$name] : $default;
+	}
+
+	public function setOption($name, $value)
+	{
+		$this->options[$name] = $value;
+	}
 }
 

@@ -34,7 +34,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function insert($value)
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SetAccesssable) {
+		if(!$storage instanceof SetAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SetAccessable.', get_class($this->getSource())));
 		}
 		$storage->insert($value);
@@ -46,7 +46,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function exists($value)
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SetAccesssable) {
+		if(!$storage instanceof SetAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SetAccessable.', get_class($this->getSource())));
 		}
 		return $storage->exists($value);
@@ -58,7 +58,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function remove($value)
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SetAccesssable) {
+		if(!$storage instanceof SetAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SetAccessable.', get_class($this->getSource())));
 		}
 		return $storage->remove($value);
@@ -71,7 +71,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function insertBegin($value)
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SequencialAccesssable) {
+		if(!$storage instanceof SequencialAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SequencialAccessable.', get_class($this->getSource())));
 		}
 		return $storage->insertBegin($value);
@@ -83,7 +83,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function insertEnd($value)
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SequencialAccesssable) {
+		if(!$storage instanceof SequencialAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SequencialAccessable.', get_class($this->getSource())));
 		}
 		return $storage->insertEnd($value);
@@ -95,7 +95,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function begin()
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SequencialAccesssable) {
+		if(!$storage instanceof SequencialAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SequencialAccessable.', get_class($this->getSource())));
 		}
 		return $storage->begin();
@@ -107,7 +107,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function end()
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SequencialAccesssable) {
+		if(!$storage instanceof SequencialAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SequencialAccessable.', get_class($this->getSource())));
 		}
 		return $storage->end();
@@ -119,7 +119,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function removeBegin()
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SequencialAccesssable) {
+		if(!$storage instanceof SequencialAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SequencialAccessable.', get_class($this->getSource())));
 		}
 		return $storage->removeBegin();
@@ -131,7 +131,7 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function removeEnd()
 	{
 		$storage = $this->getSource();
-		if(!$storage instanceof SequencialAccesssable) {
+		if(!$storage instanceof SequencialAccessable) {
 			throw new Exceptions\UnsupportedException(sprintf('Source storage "%s" is not implemented SequencialAccessable.', get_class($this->getSource())));
 		}
 		return $storage->removeEnd();

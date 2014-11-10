@@ -2,20 +2,20 @@
 namespace Calliope\Framework\Core\Container;
 
 use Clio\Component\Util\Container\Set\Set;
-use Clio\Component\Util\Tag\TagContainer;
+use Clio\Component\Util\Tag\TagSet;
 
 use Clio\Component\Util\Validator\ClassValidator;
 /**
  * TagSet 
  *   Value  validation 
  * @uses ObjectMap
- * @uses TagContainer
+ * @uses TagSet
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TagSet extends Set implements TagContainer
+class TagSet extends Set implements TagSet
 {
 	/**
 	 * {@inheritdoc}

@@ -1,0 +1,112 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+
+		<!-- Schema Accessor Factory -->
+        <parameter key="erato_framework.accessor.schema_accessor_factory_collection.class">Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection</parameter>
+        <parameter key="erato_framework.accessor.class_accessor_factory.class">Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory</parameter>
+        <parameter key="erato_framework.accessor.schema_metadata_accessor_factory.class">Erato\Core\Accessor\Schema\Factory\SchemaMetadataAccessorFactory</parameter>
+
+		<!-- Field Accessor Factory -->
+        <parameter key="erato_framework.accessor.field_accessor_factory_collection.class">Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection</parameter>
+        <parameter key="erato_framework.accessor.attribute_map_field_accessor_factory.class">Erato\Core\Accessor\Field\Factory\AttributeMapAccessorFactory</parameter>
+        <parameter key="erato_framework.accessor.ignore_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory</parameter>
+        <parameter key="erato_framework.accessor.public_property_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory</parameter>
+        <parameter key="erato_framework.accessor.method_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory</parameter>
+        <parameter key="erato_framework.accessor.tag_set_field_accessor_factory.class">Erato\Core\Accessor\Field\Factory\TagSetFieldAccessorFactory</parameter>
+
+		<!-- Schema Accessor Classes -->
+        <parameter key="erato_framework.accessor.schema_accessor.interface">Clio\Component\Util\Accessor\Schema\SimpleSchemaAccessor</parameter>
+        <parameter key="erato_framework.accessor.attribute_map_accessor.class">Erato\Core\Accessor\AttributeMapAccessor</parameter>
+		<!-- FieldAccessor Classes -->
+        <parameter key="erato_framework.accessor.field_accessor_collection.class">Clio\Component\Util\Accessor\Field\FieldAccessorCollection</parameter>
+        <parameter key="erato_framework.accessor.ignore_field_accessor.class">Clio\Component\Util\Accessor\Field\Ignore</parameter>
+        <parameter key="erato_framework.accessor.public_property_field_accessor.class">Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor</parameter>
+        <parameter key="erato_framework.accessor.method_field_accessor.class">Clio\Component\Util\Accessor\Field\MethodFieldAccessor</parameter>
+        <parameter key="erato_framework.accessor.tag_set_field_accessor.class">Erato\Core\Accessor\Field\TagSetFieldAccessor</parameter>
+    </parameters>
+
+	<services>
+		<service
+			id="erato_framework.accessor.schema_accessor_factory"
+			alias="erato_framework.accessor.schema_accessor_factory.collection"
+		/>
+
+		<!-- Schema Accessor Factory -->
+		<service 
+			id="erato_framework.accessor.schema_accessor_factory.collection"
+			class="%erato_framework.accessor.schema_accessor_factory_collection.class%"
+		>
+		<!-- Items are injected by "erato_framework.accessor.schema_accessor_factory" tag -->
+		</service>
+	
+		<!-- Schema Accessor -->
+		<service 
+			id="erato_framework.accessor.schema_accessor_factory.class"
+			class="%erato_framework.accessor.class_accessor_factory.class%"
+		>
+		  <argument type="service" id="erato_framework.accessor.field_accessor_factory.collection" />
+		  <!-- Items are injected by "erato_framework.accessor.class_field_accessor_factory" tag -->
+		  <tag name="erato_framework.accessor.schema_accessor_factory" for="class"/>
+		</service>
+		<service 
+			id="erato_framework.accessor.schema_accessor_factory.metadata"
+			class="%erato_framework.accessor.schema_metadata_accessor_factory.class%"
+		>
+		  <argument type="service" id="erato_framework.accessor.field_accessor_factory.collection" />
+		  <!-- Items are injected by "erato_framework.accessor.class_field_accessor_factory" tag -->
+		  <tag name="erato_framework.accessor.schema_accessor_factory" for="metadata"/>
+		</service>
+		
+		<!-- Default Field Accessor Factories -->
+		<service
+			id="erato_framework.accessor.field_accessor_factory"
+			alias="erato_framework.accessor.field_accessor_factory.collection"
+		/>
+
+		<service 
+			id="erato_framework.accessor.field_accessor_factory.collection"
+			class="%erato_framework.accessor.field_accessor_factory_collection.class%"
+		>
+		</service>
+
+
+		<service 
+			id="erato_framework.accessor.field_accessor_factory.ignore"
+			class="%erato_framework.accessor.ignore_field_accessor_factory.class%"
+		>
+		    <tag name="erato_framework.accessor.field_accessor_factory" for="ignore"/>
+		</service>
+		<service 
+			id="erato_framework.accessor.field_accessor_factory.public_property"
+			class="%erato_framework.accessor.public_property_field_accessor_factory.class%"
+		>
+		    <tag name="erato_framework.accessor.field_accessor_factory" for="public_property"/>
+		</service>
+		
+		<service 
+			id="erato_framework.accessor.field_accessor_factory.method"
+			class="%erato_framework.accessor.method_field_accessor_factory.class%"
+		>
+			<tag name="erato_framework.accessor.field_accessor_factory" for="method"/>
+		</service>
+		
+		<service 
+			id="erato_framework.accessor.field_accessor_factory.tag"
+			class="%erato_framework.accessor.tag_set_field_accessor_factory.class%"
+		>
+			<tag name="erato_framework.accessor.field_accessor_factory" for="tags"/>
+		</service>
+		<service
+			id="erato_framework.accessor.field_accessor_factory.attribute"
+			class="%erato_framework.accessor.attribute_map_field_accessor_factory.class%"
+		>
+			<argument></argument>
+			<tag name="erato_framework.accessor.field_accessor_factory" for="attributes"/>
+		</service>
+	</services>	
+</container>

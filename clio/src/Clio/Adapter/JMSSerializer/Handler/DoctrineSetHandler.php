@@ -5,7 +5,7 @@ use Doctrine\Common\Collections\Collection;
 use Clio\Component\Util\Container\Container;
 use Clio\Bridge\Doctrine\Container\ProxyAttributeMap;
 /**
- * DoctrineAttributeContainer 
+ * DoctrineAttributeMap 
  *    
  * @uses DoctrineProxyCollectionHandler
  * @package { PACKAGE }

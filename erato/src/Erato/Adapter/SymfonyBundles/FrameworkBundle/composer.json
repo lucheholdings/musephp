@@ -1,0 +1,36 @@
+{
+    "name": "museerato/framework-symfony-bundle",
+    "license": "MIT",
+    "homepage": "http://muse.44services.jp",
+    "keywords": [
+        "muse",
+        "erato",
+        "php"
+    ],
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@1o1.co.jp"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/phpmuse/clio"
+    },
+    "require": {
+        "php": "~5.4",
+		"museerato/core":  "~2.0",
+		"museclio/symfony-component-bundle" :  "~2.0"
+    },
+    "autoload": {
+        "psr-0": {
+            "Erato\\Adater\\SymfonyBundles\\FrameworkBundle": ""
+        }
+    },
+    "target-dir": "Erato/Adapter/SymfonyBundles/FrameworkBundle",
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}

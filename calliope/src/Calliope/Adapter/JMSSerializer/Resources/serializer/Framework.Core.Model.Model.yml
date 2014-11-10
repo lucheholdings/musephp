@@ -6,7 +6,7 @@ Calliope\Framework\Core\Model\Model:
             type:     string
         attributes:
             expose:   true
-            type:     AttributeContainer<Calliope\Framework\Core\Model\Attribute>
+            type:     AttributeMap<Calliope\Framework\Core\Model\Attribute>
             inline:   true
         createdAt:
             expose: true

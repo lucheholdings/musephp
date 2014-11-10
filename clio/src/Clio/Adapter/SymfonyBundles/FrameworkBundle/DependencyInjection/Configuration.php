@@ -31,7 +31,7 @@ class Configuration implements ConfigurationInterface
 				->append($this->buildMetadataSection())
 				//->append($this->buildSerializerSection())
 				//->append($this->buildSchemifierSection())
-				//->append($this->buildNormalizerSection())
+				->append($this->buildNormalizerSection())
 				//->append($this->buildCounterSection())
 				//->append($this->buildKvsSection())
 				//// Advanced 
@@ -140,6 +140,15 @@ class Configuration implements ConfigurationInterface
 	/**
 	 * buildNormalizerSection 
 	 * 
+	 * 
+	 * normalizer:
+	 *     strategies:
+	 *         datetime:
+	 *             id:           ~
+	 *             priority:     ~
+	 *             options:
+	 *                 format:   Y-m-d H:i:s
+	 * 
 	 * @access protected
 	 * @return void
 	 */
@@ -152,8 +161,26 @@ class Configuration implements ConfigurationInterface
 			->canBeEnabled()
 			->addDefaultsIfNotSet()
 			->children()
-				->scalarNode('strategy')->defaultValue('clio_framework.normalizer_strategy.default')->end()
-			->end()
+				// Additional Strategy 
+				->arrayNode('strategies')
+					->useAttributeAsKey('name')
+					->prototype('array')
+						->beforeNormalization()
+							->ifString()
+							->then(function($v){
+								return array('id' => $v, 'priority' => null, 'options' => array());		
+							})
+						->end()
+						->children()
+							->scalarNode('id')->defaultNull()->end()
+							->scalarNode('priority')->defaultNull()->end()
+							->arrayNode('options')
+								->defaultValue(array())
+								->useAttributeAsKey('key')
+								->prototype('variable')->end()
+							->end()
+						->end()
+					->end()
 		;
 
 		return $node;

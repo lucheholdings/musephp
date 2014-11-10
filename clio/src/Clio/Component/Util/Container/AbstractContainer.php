@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Container;
 
 use Clio\Component\Util\Container\Storage\ValidatableStorage;
+use Clio\Component\Util\Validator\Validator;
 
 /**
  * AbstractContainer 
@@ -135,6 +136,20 @@ abstract class AbstractContainer implements Container
 		if($this->storage instanceof ValidatableStorage) {
 			$this->storage = $this->storage->getSource();
 		}
+	}
+
+	public function setValueValidator(Validator $validator) 
+	{
+		$this->enableStorageValidation();
+
+		$this->storage->setValueValidator($validator);
+	}
+
+	public function setKeyValidator(Validator $validator)
+	{
+		$this->enableStorageValidation();
+
+		$this->storage->setKeyValidator($validator);
 	}
 }
 

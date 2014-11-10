@@ -45,7 +45,7 @@ class Configuration implements ConfigurationInterface
 				->arrayNode('handlers')
 					->addDefaultsIfNotSet()
 					->children()
-						->booleanNode('attribute_container')->defaultTrue()->end()
+						->booleanNode('attribute_map')->defaultTrue()->end()
 						->booleanNode('attribute')->defaultFalse()->end()
 						->booleanNode('tag')->defaultFalse()->end()
 						// For Doctrine Adatpters
@@ -61,7 +61,7 @@ class Configuration implements ConfigurationInterface
 				->arrayNode('listeners')
 					->addDefaultsIfNotSet()
 					->children()
-						->booleanNode('attribute_container_aware')->defaultTrue()->end()
+						->booleanNode('attribute_map_aware')->defaultTrue()->end()
 						->booleanNode('doctrine_reference')->defaultTrue()->end()
 					->end()
 				->end()

@@ -11,7 +11,7 @@ use JMS\Serializer\VisitorInterface,
 ;
 
 /**
- * DoctrineAttributeContainer 
+ * DoctrineAttributeMap 
  *    
  * @uses DoctrineProxyContainerHandler
  * @package { PACKAGE }

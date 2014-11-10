@@ -24,6 +24,12 @@ abstract class AbstractFactory implements Factory
 	 */
 	private $constructor;
 
+	/**
+	 * __construct 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct()
 	{
 		$this->initFactory();
@@ -48,7 +54,7 @@ abstract class AbstractFactory implements Factory
 	 */
 	public function create()
 	{
-		return $this->doCreate(func_get_args());
+		return $this->createArgs(func_get_args());
 	}
 
 	/**
@@ -101,6 +107,14 @@ abstract class AbstractFactory implements Factory
 	}
 
 	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupported()
+	{
+		return $this->isSupportedArgs(func_get_args());
+	}
+
+	/**
 	 * isSupportedArgs 
 	 * 
 	 * @param array $args 
@@ -110,6 +124,22 @@ abstract class AbstractFactory implements Factory
 	public function isSupportedArgs(array $args = array())
 	{
 		return true;
+	}
+
+	public function shiftArg(array &$args, $aliasKey = null, $default = null) 
+	{
+		// we try to use the aliasKey to grab the arg, iff aliasKey is specified
+		if($aliasKey && array_key_exists($aliasKey, $args)) {
+			$arg = $args[$aliasKey];
+			unset($args[$aliasKey]);
+		} else if(0 < count($args)) {
+			// just shift arg
+			$arg = array_shift($args);
+		} else {
+			$arg = $default;
+		}
+
+		return $arg;
 	}
 }
 

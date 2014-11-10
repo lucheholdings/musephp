@@ -11,7 +11,7 @@
         <parameter key="clio_jms_adapter.serializer.handler.tag_collection.class">Clio\JMSSerializer\Component\Handler\TagCollectionHandler</parameter>
         <parameter key="clio_jms_adapter.serializer.handler.hash.class">Clio\JMSSerializer\Component\Handler\HashHandler</parameter>
         <parameter key="clio_jms_adapter.serializer.handler.hash_collection.class">Clio\JMSSerializer\Component\Handler\HashCollectionHandler</parameter>
-        <parameter key="clio_jms_adapter.serializer.handler.attribute_container.class">Clio\Adapter\JMSSerializer\Handler\AttributeContainerHandler</parameter>
+        <parameter key="clio_jms_adapter.serializer.handler.attribute_map.class">Clio\Adapter\JMSSerializer\Handler\AttributeMapHandler</parameter>
 
 
         <parameter key="clio_jms_adapter.serializer.handler.doctrine_proxy_collection.class">Clio\Adapter\JMSSerializer\Handler\DoctrineProxyCollectionHandler</parameter>
@@ -24,13 +24,13 @@
         <parameter key="clio_jms_adapter.serializer.handler.doctrine_id_reference_collection.class">Clio\Adapter\JMSSerializer\Handler\DoctrineIdReferenceCollectionHandler</parameter>
 
 		<!-- Listeners -->
-        <parameter key="clio_jms_adapter.serializer.event_subscriber.attribute_container_aware.class">Clio\Adapter\JMSSerializer\Listener\AttributeContainerAwareSubscriber</parameter>
+        <parameter key="clio_jms_adapter.serializer.event_subscriber.attribute_map_aware.class">Clio\Adapter\JMSSerializer\Listener\AttributeMapAwareSubscriber</parameter>
         <parameter key="clio_jms_adapter.serializer.event_subscriber.doctrine_reference.class">Clio\Adapter\JMSSerializer\Listener\DoctrineReferenceSubscriber</parameter>
     </parameters>
 
     <services>
 		<!-- Handlers -->
-        <service id="clio_jms_adapter.serializer.handler.attribute_container.default" class="%clio_jms_adapter.serializer.handler.attribute_container.class%" abstract="true">
+        <service id="clio_jms_adapter.serializer.handler.attribute_map.default" class="%clio_jms_adapter.serializer.handler.attribute_map.class%" abstract="true">
         </service>
 
 
@@ -56,7 +56,7 @@
         </service>
 
 		<!-- Listeners -->
-        <service id="clio_jms_adapter.serializer.event_subscriber.attribute_container_aware.default" class="%clio_jms_adapter.serializer.event_subscriber.attribute_container_aware.class%" abstract="true">
+        <service id="clio_jms_adapter.serializer.event_subscriber.attribute_map_aware.default" class="%clio_jms_adapter.serializer.event_subscriber.attribute_map_aware.class%" abstract="true">
 			<argument type="service" id="clio_framework.metadata.registry"/>
         </service>
 

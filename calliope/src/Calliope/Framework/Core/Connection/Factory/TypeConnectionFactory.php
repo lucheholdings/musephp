@@ -44,7 +44,7 @@ class TypeConnectionFactory extends NamedCollection
 	 */
 	public function hasType($type)
 	{
-		return $this->hasKey($type);
+		return $this->has($type);
 	}
 
 	/**

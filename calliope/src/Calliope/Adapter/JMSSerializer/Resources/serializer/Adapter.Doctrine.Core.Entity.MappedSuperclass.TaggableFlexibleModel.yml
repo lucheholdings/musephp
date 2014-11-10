@@ -5,13 +5,20 @@ Calliope\Adapter\Doctrine\Core\Entity\MappedSuperclass\TaggableFlexibleModel:
         hash:
             type: string
             expose: true
+        #attributes:
+        #    expose:   true
+        #    type:     DoctrineAttributeMap<Calliope\Framework\Core\Model\Attribute>
+        #    inline:   true
         attributes:
             expose:   true
-            type:     DoctrineAttributeMap<Calliope\Framework\Core\Model\Attribute>
+            type:     Collection<Calliope\Framework\Core\Model\Attribute>
             inline:   true
+        #tags:
+        #    expose: true
+        #    type:     DoctrineTagSet<Calliope\Framework\Core\Model\Tag>
         tags:
             expose: true
-            type:     DoctrineTagSet<Calliope\Framework\Core\Model\Tag>
+            type:     Collection<Calliope\Framework\Core\Model\Tag>
         createdAt:
             expose: true
             type: DateTime

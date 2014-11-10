@@ -42,7 +42,7 @@ class MappingCollection extends Map
 	 */
 	public function hasMapping($name)
 	{
-		return $this->hasKey($name);
+		return $this->has($name);
 	}
 
 	/**

@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Factory;
 
 use Clio\Component\Util\Accessor\SchemaDataAccessor;
-use Clio\Component\Util\Accessor\Schema\Factory as SchemaAccessorFactory;
+use Clio\Component\Util\Accessor\Schema\AccessorRegistry as SchemaAccessorRegistry;
 
 /**
  * DataAccessorFactory 
@@ -18,14 +18,14 @@ class DataAccessorFactory extends AbstractAccessorFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	private $schemaAccessorFactory;
+	private $schemaAccessorRegistry;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(SchemaAccessorFactory $schemaAccessorFactory)
+	public function __construct(SchemaAccessorRegistry $schemaAccessorRegistry)
 	{
-		$this->schemaAccessorFactory = $schemaAccessorFactory;
+		$this->schemaAccessorRegistry = $schemaAccessorRegistry;
 	}
 
 	/**
@@ -33,19 +33,19 @@ class DataAccessorFactory extends AbstractAccessorFactory
 	 */
 	public function createAccessor($data, array $options = array())
 	{
-		$schema = $this->guessSchemaFromData($data);
+		$schema = $this->guessSchemaNameFromData($data);
 		return $this->createAccessorWithSchema($data, $schema, $options);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function guessSchemaFromData($data)
+	protected function guessSchemaNameFromData($data)
 	{
 		if(is_object($data)) {
-			return new ClassSchema(new \ReflectionClass($data));
+			return get_class($data);
 		} else if(is_array($data)) {
-			return new ArraySchema($data);
+			return 'array';
 		} else {
 			throw new \Exception(sprintf('Failed to guess the schema for data [%s].', gettype($data)));
 		}
@@ -56,7 +56,7 @@ class DataAccessorFactory extends AbstractAccessorFactory
 	 */
 	public function createAccessorWithSchema($data, $schema, array $options = array())
 	{
-		$schemaAccessor = $this->getSchemaAccessorFactory()->createSchemaAccessor($schema, $options);
+		$schemaAccessor = $this->getSchemaAccessorRegistry()->get($schema, $options);
 		return new SchemaDataAccessor($schemaAccessor, $data);
 	}
 
@@ -65,7 +65,7 @@ class DataAccessorFactory extends AbstractAccessorFactory
 	 */
 	protected function createAccessorSchema($data)
 	{
-		return $this->getSchemaAccessorFactory($this->guessSchemaFromData($data));
+		return $this->getSchemaAccessorRegistry($this->guessSchemaFromData($data));
 	}
 
 	protected function isSupportedData($data)
@@ -76,17 +76,17 @@ class DataAccessorFactory extends AbstractAccessorFactory
     /**
      * {@inheritdoc}
      */
-    public function getSchemaAccessorFactory()
+    public function getSchemaAccessorRegistry()
     {
-        return $this->schemaAccessorFactory;
+        return $this->schemaAccessorRegistry;
     }
     
     /**
      * {@inheritdoc}
      */
-    public function setSchemaAccessorFactory(SchemaAccessorFactory $schemaAccessorFactory)
+    public function setSchemaAccessorRegistry(SchemaAccessorRegistry $schemaAccessorRegistry)
     {
-        $this->schemaAccessorFactory = $schemaAccessorFactory;
+        $this->schemaAccessorRegistry = $schemaAccessorRegistry;
         return $this;
     }
 }

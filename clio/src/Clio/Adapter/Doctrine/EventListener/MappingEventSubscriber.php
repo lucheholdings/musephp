@@ -4,7 +4,7 @@ namespace Clio\Adapter\Doctrine\Event\Subscriber;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LoadClassMetadataEventArgs;
 
-class AttributeContainerAwareEventSubscriber implements EventSubscriber 
+class AttributeMapAwareEventSubscriber implements EventSubscriber 
 {
 	/**
 	 * loadClassMetadata 

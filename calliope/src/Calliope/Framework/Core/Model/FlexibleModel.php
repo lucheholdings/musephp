@@ -1,21 +1,21 @@
 <?php
 namespace Calliope\Framework\Core\Model;
 
-use Clio\Component\Util\Attribute\AttributeContainer;
-use Clio\Component\Util\Attribute\AttributeContainerAware;
+use Clio\Component\Util\Attribute\AttributeMap as AttributeMapInterface;
+use Clio\Component\Util\Attribute\AttributeMapAware;
 use Calliope\Framework\Core\Container\AttributeMap;
 
 use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
 /**
  * FlexibleModel 
  * 
- * @uses AttributeContainerAware
+ * @uses AttributeMapAware
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FlexibleModel extends Model implements AttributeContainerAware
+class FlexibleModel extends Model implements AttributeMapAware
 {
 	/**
 	 * attributes 
@@ -54,7 +54,7 @@ class FlexibleModel extends Model implements AttributeContainerAware
      * @param _attributes the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setAttributeMap(AttributeContainer $attributes)
+    public function setAttributeMap(AttributeMapInterface $attributes)
     {
         $this->_attributes = $attributes;
 		$this->_attributes->setOwner($this);

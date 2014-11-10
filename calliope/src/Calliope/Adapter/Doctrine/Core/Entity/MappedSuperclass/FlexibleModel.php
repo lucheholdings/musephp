@@ -4,8 +4,7 @@ namespace Calliope\Adapter\Doctrine\Core\Entity\MappedSuperclass;
 use Doctrine\ORM\Mapping as ORM;
 use Calliope\Framework\Core\Model\FlexibleModel as BaseModel;
 
-use Clio\Component\Util\Attribute\AttributeContainer;
-use Clio\Bridge\Doctrine\Container\ProxyAttributeMap;
+use Clio\Component\Util\Attribute\AttributeMap;
 
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 /**
@@ -102,11 +101,11 @@ abstract class FlexibleModel extends BaseModel
 	/**
 	 * setAttributes 
 	 * 
-	 * @param AttributeContainer $attributes 
+	 * @param AttributeMap $attributes 
 	 * @access public
 	 * @return void
 	 */
-	public function setAttributes(AttributeContainer $attributes)
+	public function setAttributes(AttributeMap $attributes)
 	{
 		parent::setAttributes($attributes);
 
