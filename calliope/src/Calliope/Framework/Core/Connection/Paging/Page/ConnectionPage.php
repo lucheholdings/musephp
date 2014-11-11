@@ -34,6 +34,14 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 	protected $size;
 
 	/**
+	 * total 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $total;
+
+	/**
 	 * requestSize 
 	 * 
 	 * @var mixed
@@ -203,7 +211,14 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 	 */
 	public function getTotal()
 	{
-		return $this->getPager()->getTotal();
+		if(!$this->total) {
+			if($this->isLoaded() && ($this->getCollection() instanceof ConnectionPage)) {
+				$this->total = $this->getCollection()->getTotal();
+			} else {
+				$this->total = $this->getPager()->getTotal();
+			}
+		}
+		return $this->total;
 	}
     
     /**
