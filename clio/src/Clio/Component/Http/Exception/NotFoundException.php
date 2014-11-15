@@ -1,8 +1,8 @@
 <?php
-namespace Clio\Component\Web\Exception;
+namespace Clio\Component\Http\Exception;
 
 use Clio\Component\Exception\RuntimeException;
-use Clio\Component\Web\StatusCodes;
+use Clio\Component\Http\StatusCodes;
 
 
 /**
@@ -15,7 +15,7 @@ use Clio\Component\Web\StatusCodes;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class NotFoundException extends RuntimeException implements Throwable 
+class NotFoundException extends HttpException implements Throwable 
 {
 	/**
 	 * getHttpStatusCode 

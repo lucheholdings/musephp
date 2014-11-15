@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Web\Exception;
+namespace Clio\Component\Http\Exception;
 
 use Clio\Component\Exception\Throwable as BaseThrowable;
 
