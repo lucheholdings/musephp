@@ -13,6 +13,7 @@ namespace Clio\Component\Pattern\Factory;
  */
 class MappedComponentFactory extends ClassFactory implements MappedFactory
 {
+	const ARG_KEY = 'key';
 	/**
 	 * classes 
 	 * 
@@ -48,7 +49,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	 */
 	protected function doCreate(array $args = array())
 	{
-		$key = array_shift($args);
+		$key = $this->shiftArg($args, self::ARG_KEY);
 		return $this->createByKeyArgs($key, $args);
 	}
 
@@ -62,7 +63,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	public function createByKey()
 	{
 		$args = func_get_args();
-		$key = array_shift($args);
+		$key = $this->shiftArg($args, self::ARG_KEY);
 		
 		return $this->createByKeyArgs($key, $args);
 	}
@@ -121,7 +122,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	 */
 	public function isSupportedArgs(array $args = array())
 	{
-		return $this->isSupportedKeyArgs(array_shift($args), $args);
+		return $this->isSupportedKeyArgs($this->shiftArg($args, self::ARG_KEY), $args);
 	}
 
 	/**
