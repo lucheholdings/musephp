@@ -53,10 +53,11 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 	 * @access protected
 	 * @return void
 	 */
-	protected function doSchemify($data)
+	protected function doSchemify($data, array $options = array())
 	{
-		$sourceType = $this->guessSourceType($data);
-
+		$sourceType = $this->getType($data);
+		$schema = $this->getSchema();
+	
 		if(is_object($data)){
 			// 1. Normalize data
 			// 2. Denormalize data to Schema
@@ -64,7 +65,7 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 			try {
 				$normalized = $this->getNormalizer()->normalize($data);
 			} catch(NormalizerException $ex) {
-				throw new SchemifierException('Failed to schemify data', $sourceType, $schema, 0, $ex);
+				throw new SchemifierException('Failed to schemify data', $sourceType, (string)$schema, 0, $ex);
 			}
 
 			$data = $normalized;
@@ -72,19 +73,23 @@ class NormalizerSchemifier extends AbstractSchemifier implements Schemifier
 			throw new \InvalidArgumentException('schemify only support schemad data which is an array or an object.');
 		}
 
-		// Apply Field Mapper 
-		if($this->fieldKeyMappers->has($sourceType)) {
-			$fiedlKeyMapper = $this->fieldKeyMappers->get($sourceType);
-
-			// Apply 
+		$fieldKeyMapper = null;
+		if(isset($options['field_key_mapper'])) {
+			$fieldKeyMapper = $options['field_key_mapper'];
+		} else if($this->hasDefaultFieldMapper($sourceType)) {
+			$fiedlKeyMapper = $this->getFieldKeyMapper($sourceType);
+		}
+		
+		// Apply FieldKeyMapper if needed.
+		if($fieldKeyMapper) {
 			$data = $fieldKeyMapper->map($data);
 		}
 
 		// Denormalize data to schemaData
 		try {
-			$model = $this->getNormalizer()->denormalize($data, $schema);
+			$model = $this->getNormalizer()->denormalize($data, (string)$schema);
 		} catch(NormalizerException $ex) {
-			throw new SchemifierException('Failed to schemify data', $sourceType, $schema, 0, $ex);
+			throw new SchemifierException('Failed to schemify data', $sourceType, (string)$schema, 0, $ex);
 		}
 		return $model;
 	}
