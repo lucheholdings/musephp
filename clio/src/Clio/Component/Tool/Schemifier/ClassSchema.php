@@ -27,7 +27,7 @@ class ClassSchema implements Schema
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(\ReflectionClass $class)
+	public function __construct(\ReflectionClass $classReflector)
 	{
 		$this->classReflector = $classReflector;
 	}
@@ -45,7 +45,7 @@ class ClassSchema implements Schema
 	 */
 	public function isValidData($data)
 	{
-		return is_object($data) && $this->getClassReflector()->isInstaoce($data);
+		return is_object($data) && $this->getClassReflector()->isInstance($data);
 	}
 
 	/**
@@ -79,5 +79,10 @@ class ClassSchema implements Schema
         $this->classReflector = $classReflector;
         return $this;
     }
+
+	public function __toString()
+	{
+		return $this->getName();
+	}
 }
 

@@ -3,6 +3,7 @@ namespace Clio\Component\Tool\Schemifier;
 
 use Clio\Component\Tool\ArrayTool\KeyMapper;
 use Clio\Component\Tool\ArrayTool\DummyMapper;
+use Clio\Component\Util\Container\Map\Map;
 
 /**
  * AbstractSchemifier 
@@ -50,16 +51,16 @@ abstract class AbstractSchemifier implements Schemifier
 	 * @access public
 	 * @return void
 	 */
-	final public function schemify($data)
+	final public function schemify($data, array $options = array())
 	{
 		if($this->schema->isValidData($data)) {
 			return $data;		
 		} else {
-			return $this->doSchemify($data);
+			return $this->doSchemify($data, $options);
 		}
 	}
 
-	abstract protected function doSchemify($data);
+	abstract protected function doSchemify($data, array $options);
     
     /**
      * Set schema.
@@ -94,7 +95,7 @@ abstract class AbstractSchemifier implements Schemifier
 	 */
 	public function hasDefaultFieldMapper($resourceType)
 	{
-		return $this->getFieldMapperRegistry()->has($resourceType, $this->getSchemeClass());
+		return $this->getFieldKeyMappers()->has((string)$resourceType, (string)$this->getSchema());
 	}
 
 	public function getFieldKeyMapper($sourceType)
@@ -123,5 +124,14 @@ abstract class AbstractSchemifier implements Schemifier
         $this->fieldKeyMappers = $fieldKeyMappers;
         return $this;
     }
+
+	public function getType($data)
+	{
+		if(is_object($data)) {
+			return get_class($data);
+		} else {
+			return gettype($data);
+		}
+	}
 }
 

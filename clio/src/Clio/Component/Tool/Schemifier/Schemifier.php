@@ -18,7 +18,7 @@ interface Schemifier
 	 * @access public
 	 * @return void
 	 */
-	function schemify($data);
+	function schemify($data, array $options = array());
 
 	/**
 	 * getSchema 
