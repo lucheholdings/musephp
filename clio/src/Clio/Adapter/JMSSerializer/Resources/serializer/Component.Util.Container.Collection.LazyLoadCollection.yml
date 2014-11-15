@@ -1,9 +1,0 @@
-Clio\Component\Util\Container\Collection\LazyLoadCollection:
-    exclusion_policy: ALL
-    properties:
-        post_load_callback:
-            expose: false
-            exclude: true
-        loaded:
-            expose: false
-            exclude: true

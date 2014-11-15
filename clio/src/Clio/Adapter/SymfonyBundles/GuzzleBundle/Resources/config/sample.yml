@@ -1,7 +1,0 @@
-clio_guzzle:
-    service_builder:
-	    class:  Service\Builder\Class
-	    configuration_file:  "path/to/services.json"
-		# 
-		cache:   @cache.service
-				

@@ -1,6 +1,0 @@
-Clio\Component\Util\Container\Collection\ProxyCollection:
-    exclusion_policy: all
-    properties:
-        collection:
-            exclude: true
-            expose:  false

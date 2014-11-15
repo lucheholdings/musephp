@@ -1,0 +1,16 @@
+{
+    "name": "clio/bridge-doctrine-common",
+    "description": "Bridge Components injects DoctrineCommon components into Clio",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Yoshi",
+            "email": "yoshi@1o1.co.jp"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+		"doctrine/collections": "~2.0",
+		"doctrine/cache": "~2.0"
+	}
+}
