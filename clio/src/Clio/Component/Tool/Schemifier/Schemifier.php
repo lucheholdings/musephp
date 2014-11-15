@@ -21,11 +21,11 @@ interface Schemifier
 	function schemify($data);
 
 	/**
-	 * getSchemeClass 
+	 * getSchema 
 	 * 
 	 * @access public
-	 * @return ReflectionClass
+	 * @return void
 	 */
-	function getSchemeClass();
+	function getSchema();
 }
 

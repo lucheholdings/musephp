@@ -16,12 +16,12 @@ use Clio\Component\Tool\ArrayTool\DummyMapper;
 abstract class AbstractSchemifier implements Schemifier 
 {
 	/**
-	 * schemeClass 
+	 * schema 
 	 * 
 	 * @var mixed
 	 * @access protected
 	 */
-	protected $schemeClass;
+	protected $schema;
 
 	/**
 	 * maps 
@@ -29,7 +29,7 @@ abstract class AbstractSchemifier implements Schemifier
 	 * @var mixed
 	 * @access private
 	 */
-	private $fieldMapperRegistry;
+	private $fieldKeyMappers;
 
 	/**
 	 * __construct 
@@ -37,87 +37,91 @@ abstract class AbstractSchemifier implements Schemifier
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(\ReflectionClass $schemeClass, FieldMapperRegistry $fieldMapperRegistry = null)
+	public function __construct($schema, Map $fieldKeyMappers = null)
 	{
-		$this->schemeClass = $schemeClass;
-
-		$this->fieldMapperRegistry = $fieldMapperRegistry;
+		$this->schema = $schema;
+		$this->fieldKeyMappers = $fieldKeyMappers;
 	}
+
+	/**
+	 * schemify 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
+	 */
+	final public function schemify($data)
+	{
+		if($this->schema->isValidData($data)) {
+			return $data;		
+		} else {
+			return $this->doSchemify($data);
+		}
+	}
+
+	abstract protected function doSchemify($data);
     
     /**
-     * Set schemeClass.
+     * Set schema.
      *
      * @access public
-     * @param schemeClass the value to set.
+     * @param schema the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setSchemeClass(\ReflectionClass $schemeClass)
+    public function setSchema(Schema $schema)
     {
-        $this->schemeClass = $schemeClass;
+        $this->schema = $schema;
         return $this;
     }
 
 	/**
-	 * getSchemeClass 
+	 * getSchema 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function getSchemeClass()
+	public function getSchema()
 	{
-		return $this->schemeClass;
+		return $this->schema;
 	}
     
-    public function getFieldMapperRegistry()
-    {
-		if(!$this->fieldMapperRegistry) {
-			$this->fieldMapperRegistry = new FieldMapperRegistry();
-		}
-        return $this->fieldMapperRegistry;
-    }
-    
-    public function setFieldMapperRegistry(FieldMapperRegistry $fieldMapperRegistry)
-    {
-        $this->fieldMapperRegistry = $fieldMapperRegistry;
-        return $this;
-    }
-
+	/**
+	 * hasDefaultFieldMapper 
+	 * 
+	 * @param mixed $resourceType 
+	 * @access public
+	 * @return void
+	 */
 	public function hasDefaultFieldMapper($resourceType)
 	{
 		return $this->getFieldMapperRegistry()->has($resourceType, $this->getSchemeClass());
 	}
 
-	public function getDefaultFieldMapper($resourceType)
+	public function getFieldKeyMapper($sourceType)
 	{
-		return $this->getFieldMapperRegistry()->get($resourceType, $this->getSchemeClass());
-	}
+		$fieldKeyMapper = null;
 
-	public function createFieldMapperFor($resource, array $maps)
-	{
-		$mapper = null;
-
-		if(is_array($resource) && $this->hasDefaultFieldMapper('array')) {
-			$mapper = $this->getDefaultFieldMapper('array');
-		} else if(is_object($resource) && $this->hasDefaultFieldMapper(get_class($resource))) {
-			$mapper = $this->getDefaultFieldMapper(get_class($resource));
-		} 
-
-		//
-		if(!empty($maps)) {
-			if($mapper) {
-				$mapper = clone $mapper;
-				foreach($maps as $src => $dest) {
-					$mapper->set($src, $dest);
-				}
-			} else {
-				$mapper = new KeyMapper($maps);
-			}
-		} else if(!$mapper) {
-			// Do not map any
-			$mapper = new DummyMapper();
+		if($this->getFieldKeyMappers()->has($sourceType)) {
+			$fieldKeyMapper = $this->getFieldKeyMappers()->get($sourceType);
+		} else {
+			$fieldKeyMapper = new DummyFieldMapper();
 		}
 
-		return $mapper;
+		return $fieldKeyMapper;
 	}
+    
+    public function getFieldKeyMappers()
+    {
+		if(!$this->fieldKeyMappers) {
+			$this->fieldKeyMappers = new Map();
+		}
+        return $this->fieldKeyMappers;
+    }
+    
+    public function setFieldKeyMappers($fieldKeyMappers)
+    {
+        $this->fieldKeyMappers = $fieldKeyMappers;
+        return $this;
+    }
 }
 
