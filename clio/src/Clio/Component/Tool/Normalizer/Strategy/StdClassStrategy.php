@@ -23,6 +23,11 @@ class StdClassStrategy extends ObjectStrategy implements NormalizationStrategy, 
 
 	protected function doDenormalize($data, Type $type, Context $context, $object = null)
 	{
+		if(!$object) {
+			return (object)$data;
+		}
+
+		// fixme 
 		return (object)$data;
 	}
 

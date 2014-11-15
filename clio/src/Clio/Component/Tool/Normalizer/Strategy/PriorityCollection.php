@@ -20,7 +20,9 @@ class PriorityCollection extends PrioritySet implements
 	NormalizationStrategy,
 	DenormalizationStrategy
 {
-	const DEFAULT_PRIORITY = 100;
+	const COMPLEX_STRATEGY_PRIORITY    = 300;
+	const BEHAVIOR_STRATEGY_PRIORITY   = 100;
+	const CUSTOME_STRATEGY_PRIORITY    = 500;
 	
 	/**
 	 * {@inheritdoc}
@@ -36,6 +38,19 @@ class PriorityCollection extends PrioritySet implements
 		}
 	}
 
+	public function initDefaultStrategies()
+	{
+		$this->clear();
+		$this
+			->addStrategy(new ScalarStrategy(),    self::BEHAVIOR_STRATEGY_PRIORITY)
+			->addStrategy(new ReferenceStrategy(), self::COMPLEX_STRATEGY_PRIORITY)
+			->addStrategy(new StdClassStrategy(),  self::COMPLEX_STRATEGY_PRIORITY)
+			->addStrategy(new DateTimeStrategy(),  self::COMPLEX_STRATEGY_PRIORITY)
+		;
+
+		return $this;
+	}
+
 	/**
 	 * addStrategy 
 	 * 
@@ -43,9 +58,9 @@ class PriorityCollection extends PrioritySet implements
 	 * @access public
 	 * @return void
 	 */
-	public function addStrategy(Strategy $strategy)
+	public function addStrategy(Strategy $strategy, $priority = self::CUSTOME_STRATEGY_PRIORITY)
 	{
-		return $this->add($strategy);
+		return $this->add($strategy, $priority);
 	}
 
 	/**
