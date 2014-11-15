@@ -1,7 +1,6 @@
 <?php
 namespace Clio\Component\Tool\ArrayTool;
 
-use Clio\Component\Util\Container\Map\Map as BaseMap;
 /**
  * KeyMapper 
  *    Map array keys from Key to Value
@@ -13,7 +12,7 @@ use Clio\Component\Util\Container\Map\Map as BaseMap;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class KeyMapper extends BaseMap implements Mapper
+class KeyMapper extends AbstractMapper implements Mapper
 {
 	/**
 	 * {@inheritdoc}
@@ -47,10 +46,22 @@ class KeyMapper extends BaseMap implements Mapper
 			if(!$inverse) {
 				if(isset($values[$key])) {
 					$mappedValues[$mappedKey] = $values[$key];
+					unset($values[$key]);
 				}
 			} else {
 				if(isset($values[$mappedKey])) {
 					$mappedValues[$key] = $values[$mappedKey];
+
+					unset($values[$mappedKey]);
+				}
+			}
+		}
+
+		if(!$this->isStrict()) {
+			// copy remain
+			foreach($values as $key => $value) {
+				if(!isset($mappedValues[$key])) {
+					$mappedValues[$key] = $value;
 				}
 			}
 		}
