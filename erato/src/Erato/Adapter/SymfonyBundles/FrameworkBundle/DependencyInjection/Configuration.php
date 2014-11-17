@@ -28,6 +28,7 @@ class Configuration implements ConfigurationInterface
 			->addDefaultsIfNotSet()
 			->children()
 				->append($this->buildCacheSection())
+				->append($this->buildCodingSection())
 				->arrayNode('mappings')
 					->addDefaultsIfNotSet()
 					->useAttributeAsKey('name')
@@ -43,6 +44,39 @@ class Configuration implements ConfigurationInterface
 
         return $treeBuilder;
     }
+
+	/**
+	 * buildCodingSection 
+	 *  
+	 * coding_standards:
+	 *     naming:
+	 *         class:           pascal
+	 *         property:        camel
+	 *         array_field:     snake
+	 * 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function buildCodingSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('coding_standard');
+
+		$node
+			->children()
+				->arrayNode('naming')
+					->children()
+						->scalarNode('class')->defaultValue('pascal')->end()
+						->scalarNode('property')->defaultValue('camel')->end()
+						->scalarNode('array_field')->defaultValue('snake')->end()
+					->end()
+				->end()
+			->end()
+		;
+
+		return $node;
+	}
 
 	protected function buildCacheSection()
 	{

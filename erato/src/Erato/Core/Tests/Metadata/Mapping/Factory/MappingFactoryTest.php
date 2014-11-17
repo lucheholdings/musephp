@@ -7,6 +7,22 @@ abstract class MappingFactoryTest extends \PHPUnit_Framework_TestCase
 {
 	private $classMetadataFactory;
 
+	public function testCreate()
+	{
+		$factory = $this->getFactory();
+		$metadata = $this->getMetadata();
+
+		$mapping = $factory->createMapping($metadata);
+
+		$this->assertInstanceof($this->getMappingClass(), $mapping);
+	}
+
+	abstract protected function getMetadata();
+
+	abstract protected function getMappingClass();
+
+	abstract protected function getFactory();
+
 	public function createClassMetadata($class)
 	{
 		return $this->getClassMetadataFactory()->createClassMetadata($class);

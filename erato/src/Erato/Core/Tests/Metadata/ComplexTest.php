@@ -1,29 +1,68 @@
 <?php
-namespace Erato\Core\Tests\Metadata;
+namespace Erato\Core\Tests;
 
-use Erato\Core\Tests\FrameworkTestCase;
+use Erato\Core\Metadata\Mapping\Factory as MappingFatory;
 
-use Erato\Core\Tests\DummySchemifierFactory;
-
-
-
-use Erato\Core\Tests\Models;
-
-class ComplexTest extends FrameworkTestCase
+class ComplexTest extends \PHPUnit_Framework_TestCase 
 {
+	private $managerRegistry;
+
+	private $metadataFactory;
+
+	private $metadataRegistry;
+
+	private $normalizer;
+
 	public function testSuccess()
 	{
-		$factory = $this->getClassMetadataFactory();
+		$manager = $this->getManagerRegistry()->get('Erato\Core\Tests\Models\Model01');
 
-		$model = new Models\TestModel01();
+		$model = $manager->construct();
 
-		$classMetadata = $this->createClassMetadata($model);
+		$manager->schemify(array('private_'));
+	}
 
-		$mappings = $classMetadata->getMappings();
+	protected function getManagerRegistry()
+	{
+		if(!$this->managerRegistry)
+			$this->managerRegistry = new ManagerRegistry($this->getMetadataRegistry());
 
-		//$this->assertArrayHasKey('field_accessor', $mappings);
-		$this->assertArrayHasKey('schemifier', $mappings);
+		return $this->managerRegistry;
+	}
+	
 
+	protected function getMetadataRegistry()
+	{
+		if(!$this->metadataRegistry)
+			$this->metadataRegistry = new MetadataRegistry($this->getMetadataFactory());
+		return $this->metadataRegistry;
+	}
+
+	protected function getMetadataFactory()
+	{
+		if(!$this->metadataFactory) {
+			$mappingFactory = new FactoryCollection(array(
+				'accessor'   => new MappingFactory\AccessorMappingFactory(),
+				'normalizer' => new MappingFactory\NormalizerMappingFactory($this->getNormalizer()),
+				'attributes' => new MappingFactory\AttributeMapMappingFactory(),
+				'tags'       => new MappingFactory\TagSetMappingFactory(),
+			)); 
+			$this->metadataFactory = new ClassMetadataFactory($mappingFactory);
+		}
+
+		return $this->metadataFactory;
+	}
+
+	protected function getNormalizer()
+	{
+		if(!$this->normalizer) {
+			$strategy = new StrategyCollection();
+			$strategy->initDefaultStrategies();
+
+			$this->normalizer = new Normalizer($strategy);
+		}
+
+		return $this->normalizer;
 	}
 }
 

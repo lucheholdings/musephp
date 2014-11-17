@@ -33,13 +33,13 @@ class MetadataCompilerPass implements CompilerPassInterface
 
 	protected function processClassMetadataFactory($container)
 	{
-		if($container->hasDefinition('erato_framework.metadata.registry.loader')) {
+		if($container->hasDefinition('erato_framework.metadata.loader_collection')) {
 			// Inject with tag "erato_framework.metadata.loader"
-			$registry = $container->getDefinition('erato_framework.metadata.registry.loader');
+			$loaderCollection = $container->getDefinition('erato_framework.metadata.loader_collection');
 
 			foreach($container->findTaggedServiceIds('erato_framework.metadata.loader') as $id => $tags) {
 				foreach($tags as $tag) {
-					$registry->addMethodCall(
+					$loaderCollection->addMethodCall(
 						'addLoader',
 						array(new Reference($id))
 					);

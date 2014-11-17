@@ -17,7 +17,7 @@ use Clio\Component\Util\Accessor\Field;
  */
 class SchemaMetadataAccessorFactory extends FieldSchemaAccessorFactory
 {
-	protected function createFieldAccessors(Schema $schema)
+	protected function createFieldAccessors(Metadata $schema)
 	{
 		$accessor = $namedAccessor = new Field\NamedCollection();
 		foreach($schema->getFields() as $field) {
