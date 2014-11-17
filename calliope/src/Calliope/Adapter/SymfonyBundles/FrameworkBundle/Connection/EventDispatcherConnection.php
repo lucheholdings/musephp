@@ -49,7 +49,7 @@ class EventDispatcherConnection extends ProxyConnection
 			if($result instanceof LazyLoadCollection) {
 				
 				// Set post fetch handler as PostLoadCallback
-				$result->setPostLoadCallback(function($loaded) use ($eventDispatcher, $event) {
+				$result->addPostLoadCallback(function($loaded) use ($eventDispatcher, $event) {
 					// Set Loaded Data as Result
 					$event->setResult($loaded);
 					$eventDispatcher->dispatch('postFetch', $event);
