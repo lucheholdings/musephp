@@ -21,7 +21,7 @@ abstract class LazyLoadCollection extends ProxyCollection
 	 */
 	private $loaded;
 
-	private $postLoadCallback;
+	private $postLoadCallbacks = array();
 
 	/**
 	 * __construct 
@@ -58,8 +58,10 @@ abstract class LazyLoadCollection extends ProxyCollection
 
 			$collection = $this->getCollection();
 
-			if($this->postLoadCallback) {
-				$collection = $this->postLoadCallback->__invoke($collection);
+			if(!empty($this->postLoadCallbacks)) {
+				while($callback = array_shift($this->postLoadCallbacks)) {
+					$collection = $callback->__invoke($collection);
+				}
 			}
 		}
 
@@ -107,9 +109,9 @@ abstract class LazyLoadCollection extends ProxyCollection
      * @access public
      * @return postLoadCallback
      */
-    public function getPostLoadCallback()
+    public function getPostLoadCallbacks()
     {
-        return $this->postLoadCallback;
+        return $this->postLoadCallbacks;
     }
     
     /**
@@ -119,10 +121,33 @@ abstract class LazyLoadCollection extends ProxyCollection
      * @param postLoadCallback the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setPostLoadCallback(\Closure $postLoadCallback)
+    public function addPostLoadCallback(\Closure $postLoadCallback)
     {
-        $this->postLoadCallback = $postLoadCallback;
+        $this->postLoadCallbacks[] = $postLoadCallback;
         return $this;
     }
+
+	public function filter(\Closure $closure)
+	{
+		if($this->isLoaded()) {
+			parent::filter($closure);
+		} else {
+			$this->addPostLoadCallback(function($collection) use ($closure){
+				$collection->filter($closure);
+			});
+		}
+	}
+
+	public function map(\Closure $closure)
+	{
+		if($this->isLoaded()) {
+			parent::map($closure);
+		} else {
+			$this->addPostLoadCallback(function($collection) use ($closure) {
+				$collection->map($closure);
+			});
+		}
+	}
+
 }
 
