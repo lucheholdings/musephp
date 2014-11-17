@@ -13,21 +13,18 @@ use Clio\Component\Pattern\Factory\MappedComponentFactory;
 	public function testLoader()
 	{
 		$registry = $this->getRegistry();
-		$this->assertCount(0, $registry->getLoaders());
 
-		$loader = new MappedFactoryLoader(new MappedComponentFactory(array('std' => 'StdClass')));
+		$this->assertInstanceOf('Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader', $registry->getLoader());
 
-		$loader->register($registry);
-		$this->assertCount(1, $registry->getLoaders());
+		$entry = $this->registry->get('std');
 
-		$loader->unregister($registry);
-		$this->assertCount(0, $registry->getLoaders());
+		$this->assertInstanceOf('StdClass', $entry);
 	}
 
 	public function getRegistry()
 	{
 		if(!$this->registry) {
-			$this->registry = new LoadableRegistry(new RegistryMap());
+			$this->registry = new LoadableRegistry(new MappedFactoryLoader(new MappedComponentFactory(array('std' => 'StdClass'))));
 		}
 
 		return $this->registry;

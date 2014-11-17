@@ -130,7 +130,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	 */
 	public function isSupportedKeyArgs($key, array $args = array())
 	{
-		return array_key_exists($this->classes[$key]);
+		return array_key_exists($key, $this->classes);
 	}
 
 	protected function resolveKeyArgs($key, array $args = array())

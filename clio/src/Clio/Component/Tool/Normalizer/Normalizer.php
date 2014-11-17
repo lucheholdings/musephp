@@ -70,7 +70,7 @@ class Normalizer implements
 
 		$strategy = $this->getStrategy();
 		if(!$strategy instanceof Strategy\NormalizationStrategy) {
-			throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
+			throw new UnsupportedException('Normalizer Strategy dose not support normalize.');
 		}
 
 		$normalized = $strategy->normalize($data, $type, $context);

@@ -87,7 +87,7 @@ class NamedCollection extends AbstractCollection
 	 */
 	public function hasFieldAccessor($field)
 	{
-		return $this->getAccessors()->hasKey($field);
+		return $this->getAccessors()->has($field);
 	}
 	
 	/**
@@ -95,7 +95,7 @@ class NamedCollection extends AbstractCollection
 	 */
 	public function getFieldAccessor($field)
 	{
-		if(!$this->getAccessors()->hasKey($field)) {
+		if(!$this->getAccessors()->has($field)) {
 			throw new \RuntimeException(sprintf('Field "%s" is not supported.', $field));
 		}
 

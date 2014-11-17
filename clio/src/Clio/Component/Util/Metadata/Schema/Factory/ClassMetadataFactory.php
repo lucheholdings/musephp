@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Metadata\Factory;
+namespace Clio\Component\Util\Metadata\Schema\Factory;
 
 use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 use Clio\Component\Util\Metadata\Field\PropertyMetadata;
@@ -15,7 +15,7 @@ use Clio\Component\Util\Metadata\SchemaMetadata;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClassMetadataFactory extends SchemaMetadataFactory 
+class ClassMetadataFactory extends MetadataFactory 
 {
 	/**
 	 * doCreateMetadata 

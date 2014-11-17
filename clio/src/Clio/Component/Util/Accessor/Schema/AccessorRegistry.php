@@ -3,7 +3,8 @@ namespace Clio\Component\Util\Accessor\Schema;
 
 use Clio\Component\Pattern\Registry\Registry,
 	Clio\Component\Pattern\Registry\LoadableRegistry,
-	Clio\Component\Pattern\Registry\RegistryMap
+	Clio\Component\Pattern\Registry\RegistryMap,
+	Clio\Component\Pattern\Registry\EntryLoader
 ;
 
 use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader;
@@ -33,7 +34,7 @@ class AccessorRegistry extends LoadableRegistry
 	{
 		$loader = new MappedFactoryLoader(new GuessNamedAccessorFactory($accessorFactory));
 
-		return new self(array($loader), $registry);
+		return new self($loader, $registry);
 	}
 
 	/**
@@ -44,17 +45,13 @@ class AccessorRegistry extends LoadableRegistry
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(array $loaders = array(), Registry $registry = null)
+	public function __construct(EntryLoader $loader = null, Registry $registry = null)
 	{
 		if(!$registry) {
 			$registry = new RegistryMap();
 		}
 
-		parent::__construct($registry);
-
-		foreach($loaders as $loader) {
-			$this->addLoader($loader);
-		}
+		parent::__construct($loader, $registry);
 	}
 }
 

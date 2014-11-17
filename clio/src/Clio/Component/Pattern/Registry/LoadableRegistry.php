@@ -16,12 +16,12 @@ use Clio\Component\Pattern\Registry\EntryLoader;
 class LoadableRegistry extends ProxyRegistry 
 {
 	/**
-	 * loaders 
+	 * loader 
 	 * 
 	 * @var array
 	 * @access private
 	 */
-	private $loaders = array();
+	private $loader = array();
 
 	/**
 	 * __construct 
@@ -29,10 +29,14 @@ class LoadableRegistry extends ProxyRegistry
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Registry $registry)
+	public function __construct(EntryLoader $loader = null, Registry $registry = null)
 	{
+		if(!$registry) {
+			$registry = new RegistryMap();
+		}
 		parent::__construct($registry);
-		$this->loaders = new LoaderCollection();
+
+		$this->loader = $loader;
 	}
 
 	/**
@@ -43,11 +47,8 @@ class LoadableRegistry extends ProxyRegistry
 		if(!$this->getRegistry()->has($key)) {
 			$entry = null;
 			// Load for the key
-			foreach($this->loaders as $loader) {
-				if($loader->canLoad($key)) {
-					$entry = $loader->loadEntry($key);
-					break;
-				}
+			if($this->loader && $this->loader->canLoad($key)) {
+				$entry = $this->loader->loadEntry($key);
 			}
 			
 			if($entry) {
@@ -60,30 +61,32 @@ class LoadableRegistry extends ProxyRegistry
 
 	public function has($key)
 	{
-		if($this->registry->has($key)) {
+		if($this->getRegistry()->has($key)) {
 			return true;
 		}
 
 		// 
-		foreach($this->loaders as $loader) {
-			if($loader->canLoad($key)) {
-				return true;
-			}
+		if($this->loader->canLoad($key)) {
+			return true;
 		}
 		return false;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function getLoaders()
+	public function getLoader()
 	{
-		return $this->loaders;
+		return $this->loader;
 	}
 
-	public function addLoader(EntryLoader $loader)
+	/**
+	 * setLoader 
+	 * 
+	 * @param EntryLoader $loader 
+	 * @access public
+	 * @return void
+	 */
+	public function setLoader(EntryLoader $loader)
 	{
-		$this->loaders->add($loader);
+		$this->loader = $loader;
 	}
 }
 

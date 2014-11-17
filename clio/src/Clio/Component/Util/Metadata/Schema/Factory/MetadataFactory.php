@@ -1,19 +1,19 @@
 <?php
-namespace Clio\Component\Util\Metadata\Factory;
+namespace Clio\Component\Util\Metadata\Schema\Factory;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
 use Clio\Component\Util\Metadata\Mapping\MappingCollection;
 use Clio\Component\Pattern\Factory\MappedFactory;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 /**
- * SchemaMetadataFactory 
+ * MetadataFactory 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class SchemaMetadataFactory implements MappedFactory 
+abstract class MetadataFactory implements MappedFactory 
 {
 	/**
 	 * mappingFactory 

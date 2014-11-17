@@ -19,13 +19,16 @@ class Psr1
 	 * @access public
 	 * @return void
 	 */
-	static public function formatClassName($name)
+	static public function formatClassName()
 	{
+		$args = func_get_args();
+		$name = implode('_', $args);
+
 		return trim(preg_replace_callback(
 				'/_+(\w)/i', 
 				function($matches){
 					return ucfirst($matches[1]);
-				}, $word), 
+				}, $name), 
 			'_');
 	}
 
@@ -37,8 +40,11 @@ class Psr1
 	 * @access public
 	 * @return void
 	 */
-	static public function formatMethodName($name)
+	static public function formatMethodName()
 	{
+		$args = func_get_args();
+		$name = implode('_', $args);
+
 		$acceptChars = 'a-zA-Z0-9';
 
 		$splits = preg_split('/[^'. $acceptChars . ']+/', $name, -1, PREG_SPLIT_NO_EMPTY);
