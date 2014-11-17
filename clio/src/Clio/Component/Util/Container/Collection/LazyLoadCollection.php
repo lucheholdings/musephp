@@ -129,24 +129,19 @@ abstract class LazyLoadCollection extends ProxyCollection
 
 	public function filter(\Closure $closure)
 	{
-		if($this->isLoaded()) {
-			parent::filter($closure);
-		} else {
-			$this->addPostLoadCallback(function($collection) use ($closure){
-				$collection->filter($closure);
-			});
+		if(!$this->isLoaded()) {
+			$this->load();
 		}
+
+		parent::filter($closure);
 	}
 
 	public function map(\Closure $closure)
 	{
-		if($this->isLoaded()) {
-			parent::map($closure);
-		} else {
-			$this->addPostLoadCallback(function($collection) use ($closure) {
-				$collection->map($closure);
-			});
+		if(!$this->isLoaded()) {
+			$this->load();
 		}
+		parent::map($closure);
 	}
 
 }
