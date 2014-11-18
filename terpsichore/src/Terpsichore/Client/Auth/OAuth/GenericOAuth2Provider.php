@@ -15,6 +15,27 @@ use Terpsichore\Client\Auth\OAuth\Token\OAuth2Token;
 class GenericOAuth2Provider extends AbstractOAuthProvider
 {
 	/**
+	 * initService 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function initService()
+	{
+		if(!$this->getOption('login_queries')) {
+				// default params
+			$this->setOption('lgoin_queries', array(
+					'redirect_uri'  => null,
+					'state'         => null,
+					'client_id'     => null,
+					'response_type' => 'code',
+					'scope'         => null,
+				));
+			
+		}
+	}
+	
+	/**
 	 * clientCredentials 
 	 * 
 	 * @param Token $reqToken 
@@ -50,7 +71,8 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 
 	/**
 	 * authCode 
-	 * 
+	 *   if token has "code", then goto token process
+	 *   otherwise, goto authProvider login form
 	 * @access public
 	 * @return void
 	 */
@@ -60,6 +82,33 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 		$token
 			->set('grant_type', 'authorization_code')
 		;
+
+		if(!$reqToken->has('code')) {
+			// Goto Provider Login Form
+			
+			$queries = array();
+			if(!$this->hasOption('login_path')) {
+				throw new \Exception('OAuth2Provider requires option "login_path" to authenticate with AuthorizationCode flow.');
+			}
+
+			if($this->hasOption('login_queries')) {
+				$params = $this->getOptions('login_queries');
+			} else {
+				// default params
+				$params = array(
+					'redirect_uri'  => null,
+					'state'         => null,
+					'client_id'     => null,
+					'response_type' => 'code',
+					'scope'         => null,
+				);
+			}
+
+			$queries = array_intersect_key(array_replace($params, $token->getAttributes()), array_flip($params)); 
+
+			header(sprintf('Location: %s?%s', $this->getOption('login_path'), http_build_query($queries) ); 
+			exit;
+		}
 
 		return $this->doAuthenticate($token);
 	}
@@ -120,6 +169,7 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 				'client_id'     => $token->get('client_id'),
 				'client_secret' => $token->get('client_secret'),
 				'scope'         => $token->get('scope')
+				'state'         => $token->get('state')
 			);
 			break;
 		case 'client_credentials':

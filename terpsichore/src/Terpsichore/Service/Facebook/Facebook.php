@@ -26,12 +26,13 @@ class Facebook extends GenericSocialServiceProvider
 	{
 		$this->setAuthenticationProvider(
 			new GenericOAuth2Provider(
-				'https://graph.facebook.com/oauth/access_token'
+				'https://graph.facebook.com/oauth/access_token',
+				'post',
+				array('login_path' => 'https://www.facebook.com/dialog/oauth')
 			)
 		);
 	
 		$this->setAuthenticatedUserProvider(new HttpAuthenticatedUserProvider('https://graph.facebook.com/me', array('method' => 'get'), array('id' => 'id', 'username' => 'username', 'email' => 'email')));
-		
 	}
 
 	/**

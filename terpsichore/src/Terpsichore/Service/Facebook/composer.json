@@ -1,0 +1,15 @@
+{
+    "name": "museterpsichore/facebook-service",
+    "description": "Terpsichore Facebook Client Service",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "yoshi",
+            "email": "yoshi@1o1.co.jp"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+		"museterpsichore/client":  "~2.0"
+	}
+}

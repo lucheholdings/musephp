@@ -40,6 +40,19 @@ abstract class AbstractService implements Service
 	{
 		$this->_name = $name;
 		$this->_options = $options;
+
+		$this->initService();
+	}
+
+	/**
+	 * initService 
+	 * 
+	 * @access protected
+	 * @return void
+	 */
+	protected function initService()
+	{
+		// 
 	}
     
     /**

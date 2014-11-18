@@ -34,9 +34,9 @@ class GenericClientService extends AbstractService implements ClientService
 	 */
 	public function __construct(Connection $connection = null, $name = null, array $options = array())
 	{
-		parent::__construct($name, $options);
-
 		$this->_connection = $connection;
+
+		parent::__construct($name, $options);
 	}
 	
 	/**

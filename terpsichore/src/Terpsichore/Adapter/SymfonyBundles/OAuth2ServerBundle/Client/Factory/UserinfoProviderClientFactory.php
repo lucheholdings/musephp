@@ -3,7 +3,6 @@ namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Client\Factory;
 
 use Doctrine\Common\Cache\Cache;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Factory;
-use Clio\Adapter\Guzzle\OAuth2\OAuth2UserinfoProviderClient;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\User\CachedUserinfoProvider;
 /**
  * UserinfoProviderClientFactory 
@@ -26,8 +25,9 @@ class UserinfoProviderClientFactory
 	 */
 	public function createUserinfoProvider($baseurl, array $configs = array(), Cache $cache = null)
 	{
+		throw new \Exception('Not Impl');
 		//
-		$provider = new OAuth2UserinfoProviderClient($baseurl, $configs);
+		//$provider = new OAuth2UserinfoProviderClient($baseurl, $configs);
 
 		if($cache) {
 			$provider = new CachedUserinfoProvider($provider, $cache);
