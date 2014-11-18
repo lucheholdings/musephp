@@ -209,5 +209,10 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	{
 		return ($token instanceof OAuth2TokenInterface);
 	}
+
+	public function createAuthCodeHandler(Token $token, $entryPoint, array $paramas = array())
+	{
+		return new OAuth2AuthCodeHandler($this, array('entry_point' => $entryPoint, 'query' => $params, 'client_id' => $token->get('client_id'), 'client_secret' => $token->get('client_secret')));
+	}
 }
 
