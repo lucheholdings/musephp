@@ -22,7 +22,13 @@ class PassThruRequest implements ProxyRequest
 	 */
 	private $request;
 
-
+	/**
+	 * __construct 
+	 * 
+	 * @param Request $request 
+	 * @access public
+	 * @return void
+	 */
 	public function __construct(Request $request)
 	{
 		$this->request = $request;
