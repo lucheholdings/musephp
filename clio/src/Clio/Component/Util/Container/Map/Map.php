@@ -83,6 +83,15 @@ class Map extends AbstractMap
 		return $this;
 	}
 
+	public function replace(array $values)
+	{
+		$this->getStorage()->removeAll();
+
+		foreach($values as $key => $value) {
+			$this->set($key, $value);
+		}
+	}
+
 	public function setStorage(Storage $storage)
 	{
 		if(!$storage instanceof Storage\RandomAccessable) {
