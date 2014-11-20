@@ -4,6 +4,9 @@ namespace Terpsichore\Client\Auth\OAuth\Handler;
 use Terpsichore\Client\Service;
 use Terpsichore\Client\Handler\AbstractHandler;
 use Terpsichore\Client\Auth\OAuth\GenericOAuth2Provider;
+use Terpsichore\Client\Auth\OAuth\Token\OAuth2AuthCode;
+use Terpsichore\Core\Request,
+	Terpsichore\Core\Request\HttpRequest;
 
 /**
  * OAuth2AuthCodeHandler 
@@ -16,8 +19,11 @@ use Terpsichore\Client\Auth\OAuth\GenericOAuth2Provider;
  */
 class OAuth2AuthCodeHandler extends AbstractHandler 
 {
-	public function __construct(GenericOAuth2Provider $provider, array $params = array())
+	private $token;
+
+	public function __construct(GenericOAuth2Provider $provider, OAuth2AuthCode $token, array $params = array())
 	{
+		$this->token = $token;
 		parent::__construct($provider, $params);
 	}
 
@@ -27,13 +33,13 @@ class OAuth2AuthCodeHandler extends AbstractHandler
 			throw new \Exception('OAuth2AuthCodeHandler requires HttpRequest to handle');
 		}
 
-		if(!$request->has('code')) {
+		if(!$request->getBody()->has('code')) {
 			// Goto AuthProvider LoginForm
 			$this->redirectToEntryPoint();
 		}
 
 		// Build PreAutehnticateToken from the Redirected RequestURI 
-		$token = $this->buildTokenFromRequest($request);
+		$token = $this->buildTokenFromRequest($request, $this->token);
 
 		// Activate the tokenthe token
 		return $this->getService()->authCode($token);
@@ -51,21 +57,19 @@ class OAuth2AuthCodeHandler extends AbstractHandler
 			$this->getParameter('entry_point'), 
 			http_build_query(array_merge(
 				$this->getParameter('query'), 
-				array('client_id' => $this->getParameter('client_id'))
+				array('client_id' => $this->token->get('client_id'))
 			))
 		)); 
 		exit;
 	}
 
-	protected function buildTokenFromRequest($request)
+	protected function buildTokenFromRequest($request, OAuth2AuthCode $token)
 	{
-		return new PreAuthenticateToken(array_replace(
-			$request->all(),
-			array(
-				'client_id' => $this->getParameter('client_id'),
-				'client_secret' => $this->getParameter('client_secret'),
-			)
-		));
+		foreach($request->getBody()->all() as $key => $value) {
+			$token->set($key, $value);
+		}
+
+		return $token;
 	}
 
 	public function setService(Service $service)
@@ -75,5 +79,16 @@ class OAuth2AuthCodeHandler extends AbstractHandler
 		}
 		parent::setService($service);
 	}
+    
+    public function getToken()
+    {
+        return $this->token;
+    }
+    
+    public function setToken($token)
+    {
+        $this->token = $token;
+        return $this;
+    }
 }
 

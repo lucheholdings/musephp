@@ -1,9 +1,19 @@
 <?php
-namespace Terpsichore\Core\Request\HttpRequest;
+namespace Terpsichore\Core\Request;
 
-class HttpRequest extends AbstractRequest implements Request
+/**
+ * HttpRequest 
+ * 
+ * @uses AbstractRequest
+ * @uses Request
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
+class HttpRequest extends Request 
 {
-	static public function fromGlobalRequest()
+	static public function createFromGlobal()
 	{
 		// Merge Query and Body
 		$params = new HttpParameterBag($_GET, $_POST);

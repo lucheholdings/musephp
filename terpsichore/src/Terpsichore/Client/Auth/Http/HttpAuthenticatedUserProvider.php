@@ -9,6 +9,7 @@ use Clio\Component\Tool\ArrayTool\InverseKeyMapper;
 class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements UserProvider 
 {
 	private $responseMap;
+
 	/**
 	 * __construct 
 	 * 
@@ -31,15 +32,10 @@ class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements U
 	 * @access public
 	 * @return mixed 
 	 */
-	public function userinfo()
+	public function get()
 	{
 		$response = $this->call();
 
-		if(is_array($response) && $this->responseMap) {
-			$mapper = new InverseKeyMapper($this->responseMap);
-
-			$response = $mapper->map($response);
-		}
 		return $response;
 	}
 
@@ -51,9 +47,25 @@ class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements U
 	 */
 	public function getAuthenticatedUser()
 	{
-		$response = $this->userinfo();
+		$response = $this->get();
+		if(is_array($response) && $this->responseMap) {
+			$mapper = new InverseKeyMapper($this->responseMap);
+
+			$response = $mapper->map($response);
+		}
 
 		return new User(isset($response['id']) ? $response['id'] : $response['username'], $response);
 	}
+    
+    public function getResponseMap()
+    {
+        return $this->responseMap;
+    }
+    
+    public function setResponseMap($responseMap)
+    {
+        $this->responseMap = $responseMap;
+        return $this;
+    }
 }
 

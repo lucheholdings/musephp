@@ -1,8 +1,8 @@
 <?php
 namespace Terpsichore\Client\Request;
 
-use Terpsichore\Client\Request;
-use Terpsichore\Core\Request\AbstractRequest;
+use Terpsichore\Client\Request as RequestInterface;
+use Terpsichore\Core\Request\Request as BaseRequest;
 
 /**
  * ServiceRequest 
@@ -13,7 +13,7 @@ use Terpsichore\Core\Request\AbstractRequest;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ServiceRequest extends AbstractRequest implements Request
+class ServiceRequest extends BaseRequest implements RequestInterface
 {
 
 	/**

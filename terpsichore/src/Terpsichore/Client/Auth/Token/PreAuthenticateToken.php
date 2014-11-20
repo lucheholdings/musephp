@@ -97,18 +97,18 @@ class PreAuthenticateToken implements Token
      */
     public function setAttributes(array $attributes)
     {
-        $this->attributes->replaceAll($attributes);
+        $this->attributes->replace($attributes);
         return $this;
     }
 
 	public function has($key)
 	{
-		return $this->attributes->hasKey($key);
+		return $this->attributes->has($key);
 	}
 
 	public function get($key, $default = null)
 	{
-		return $this->attributes->hasKey($key) 
+		return $this->attributes->has($key) 
 			? $this->attributes->get($key)
 			: $default
 		;
@@ -128,6 +128,41 @@ class PreAuthenticateToken implements Token
 	public function getName()
 	{
 		return 'pre';
+	}
+
+	/**
+	 * serialize 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function serialize()
+	{
+		$data = array(
+			(string)$this->getProvider(),
+			$this->attributes->toArray(),
+		);
+
+		return serialize($data);
+	}
+
+	/**
+	 * unserialize 
+	 * 
+	 * @param mixed $serialized 
+	 * @access public
+	 * @return void
+	 */
+	public function unserialize($serialized)
+	{
+		$data = unserialize($serialized);
+
+		list(
+			$this->provider, 
+			$attributes
+		) = $data;
+
+		$this->attributes->replace($attributes);
 	}
 }
 

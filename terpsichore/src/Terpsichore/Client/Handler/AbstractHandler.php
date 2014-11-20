@@ -26,16 +26,26 @@ abstract class AbstractHandler
 
 	abstract public function handle($request);
     
-    public function getParams()
+    public function getParameters()
     {
         return $this->params;
     }
     
-    public function setParams(array $params)
+    public function setParameters(array $params)
     {
         $this->params = $params;
         return $this;
     }
+
+	public function hasParameter($key)
+	{
+		return array_key_exists($key, $this->params);
+	}
+
+	public function getParameter($key)
+	{
+		return isset($this->params[$key]) ? $this->params[$key] : null;
+	}
     
     public function getService()
     {
