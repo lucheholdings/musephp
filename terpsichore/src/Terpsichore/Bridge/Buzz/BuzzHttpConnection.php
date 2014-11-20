@@ -6,7 +6,7 @@ use Terpsichore\Client\Request;
 
 use Buzz\Client\ClientInterface as BuzzClient,
 	Buzz\Client\Curl as BuzzCurl;
-use Buzz\Message\Request as BuzzRequest;
+use Buzz\Message\Form\FormRequest as BuzzRequest;
 use Buzz\Message\Response as BuzzResponse;
 use Buzz\Util\Url;
 
@@ -77,9 +77,14 @@ class BuzzHttpConnection extends HttpConnection
 	 */
 	public function send(Request $request)
 	{
-		$request = $this->createBuzzRequestFromRequest($request);
+		$buzzRequest = $this->createBuzzRequestFromRequest($request);
 		$response = new BuzzResponse(); 
-		$this->getHttpClient()->send($request, $response);
+
+		try {
+			$this->getHttpClient()->send($buzzRequest, $response);
+		} catch(\Buzz\Exception\ExceptionInterface $ex) {
+			throw new BuzzTransferException($this, $ex, $request, $response);
+		}
 
 		$contentType = $response->getHeader('Content-Type');
 		$contentType = explode(';', $contentType);
@@ -93,6 +98,13 @@ class BuzzHttpConnection extends HttpConnection
 		case 'application/xml':
 			return $response->toDomDocument();
 			break;
+		case 'application/x-www-form-urlencoded':
+			foreach(explode('&', (string)$response->getBody()) as $pair) {
+				list($key, $value) = explode('=', $pair);
+
+				$pairs[rawurldecode($key)] = rawurldecode($value);
+			}
+			return $pairs;
 		default:
 			return $response->getContent(); 
 		}
@@ -117,13 +129,19 @@ class BuzzHttpConnection extends HttpConnection
 			$params = array('body' => $resolver->resolveBody($request));
 		}
 
+
 		$httpRequest = new BuzzRequest($resolver->resolveMethod($request));
 
 		$url = new Url($resolver->resolveUri($request));
 		$url->applyToRequest($httpRequest);
 	
 		$httpRequest->addHeaders($resolver->resolveHeaders($request));
-		$httpRequest->setContent($resolver->resolveBody($request));
+		$body = $resolver->resolveBody($request);
+		if(is_array($body)) {
+			$httpRequest->addFields($body);
+		} else if($body) {
+			$httpRequest->setContent($body);
+		}
 
 		return $httpRequest;
 	}

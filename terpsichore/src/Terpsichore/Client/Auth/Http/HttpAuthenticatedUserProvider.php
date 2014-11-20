@@ -32,9 +32,9 @@ class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements U
 	 * @access public
 	 * @return mixed 
 	 */
-	public function get()
+	public function get(array $params = array())
 	{
-		$response = $this->call();
+		$response = $this->call($params);
 
 		return $response;
 	}
