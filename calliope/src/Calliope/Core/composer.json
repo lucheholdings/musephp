@@ -1,0 +1,21 @@
+{
+    "name": "musecalliope/core",
+	"type": "library",
+	"license": "MIT",
+	"description": "Calliope Framework Core",
+	"require": {
+		"museerato/core": "~2.0",
+		"symfony/event-dispatcher": "~2.0"
+	},
+	"autoload": {
+		"psr-0": {
+			"Calliope\\Core": "/"
+		}
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias" : {
+			"dev-master": "2.0-dev"
+		}
+	}
+}
