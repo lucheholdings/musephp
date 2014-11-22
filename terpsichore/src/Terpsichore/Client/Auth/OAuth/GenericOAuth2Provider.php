@@ -3,9 +3,10 @@ namespace Terpsichore\Client\Auth\OAuth;
 
 use Terpsichore\Client\Auth\Token;
 use Terpsichore\Client\Auth\OAuth\OAuth2Token as OAuth2TokenInterface;
-use Terpsichore\Client\Auth\OAuth\Token\OAuth2Token;
+use Terpsichore\Client\Auth\OAuth\Token\OAuth2Token as AuthenticateToken;
 use Terpsichore\Client\Auth\OAuth\Handler\OAuth2AuthCodeHandler;
 use Terpsichore\Client\Auth\OAuth\Token\OAuth2AuthCode;
+use Terpsichore\Client\Auth\Token\PreAuthenticateToken;
 
 use Terpsichore\Client\Exception\TransferException;
 use Terpsichore\Client\Exception\AuthenticationException;
@@ -90,6 +91,9 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	 */
 	protected function doAuthenticate(Token $token)
 	{
+		if(!$token instanceof PreAuthenticateToken) {
+			return $token;
+		}
 		$request = $this->createHttpRequest(
 				$this->getUri(), 
 				$this->getMethod(), 
@@ -107,7 +111,7 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 		}
 
 		// Create Token from the response
-		$token = new OAuth2Token($this);
+		$token = new AuthenticateToken($this);
 		
 		$token
 			->setToken($response[static::TOKEN_ACCESS_TOKEN])

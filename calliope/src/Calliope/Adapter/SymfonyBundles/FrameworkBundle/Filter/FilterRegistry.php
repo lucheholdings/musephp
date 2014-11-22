@@ -8,7 +8,7 @@
  */
 namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter;
 
-use Clio\Framework\Registry\AliasServiceRegistry;
+use Erato\Core\Registry\AliasServiceRegistry;
 use Calliope\Framework\Core\FilterRegistryInterface;
 use Calliope\Framework\Core\Filter\Filter;
 

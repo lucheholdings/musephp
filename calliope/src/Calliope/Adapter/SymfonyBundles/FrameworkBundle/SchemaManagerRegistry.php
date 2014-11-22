@@ -5,7 +5,7 @@ use Calliope\Framework\Core\SchemaRegistryInterface;
 use Calliope\Framework\Core\SchemaManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Clio\Framework\Registry\AliasServiceRegistry;
+use Erato\Core\Registry\AliasServiceRegistry;
 /**
  * SchemaManagerRegistry 
  *   AliasedBy SchemaClassName 

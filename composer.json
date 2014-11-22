@@ -16,20 +16,33 @@
     ],
     "require": {
         "php": ">=5.3.2",
+    },
+    "require-dev": {
+		"doctrine/collections": "~1.2",
+		"doctrine/cache": "~1.2"
         "symfony/config" : "~2.4",
 		"guzzlehttp/guzzle" :  "~4.1.0"
+	},
+	"suggest": {
+		"doctrine/collection" : "Doctrine Collection",
+		"doctrine/cache" : "Doctrine Cache",
+		"guzzle/guzzle"  : "Guzzle Http Client 3.x",
+		"guzzlehttp/guzzle" : "Guzlze Http Client 4.x",
+		"kriswallsmith/buzz" : "Buzz Http Client"
     },
     "autoload": {
         "psr-0": {
             "Clio": "clio/src/",
             "Calliope": "calliope/src/",
+            "Erato": "erato/src/",
             "Melete": "melete/",
             "Terpsichore": "terpsichore/src"
         }
     },
     "replace": {
-		"museclio/clio" : "self.version",
-		"musecalliope/calliope" : "self.version",
+		"museclio/clio" :               "self.version",
+		"musecalliope/calliope" :       "self.version",
+		"museerato/erato" :             "self.version",
 		"museterpsichore/terpsichore" : "self.version"
 	},
     "minimum-stability": "dev",

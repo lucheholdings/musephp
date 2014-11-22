@@ -74,3 +74,28 @@ And so, you have to think about the organization of the services as well.
  - Bridge : use Libraries on Calliope
 
 
+## Type of Schema and Connection
+ 
+ - doctrine.orm : Use Doctrine ORM Entity class as a model
+ - model: Use simple model class as a model, which is schemified from specified datastore model. 
+ - decorate: "decorate" is another type of model which decorate one with (an)other.
+ - rest: "rest" is another type of model which get the model via http rest. 
+
+
+	$usecaseSchemaRegistry->set('doctrine.orm.entity', new UsecaseMetadata($schemaRegsitry('Fully\Qualified\DoctrineEntityClassPath')));
+	$usecaseSchemaRegistry->set('model', new UsecaseMetadata($schemaRegsitry('Fully\Qualified\ModelClassPath')));
+	
+    // doctrine.orm type 
+    $entityManager = new SchemaManager();
+    $entityManager->setConnection(new DoctrineOrmConnection());
+    $entityManager->setSchema($usecaseSchemaRegistry->get(doctrine.orm.entity));
+ 
+ 	// 
+    $modelManager = new SchemaManager();
+    $modelManager->setConnection(new ModelConnection($doctrineManager));
+    $modelManager->setSchema($usecaseSchemaRegsitry->get('model'));
+	
+	// 
+	$decoratedManager = new SchemeManager();
+	$decoratedManager->setConnection(new BindConnection($entityManager, $anotherEntityManager, array('identifier' => array('id' => 'id'))));
+	$decoratedManager->setSchema($usecaseSchemaRegistry->get('model_with_decorate'));

@@ -1,5 +1,5 @@
 <?php
-namespace Calliope\Framework\Core\Filter;
+namespace Calliope\Core\Filter;
 
 /**
  * FilterDelegator 
