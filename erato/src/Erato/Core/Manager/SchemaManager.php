@@ -1,5 +1,5 @@
 <?php
-namespace Erato\Core;
+namespace Erato\Core\Manager;
 
 use Clio\Component\Util\Metadata\Schema\SchemaMetadata;
 
@@ -32,6 +32,9 @@ class SchemaManager implements SchemaManagerInterface
 	 */
 	public function createModel()
 	{
+		if(!$this->getMetadata()->hasMapping('consturctor')) {
+			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping constructor.', $this->getMetadata()));
+		}
 		return $this->getMetadadata()->getMappign('constructor')->construct(func_get_args());
 	}
 
@@ -40,6 +43,9 @@ class SchemaManager implements SchemaManagerInterface
 	 */
 	public function getAccessor()
 	{
+		if(!$this->getMetadata()->hasMapping('accessor')) {
+			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping accessor.', $this->getMetadata()));
+		}
 		return $this->getMetadata()->getMapping('accessor')->getAccessor();
 	}
 
@@ -48,6 +54,9 @@ class SchemaManager implements SchemaManagerInterface
 	 */
 	public function schemify($data)
 	{
+		if(!$this->getMetadata()->hasMapping('schemifier')) {
+			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping schemifier.', $this->getMetadata()));
+		}
 		return $this->getMetadata()->getMapping('schemifier')->schemify($data);
 	}
 

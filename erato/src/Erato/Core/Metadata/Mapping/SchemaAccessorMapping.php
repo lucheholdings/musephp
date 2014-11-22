@@ -6,6 +6,8 @@ use Clio\Component\Util\Accessor\Schema\ReflectionClassAwarable;
 use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
 use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 
+use Clio\Component\Util\Accessor\SchemaDataAccessor;
+
 /**
  * SchemaAccessorMapping 
  * 
@@ -56,6 +58,11 @@ class SchemaAccessorMapping extends AccessorMapping implements Schema, Reflectio
 		return $this->accessor;
 	}
 
+	public function createDataAccessor($data)
+	{
+		return $this->getAccessor()->createDataAccessor($data);
+	}
+
     
     public function getAccessorFactory()
     {
@@ -90,6 +97,11 @@ class SchemaAccessorMapping extends AccessorMapping implements Schema, Reflectio
 		}
 
 		return $this->fields;
+	}
+
+	public function isSchemaData($data)
+	{
+		return $this->getMetadata()->isSchemaData($data);
 	}
 }
 

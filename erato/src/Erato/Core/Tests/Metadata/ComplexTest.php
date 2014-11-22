@@ -1,7 +1,15 @@
 <?php
 namespace Erato\Core\Tests;
 
-use Erato\Core\Metadata\Mapping\Factory as MappingFatory;
+//use Erato\Core\Metadata\Mapping\Factory as MappingFactory;
+use Erato\Core\ManagerRegistry;
+use Erato\Core\Metadata\MetadataRegistry;
+use Erato\Core\Accessor\Schema\Factory\SchemaMetadataAccessorFactory;
+
+use Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory,
+	Clio\Component\Util\Metadata\Mapping\Factory as CoreMappingFactory,
+	Clio\Extra\Metadata\Mapping\Factory as ExtraMappingFactory
+;
 
 class ComplexTest extends \PHPUnit_Framework_TestCase 
 {
@@ -15,9 +23,9 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
 
 	public function testSuccess()
 	{
-		$manager = $this->getManagerRegistry()->get('Erato\Core\Tests\Models\Model01');
+		$manager = $this->getManagerRegistry()->createManager('Erato\Core\Tests\Models\Model01');
 
-		$model = $manager->construct();
+		$model = $manager->create();
 
 		$manager->schemify(array('private_'));
 	}
@@ -41,11 +49,11 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
 	protected function getMetadataFactory()
 	{
 		if(!$this->metadataFactory) {
-			$mappingFactory = new FactoryCollection(array(
-				'accessor'   => new MappingFactory\AccessorMappingFactory(),
-				'normalizer' => new MappingFactory\NormalizerMappingFactory($this->getNormalizer()),
-				'attributes' => new MappingFactory\AttributeMapMappingFactory(),
-				'tags'       => new MappingFactory\TagSetMappingFactory(),
+			$mappingFactory = new CoreMappingFactory\FactoryCollection(array(
+				'accessor'   => new ExtraMappingFactory\AccessorMappingFactory($this->getAccessorFactory()),
+				'normalizer' => new ExtraMappingFactory\NormalizerMappingFactory($this->getNormalizer()),
+				'attributes' => new ExtraMappingFactory\AttributeMapMappingFactory(),
+				'tags'       => new ExtraMappingFactory\TagSetMappingFactory(),
 			)); 
 			$this->metadataFactory = new ClassMetadataFactory($mappingFactory);
 		}
@@ -63,6 +71,11 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
 		}
 
 		return $this->normalizer;
+	}
+
+	public function getAccessorFactory()
+	{
+		return new SchemaMetadataAccessorFactory();
 	}
 }
 
