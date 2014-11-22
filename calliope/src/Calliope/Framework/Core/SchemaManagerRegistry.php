@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core;
 
-use Clio\Framework\Registry\ServiceRegistry;
+use Erato\Core\Registry\ServiceRegistry;
 /**
  * SchemaManagerRegistry
  * 

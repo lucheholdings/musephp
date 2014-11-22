@@ -5,7 +5,7 @@ use Clio\Component\Pattern\Factory\Tests\ComponentBuilderTestCase;
 use Calliope\Framework\Core\Builder\SchemaModelBuilder;
 
 use Clio\Component\Util\Metadata\Schema\BasicClassMetadataFactory;
-use Clio\Framework\Metadata\Mapping\Factory\FieldAccessorMappingFactory;
+use Erato\Core\Metadata\Mapping\Factory\FieldAccessorMappingFactory;
 
 /**
  * SchemaModelBuilderTest 

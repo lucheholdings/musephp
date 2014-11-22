@@ -11,7 +11,6 @@ namespace Calliope\Framework\Core;
  */
 class FilterRegistry implements \Countable, \IteratorAggregate
 {
-	
 	/**
 	 * filters 
 	 *   
