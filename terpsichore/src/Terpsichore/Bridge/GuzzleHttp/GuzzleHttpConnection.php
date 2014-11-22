@@ -72,9 +72,13 @@ class GuzzleHttpConnection extends HttpConnection
 	 */
 	public function send(Request $request)
 	{
-		$request = $this->createGuzzleRequestFromRequest($request);
+		$guzzleRequest = $this->createGuzzleRequestFromRequest($request);
 
-		$response = $this->getHttpClient()->send($request);
+		try {
+			$response = $this->getHttpClient()->send($guzzleRequest);
+		} catch(\GuzzleHttp\Exception\ClientException $ex) {
+			throw new GuzzleTransferException($this, $ex, $request);
+		}
 
 		$contentType = $response->getHeader('Content-Type');
 		$contentType = explode(';', $contentType);
@@ -88,8 +92,15 @@ class GuzzleHttpConnection extends HttpConnection
 		case 'application/xml':
 			return $response->xml();
 			break;
+		case 'application/x-www-form-urlencoded':
+			foreach(explode('&', (string)$response->getBody()) as $pair) {
+				list($key, $value) = explode('=', $pair);
+
+				$pairs[rawurldecode($key)] = rawurldecode($value);
+			}
+			return $pairs;
 		default:
-			return $response->getBody(); 
+			return (string)$response->getBody();
 		}
 	}
 

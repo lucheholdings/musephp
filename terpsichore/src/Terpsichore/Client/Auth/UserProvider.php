@@ -15,12 +15,12 @@ use Terpsichore\Client\Auth\Token;
 interface UserProvider extends ClientService
 {
 	/**
-	 * userinfo
+	 * get 
 	 * 
 	 * @access public
-	 * @return mixed
+	 * @return void
 	 */
-	function userinfo();
+	function get();
 
 	/**
 	 * getAuthenticatedUser 

@@ -1,19 +1,18 @@
 <?php
 namespace Terpsichore\Core\Request;
 
-use Terpsichore\Core\Request;
+use Terpsichore\Core\Request as RequestInterface;
 
 /**
  * AbstractRequest 
  * 
  * @uses Request
- * @abstract
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractRequest implements Request
+class Request implements RequestInterface
 {
 	/**
 	 * header 

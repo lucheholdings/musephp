@@ -1,13 +1,8 @@
 <?php
 namespace Terpsichore\Client\Exception;
 
-class NotSecuredConnectionException extends \RuntimeException implements ConnectionException 
+class NotSecuredConnectionException extends TransferException implements ConnectionException 
 {
-	private $connection;
-
-	public function getConnection()
-	{
-		return $this->connection;
-	}
+	
 }
 

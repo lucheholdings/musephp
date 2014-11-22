@@ -95,7 +95,7 @@ class Collection extends AbstractContainer implements CollectionInterface
 	 */
 	public function has($value)
 	{
-		return $this->getStorage()->exists($key);
+		return $this->getStorage()->exists($value);
 	}
 
 	/**

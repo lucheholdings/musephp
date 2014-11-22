@@ -27,8 +27,9 @@
 		"doctrine/collection" : "Doctrine Collection",
 		"doctrine/cache" : "Doctrine Cache",
 		"guzzle/guzzle"  : "Guzzle Http Client 3.x",
-		"guzzlehttp/guzzle" : "Guzlze Http Client 4.x"
-	},
+		"guzzlehttp/guzzle" : "Guzlze Http Client 4.x",
+		"kriswallsmith/buzz" : "Buzz Http Client"
+    },
     "autoload": {
         "psr-0": {
             "Clio": "clio/src/",

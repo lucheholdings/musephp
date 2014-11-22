@@ -56,6 +56,11 @@ abstract class AbstractProvider extends GenericClientService implements Provider
 		parent::__construct($connection);
 	}
 
+	public function createAuthenticateToken(array $params = array())
+	{
+		return new PreAuthenticateToken($this, $params);
+	}
+
 	/**
 	 * {@inheritdoc}
 	 * @final

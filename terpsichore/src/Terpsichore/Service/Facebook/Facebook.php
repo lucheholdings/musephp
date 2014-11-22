@@ -2,7 +2,6 @@
 namespace Terpsichore\Service\Facebook;
 
 use Terpsichore\Client\Service\Http\GenericSocialServiceProvider;
-use Terpsichore\Client\Auth\OAuth\GenericOAuth2Provider;
 use Terpsichore\Client\Auth\Http\HttpAuthenticatedUserProvider;
 
 /**
@@ -25,9 +24,9 @@ class Facebook extends GenericSocialServiceProvider
 	protected function init()
 	{
 		$this->setAuthenticationProvider(
-			new GenericOAuth2Provider(
+			new FacebookAuthProvider(
 				'https://graph.facebook.com/oauth/access_token',
-				'post',
+				'get',
 				array('login_path' => 'https://www.facebook.com/dialog/oauth')
 			)
 		);

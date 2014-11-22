@@ -32,14 +32,14 @@ class HttpParameterBag
 
 	public function has($key)
 	{
-		return $this->query->has($key) || $this->post->has($key);
+		return $this->query->hasKey($key) || $this->post->hasKey($key);
 	}
 
 	public function get($key, $default = null)
 	{
-		if($this->query->has($key))
+		if($this->query->hasKey($key))
 			return $this->query->get($key);
-		else if($this->post->has($key))
+		else if($this->post->hasKey($key))
 			return $this->post->get($key);
 		return $default;
 	}

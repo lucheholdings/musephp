@@ -13,7 +13,7 @@ use Terpsichore\Client\Auth\Token\PreAuthenticateToken;
  */
 class OAuth2AuthCode extends PreAuthenticateToken 
 {
-	public function __construct($clientId, $clientSecret, $code, array $attributes = array())
+	public function __construct($clientId, $clientSecret, $code = null, array $attributes = array())
 	{
 		parent::__construct('oauth2', $attributes);
 		
