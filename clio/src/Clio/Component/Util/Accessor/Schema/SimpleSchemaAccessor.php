@@ -3,6 +3,7 @@ namespace Clio\Component\Util\Accessor\Schema;
 
 use Clio\Component\Util\Accessor\Schema;
 use Clio\Component\Util\Accessor\SchemaAccessor;
+use Clio\Component\Util\Accessor\SchemaDataAccessor;
 use Clio\Component\Util\Accessor\Field\MultiFieldAccessor;
 use Clio\Component\Util\Accessor\Field\ProxyMultiFieldAccessor;
 
@@ -87,6 +88,13 @@ class SimpleSchemaAccessor extends ProxyMultiFieldAccessor implements SchemaAcce
 	public function getFieldAccessors()
 	{
 		return $this->getAccessor();
+	}
+
+	public function createDataAccessor($data)
+	{
+		if(!$this->getSchema()->isSchemaData($data)) 
+			throw new \InvalidArgumentException('Data is not acceptable type of the schema.');
+		return new SchemaDataAccessor($this, $data);
 	}
 }
 

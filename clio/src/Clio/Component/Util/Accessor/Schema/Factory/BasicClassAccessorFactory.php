@@ -31,25 +31,12 @@ class BasicClassAccessorFactory extends FieldSchemaAccessorFactory
 		return new static(new FieldAccessorFactoryCollection($fieldFactories));
 	}
 
-	protected function getFieldsFromSchema(Schema $schema)
-	{
-		if(!$schema instanceof \ReflectionClass) {
-			throw new \InvalidArgumentException('Schema has to be an instanceof ReflectionClass.');
-		}
-
-		$fields = array_map(function($property){
-			return $property->getName();
-		}, $schema->getProperties());
-
-		return $fields;
-	}
-
 	/**
 	 * {@inheritdoc}
 	 */
 	public function isSupportedSchema(Schema $schema)
 	{
-		return ($schema instanceof \ReflectionClass);
+		return ($schema instanceof ClassSchema);
 	}
 }
 

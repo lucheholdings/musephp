@@ -54,5 +54,13 @@ class ArraySchema implements Schema
 	{
 		$this->fields[] = $field;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSchemaData($data)
+	{
+		return is_array($data);
+	}
 }
 

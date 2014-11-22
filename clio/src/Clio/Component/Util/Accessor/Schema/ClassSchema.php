@@ -61,6 +61,14 @@ class ClassSchema implements Schema, ReflectionClassAwarable
 	/**
 	 * {@inheritdoc}
 	 */
+	public function isSchemaData($data)
+	{
+		return $this->getReflectionClass()->isInstance($data);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function isReflectionClassAwared()
 	{
 		return true;

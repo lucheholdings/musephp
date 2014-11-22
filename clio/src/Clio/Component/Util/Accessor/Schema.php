@@ -24,4 +24,14 @@ interface Schema
 	 * @return array<Field> 
 	 */
 	function getFields();
+
+	/**
+	 * isSchemaData 
+	 *   Check data is acceptable schema data or not. 
+	 *   We only check the type of data.
+	 * @param mixed $data 
+	 * @access public
+	 * @return boolean
+	 */
+	function isSchemaData($data);
 }

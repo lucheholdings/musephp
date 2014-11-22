@@ -21,5 +21,13 @@ interface SchemaAccessor extends MultiFieldAccessor
 	 * @return void
 	 */
 	function getSchema();
+
+	/**
+	 * createDataAccessor 
+	 * 
+	 * @access public
+	 * @return SchemaDataAccessor
+	 */
+	function createDataAccessor($data);
 }
 
