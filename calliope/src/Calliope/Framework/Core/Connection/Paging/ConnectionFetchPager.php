@@ -97,7 +97,7 @@ class ConnectionFetchPager implements ConnectionFetchPagerInterface
 		);
 
 		if($this->postLoadCallback) {
-			$page->setPostLoadCallback($this->postLoadCallback);
+			$page->addPostLoadCallback($this->postLoadCallback);
 		}
 		return $page;
 	}
@@ -117,7 +117,7 @@ class ConnectionFetchPager implements ConnectionFetchPagerInterface
 		$page = $this->createPageAt(($page - 1) * $this->getPageSize());
 
 		if($this->postLoadCallback) {
-			$page->setPostLoadCallback($this->postLoadCallback);
+			$page->addPostLoadCallback($this->postLoadCallback);
 		}
 		return $page;
 	}
