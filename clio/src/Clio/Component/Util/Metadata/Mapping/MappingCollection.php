@@ -69,5 +69,10 @@ class MappingCollection extends Map
 	{
 		return $this->set($name, $mapping);
 	}
+
+	public function addMapping(Mapping $mapping)
+	{
+		$this->set($mapping->getName(), $mapping);
+	}
 }
 
