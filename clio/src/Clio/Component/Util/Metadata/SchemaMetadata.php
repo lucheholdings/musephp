@@ -18,5 +18,14 @@ interface SchemaMetadata extends Metadata, \Serializable
 	 * @return array<FieldMetadata>
 	 */
 	function getFields();
+
+	/**
+	 * isSchemaData 
+	 *   Check the data is schema data or not. 
+	 * @param mixed $data 
+	 * @access public
+	 * @return boolean
+	 */
+	function isSchemaData($data);
 }
 

@@ -67,7 +67,7 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function hasMapping($name)
 	{
-		return $this->mappings->hasMapping($name);
+		return $this->getMappings()->hasMapping($name);
 	}
 
 	/**
@@ -75,7 +75,7 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function getMapping($name)
 	{
-		return $this->mappings->getMapping($name);
+		return $this->getMappings()->getMapping($name);
 	}
 
 	/**
@@ -83,7 +83,7 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function setMapping($name, Mapping $mapping)
 	{
-		$this->mappings->setMapping($name, $mapping);
+		$this->getMappings()->setMapping($name, $mapping);
 		$mapping->setMetadata($this);
 		return $this;
 	}

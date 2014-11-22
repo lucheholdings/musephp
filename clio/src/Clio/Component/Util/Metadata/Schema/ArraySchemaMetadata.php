@@ -42,5 +42,14 @@ class ArraySchemaMetadata extends AbstractSchemaMetadata
     {
         return $this->name;
     }
+
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSchemaData($data)
+	{
+		return is_array($data);
+	}
 }
 

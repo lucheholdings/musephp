@@ -118,5 +118,13 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritableMetadat
 		$this->setFields($fields);
 		$this->setMappings(new MappingCollection($mappings));
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSchemaData($data)
+	{
+		return $this->getReflectionClass()->isInstance($data);
+	}
 }
 
