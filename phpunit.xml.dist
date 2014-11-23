@@ -14,8 +14,9 @@
     <testsuites>
         <testsuite name="MusePHP TestSuite">
             <directory>./clio/src/Clio/Component</directory>
-            <directory>./clio/src/Clio/Framework/Tests</directory>
-            <directory>./melete/Melete/Tests</directory>
+            <directory>./clio/src/Clio/Extra</directory>
+            <directory>./melete/Melete</directory>
+            <directory>./terpsichore/Core</directory>
         </testsuite>
     </testsuites>
 </phpunit>
