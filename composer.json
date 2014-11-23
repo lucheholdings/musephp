@@ -19,7 +19,7 @@
     },
     "require-dev": {
 		"doctrine/collections": "~1.2",
-		"doctrine/cache": "~1.2"
+		"doctrine/cache": "~1.2",
         "symfony/config" : "~2.4",
 		"guzzlehttp/guzzle" :  "~4.1.0"
 	},
