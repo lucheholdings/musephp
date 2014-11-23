@@ -36,7 +36,12 @@ class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function isSupportedField(Field $field)
 	{
-		return ($field->getSchema() instanceof \ReflectionClass);
+		if(($field->getSchema() instanceof ReflectionClassAwarable) && $field->getSchema()->isReflectionClassAwared()) {
+
+			return true;
+		}
+
+		return false;
 	}
 
 	/**

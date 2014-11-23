@@ -3,11 +3,9 @@ namespace Clio\Component\Util\Accessor\Schema;
 
 use Clio\Component\Util\Accessor\Schema;
 use Clio\Component\Util\Accessor\SchemaDataAccessor;
-use Clio\Component\Util\Accessor\Field\FieldAccessorCollection;
 /**
  * AbstractSchemaAccessor 
  * 
- * @uses FieldAccessorCollection
  * @uses FieldAccessor
  * @abstract
  * @package { PACKAGE }

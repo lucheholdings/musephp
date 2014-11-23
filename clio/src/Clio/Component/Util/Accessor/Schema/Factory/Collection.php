@@ -8,7 +8,7 @@ use Clio\Component\Util\Accessor\ChainProxySchemaAccessor;
 use Clio\Component\Util\Validator\ClassValidator;
 
 /**
- * SchemaAccessorFactoryCollection
+ * Collection 
  *   Support Composite pattern of Accessor Factory.
  *
  *   Call creaetSchemaAccessor() to create ChainedProxySchemaAccessor 
@@ -18,7 +18,7 @@ use Clio\Component\Util\Validator\ClassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SchemaAccessorFactoryCollection extends NamedCollection 
+class Collection extends NamedCollection 
 {
 	protected function initFactory()
 	{

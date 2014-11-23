@@ -4,8 +4,9 @@ namespace Clio\Component\Util\Accessor\Schema\Factory;
 use Clio\Component\Util\Accessor\Schema;
 use Clio\Component\Pattern\Factory\AbstractFactory;
 use Clio\Component\Util\Accessor\Field;
-use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
+use Clio\Component\Util\Accessor\Field\Factory\Collection as FieldAccessorFactoryCollection;
 use Clio\Component\Util\Accessor\Schema\SimpleSchemaAccessor;
+use Clio\Component\Util\Accessor\AccessorAware;
 
 /**
  * FieldSchemaAccessorFactory 
@@ -73,18 +74,22 @@ class FieldSchemaAccessorFactory extends AbstractSchemaAccessorFactory
 
 		if($factory) {
 			foreach($schema->getFields() as $field) {
-				$accessor = $factory->createFieldAccessorWithoutType($field);
+				if($field instanceof AccessorAware) {
+					$field->getAccessor();
+				} else {
+					$accessor = $factory->createFieldAccessorWithoutType($field);
+				}
 
 				if($accessor instanceof Field\SingleFieldAccessor) {
 					$namedCollection->addFieldAccessor($accessor);
 				} else if($accessor instanceof Field\MultiFieldAccessor){
 					if(!$accessors instanceof Field\ChainedFieldAccessor) {
-						var_dump($accessor, $accessors);exit;
 						$accessors = new Field\ChainedFieldAccessor($namedCollection, $accessor);
 					} else {
 						$accessors->addNext($accessor);
 					}
 				}
+				
 			}
 		}
 		return $accessors;

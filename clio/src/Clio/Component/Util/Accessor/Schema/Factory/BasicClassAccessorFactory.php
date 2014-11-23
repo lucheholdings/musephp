@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Accessor\Schema\Factory;
 
-use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
+use Clio\Component\Util\Accessor\Field\Factory\Collection as FieldAccessorFactoryCollection;
 use Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory,
 	Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory
 ;

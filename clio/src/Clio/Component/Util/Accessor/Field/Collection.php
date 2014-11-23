@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Field;
 
 /**
- * FieldAccessorCollection 
+ * Collection 
  * 
  * @uses MultiFieldAccessor
  * @package { PACKAGE }
@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Accessor\Field;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorCollection implements MultiFieldAccessor 
+class Collection implements MultiFieldAccessor 
 {
 
 	/**

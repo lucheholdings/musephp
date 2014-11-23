@@ -9,7 +9,7 @@ use Clio\Component\Util\Accessor\Schema;
 use Clio\Component\Exception\UnsupportedException;
 
 /**
- * FieldAccessorFactoryCollection 
+ * Collection 
  * 
  * @uses NamedCollection
  * @uses FieldAccessorFactory
@@ -18,7 +18,7 @@ use Clio\Component\Exception\UnsupportedException;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorFactoryCollection extends NamedFactoryCollection 
+class Collection extends NamedFactoryCollection 
 {
 	/**
 	 * {@inheritdoc}
