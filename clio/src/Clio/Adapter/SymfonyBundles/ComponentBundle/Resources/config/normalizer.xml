@@ -12,7 +12,8 @@
         <parameter key="clio_component.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
         <parameter key="clio_component.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
         <parameter key="clio_component.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
-        <parameter key="clio_component.normalizer.accessor_strategy.class">Erato\Core\Normalizer\Strategy\AccessorStrategy</parameter>
+        <parameter key="clio_component.normalizer.array_access_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy</parameter>
+        <parameter key="clio_component.normalizer.std_class_strategy.class">Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy</parameter>
 
 		<!-- -->
 		<parameter key="clio_component.normalizer.jms_serializer_strategy.class">Clio\Bridge\JMSSerializer\Normalizer\JMSSerializerStrategy</parameter>
@@ -34,23 +35,42 @@
 		</service>
 		<!-- DEFAULT STRATEGIES -->
 		<service 
-			id="clio_component.normalizer.default_strategy.accessor" 
-			class="%clio_component.normalizer.accessor_strategy.class%"
+			id="clio_component.normalizer.default_strategy.jms"
+			class="%clio_component.normalizer.jms_serializer_strategy.class%"
+			public="false"
 		>
-			<argument type="service" id="clio_component.normalizer.accessor_registry" on-invalid="null"/>
-		</service>
-		<service id="clio_component.normalizer.default_strategy.jms" class="%clio_component.normalizer.jms_serializer_strategy.class%">
 			<argument type="service" id="jms_serializer" on-invalid="null"/>
 		</service>
-		<service id="clio_component.normalizer.default_strategy.datetime" class="%clio_component.normalizer.datetime_strategy.class%">
+		<service 
+			id="clio_component.normalizer.default_strategy.datetime" 
+			class="%clio_component.normalizer.datetime_strategy.class%"
+			public="false"
+		>
 		</service>
-		<service id="clio_component.normalizer.default_strategy.reference" class="%clio_component.normalizer.reference_strategy.class%">
+		<service 
+			id="clio_component.normalizer.default_strategy.reference" 
+			class="%clio_component.normalizer.reference_strategy.class%"
+			public="false"
+		>
 		</service>
-		<service id="clio_component.normalizer.default_strategy.scalar" class="%clio_component.normalizer.scalar_strategy.class%">
+		<service
+			id="clio_component.normalizer.default_strategy.scalar"
+			class="%clio_component.normalizer.scalar_strategy.class%"
+			public="false"
+		>
 		</service>
-
-		<!-- -->
-		<service id="clio_component.normalizer.accessor_registry" alias="clio_component.accessor.schema_accessor_factory"/>
+		<service 
+			id="clio_component.normalizer.default_strategy.std_class" 
+			class="%clio_component.normalizer.std_class_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service 
+			id="clio_component.normalizer.default_strategy.array_access" 
+			class="%clio_component.normalizer.array_access_strategy.class%"
+			public="false"
+		>
+		</service>
     </services>
 </container>
 

@@ -37,39 +37,56 @@ class Configuration implements ConfigurationInterface
 	protected function buildNormalizerSection()
 	{
 		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->rootNode('normalizer');
+		$node = $treeBuilder->root('normalizer');
 
 		$node
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
-			->children()
-				->arrayNode('strategies')
-			->end()
 		;
 
-		$strategyNodes = $node->getChild('strategies')->children();
-		
+		$strategyNodes = $node
+			->children()
+				->arrayNode('strategies')
+				->addDefaultsIfNotSet()
+				->children()
+		;
 
-		foreach(array() as $name) {
-			$this->addNormalizerStrategySection($strategyNodes, $name);
+		$defaultStrategies = array(
+			'datetime'      => array('enabled' => true, 'priority' => 0),
+			'reference'     => array('enabled' => true, 'priority' => 0),
+			'std_class'     => array('enabled' => true, 'priority' => 0),
+			'array_access'  => array('enabled' => false, 'priority' => 0),
+			'scalar'        => array('enabled' => true, 'priority' => 0),
+			'jms'           => array('enabled' => true, 'priority' => 0),
+		);
+
+
+		foreach($defaultStrategies as $name => $defaults) {
+			$this->addNormalizerStrategySection($strategyNodes, $name, $defaults['enabled'], $defaults['priority']);
 		}
 
 		return $node;
 	}
 
-	protected function addNormalizerStrategySection($parentNode)
+	protected function addNormalizerStrategySection($parentNode, $name, $isEnabled = true, $priority = null)
 	{
 		$parentNode
 			->arrayNode($name)
-				->canBeDisabled()
+				->addDefaultsIfNotSet()
+				->treatFalseLike(array('enabled' => false))
+				->treatTrueLike(array('enabled' => true))
+				->treatTrueLike(array('enabled' => true))
+				->treatNullLike(array('enabled' => $isEnabled))
 				->beforeNormalization()
 					->ifString()
 					->then(function($v){
-						return array('enabled' => true, 'id' => $v);
+						return array('enabled' => true, 'id' => $v, 'priority' => null);
 					})
 				->end()
 				->children()
-					->scalarNode('id')->defaultValue('clio_component.normalizer.default_strategy.' . $name)
+					->scalarNode('enabled')->defaultValue($isEnabled)->end()
+					->scalarNode('id')->defaultValue('clio_component.normalizer.default_strategy.' . $name)->end()
+					->scalarNode('priority')->defaultValue($priority)->end()
 				->end()
 		;
 	}
