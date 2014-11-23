@@ -7,7 +7,7 @@ use Clio\Component\Util\Container\Storage\ValidatableStorage;
 use Clio\Component\Util\Validator\ClassValidator;
 
 /**
- * MappingCollection 
+ * Collection 
  * 
  * @uses Collection
  * @package { PACKAGE }
@@ -15,7 +15,7 @@ use Clio\Component\Util\Validator\ClassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class MappingCollection extends Map 
+class Collection extends Map 
 {
 	/**
 	 * initContainer 

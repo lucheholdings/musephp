@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata;
 
-use Clio\Component\Util\Metadata\Mapping\MappingCollection;
+use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 
 /**
  * AbstactMetadata 

@@ -3,21 +3,21 @@ namespace Clio\Component\Util\Metadata\Mapping\Factory;
 
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\Mapping\Factory;
-use Clio\Component\Util\Metadata\Mapping\MappingCollection;
+use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 use Clio\Component\Pattern\Factory\NamedCollection;
 use Clio\Component\Util\Validator\ClassValidator;
 
 use Clio\Component\Util\Injection\InjectorCollection;
 
 /**
- * FactoryCollection 
+ * Collection 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FactoryCollection extends NamedCollection implements Factory 
+class Collection extends NamedCollection implements Factory 
 {
 	/**
 	 * injector 

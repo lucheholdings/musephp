@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Component\Util\Metadata\Schema\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
-use Clio\Component\Util\Metadata\Mapping\MappingCollection;
+use Clio\Component\Util\Metadata\Mapping\Factory\Collection as FactoryCollection;
+use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 use Clio\Component\Pattern\Factory\MappedFactory;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 /**

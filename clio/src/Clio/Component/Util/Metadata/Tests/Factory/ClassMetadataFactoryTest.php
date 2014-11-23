@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Metadata\Tests\Factory;
 
 use Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory;
-use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
+use Clio\Component\Util\Metadata\Mapping\Factory\Collection as FactoryCollection;
 
 use Clio\Component\Util\Metadata\Tests\DummyMappingFactory;
 

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
+use Clio\Component\Util\Metadata\Mapping\Factory\Collection as FactoryCollection;
 use Clio\Component\Util\Validator\ClassValidator;
 
 /**
@@ -13,7 +13,7 @@ use Clio\Component\Util\Validator\ClassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class LazyMappingCollection extends MappingCollection
+class LazyMappingCollection extends Collection
 {
 	private $metadata;
 
