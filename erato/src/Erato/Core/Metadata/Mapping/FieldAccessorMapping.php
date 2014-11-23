@@ -6,6 +6,7 @@ use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
 use Clio\Component\Util\Accessor\Field as AccessorField;
 use Clio\Component\Util\Accessor\Field\NamedField;
+use Clio\Component\Util\Accessor\AccessorAware;
 /**
  * FieldAccessorMapping 
  * 
@@ -15,7 +16,7 @@ use Clio\Component\Util\Accessor\Field\NamedField;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class FieldAccessorMapping extends AccessorMapping implements AccessorField 
+class FieldAccessorMapping extends AccessorMapping implements AccessorField, AccessorAware 
 {
 	/**
 	 * type 

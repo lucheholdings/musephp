@@ -4,7 +4,8 @@ namespace Erato\Core\Tests;
 //use Erato\Core\Metadata\Mapping\Factory as MappingFactory;
 use Erato\Core\ManagerRegistry;
 use Erato\Core\Metadata\MetadataRegistry;
-use Erato\Core\Accessor\Schema\Factory\SchemaMetadataAccessorFactory;
+
+use Clio\Extra\Accessor\Schema\Factory\SchemaMetadataAccessorFactory;
 
 use Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory,
 	Clio\Component\Util\Metadata\Mapping\Factory as CoreMappingFactory,
@@ -49,7 +50,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
 	protected function getMetadataFactory()
 	{
 		if(!$this->metadataFactory) {
-			$mappingFactory = new CoreMappingFactory\FactoryCollection(array(
+			$mappingFactory = new CoreMappingFactory\Collection(array(
 				'accessor'   => new ExtraMappingFactory\AccessorMappingFactory($this->getAccessorFactory()),
 				'normalizer' => new ExtraMappingFactory\NormalizerMappingFactory($this->getNormalizer()),
 				'attributes' => new ExtraMappingFactory\AttributeMapMappingFactory(),
@@ -75,7 +76,7 @@ class ComplexTest extends \PHPUnit_Framework_TestCase
 
 	public function getAccessorFactory()
 	{
-		return new SchemaMetadataAccessorFactory();
+		return SchemaMetadataAccessorFactory::createFactory();
 	}
 }
 

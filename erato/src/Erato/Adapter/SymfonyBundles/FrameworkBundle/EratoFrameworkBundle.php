@@ -6,7 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use Erato\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler;
 
-class ClioFrameworkBundle extends Bundle
+class EratoFrameworkBundle extends Bundle
 {
 	/**
 	 * build 
