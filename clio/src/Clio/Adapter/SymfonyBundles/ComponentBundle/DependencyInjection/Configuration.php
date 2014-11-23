@@ -28,11 +28,28 @@ class Configuration implements ConfigurationInterface
 			->addDefaultsIfNotSet()
 			->children()
 				->append($this->buildNormalizerSection())
+				->append($this->buildCacheSection())
 			->end()
 		;
 
         return $treeBuilder;
     }
+
+	protected function buildCacheSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('cache');
+
+		$node
+			->addDefaultsIfNotSet()
+			->children()
+				->scalarNode('default_cache_factory')->defaultValue('clio_component.cache.factory.doctrine')->end()
+				->scalarNode('default_cache_provider_factory')->defaultValue('clio_component.cache.provider_factory.doctrine')->end()
+			->end()
+		;
+
+		return $node;
+	}
 
 	protected function buildNormalizerSection()
 	{

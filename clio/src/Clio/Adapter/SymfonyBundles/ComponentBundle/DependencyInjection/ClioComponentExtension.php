@@ -26,11 +26,18 @@ class ClioComponentExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
 
+		$loader->load('cache.xml');
 		$loader->load('normalizer.xml');
 
+		$this->configureCache($container, $config['cache']);
 		$this->configureNormalizer($container, $config['normalizer']);
     }
 
+	protected function configureCache($container, array $configs = array())
+	{
+		$container->setAlias('clio_component.cache.factory', $configs['default_cache_factory']);
+		$container->setAlias('clio_component.cache.provider_factory', $configs['default_cache_provider_factory']);
+	}
 
 	protected function configureNormalizer($container, array $configs = array())
 	{

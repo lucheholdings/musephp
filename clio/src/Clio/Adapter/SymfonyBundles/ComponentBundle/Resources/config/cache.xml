@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+		<!-- DoctrineCache Factory -->
+		<parameter key="clio_component.cache.factory.doctrine.class">Clio\Bridge\DoctrineCommon\Cache\Factory</parameter>
+		<parameter key="clio_component.cache.provider_factory.doctrine.class">Clio\Bridge\DoctrineCommon\Cache\Factory</parameter>
+    </parameters>
+
+    <services>
+		<!-- Doctrine Cache Factory -->
+		<service 
+			id="clio_component.cache.factory.doctrine" 
+			class="%clio_component.cache.factory.doctrine.class%"
+		>
+		</service>
+
+		<service 
+			id="clio_component.cache.provider_factory.doctrine" 
+			class="%clio_component.cache.provider_factory.doctrine.class%"
+		>
+		</service>
+    </services>
+</container>
+
+
+
