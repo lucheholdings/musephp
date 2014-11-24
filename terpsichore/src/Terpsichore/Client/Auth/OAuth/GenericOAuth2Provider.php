@@ -118,10 +118,10 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 			->setExpiresIn($response[static::TOKEN_EXPIRES_IN])
 		;
 		if(isset($response[static::TOKEN_TYPE])) {
-			$token->setType($repsonse[static::TOKEN_TYPE]);
+			$token->setType($response[static::TOKEN_TYPE]);
 		}
 		if(isset($response[static::TOKEN_SCOPE])) {
-			$token->setScopes($repsonse[static::TOKEN_SCOPE]);
+			$token->setScopes($response[static::TOKEN_SCOPE]);
 		}
 		if(isset($response[static::TOKEN_REFRESH_TOKEN])) {
 			$token

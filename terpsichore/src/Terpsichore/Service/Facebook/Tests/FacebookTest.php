@@ -23,7 +23,7 @@ class FacebookTest extends \PHPUnit_Framework_TestCase
 		$service = $this->createService($connection);
 		
 		// Set authentication token 
-		$service->setToken(new PreAuthenticateToken('oauth2', array()));
+		$service->setToken(new PreAuthenticateToken('oauth2', array('grant_type' => 'client_credentials')));
 
 		$service->getConnection()->authenticate();
 		$token = $service->getConnection()->getToken();
@@ -47,7 +47,7 @@ class FacebookTest extends \PHPUnit_Framework_TestCase
 		$service = $this->createService($connection);
 		
 		// Set authentication token 
-		$service->setToken(new PreAuthenticateToken('oauth2', array()));
+		$service->setToken(new PreAuthenticateToken('oauth2', array('grant_type' => 'client_credentials')));
 
 		$service->getConnection()->authenticate();
 
@@ -75,7 +75,7 @@ class FacebookTest extends \PHPUnit_Framework_TestCase
 
 		$connection->addResponse(array(
 			'access_token' => 'accesstoken',
-			'expires_in' => 3600,
+			'expires' => 3600,
 			'token_type' => 'bearer',
 			'scope' => 'http://test.com'
 		));
