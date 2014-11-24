@@ -27,16 +27,18 @@ class Configuration implements ConfigurationInterface
 		$rootNode
 			->addDefaultsIfNotSet()
 			->children()
-				->append($this->buildCacheSection())
+				->append($this->buildCacheFactorySection())
 				->append($this->buildCodingSection())
+				->append($this->buildNormalizerSection())
+				->append($this->buildMetadataSection())
 				->arrayNode('mappings')
 					->addDefaultsIfNotSet()
-					->useAttributeAsKey('name')
 					->children()
 						->append($this->buildAccessorMappingSection())
 						->append($this->buildNormalizerMappingSection())
 						//->append($this->buildSerializerMappingSection())
 						//->append($this->buildSchemifierMappingSection())
+					->end()
 					->end()
 				->end()
 			->end()
@@ -78,29 +80,56 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	protected function buildCacheSection()
+	protected function buildCacheFactorySection()
 	{
 		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->root('cache');
+		$node = $treeBuilder->root('cache_factory');
 
 		$node
+			->info('CacheFactory Component')
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->beforeNormalization()
 				->ifString()
 				->then(function($v){
-					return array('type' => 'alias', 'id' => $v);	
+					return array('id' => $v);	
 				})
 			->end()
 			->children()
-				->scalarNode('type')->defaultValue('filesystem')->end()
-				->scalarNode('id')->end()
-				->arrayNode('options')
-					->defaultValue(array('directory' => '%kernel.cache_dir%/clio_metadata', 'extension' => '.cache.php'))
-					->prototype('variable')
-					->end()
-				->end()
+				->scalarNode('id')->defaultValue('clio_component.cache.provider_factory')->end()
 			->end()
+		;
+
+		return $node;
+
+	}
+
+	protected function buildMetadataSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('metadata');
+
+		$node
+			->info('Metadata Configuration')
+			->addDefaultsIfNotSet()
+			->children()
+				->arrayNode('cache')
+					->canBeDisabled()
+					->addDefaultsIfNotSet()
+					->beforeNormalization()
+						->ifString()
+						->then(function($v){
+							return array('type' => 'alias', 'options' => array('id' => $v));	
+						})
+					->end()
+					->children()
+						->scalarNode('type')->defaultValue('file_system')->end()
+						->arrayNode('options')
+							->defaultValue(array('directory' => '%kernel.cache_dir%/erato_framework', 'extension' => 'cache.php'))
+							->prototype('variable')
+							->end()
+						->end()
+					->end()
 		;
 
 		return $node;
@@ -115,7 +144,7 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
-				->scalarNode('default_serailzier')->defaultValue('erato_framework.serializer')->end('erato_framework')
+				->scalarNode('default_serailzier')->defaultValue('erato_framework.serializer')->end()
 			->end()
 		;
 
@@ -130,6 +159,8 @@ class Configuration implements ConfigurationInterface
 		$node
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
+			->children()
+			->end()
 		;
 
 		return $node;
@@ -151,16 +182,6 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	/**
-	 * buildNormalizerMappingSection 
-	 * 
-	 * normalizer:
-	 *     enabled:              true 
-	 *     default_normalizer:   normalizer.service_id
-	 * 
-	 * @access protected
-	 * @return void
-	 */
 	protected function buildNormalizerMappingSection()
 	{
 		$treeBuilder = new TreeBuilder();
@@ -170,11 +191,67 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
-				// Additional Strategy 
-				->scalarNode('default_normalizer')->defaultValue('clio_component.normalizer')->end()
+				->scalarNode('default_normalizer')->defaultValue('erato_framework.normalizer')->end()
+			->end()
+		;
+		return $node;
+	}
+
+
+	protected function buildNormalizerSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('normalizer');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+		;
+		$node
+			->children()
+				->scalarNode('use_clio_normalizer')->defaultTrue()->end()
 			->end()
 		;
 
+		$strategyNodes = $node
+			->children()
+				->arrayNode('strategies')
+				->addDefaultsIfNotSet()
+				->children()
+		;
+
+		$defaultStrategies = array(
+			'accessor'      => array('enabled' => true, 'priority' => 100),
+		);
+
+
+		foreach($defaultStrategies as $name => $defaults) {
+			$this->addNormalizerStrategySection($strategyNodes, $name, $defaults['enabled'], $defaults['priority']);
+		}
+
 		return $node;
+	}
+
+	protected function addNormalizerStrategySection($parentNode, $name, $isEnabled = true, $priority = null)
+	{
+		$parentNode
+			->arrayNode($name)
+				->addDefaultsIfNotSet()
+				->treatFalseLike(array('enabled' => false))
+				->treatTrueLike(array('enabled' => true))
+				->treatTrueLike(array('enabled' => true))
+				->treatNullLike(array('enabled' => $isEnabled))
+				->beforeNormalization()
+					->ifString()
+					->then(function($v){
+						return array('enabled' => true, 'id' => $v, 'priority' => null);
+					})
+				->end()
+				->children()
+					->scalarNode('enabled')->defaultValue($isEnabled)->end()
+					->scalarNode('id')->defaultValue('erato_framework.normalizer.default_strategy.' . $name)->end()
+					->scalarNode('priority')->defaultValue($priority)->end()
+				->end()
+		;
 	}
 }

@@ -9,11 +9,7 @@
 
         <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
 		<!-- Strategy Classes -->
-        <parameter key="erato_framework.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
-        <parameter key="erato_framework.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
-        <parameter key="erato_framework.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
         <parameter key="erato_framework.normalizer.accessor_strategy.class">Erato\Core\Normalizer\Strategy\AccessorStrategy</parameter>
-		<parameter key="erato_framework.normalizer.jms_serializer_strategy.class">Clio\Bridge\JMSSerializer\Normalizer\JMSSerializerStrategy</parameter>
     </parameters>
 
     <services>
@@ -21,7 +17,8 @@
         <service id="erato_framework.normalizer" class="%erato_framework.normalizer.class%">
 			<argument type="service" id="erato_framework.normalizer.strategy"/>
         </service>
-
+		
+		<!-- Alias the root strategy -->
 		<service id="erato_framework.normalizer.strategy" alias="erato_framework.normalizer.strategy_collection"/>
 		
 		<!-- Strategies Collection -->
@@ -35,20 +32,9 @@
 			id="erato_framework.normalizer.default_strategy.accessor" 
 			class="%erato_framework.normalizer.accessor_strategy.class%"
 		>
-			<argument type="service" id="erato_framework.normalizer.accessor_registry" on-invalid="null"/>
+			<argument type="service" id="erato_framework.accessor.accessor_registry" on-invalid="null"/>
 		</service>
-		<service id="erato_framework.normalizer.default_strategy.jms" class="%erato_framework.normalizer.jms_serializer_strategy.class%">
-			<argument type="service" id="jms_serializer" on-invalid="null"/>
-		</service>
-		<service id="erato_framework.normalizer.default_strategy.datetime" class="%erato_framework.normalizer.datetime_strategy.class%">
-		</service>
-		<service id="erato_framework.normalizer.default_strategy.reference" class="%erato_framework.normalizer.reference_strategy.class%">
-		</service>
-		<service id="erato_framework.normalizer.default_strategy.scalar" class="%erato_framework.normalizer.scalar_strategy.class%">
-		</service>
-
-		<!-- -->
-		<service id="erato_framework.normalizer.accessor_registry" alias="erato_framework.accessor.schema_accessor_factory"/>
+		
     </services>
 </container>
 

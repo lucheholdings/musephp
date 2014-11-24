@@ -6,17 +6,16 @@
 
     <parameters>
 		<!-- Registry -->
-	    <parameter key="erato_framework.metadata.registry.class">Clio\Extra\Metadata\SchemaMetadataRegistry</parameter>
-		<!--  -->
-	    <parameter key="erato_framework.metadata.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
-	    <parameter key="erato_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-		
-		<!-- -->
-        <parameter key="erato_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
+	    <parameter key="erato_framework.metadata.registry.class">Clio\Component\Util\Metadata\ProxySchemaMetadataRegistry</parameter>
+	    <parameter key="erato_framework.metadata.loadable_registry.class">Clio\Component\Pattern\Registry\LoadableRegistry</parameter>
+	    <parameter key="erato_framework.metadata.cached_registry.class">Clio\Bridge\DoctrineCache\Registry\CachedRegistry</parameter>
+	    <parameter key="erato_framework.metadata.map_registry.class">Clio\Component\Pattern\Registry\RegistryMap</parameter>
+
+        <parameter key="erato_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Factory\ClassMetadataFactory</parameter>
 		<!-- Loader -->
         <parameter key="erato_framework.metadata.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-        <!-- default mapping factory classes -->
-		<parameter key="erato_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
+        <!-- mapping fatories -->
+		<parameter key="erato_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection</parameter>
 		<parameter key="erato_framework.metadata.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
 		<parameter key="erato_framework.metadata.attribute_map_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory</parameter>
 		<parameter key="erato_framework.metadata.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
@@ -29,40 +28,42 @@
     </parameters>
 
 	<services>
-		<!-- Metadata Registry with Loader -->
+
+		<!-- Metadata Registry -->
 		<service
-			id="erato_framework.metadata.registry"
-			class="%erato_framework.metadata.registry.class%"
+			id="erato_framework.metadata.registry.loader"
+			class="%erato_framework.metadata.loadable_registry.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.registry.loader"/>
-		</service>
-		<!-- Registry Loader -->
-		<!-- Registry Cache Loader -->
-		<service
-			id="erato_framework.metadata.registry.cache_loader"
-			class="%erato_framework.metadata.registry.cache_loader.class%"
-		>
-			<argument type="service" id="erato_framework.metadata.registry.factory_loader"/>
-			<argument type="service" id="erato_framework.metadata.registry.cache_loader.cache" on-invalid="null"/>
+			<argument></argument><!-- erato_framework.metadata.registry.cache or erato_framework.metadata.registry.map will be injected by configuration-->
 		</service>
 
 		<service 
-			id="erato_framework.metadata.registry.cache_loader.default_cache"
-			class="Clio\Component\Util\Cache\CacheProvider" 
-			public="false"
-			factory-service="erato_framework.cache_factory"
-			factory-method="createCacheProvider"
+			id="erato_framework.metadata.registry.cache"
+			class="%erato_framework.metadata.cached_registry.class%"
 		>
-			<argument></argument><!-- type -->
-			<argument></argument><!-- arguments -->
+			<argument type="service" id="erato_framework.metadata.registry.map"/>
+			<argument type="service" id="erato_framework.metadata.cached_registry.cache" on-invalid="null"/>
+			<argument>0</argument>
+			<argument type="service" id="erato_framework.metadata.rebuilder"/>
+		</service>
+		<service
+			id="erato_framework.metadata.registry.map"
+			class="%erato_framework.metadata.map_registry.class%"
+		>
+		</service>
+
+		<service id="erato_framework.metadata.registry" class="%erato_framework.metadata.registry.class%">
+			<argument type="service" id="erato_framework.metadata.registry.loader"/>
 		</service>
 
 		<!-- Metadata Loader -->
 		<service
-			id="erato_framework.metadata.registry.factory_loader"
-			class="%erato_framework.metadata.registry.factory_loader.class%"
+			id="erato_framework.metadata.class_metadata_factory_loader"
+			class="%erato_framework.metadata.mapped_factory_loader.class%"
 		>
 			<argument type="service" id="erato_framework.metadata.class_metadata_factory"/>
+
+			<tag name="erato_framework.metadata.loader" />
 		</service>
 
 		<!-- Class Factory -->
@@ -123,8 +124,9 @@
 			id="erato_framework.metadata.cache_clearer"
 			class="%erato_framework.metadata.cache_clearer.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.registry.cache_loader.cache" on-invalid="null"/>
+			<argument type="service" id="erato_framework.metadata.cached_registry.cache" on-invalid="null"/>
 			<tag name="kernel.cache_clearer"/>
 		</service>
 	</services>	
 </container>
+

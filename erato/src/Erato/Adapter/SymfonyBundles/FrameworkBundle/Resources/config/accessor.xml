@@ -5,7 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-
+		<!-- Registry -->
+		<parameter key="erato_framework.accessor.registry.class">Erato\Core\Accessor\SchemaAccessorRegistry</parameter>
 		<!-- Schema Accessor Factory -->
         <parameter key="erato_framework.accessor.schema_accessor_factory_collection.class">Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection</parameter>
         <parameter key="erato_framework.accessor.class_accessor_factory.class">Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory</parameter>
@@ -31,6 +32,14 @@
     </parameters>
 
 	<services>
+		<!-- Schema AccessorRegistry -->
+		<service 
+			id="erato_framework.accessor.registry"
+			class="%erato_framework.accessor.registry.class%"
+		>
+			<argument type="service" id="erato_framework.metadata.registry"/>
+		</service>
+		<!-- -->
 		<service
 			id="erato_framework.accessor.schema_accessor_factory"
 			alias="erato_framework.accessor.schema_accessor_factory.collection"
