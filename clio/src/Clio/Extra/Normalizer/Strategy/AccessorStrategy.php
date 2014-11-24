@@ -24,6 +24,9 @@ use Clio\Component\Util\Accessor\Schema\AccessorRegistry as SchemaAccessorRegist
  */
 class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy, DenormalizationStrategy
 {
+	/**
+	 * {@inheritdoc}
+	 */
 	private $accessorFactory;
 
 	/**

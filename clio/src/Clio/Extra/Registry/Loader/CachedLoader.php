@@ -46,13 +46,15 @@ class CachedLoader extends ProxyLoader
 	public function loadEntry($key)
 	{
 		if($this->cacheProvider->contains($key)) {
-			return $this->cacheProvider->fetch($key);
+			$entry = $this->cacheProvider->fetch($key);
+			
+			// rebuild entry if needed
+			$this->injector->inject($entry);
+		} else {
+			$entry = $this->getLoader()->loadEntry($key);
+			// Save
+			$this->cacheProvider->save($key, $entry);
 		}
-
-		$entry = $this->getLoader()->loadEntry($key);
-		
-		// Save
-		$this->cacheProvider->save($key, $entry);
 
 		return $entry;
 	}

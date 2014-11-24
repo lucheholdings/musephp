@@ -1,7 +1,7 @@
 <?php
-namespace Clio\Component\Pattern\Loader;
+namespace Clio\Component\Pattern\Registry\Loader;
 
-use Clio\Component\Pattern\EntryLoader;
+use Clio\Component\Pattern\Registry\EntryLoader;
 /**
  * ProxyLoader 
  * 
