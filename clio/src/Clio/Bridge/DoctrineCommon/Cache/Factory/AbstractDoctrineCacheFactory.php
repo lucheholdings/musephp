@@ -26,7 +26,7 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 	static $doctrineCacheClasses = array(
 		'apc'			=> 'Doctrine\Common\Cache\ApcCache',
 		'array'			=> 'Doctrine\Common\Cache\ArrayCache',
-		'file_system'	=> 'Doctrine\Common\Cache\FileSystemCache',
+		'file_system'	=> 'Doctrine\Common\Cache\FilesystemCache',
 		'php_file'		=> 'Doctrine\Common\Cache\PhpFileCache',
 		'couchbase'		=> 'Doctrine\Common\Cache\CouchbaseCache',
 		'memcache'		=> 'Doctrine\Common\Cache\MemcacheCache',
