@@ -125,7 +125,7 @@ class Configuration implements ConfigurationInterface
 					->children()
 						->scalarNode('type')->defaultValue('file_system')->end()
 						->arrayNode('options')
-							->defaultValue(array('directory' => '%kernel.cache_dir%/erato_framework', 'extension' => 'cache.php'))
+							->defaultValue(array('directory' => '%kernel.cache_dir%/erato_framework/metadata', 'extension' => 'cache.php'))
 							->prototype('variable')
 							->end()
 						->end()

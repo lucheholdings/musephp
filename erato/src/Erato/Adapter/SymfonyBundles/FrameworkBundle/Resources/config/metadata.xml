@@ -24,7 +24,7 @@
 		<!-- Mapping Injector -->
 		<parameter key="erato_framework.metadata.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
 
-		<parameter key="erato_framework.metadata.cache_clearer.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer</parameter>
+		<parameter key="erato_framework.metadata.cache_clearer.class">Clio\Adapter\SymfonyBundles\ComponentBundle\Cache\CacheProviderClearer</parameter>
 
     </parameters>
 
