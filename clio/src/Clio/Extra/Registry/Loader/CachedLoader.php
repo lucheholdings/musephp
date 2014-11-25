@@ -26,17 +26,27 @@ class CachedLoader extends ProxyLoader
 	private $cacheProvider;
 
 	/**
+	 * cacheWarmer 
+	 *   CacheWarmer is a collection of injector which inject dependencies into the wokeup cache.
+	 * @var mixed
+	 * @access private
+	 */
+	private $cacheWarmer;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param EntryLoader $loader 
 	 * @param CacheProvider $cacheProvider 
+	 * @param Injector $cacheWarmer 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(EntryLoader $loader, CacheProvider $cacheProvider = null)
+	public function __construct(EntryLoader $loader, CacheProvider $cacheProvider = null, CacheWarmer $cacheWarmer = null)
 	{
 		parent::__construct($loader);
 
+		$this->cacheWarmer = $cacheWarmer;
 		$this->cacheProvider = $cacheProvider;
 	}
 
@@ -48,8 +58,10 @@ class CachedLoader extends ProxyLoader
 		if($this->cacheProvider->contains($key)) {
 			$entry = $this->cacheProvider->fetch($key);
 			
-			// rebuild entry if needed
-			$this->injector->inject($entry);
+			// Warmup cache
+			if($this->getCacheWarmer()) {
+				$entry = $this->getCacheWarmer()->warmup($entry);
+			}
 		} else {
 			$entry = $this->getLoader()->loadEntry($key);
 			// Save
@@ -88,6 +100,30 @@ class CachedLoader extends ProxyLoader
     public function setCacheProvider(CacheProvider $cacheProvider)
     {
         $this->cacheProvider = $cacheProvider;
+        return $this;
+    }
+    
+    /**
+     * getCacheWarmer 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getCacheWarmer()
+    {
+        return $this->cacheWarmer;
+    }
+    
+    /**
+     * setCacheWarmer 
+     * 
+     * @param mixed $cacheWarmer 
+     * @access public
+     * @return void
+     */
+    public function setCacheWarmer($cacheWarmer)
+    {
+        $this->cacheWarmer = $cacheWarmer;
         return $this;
     }
 }
