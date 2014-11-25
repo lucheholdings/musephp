@@ -1,13 +1,14 @@
 <?php
-namespace Clio\Extra\Metadata\Rebuilder;
+namespace Clio\Extra\Metadata\Cache;
 
 use Clio\Component\Util\Execution\Invoker;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Injection\Injector;
+use Clio\Extra\Registry\Loader\CacheWarmer;
 
 
 /**
- * MetadataRebuilder 
+ * MetadataCacheWarmer
  * 
  * @uses Invoker
  * @package { PACKAGE }
@@ -15,7 +16,7 @@ use Clio\Component\Util\Injection\Injector;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class MetadataRebuilder extends Invoker 
+class MetadataCacheWarmer implements CacheWarmer 
 {
 	/**
 	 * mappingInjector 
@@ -40,14 +41,25 @@ class MetadataRebuilder extends Invoker
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function doInvokeArgs(array $args)
+	public function warmup($data)
 	{
-		$metadata = array_shift($args);
-
-		if(!$metadata instanceof Metadata) {
-			throw new \InvalidArgumentException(sprintf('Argument 0 of MetadataRebuilder::doInvokeArgs has to be an instance of Metadata, but "%s" is given.', is_object($metadata) ? get_class($metadata) : gettype($metadata)));
+		if(!$data instanceof Metadata) {
+			throw new \InvalidArgumentException(sprintf('Argument 0 of MetadataCacheWarmer::warmup has to be an instance of Metadata, but "%s" is given.', is_object($data) ? get_class($data) : gettype($data)));
 		}
 		
+		return $this->doInject($data);
+	}
+
+	/**
+	 * doInject 
+	 * 
+	 * @param Metadata $metadata 
+	 * @access protected
+	 * @return void
+	 */
+	protected function doInject(Metadata $metadata)
+	{
+
 		foreach($metadata->getMappings() as $mapping) {
 			$this->getMappingInjector()->inject($mapping);
 		}
