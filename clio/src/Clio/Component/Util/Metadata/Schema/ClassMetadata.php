@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Metadata\Schema;
 
 use Clio\Component\Util\Metadata\InheritableMetadata;
-use Clio\Component\Util\Metadata\Mapping\MappingCollection;
+use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 
 /**
  * ClassMetadata 
