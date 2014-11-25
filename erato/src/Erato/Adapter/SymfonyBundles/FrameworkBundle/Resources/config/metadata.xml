@@ -22,7 +22,7 @@
 		<parameter key="erato_framework.metadata.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
 
 		<!-- Mapping Injector -->
-		<parameter key="erato_framework.metadata.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
+		<parameter key="erato_framework.metadata.cache_warmer.class">Clio\Extra\Metadata\Cache\MetadataCacheWarmer</parameter>
 
 		<parameter key="erato_framework.metadata.cache_clearer.class">Clio\Adapter\SymfonyBundles\ComponentBundle\Cache\CacheProviderClearer</parameter>
 
@@ -44,6 +44,7 @@
 		>
 			<argument type="service" id="erato_framework.metadata.registry.factory_loader"/>
 			<argument type="service" id="erato_framework.metadata.registry.cache_loader.cache" on-invalid="null"/>
+			<argument type="service" id="erato_framework.metadata.cache_warmer" on-invalid="null"/>
 		</service>
 
 		<service 
@@ -113,8 +114,8 @@
 		</service>
 		<!-- Injector Invoker -->
 		<service
-			id="erato_framework.metadata.rebuilder"
-			class="%erato_framework.metadata.rebuilder.class%"
+			id="erato_framework.metadata.cache_warmer"
+			class="%erato_framework.metadata.cache_warmer.class%"
 		>
 			<argument type="service" id="erato_framework.metadata.mapping_injector"/>
 		</service>
