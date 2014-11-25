@@ -13,12 +13,12 @@ namespace Clio\Component\Util\Injection;
 class InjectorCollection implements Injector 
 {
 	/**
-	 * injecctors 
+	 * injectors 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
-	private $injecctors;
+	private $injectors;
 
 	/**
 	 * __construct 
@@ -63,26 +63,26 @@ class InjectorCollection implements Injector
 	}
     
     /**
-     * getInjecctors 
+     * getInjectors 
      * 
      * @access public
      * @return void
      */
-    public function getInjecctors()
+    public function getInjectors()
     {
-        return $this->injecctors;
+        return $this->injectors;
     }
     
     /**
-     * setInjecctors 
+     * setInjectors 
      * 
-     * @param mixed $injecctors 
+     * @param mixed $injectors 
      * @access public
      * @return void
      */
-    public function setInjecctors($injecctors)
+    public function setInjectors($injectors)
     {
-        $this->injecctors = $injecctors;
+        $this->injectors = $injectors;
         return $this;
     }
 }
