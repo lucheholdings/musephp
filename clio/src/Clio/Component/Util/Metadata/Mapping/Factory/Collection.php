@@ -7,7 +7,7 @@ use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 use Clio\Component\Pattern\Factory\NamedCollection;
 use Clio\Component\Util\Validator\ClassValidator;
 
-use Clio\Component\Util\Injection\InjectorCollection;
+use Clio\Component\Util\Injection\InjectorMap;
 
 /**
  * Collection 
@@ -71,17 +71,17 @@ class Collection extends NamedCollection implements Factory
 	 * getInjector 
 	 * 
 	 * @access public
-	 * @return void
+	 * @return InjectorMap
 	 */
 	public function getInjector()
 	{
 		if(!$this->injector) {
-			$this->injector = new InjectorCollection();
+			$this->injector = new InjectorMap();
 
-			foreach($this as $factory) {
+			foreach($this as $name => $factory) {
 				$injector = $factory->getInjector();
 				if($injector) {
-					$this->injector->addInjector($injector);
+					$this->injector->set($name, $injector);
 				}
 			}
 		}

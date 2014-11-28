@@ -4,7 +4,7 @@ namespace Clio\Component\Util\Metadata\Field;
 use Clio\Component\Util\Metadata\AbstractMetadata;
 use Clio\Component\Util\Metadata\FieldMetadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
-use Clio\Component\Util\Metadata\Mapping\MappingCollection;
+use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 
 /**
  * AbstractFieldMetadata 
