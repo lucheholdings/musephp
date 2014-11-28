@@ -19,6 +19,14 @@ use Clio\Component\Util\Metadata\Metadata;
 abstract class AbstractFactory extends BaseFactory implements Factory 
 {
 	/**
+	 * options 
+	 * 
+	 * @var array
+	 * @access private
+	 */
+	private $options = array();
+
+	/**
 	 * doCreate 
 	 * 
 	 * @param array $args 
@@ -40,7 +48,7 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 	 * @access public
 	 * @return void
 	 */
-	public final function createMapping(Metadata $metadata)
+	public final function createMapping(Metadata $metadata, array $options = array())
 	{
 		$mapping = $this->doCreateMapping($metadata);
 
@@ -60,7 +68,7 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 	 * @access protected
 	 * @return void
 	 */
-	abstract protected function doCreateMapping(Metadata $metadata);
+	abstract protected function doCreateMapping(Metadata $metadata, array $options);
 
 	/**
 	 * {@inheritdoc}
@@ -82,6 +90,67 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 	public function getInjector()
 	{
 		return null;
+	}
+    
+    /**
+     * getOptions 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
+    /**
+     * setOptions 
+     * 
+     * @param mixed $options 
+     * @access public
+     * @return void
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+	/**
+	 * hasOption 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function hasOption($name)
+	{
+		return isset($this->options[$name]);
+	}
+
+	/**
+	 * getOption 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function getOption($name)
+	{
+		return $this->options[$name];
+	}
+
+	/**
+	 * setOption 
+	 * 
+	 * @param mixed $name 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
+	 */
+	public function setOption($name, $value)
+	{
+		$this->options[$name] = $value;
 	}
 }
 

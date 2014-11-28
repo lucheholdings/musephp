@@ -86,10 +86,11 @@ abstract class AbstractMapping implements Mapping
 	/**
 	 * {@inheritdoc}
 	 */
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
 		return serialize(array(
-			$this->getOptions()
+			$this->getOptions(),
+			$extra
 		));
 	}
 	
@@ -100,10 +101,13 @@ abstract class AbstractMapping implements Mapping
 	{
 		$data = unserialize($serialized);
 		list(
-			$this->options
+			$this->options,
+			$extra
 		) = $data;
 		// do nothing
 		$this->metadata = null;
+
+		return $extra;
 	}
     
     public function getOptions()

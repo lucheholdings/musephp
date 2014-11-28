@@ -40,5 +40,14 @@ interface Factory
 	 * @return void
 	 */
 	function getInjector();
+
+	/**
+	 * setOptions 
+	 * 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	function setOptions(array $options);
 }
 

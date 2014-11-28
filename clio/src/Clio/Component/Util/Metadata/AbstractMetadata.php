@@ -87,5 +87,28 @@ abstract class AbstractMetadata implements Metadata
 		$mapping->setMetadata($this);
 		return $this;
 	}
+
+	public function serialize(array $extra = array())
+	{
+		return serialize(array(
+			$this->mappings,
+			$extra
+		));
+	}
+
+	public function unserialize($serialized)
+	{
+		$data = unserialize($serialized);
+		if(!$data) {
+			throw new \RuntimeException(sprintf('Failed to unserialize "%s"', get_class($this)));
+		}
+
+		list(
+			$this->mappings,
+			$extra
+		) = $data;
+
+		return $extra;
+	}
 }
 

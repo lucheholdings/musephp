@@ -87,12 +87,13 @@ abstract class AbstractFieldMetadata extends AbstractMetadata implements FieldMe
     }
 
 
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
 		return serialize(array(
 			$this->type,
 			$this->name,
-			$this->getMappings()->toArray()
+			$this->getMappings()->toArray(),
+			$extra
 		));
 	}
 
@@ -105,10 +106,13 @@ abstract class AbstractFieldMetadata extends AbstractMetadata implements FieldMe
 		list(
 			$this->type,
 			$this->name,
-			$mappings
+			$mappings,
+			$extra
 		) = $data;
 
 		$this->setMappings(new MappingCollection($mappings));
+
+		return $extra;
 	}
 }
 

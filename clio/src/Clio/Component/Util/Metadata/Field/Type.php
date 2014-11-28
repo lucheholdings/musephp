@@ -138,11 +138,12 @@ class Type implements \Serializable
 		return $this->name;
 	}
 
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
 		return serialize(array(
 			$this->name,
-			$this->internalType
+			$this->internalType,
+			$extra
 		));
 	}
 
@@ -152,8 +153,11 @@ class Type implements \Serializable
 
 		list(
 			$this->name,
-			$this->internalType
+			$this->internalType,
+			$extra
 		) = $data;
+
+		return $extra;
 	}
 }
 

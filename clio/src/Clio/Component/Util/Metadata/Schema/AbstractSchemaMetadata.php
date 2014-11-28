@@ -123,27 +123,20 @@ abstract class AbstractSchemaMetadata extends AbstractMetadata implements Schema
 		return $this;
 	}
 
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
-		return serialize(array(
-			$this->getFields(),
-			$this->getMappings()->toArray()
-		));
+		$extra['fields'] = $this->fields;
+		return parent::serialize($extra);
 	}
 
 	public function unserialize($serialized)
 	{
-		$data = unserialize($serialized);
-		if(!$data) {
-			throw new \RuntimeException(sprintf('Failed to unserialize "%s"', __CLASS__));
-		}
+		$extra = parent::unserialize();
 
-		list(
-			$this->fields,
-			$mappings
-		) = $data;
+		$this->fields = $extra['fields'];
+		unset($extra['fields']);
 
-		$this->setMappings(new MappingCollection($mappings));
+		return $extra;
 	}
 }
 

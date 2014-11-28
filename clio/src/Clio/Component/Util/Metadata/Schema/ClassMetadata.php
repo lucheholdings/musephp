@@ -93,12 +93,13 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritableMetadat
         return $this;
     }
 
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
 		return serialize(array(
 			$this->reflectionClass->getName(),
 			$this->getFields(),
-			$this->getMappings()->toArray()
+			$this->getMappings()->toArray(),
+			$extra
 		));
 	}
 
@@ -111,12 +112,15 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritableMetadat
 		list(
 			$class,
 			$fields,
-			$mappings
+			$mappings,
+			$extra
 		) = $data;
 
 		$this->reflectionClass = new \ReflectionClass($class);
 		$this->setFields($fields);
 		$this->setMappings(new MappingCollection($mappings));
+
+		return $extra;
 	}
 
 	/**
