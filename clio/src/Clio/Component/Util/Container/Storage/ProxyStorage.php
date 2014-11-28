@@ -4,7 +4,7 @@ namespace Clio\Component\Util\Container\Storage;
 use Clio\Component\Util\Container\Storage;
 use Clio\Component\Exception as Exceptions;
 
-class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessable  
+class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessable, \Countable 
 {
 	private $source;
 
@@ -189,14 +189,6 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	/**
 	 * {@inheritdoc}
 	 */
-	public function count()
-	{
-		return $this->getSource()->count();
-	}
-	
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getIterator($mode = self::ITERATE_FORWARD)
 	{
 		return $this->getSource()->getIterator($mode);
@@ -230,5 +222,17 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
         $this->source = $source;
         return $this;
     }
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function count()
+	{
+		if(!$this->getSource() instanceof \Countable) {
+			throw new \RuntimeException('Storage is not a Countable.');
+		}
+
+		return count($this->getSource());
+	}
 }
 
