@@ -7,6 +7,7 @@ use Clio\Component\Pattern\Registry\Registry,
 	Clio\Component\Pattern\Registry\EntryLoader
 ;
 
+use Clio\Component\Util\Accessor\Schema\Registry as RegistryInterface;
 use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader;
 use Clio\Component\Util\Accessor\Schema\Factory\GuessNamedAccessorFactory;
 
@@ -19,7 +20,7 @@ use Clio\Component\Util\Accessor\Schema\Factory\GuessNamedAccessorFactory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AccessorRegistry extends LoadableRegistry 
+class AccessorRegistry extends LoadableRegistry implements RegistryInterface 
 {
 	/**
 	 * createRegistry

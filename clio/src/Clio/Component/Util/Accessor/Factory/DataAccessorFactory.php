@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Factory;
 
 use Clio\Component\Util\Accessor\SchemaDataAccessor;
-use Clio\Component\Util\Accessor\Schema\AccessorRegistry as SchemaAccessorRegistry;
+use Clio\Component\Util\Accessor\Schema\Registry as SchemaAccessorRegistry;
 
 /**
  * DataAccessorFactory 

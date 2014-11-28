@@ -18,7 +18,7 @@ use Clio\Component\Exception\UnsupportedException;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Collection extends NamedFactoryCollection 
+class Collection extends NamedFactoryCollection implements FieldAccessorFactory 
 {
 	/**
 	 * {@inheritdoc}
@@ -34,14 +34,6 @@ class Collection extends NamedFactoryCollection
 	public function createFieldAccessorByType($type, Field $field, array $options = array())
 	{
 		return $this->createByKeyArgs($type, array($field, $options));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isSupportedField(Field $field, array $options = array())
-	{
-		return $this->isSupportedArgs(array($field, $options));
 	}
 
 	public function isSupportedFieldType($type, Field $field, array $options = array())
@@ -66,6 +58,33 @@ class Collection extends NamedFactoryCollection
 		}
 
 		throw new UnsupportedException('Failed to guess the field type.');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function createFieldAccessor(Field $field, array $options = array())
+	{
+		foreach($this as $factory) {
+			if($factory->isSupportedField($field)) {
+				return $factory->createFieldAccessor($field, $options);
+			}
+		}
+
+		throw new \RuntimeException('Unsupported');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportedField(Field $field)
+	{
+		foreach($this as $factory) {
+			if($factory->isSupportedField($field)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
 

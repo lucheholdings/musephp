@@ -17,6 +17,6 @@ interface AccessorAware
 	 * @access public
 	 * @return void
 	 */
-	function getAccessor()
+	function getAccessor();
 }
 
