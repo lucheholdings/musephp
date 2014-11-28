@@ -21,6 +21,14 @@ class ClassInjector extends MethodInjector implements Injector
 	private $refClass;
 
 	/**
+	 * strict 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $strict;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param mixed $refClass Class or Interface name 
@@ -29,11 +37,12 @@ class ClassInjector extends MethodInjector implements Injector
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($refClass, $methodName, array $args = array())
+	public function __construct($refClass, $methodName, array $args = array(), $strict = false)
 	{
 		parent::__construct($methodName, $args);
 
 		$this->refClass = new \ReflectionClass($refClass);
+		$this->strict = $strict;
 	}
 
 	/**
@@ -42,15 +51,37 @@ class ClassInjector extends MethodInjector implements Injector
 	protected function doInject($refObject, $object)
 	{
 		if(!$this->getReflectionClass()->isInstance($object)) {
-			throw new InjectionException(sprintf('Object "%s" is not an instance of "%s"', get_class($object), $this->getReflectionClass()->getName())); 
+			if($this->isStrict()) {
+				throw new InjectionException(sprintf('Object "%s" is not an instance of "%s"', get_class($object), $this->getReflectionClass()->getName())); 
+			}
+
+			return $object;
 		}
 
+		
 		parent::doInject($refObject, $object);
 	}
 
+	/**
+	 * getReflectionClass 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getReflectionClass()
 	{
 		return $this->refClass;
+	}
+
+	/**
+	 * isStrict 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function isStrict()
+	{
+		return $this->strict;
 	}
 }
 
