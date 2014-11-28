@@ -3,7 +3,7 @@ namespace Clio\Extra\Metadata\Cache;
 
 use Clio\Component\Util\Execution\Invoker;
 use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Injection\Injector;
+use Clio\Component\Util\Injection\InjectorMap;
 use Clio\Extra\Registry\Loader\CacheWarmer;
 
 
@@ -19,35 +19,35 @@ use Clio\Extra\Registry\Loader\CacheWarmer;
 class MetadataCacheWarmer implements CacheWarmer 
 {
 	/**
-	 * mappingInjector 
+	 * mappingInjectors 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
-	private $mappingInjector;
+	private $mappingInjectors;
 
 	/**
 	 * __construct 
 	 * 
-	 * @param Injector $mappingInjector 
+	 * @param Injector $mappingInjectors 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Injector $mappingInjector)
+	public function __construct(InjectorMap $mappingInjectors)
 	{
-		$this->mappingInjector = $mappingInjector;
+		$this->mappingInjectors = $mappingInjectors;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function warmup($data)
+	public function warmup($metadata)
 	{
-		if(!$data instanceof Metadata) {
-			throw new \InvalidArgumentException(sprintf('Argument 0 of MetadataCacheWarmer::warmup has to be an instance of Metadata, but "%s" is given.', is_object($data) ? get_class($data) : gettype($data)));
+		if(!$metadata instanceof Metadata) {
+			throw new \InvalidArgumentException(sprintf('Argument 0 of MetadataCacheWarmer::warmup has to be an instance of Metadata, but "%s" is given.', is_object($metadata) ? get_class($metadata) : gettype($metadata)));
 		}
 		
-		return $this->doInject($data);
+		return $this->doInject($metadata);
 	}
 
 	/**
@@ -59,35 +59,36 @@ class MetadataCacheWarmer implements CacheWarmer
 	 */
 	protected function doInject(Metadata $metadata)
 	{
-
 		foreach($metadata->getMappings() as $mapping) {
-			$this->getMappingInjector()->inject($mapping);
+			if($this->getMappingInjectors()->has($mapping->getName())) {
+				$this->getMappingInjectors()->get($mapping->getName())->inject($mapping);
+			}
 		}
 
 		return $metadata;
 	}
     
     /**
-     * getMappingInjector 
+     * getMappingInjectors 
      * 
      * @access public
      * @return void
      */
-    public function getMappingInjector()
+    public function getMappingInjectors()
     {
-        return $this->mappingInjector;
+        return $this->mappingInjectors;
     }
     
     /**
-     * setMappingInjector 
+     * setMappingInjectors 
      * 
-     * @param mixed $mappingInjector 
+     * @param mixed $mappingInjectors 
      * @access public
      * @return void
      */
-    public function setMappingInjector(Injector $mappingInjector)
+    public function setMappingInjectors(InjectorMap $mappingInjectors)
     {
-        $this->mappingInjector = $mappingInjector;
+        $this->mappingInjectors = $mappingInjectors;
         return $this;
     }
 }
