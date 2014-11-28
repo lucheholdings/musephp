@@ -1,9 +1,24 @@
 <?php
 namespace Erato\Core\Accessor;
 
-class SchemaAccessorRegistry extends BaseRegistry
+use Clio\Component\Pattern\Registry\ReferenceRegistry;
+use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
+
+use Clio\Component\Util\Accessor\Schema\Registry;
+/**
+ * SchemaAccessorRegistry 
+ * 
+ * @uses MetadataReferenceRegistry
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
+class SchemaAccessorRegistry extends ReferenceRegistry implements Registry 
 {
-	public function __construct(MetadataRegistry $regsitry)
+	private $metadataRegistry;
+
+	public function __construct(SchemaMetadataRegistry $metadataRegistry)
 	{
 		$this->metadataRegistry = $metadataRegistry;
 	}
@@ -22,11 +37,6 @@ class SchemaAccessorRegistry extends BaseRegistry
 
 		$metadata = $this->getMetadataRegistry()->get($name);
 		return $metadata->hasMapping('accessor');
-	}
-
-	public function set()
-	{
-		throw new Exception('SchemaAccessorRegistry does not support set method. It only accept has/get method with MetadataRegistry');
 	}
 }
 

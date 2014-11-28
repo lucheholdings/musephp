@@ -7,6 +7,7 @@
     <parameters>
 		<!-- Registry -->
 	    <parameter key="erato_framework.metadata.registry.class">Clio\Extra\Metadata\SchemaMetadataRegistry</parameter>
+	    <parameter key="erato_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaMetadataRegistry</parameter>
 		<!--  -->
 	    <parameter key="erato_framework.metadata.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
 	    <parameter key="erato_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
@@ -15,12 +16,6 @@
         <parameter key="erato_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
 		<!-- Loader -->
         <parameter key="erato_framework.metadata.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-        <!-- default mapping factory classes -->
-		<parameter key="erato_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
-		<parameter key="erato_framework.metadata.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
-		<parameter key="erato_framework.metadata.attribute_map_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory</parameter>
-		<parameter key="erato_framework.metadata.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
-
 		<!-- Mapping Injector -->
 		<parameter key="erato_framework.metadata.cache_warmer.class">Clio\Extra\Metadata\Cache\MetadataCacheWarmer</parameter>
 
@@ -29,12 +24,14 @@
     </parameters>
 
 	<services>
+			
 		<!-- Metadata Registry with Loader -->
 		<service
 			id="erato_framework.metadata.registry"
 			class="%erato_framework.metadata.registry.class%"
 		>
 			<argument type="service" id="erato_framework.metadata.registry.loader"/>
+			<tag name="clio_component.reference" class="%erato_framework.metadata.reference_registry.class%"/>
 		</service>
 		<!-- Registry Loader -->
 		<!-- Registry Cache Loader -->
@@ -71,34 +68,10 @@
 			id="erato_framework.metadata.class_metadata_factory"
 			class="%erato_framework.metadata.class_metadata_factory.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.mapping_factory.collection"/>
+			<argument type="service" id="erato_framework.metadata.mapping_factory"/>
 		</service>
 
 		<!-- Mapping Factory -->
-		<service
-			id="erato_framework.metadata.mapping_factory.collection"
-			class="%erato_framework.metadata.mapping_factory_collection.class%"
-		>
-		</service>
-		<service
-			id="erato_framework.metadata.default_mapping_factory.accessor"
-			class="%erato_framework.metadata.accessor_mapping_factory.class%"
-		>
-			<argument type="service" id="erato_framework.accessor.schema_accessor_factory.metadata" on-invalid="null"/>
-			<argument type="service" id="erato_framework.accessor.field_accessor_factory" on-invalid="null"/>
-		</service>
-		<service
-			id="erato_framework.metadata.mapping_factory.attribute_map"
-			class="%erato_framework.metadata.attribute_map_mapping_factory.class%"
-		>
-			<tag name="erato_framework.metadata.mapping_factory" for="attribute"/>
-		</service>
-		<service
-			id="erato_framework.metadata.mapping_factory.tag_set"
-			class="%erato_framework.metadata.tag_set_mapping_factory.class%"
-		>
-			<tag name="erato_framework.metadata.mapping_factory" for="tag"/>
-		</service>
 		<service
 			id="erato_framework.metadata.mapping_factory"
 			alias="erato_framework.metadata.mapping_factory.collection"
@@ -106,7 +79,7 @@
 
 		<!-- Injector -->
 		<service
-			id="erato_framework.metadata.mapping_injector"
+			id="erato_framework.metadata.mapping_injectors"
 			class="Clio\Component\Util\Injection\Injector"
 			factory-service="erato_framework.metadata.mapping_factory"
 			factory-method="getInjector"
@@ -117,7 +90,7 @@
 			id="erato_framework.metadata.cache_warmer"
 			class="%erato_framework.metadata.cache_warmer.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.mapping_injector"/>
+			<argument type="service" id="erato_framework.metadata.mapping_injectors"/>
 		</service>
 
 		<service

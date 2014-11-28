@@ -30,12 +30,14 @@ class EratoFrameworkExtension extends Extension
         $this->loader->load('services.xml');
 
 		$this->loader->load('metadata.xml');
+		$this->loader->load('mapping.xml');
 
 		$this->configureCacheFactory($container, $config['cache_factory']);
 		$this->configureMetadata($container, $config['metadata']);
 		//$this->configureSchema($configs['schema']);
 		$this->configureMapping($container, $config['mappings']);
-		//$this->configureAccessor($container, $config['accessor']);
+
+		$this->configureAccessor($container, $config['accessor']);
 		//$this->configureFormat();
 		//$this->configureMetadata($container, $config['metadata']);
 		////$this->configureCounter($container, $config['counter']);
@@ -93,8 +95,42 @@ class EratoFrameworkExtension extends Extension
 
 	protected function configureMapping($container, array $mappingConfig)
 	{
+		$this->configureAttributeMapMapping($container, $mappingConfig['attribute_map']);
+		$this->configureTagSetMapping($container, $mappingConfig['tag_set']);
 		$this->configureAccessorMapping($container, $mappingConfig['accessor']);
 		$this->configureNormalizerMapping($container, $mappingConfig['normalizer']);
+	}
+
+	protected function configureAttributeMapMapping($container, $configs)
+	{
+		if(isset($configs['enabled'])) {
+			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.attribute_map');
+
+			$definition->replaceArgument(0, $configs['fieldname']);
+			$definition->replaceArgument(1, $configs['default_class']);
+			$this->enableMapping($definition, 'attribute_map');
+
+			$container->setDefinition(
+				'erato_framework.metadata.mapping_factory.attribute_map',
+				$definition
+			);
+		}
+	}
+
+	protected function configureTagSetMapping($container, $configs)
+	{
+		if(isset($configs['enabled'])) {
+			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.tag_set');
+
+			$definition->replaceArgument(0, $configs['fieldname']);
+			$definition->replaceArgument(1, $configs['default_class']);
+			$this->enableMapping($definition, 'tag_set');
+
+			$container->setDefinition(
+				'erato_framework.metadata.mapping_factory.tag_set',
+				$definition
+			);
+		}
 	}
 
 	/**
@@ -108,14 +144,43 @@ class EratoFrameworkExtension extends Extension
 	protected function configureAccessorMapping($container, $configs)
 	{
 		if(isset($configs['enabled'])) {
-			// If configuration enabled, then load serializer.xml
-			$this->getLoader()->load('accessor.xml');
 
 			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.accessor');
 
 			$this->enableMapping($definition, 'accessor');
+
+			$container->setDefinition(
+				'erato_framework.metadata.mapping_factory.accessor',
+				$definition
+			);
 		}
 	}
+
+	protected function configureNormalizerMapping($container, $configs)
+	{
+		if($configs['enabled']) {
+
+			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.normalizer');
+
+			$this->enableMapping($definition, 'normalizer');
+
+			$container->setDefinition(
+				'erato_framework.metadata.mapping_factory.normalizer',
+				$definition
+			);
+		}
+	}
+
+
+	protected function configureAccessor($contianer, $configs)
+	{
+		if(isset($configs['enabled']) && $configs['enabled']) {
+			// If configuration enabled, then load 
+			$this->getLoader()->load('accessor.xml');
+		}
+	}
+
+
 
 	/**
 	 * configureFormat 
@@ -126,13 +191,6 @@ class EratoFrameworkExtension extends Extension
 	protected function configureFormat()
 	{
 		$this->getLoader()->load('format.xml');
-	}
-
-	protected function configureNormalizerMapping($container, $configs)
-	{
-		if($configs['enabled']) {
-			
-		}
 	}
 
 	protected function configureNormalizer($container, $configs)
@@ -172,9 +230,9 @@ class EratoFrameworkExtension extends Extension
 
 			if($configs['use_clio_normalizer']) {
 				// if use clio normalizer, then chain the normalizer
-				$definition = $container->getDefinition('erato_framework.normalizer');
+				$definition = $container->getDefinition('erato_framework.normalizer.strategy_collection');
 				
-				$definition->addMethodCall('add', array(new Reference('clio_component.normalizer', 0)));
+				$definition->addMethodCall('addStrategy', array(new Reference('clio_component.normalizer', 0)));
 			}
 		}
 	}

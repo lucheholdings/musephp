@@ -29,11 +29,14 @@ class Configuration implements ConfigurationInterface
 			->children()
 				->append($this->buildCacheFactorySection())
 				->append($this->buildCodingSection())
+				->append($this->buildAccessorSection())
 				->append($this->buildNormalizerSection())
 				->append($this->buildMetadataSection())
 				->arrayNode('mappings')
 					->addDefaultsIfNotSet()
 					->children()
+						->append($this->buildAttributeMapMappingSection())
+						->append($this->buildTagSetMappingSection())
 						->append($this->buildAccessorMappingSection())
 						->append($this->buildNormalizerMappingSection())
 						//->append($this->buildSerializerMappingSection())
@@ -135,6 +138,52 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
+	protected function buildAttributeMapMappingSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('attribute_map');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->scalarNode('default_class')
+					->info('Default attribute class')
+					->defaultValue('Clio\Component\Util\Attribute\SimpleAttribute')
+				->end()
+				->scalarNode('fieldname')
+					->info('Default attribute field name')
+					->defaultValue('attributes')
+				->end()
+			->end()
+		;
+
+		return $node;
+	}
+
+	protected function buildTagSetMappingSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('tag_set');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->scalarNode('default_class')
+					->info('Default tag class')
+					->defaultValue('Clio\Component\Util\Tag\SimpleTag')
+				->end()
+				->scalarNode('fieldname')
+					->info('Default tag fieldname')
+					->defaultValue('tags')
+				->end()
+			->end()
+		;
+
+		return $node;
+	}
+
 	protected function buildSerializerMappingSection()
 	{
 		$treeBuilder = new TreeBuilder();
@@ -197,6 +246,22 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
+	//
+
+	protected function buildAccessorSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('accessor');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+			->end()
+		;
+
+		return $node;
+	}
 
 	protected function buildNormalizerSection()
 	{

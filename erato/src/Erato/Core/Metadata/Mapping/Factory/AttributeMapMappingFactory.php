@@ -31,15 +31,24 @@ class AttributeMapMappingFactory extends AbstractSchemaMetadataMappingFactory
 	private $defaultFieldName;
 
 	/**
+	 * defaultClass 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $defaultClass;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param string $defaultFieldName 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($defaultFieldName = 'attributes')
+	public function __construct($defaultFieldName = 'attributes', $defaultClass = 'Clio\Component\Util\Attribute\SimpleAttribute')
 	{
 		$this->defaultFieldName = $defaultFieldName;
+		$this->defaultClass = $defaultClass;
 	}
 
 	/**
@@ -50,7 +59,7 @@ class AttributeMapMappingFactory extends AbstractSchemaMetadataMappingFactory
 		if(($metadata instanceof ClassMetadata) && ($metadata->getReflectionClass()->implementsInterface(self::CONTAINER_INTERFACE))) {
 
 			// 
-			$mapping = new AttributeMapMapping($metadata, $this->getAttributeField($metadata));
+			$mapping = new AttributeMapMapping($metadata, $this->getAttributeField($metadata), $this->getDefaultClass());
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -99,5 +108,16 @@ class AttributeMapMappingFactory extends AbstractSchemaMetadataMappingFactory
 		
 		return $metadata->getReflectionClass()->implementsInterface(self::CONTAINER_INTERFACE);
 	}
+    
+    public function getDefaultClass()
+    {
+        return $this->defaultClass;
+    }
+    
+    public function setDefaultClass($defaultClass)
+    {
+        $this->defaultClass = $defaultClass;
+        return $this;
+    }
 }
 

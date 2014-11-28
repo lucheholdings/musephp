@@ -5,73 +5,44 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-		<!-- Registry -->
-	    <parameter key="erato_framework.metadata.registry.class">Clio\Component\Util\Metadata\ProxySchemaMetadataRegistry</parameter>
-	    <parameter key="erato_framework.metadata.loadable_registry.class">Clio\Component\Pattern\Registry\LoadableRegistry</parameter>
-	    <parameter key="erato_framework.metadata.cached_registry.class">Clio\Bridge\DoctrineCache\Registry\CachedRegistry</parameter>
-	    <parameter key="erato_framework.metadata.map_registry.class">Clio\Component\Pattern\Registry\RegistryMap</parameter>
-
-        <parameter key="erato_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Factory\ClassMetadataFactory</parameter>
-		<!-- Loader -->
-        <parameter key="erato_framework.metadata.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-        <!-- mapping fatories -->
-		<parameter key="erato_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection</parameter>
-		<parameter key="erato_framework.metadata.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
+		<!-- MappingFactory classes -->
+		<parameter key="erato_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
 		<parameter key="erato_framework.metadata.attribute_map_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory</parameter>
 		<parameter key="erato_framework.metadata.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
-
-		<!-- Mapping Injector -->
-		<parameter key="erato_framework.metadata.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
-
-		<parameter key="erato_framework.metadata.cache_clearer.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer</parameter>
-
+		<parameter key="erato_framework.metadata.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
+		<parameter key="erato_framework.metadata.normalizer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\NormalizerMappingFactory</parameter>
     </parameters>
 
 	<services>
-
-		<!-- Metadata Registry -->
 		<service
-			id="erato_framework.metadata.registry.loader"
-			class="%erato_framework.metadata.loadable_registry.class%"
+			id="erato_framework.metadata.default_mapping_factory.attribute_map"
+			class="%erato_framework.metadata.attribute_map_mapping_factory.class%"
 		>
-			<argument></argument><!-- erato_framework.metadata.registry.cache or erato_framework.metadata.registry.map will be injected by configuration-->
+			<argument>attributes</argument>
+			<argument>Clio\Component\Util\Attribute\SimpleAttribute</argument>
 		</service>
 
-		<service 
-			id="erato_framework.metadata.registry.cache"
-			class="%erato_framework.metadata.cached_registry.class%"
-		>
-			<argument type="service" id="erato_framework.metadata.registry.map"/>
-			<argument type="service" id="erato_framework.metadata.cached_registry.cache" on-invalid="null"/>
-			<argument>0</argument>
-			<argument type="service" id="erato_framework.metadata.rebuilder"/>
-		</service>
 		<service
-			id="erato_framework.metadata.registry.map"
-			class="%erato_framework.metadata.map_registry.class%"
+			id="erato_framework.metadata.default_mapping_factory.tag_set"
+			class="%erato_framework.metadata.tag_set_mapping_factory.class%"
 		>
+			<argument>tags</argument>
+			<argument>Clio\Component\Util\Tag\SimpleTag</argument>
 		</service>
-
-		<service id="erato_framework.metadata.registry" class="%erato_framework.metadata.registry.class%">
-			<argument type="service" id="erato_framework.metadata.registry.loader"/>
-		</service>
-
-		<!-- Metadata Loader -->
+		
 		<service
-			id="erato_framework.metadata.class_metadata_factory_loader"
-			class="%erato_framework.metadata.mapped_factory_loader.class%"
+			id="erato_framework.metadata.default_mapping_factory.accessor"
+			class="%erato_framework.metadata.accessor_mapping_factory.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.class_metadata_factory"/>
-
-			<tag name="erato_framework.metadata.loader" />
+			<argument type="service" id="erato_framework.accessor.schema_accessor_factory" on-invalid="null"/>
+			<argument type="service" id="erato_framework.accessor.field_accessor_factory" on-invalid="null"/>
 		</service>
 
-		<!-- Class Factory -->
 		<service
-			id="erato_framework.metadata.class_metadata_factory"
-			class="%erato_framework.metadata.class_metadata_factory.class%"
+			id="erato_framework.metadata.default_mapping_factory.normalizer"
+			class="%erato_framework.metadata.normalizer_mapping_factory.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.mapping_factory.collection"/>
+			<argument type="service" id="erato_framework.normalizer" on-invalid="null"/>
 		</service>
 
 		<!-- Mapping Factory -->
@@ -79,53 +50,6 @@
 			id="erato_framework.metadata.mapping_factory.collection"
 			class="%erato_framework.metadata.mapping_factory_collection.class%"
 		>
-		</service>
-		<service
-			id="erato_framework.metadata.default_mapping_factory.accessor"
-			class="%erato_framework.metadata.accessor_mapping_factory.class%"
-		>
-			<argument type="service" id="erato_framework.accessor.schema_accessor_factory.metadata" on-invalid="null"/>
-			<argument type="service" id="erato_framework.accessor.field_accessor_factory" on-invalid="null"/>
-		</service>
-		<service
-			id="erato_framework.metadata.mapping_factory.attribute_map"
-			class="%erato_framework.metadata.attribute_map_mapping_factory.class%"
-		>
-			<tag name="erato_framework.metadata.mapping_factory" for="attribute"/>
-		</service>
-		<service
-			id="erato_framework.metadata.mapping_factory.tag_set"
-			class="%erato_framework.metadata.tag_set_mapping_factory.class%"
-		>
-			<tag name="erato_framework.metadata.mapping_factory" for="tag"/>
-		</service>
-		<service
-			id="erato_framework.metadata.mapping_factory"
-			alias="erato_framework.metadata.mapping_factory.collection"
-		/>
-
-		<!-- Injector -->
-		<service
-			id="erato_framework.metadata.mapping_injector"
-			class="Clio\Component\Util\Injection\Injector"
-			factory-service="erato_framework.metadata.mapping_factory"
-			factory-method="getInjector"
-		>
-		</service>
-		<!-- Injector Invoker -->
-		<service
-			id="erato_framework.metadata.rebuilder"
-			class="%erato_framework.metadata.rebuilder.class%"
-		>
-			<argument type="service" id="erato_framework.metadata.mapping_injector"/>
-		</service>
-
-		<service
-			id="erato_framework.metadata.cache_clearer"
-			class="%erato_framework.metadata.cache_clearer.class%"
-		>
-			<argument type="service" id="erato_framework.metadata.cached_registry.cache" on-invalid="null"/>
-			<tag name="kernel.cache_clearer"/>
 		</service>
 	</services>	
 </container>

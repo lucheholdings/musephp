@@ -28,6 +28,14 @@ class AttributeMapMapping extends AbstractMapping
 	private $fieldName;
 
 	/**
+	 * defaultClass 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $defaultClass;
+
+	/**
 	 * _accessor 
 	 * 
 	 * @var mixed
@@ -43,10 +51,11 @@ class AttributeMapMapping extends AbstractMapping
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Metadata $metadata, $fieldName = 'attributes')
+	public function __construct(Metadata $metadata, $fieldName = 'attributes', $defaultClass = 'Clio\Component\Util\Attribute\SimpleAttribute')
 	{
 		parent::__construct($metadata);
 		$this->fieldName = $fieldName;
+		$this->defaultClass = $defaultClass;
 	}
 
 	/**
@@ -100,7 +109,37 @@ class AttributeMapMapping extends AbstractMapping
 			$type = $type->getInternalType();
 		}
 
+		if(!class_exists($type)) {
+			$type = $this->defaultClass;
+		}
+
 		return (string)$type;
+	}
+
+	public function dumpConfig()
+	{
+		return array(
+			'fieldname' => $this->getFieldName(),
+			'classname' => $this->getAttributeClass(),
+		);
+	}
+
+	public function serialize()
+	{
+		return serialize(array(
+			$this->fieldName,
+			$this->defaultClass,
+		));
+	}
+
+	public function unserialize($serialized)
+	{
+		$data = unserialize($serialized);
+
+		list(
+			$this->fieldName,
+			$this->defaultClass,
+		) = $data;
 	}
 }
 

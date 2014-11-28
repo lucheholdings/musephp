@@ -28,15 +28,24 @@ class TagSetMappingFactory extends AbstractSchemaMetadataMappingFactory
 	private $defaultFieldName;
 
 	/**
+	 * defaultClass 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $defaultClass;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param string $defaultFieldName 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($defaultFieldName = 'tags')
+	public function __construct($defaultFieldName = 'tags', $defaultClass = 'Clio\Component\Util\Tag\SimpleTag')
 	{
 		$this->defaultFieldName = $defaultFieldName;
+		$this->defaultClass = $defaultClass;
 	}
 
 	/**
@@ -47,7 +56,7 @@ class TagSetMappingFactory extends AbstractSchemaMetadataMappingFactory
 		if(($metadata instanceof ClassMetadata) && ($metadata->getReflectionClass()->implementsInterface(self::CONTAINER_INTERFACE))) {
 
 			// 
-			$mapping = new TagSetMapping($metadata, $this->getTagField($metadata));
+			$mapping = new TagSetMapping($metadata, $this->getTagField($metadata), $this->getDefaultClass());
 		} else {
 			throw new \InvalidArgumentException();
 		}
@@ -96,5 +105,16 @@ class TagSetMappingFactory extends AbstractSchemaMetadataMappingFactory
 		
 		return $metadata->getReflectionClass()->implementsInterface(self::CONTAINER_INTERFACE);
 	}
+    
+    public function getDefaultClass()
+    {
+        return $this->defaultClass;
+    }
+    
+    public function setDefaultClass($defaultClass)
+    {
+        $this->defaultClass = $defaultClass;
+        return $this;
+    }
 }
 

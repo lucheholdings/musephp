@@ -3,7 +3,7 @@ namespace Erato\Core\Metadata\Mapping;
 
 use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
 use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
+use Clio\Component\Util\Accessor\Field\Factory\Collection as FieldAccessorFactoryCollection;
 use Clio\Component\Util\Accessor\Field as AccessorField;
 use Clio\Component\Util\Accessor\Field\NamedField;
 use Clio\Component\Util\Accessor\AccessorAware;
@@ -151,6 +151,14 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 		}
 
 		return $this->accessor;
+	}
+
+	public function dumpConfig()
+	{
+		return array(
+			$this->type,
+			$this->getOptions()
+		);
 	}
 }
 

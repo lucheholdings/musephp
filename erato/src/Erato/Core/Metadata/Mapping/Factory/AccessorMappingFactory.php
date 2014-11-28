@@ -8,7 +8,7 @@ use Clio\Component\Util\Metadata\FieldMetadata,
 	Clio\Component\Util\Metadata\Field\PropertyMetadata
 ;
 use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
-use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
+use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
 
 use Erato\Core\Metadata\Mapping\SchemaAccessorMapping,
 	Erato\Core\Metadata\Mapping\FieldAccessorMapping
@@ -38,7 +38,7 @@ class AccessorMappingFactory extends AbstractFactory
 
 	private $ignoreUnderscored;
 
-	public function __construct(SchemaAccessorFactory $schemaAccessorFactory, FieldAccessorFactoryCollection $fieldAccessorFactory, $ignoreUnderscored = true)
+	public function __construct(SchemaAccessorFactory $schemaAccessorFactory, FieldAccessorFactory $fieldAccessorFactory, $ignoreUnderscored = true)
 	{
 		$this->schemaAccessorFactory = $schemaAccessorFactory;
 		$this->fieldAccessorFactory = $fieldAccessorFactory;
