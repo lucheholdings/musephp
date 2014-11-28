@@ -12,7 +12,7 @@ use Clio\Component\Tool\Normalizer\Context,
 	Clio\Component\Tool\Normalizer\Type
 ;
 
-use Clio\Component\Util\Accessor\Schema\AccessorRegistry as SchemaAccessorRegistry;
+use Clio\Component\Util\Accessor\Schema\Registry as SchemaAccessorRegistry;
 /**
  * AccessorStrategy 
  * 

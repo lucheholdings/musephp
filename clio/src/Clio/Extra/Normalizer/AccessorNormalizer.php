@@ -7,7 +7,7 @@ use Clio\Component\Tool\Normalizer\Strategy\PriorityCollection,
 	Clio\Extra\Normalizer\Strategy\AccessorStrategy
 ;
 
-use Clio\Component\Util\Accessor\Schema\AccessorRegistry as SchemaAccessorRegistry;
+use Clio\Component\Util\Accessor\Schema\Registry as SchemaAccessorRegistry;
 use Clio\Component\Util\Accessor\Schema\Factory\FieldSchemaAccessorFactory;
 
 /**
