@@ -5,7 +5,7 @@ use Clio\Component\Pattern\Registry\Registry;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
- * ServiceRegistry 
+ * ContainerRegistry 
  * 
  * @uses Registry
  * @package { PACKAGE }
@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ServiceRegistry implements Registry
+class ContainerRegistry implements Registry
 {
 	/**
 	 * container 
@@ -73,7 +73,7 @@ class ServiceRegistry implements Registry
 	 */
 	public function remove($id)
 	{
-		throw new UnsupportedException('ServiceRegistry does not support remove.');
+		throw new UnsupportedException('ContainerRegistry does not support remove.');
 	}
 
 	/**
@@ -82,7 +82,7 @@ class ServiceRegistry implements Registry
 	public function clear()
 	{
 		// 
-		throw new UnsupportedException('ServiceRegistry does not support clear.');
+		throw new UnsupportedException('ContainerRegistry does not support clear.');
 	}
 }
 
