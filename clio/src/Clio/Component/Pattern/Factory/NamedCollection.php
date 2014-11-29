@@ -5,7 +5,7 @@ use Clio\Component\Exception\UnsupportedException;
 
 use Clio\Component\Util\Container\Map\Map;
 use Clio\Component\Util\Container\Storage as ContainerStorage;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * NamedCollection 
@@ -48,7 +48,7 @@ class NamedCollection extends Map implements MappedFactory, Factory
 		if(!$this->getStorage() instanceof ContainerStorage\ValidatableStorage) {
 			$this->setStorage(new ContainerStorage\ValidatableStorage($this->getStorage()));
 		}
-		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Pattern\Factory\Factory'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Pattern\Factory\Factory'));
 
 		$this->initFactory();
 	}

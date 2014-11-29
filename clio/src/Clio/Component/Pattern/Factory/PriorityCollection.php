@@ -4,7 +4,7 @@ namespace Clio\Component\Pattern\Factory;
 use Clio\Component\Exception\UnsupportedException;
 
 use Clio\Component\Util\Container\Set\PrioritySet;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * PriorityCollection 
@@ -36,7 +36,7 @@ class PriorityCollection extends PrioritySet implements Factory
 		if(!$this->getStorage() instanceof ValidatableStorage) {
 			$this->setStorage(new ValidatableStorage($this->getStorage()));
 		}
-		$this->setValueValidator(new ClassValidator('Clio\Component\Pattern\Factory\Factory'));
+		$this->setValueValidator(new SubclassValidator('Clio\Component\Pattern\Factory\Factory'));
 	}
 
 	/**
