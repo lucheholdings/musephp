@@ -75,7 +75,7 @@ class FieldSchemaAccessorFactory extends AbstractSchemaAccessorFactory
 		if($factory) {
 			foreach($schema->getFields() as $field) {
 				if($field instanceof AccessorAware) {
-					$field->getAccessor();
+					$accessor = $field->getAccessor();
 				} else {
 					$accessor = $factory->createFieldAccessorWithoutType($field);
 				}
