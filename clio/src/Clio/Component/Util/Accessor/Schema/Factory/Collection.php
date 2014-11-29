@@ -5,7 +5,7 @@ use Clio\Component\Util\Accessor\Schema;
 use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 use Clio\Component\Pattern\Factory\NamedCollection;
 use Clio\Component\Util\Accessor\ChainProxySchemaAccessor;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * Collection 
@@ -22,7 +22,7 @@ class Collection extends NamedCollection implements SchemaAccessorFactory
 {
 	protected function initFactory()
 	{
-		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Accessor\Schema\AccessorFactory'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Util\Accessor\Schema\AccessorFactory'));
 	}
 
 	/**

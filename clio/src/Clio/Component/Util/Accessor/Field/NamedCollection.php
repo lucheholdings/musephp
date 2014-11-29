@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Accessor\Field;
 
 use Clio\Component\Util\Accessor\FieldAccessor;
 use Clio\Component\Util\Container\Map\Map;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 /**
  * NamedCollection 
  *   FieldAccessorCollection with Map (KeyValue) 
@@ -24,7 +24,7 @@ class NamedCollection extends AbstractCollection
 		// Simple Collection
 		$container = new Map();
 		$container->enableStorageValidation();
-		$container->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Accessor\FieldAccessor'));
+		$container->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Util\Accessor\FieldAccessor'));
 
 		foreach($accessors as $field => $accessor) {
 			$container->set($field, $accessor);

@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Field;
 
 use Clio\Component\Util\Container\Set\PrioritySet;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 /**
  * PriorityCollection 
  *   FieldAccessorCollection with PrioritySet 
@@ -19,7 +19,7 @@ class PriorityCollection extends AbstractCollection implements MultiFieldAccesso
 	protected function initContainer(array $accessors) 
 	{
 		$container = new PrioritySet();
-		$container->setValueValidator(new ClassValidator('Clio\Component\Util\Accessor\FieldAccessor'));
+		$container->setValueValidator(new SubclassValidator('Clio\Component\Util\Accessor\FieldAccessor'));
 
 		foreach($accessors as $priority => $priAccessors) {
 			foreach($priAccessors as $accessor) {
