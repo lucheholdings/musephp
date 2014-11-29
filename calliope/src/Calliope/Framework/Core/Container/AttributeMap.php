@@ -8,7 +8,7 @@ use Clio\Component\Util\Attribute\Attribute;
 use Clio\Component\Util\Attribute\AttributeMapAware;
 
 use Clio\Component\Util\Validator\PrimitiveTypeValidator,
-	Clio\Component\Util\Validator\ClassValidator
+	Clio\Component\Util\Validator\SubclassValidator
 ;
 /**
  * AttributeMap 
@@ -37,7 +37,7 @@ class AttributeMap extends Map implements AttributeMap
 		$this->enableStorageValidation();
 
 		$this->getStorage()->setKeyValidator(new PrimitiveTypeValidator('string'));
-		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Attribute\Attribute'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Util\Attribute\Attribute'));
 	}
 
 	/**

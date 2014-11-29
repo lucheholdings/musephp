@@ -2,7 +2,7 @@
 namespace Calliope\Framework\Core\Connection\Factory;
 
 use Clio\Component\Pattern\Factory\NamedCollection;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * TypeConnectionFactory 
@@ -17,7 +17,7 @@ class TypeConnectionFactory extends NamedCollection
 {
 	public function initFactory()
 	{
-		$this->getStorage()->setValueValidator(new ClassValidator('Calliope\Framework\Core\Connection\Factory\ConnectionFactoryInterface'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Calliope\Framework\Core\Connection\Factory\ConnectionFactoryInterface'));
 	}
 
 	/**

@@ -4,7 +4,7 @@ namespace Calliope\Framework\Core\Container;
 use Clio\Component\Util\Container\Set\Set;
 use Clio\Component\Util\Tag\TagSet;
 
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 /**
  * TagSet 
  *   Value  validation 
@@ -24,7 +24,7 @@ class TagSet extends Set implements TagSet
 	{
 		parent::initContainer($values);
 		$this->enableStorageValidation();
-		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Tag\Tag'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Util\Tag\Tag'));
 	}
 
 	/**
