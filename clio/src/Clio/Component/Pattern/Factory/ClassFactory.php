@@ -21,8 +21,8 @@ class ClassFactory extends AbstractFactory
 	 */
 	protected function doCreate(array $args = array())
 	{
-		$class = array_shift($args);
-		return $this->createClass($class, $args);
+		$class = $this->shiftArg($args, 'class');
+		return $this->createClassArgs($class, $args);
 	}
 
 	/**
@@ -35,7 +35,7 @@ class ClassFactory extends AbstractFactory
 	public function createClass($class)
 	{
 		$args = func_get_args();
-		$class = array_shift($args);
+		$class = $this->shiftArg($args, 'class');
 
 		return $this->createClassArgs($class, $args);
 	}
@@ -55,7 +55,12 @@ class ClassFactory extends AbstractFactory
 		}
 		$args = $this->resolveArgs($args);
 
-		return $this->getConstructor()->construct($class, $args);
+		$newInstance = $this->getConstructor()->construct($class, $args);
+
+		if($this->hasValidator()) {
+			$this->getValidator()->validate($newInstance);
+		}
+		return $newInstance;
 	}
 
 	/**
