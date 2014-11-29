@@ -5,7 +5,7 @@ class ReferenceResolverMap extends Map
 {
 	protected function initContainer()
 	{
-		$this->setValueValidator(new ClassValidator('Clio\Component\Tool\Normalizer\ReferenceResolver'));
+		$this->setValueValidator(new SubclassValidator('Clio\Component\Tool\Normalizer\ReferenceResolver'));
 	}
 
 	public function resovleReference($object)

@@ -6,7 +6,7 @@ use Clio\Component\Tool\Normalizer\Strategy;
 use Clio\Component\Tool\Normalizer\Context;
 use Clio\Component\Tool\Normalizer\Type;
 use Clio\Component\Exception\UnsupportedException;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * PriorityCollection 
@@ -31,7 +31,7 @@ class PriorityCollection extends PrioritySet implements
 	{
 		parent::initContainer(array());
 
-		$this->setValueValidator(new ClassValidator('Clio\Component\Tool\Normalizer\Strategy'));
+		$this->setValueValidator(new SubclassValidator('Clio\Component\Tool\Normalizer\Strategy'));
 
 		foreach($values as $value) {
 			$this->add($value);
