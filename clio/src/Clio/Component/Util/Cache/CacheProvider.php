@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Cache;
 
 interface CacheProvider
 {
-	function save($id, $data);
+	function save($id, $data, $ttl = 0);
 
 	function fetch($id);
 
