@@ -5,6 +5,8 @@ use Clio\Component\Pattern\Constructor\Constructor,
 	Clio\Component\Pattern\Constructor\ConstructConstructor
 ;
 
+use Clio\Component\Util\Validator\Validator;
+
 /**
  * AbstractFactory 
  * 
@@ -23,6 +25,14 @@ abstract class AbstractFactory implements Factory
 	 * @access private
 	 */
 	private $constructor;
+
+	/**
+	 * validator 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $validator;
 
 	/**
 	 * __construct 
@@ -140,6 +150,22 @@ abstract class AbstractFactory implements Factory
 		}
 
 		return $arg;
+	}
+    
+    public function getValidator()
+    {
+        return $this->validator;
+    }
+    
+    public function setValidator(Validator $validator)
+    {
+        $this->validator = $validator;
+        return $this;
+    }
+
+	public function hasValidator()
+	{
+		return isset($this->validator) && !is_null($this->validator);
 	}
 }
 
