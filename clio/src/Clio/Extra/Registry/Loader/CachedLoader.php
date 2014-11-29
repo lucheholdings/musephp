@@ -34,6 +34,14 @@ class CachedLoader extends ProxyLoader
 	private $cacheWarmer;
 
 	/**
+	 * ttl 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $ttl = 0;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param EntryLoader $loader 
@@ -65,7 +73,7 @@ class CachedLoader extends ProxyLoader
 		} else {
 			$entry = $this->getLoader()->loadEntry($key);
 			// Save
-			$this->cacheProvider->save($key, $entry);
+			$this->cacheProvider->save($key, $entry, $this->getTtl());
 		}
 
 		return $entry;
@@ -124,6 +132,17 @@ class CachedLoader extends ProxyLoader
     public function setCacheWarmer($cacheWarmer)
     {
         $this->cacheWarmer = $cacheWarmer;
+        return $this;
+    }
+    
+    public function getTtl()
+    {
+        return $this->ttl;
+    }
+    
+    public function setTtl($ttl)
+    {
+        $this->ttl = (int)$ttl;
         return $this;
     }
 }

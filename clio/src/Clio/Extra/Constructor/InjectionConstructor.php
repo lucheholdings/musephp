@@ -29,11 +29,11 @@ class InjectionConstructor extends ProxyConstructor
 	 * __construct 
 	 * 
 	 * @param Constructor $constructor 
-	 * @param Injection $injector 
+	 * @param Injector $injector 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Constructor $constructor = null, Injection $injector = null)
+	public function __construct(Constructor $constructor = null, Injector $injector = null)
 	{
 		parent::__construct($constructor);
 		$this->injector = $injector;

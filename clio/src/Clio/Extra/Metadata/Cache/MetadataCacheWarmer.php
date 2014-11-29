@@ -47,7 +47,12 @@ class MetadataCacheWarmer implements CacheWarmer
 			throw new \InvalidArgumentException(sprintf('Argument 0 of MetadataCacheWarmer::warmup has to be an instance of Metadata, but "%s" is given.', is_object($metadata) ? get_class($metadata) : gettype($metadata)));
 		}
 		
-		return $this->doInject($metadata);
+		$metadata = $this->doInject($metadata);
+
+		foreach($metadata->getFields() as $field) {
+			$this->doInject($field);
+		}
+		return $metadata;
 	}
 
 	/**
