@@ -136,6 +136,15 @@ abstract class AbstractFactory implements Factory
 		return true;
 	}
 
+	/**
+	 * shiftArg 
+	 * 
+	 * @param array $args 
+	 * @param mixed $aliasKey 
+	 * @param mixed $default 
+	 * @access public
+	 * @return void
+	 */
 	public function shiftArg(array &$args, $aliasKey = null, $default = null) 
 	{
 		// we try to use the aliasKey to grab the arg, iff aliasKey is specified
@@ -152,17 +161,36 @@ abstract class AbstractFactory implements Factory
 		return $arg;
 	}
     
+    /**
+     * getValidator 
+     * 
+     * @access public
+     * @return void
+     */
     public function getValidator()
     {
         return $this->validator;
     }
     
+    /**
+     * setValidator 
+     * 
+     * @param Validator $validator 
+     * @access public
+     * @return void
+     */
     public function setValidator(Validator $validator)
     {
         $this->validator = $validator;
         return $this;
     }
 
+	/**
+	 * hasValidator 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function hasValidator()
 	{
 		return isset($this->validator) && !is_null($this->validator);
