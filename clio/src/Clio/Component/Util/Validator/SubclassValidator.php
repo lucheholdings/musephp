@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Validator;
 
 /**
- * ClassValidator 
+ * SubclassValidator 
  * 
  * @uses Validator
  * @package { PACKAGE }
@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Validator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClassValidator implements Validator
+class SubclassValidator implements Validator
 {
 	/**
 	 * reflectionClass 
@@ -45,8 +45,7 @@ class ClassValidator implements Validator
 	 */
 	public function validate($value)
 	{
-		$reflector = new \ReflectionClass($value);
-		if($reflector != $this->getReflectionClass()) {
+		if(!$this->getReflectionClass()->isInstance($value)) {
 			throw new Error\ValidationError(sprintf('"%s" is not an instanceof "%s".', get_class($value), $this->getReflectionClass()->getName()));
 		}
 
