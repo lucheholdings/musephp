@@ -2,7 +2,7 @@
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory;
 
 use Clio\Component\Pattern\Factory\NamedCollection;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * TokenResolverFactoryMap 
@@ -17,7 +17,7 @@ class TokenResolverFactoryMap extends NamedCollection
 {
 	protected function initFactory()
 	{
-		$this->getStorage()->setValueValidator(new ClassValidator('Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory'));
 	}
 
 	/**
