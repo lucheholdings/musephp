@@ -2,6 +2,7 @@
 namespace Erato\Core\Manager;
 
 use Clio\Component\Util\Metadata\Schema\SchemaMetadata;
+use Erato\Core\SchemaManager as SchemaManagerInterface;
 
 /**
  * SchemaManager 
@@ -30,7 +31,7 @@ class SchemaManager implements SchemaManagerInterface
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createModel()
+	public function newInstance()
 	{
 		if(!$this->getMetadata()->hasMapping('consturctor')) {
 			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping constructor.', $this->getMetadata()));

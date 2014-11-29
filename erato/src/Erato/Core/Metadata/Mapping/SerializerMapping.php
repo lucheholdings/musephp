@@ -4,52 +4,52 @@ namespace Erato\Core\Metadata\Mapping;
 use Clio\Extra\Metadata\Mapping\AbstractRegistryServiceMapping;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Tool\Serializer\Serializer;
+use Clio\Component\Tool\Serializer\Context;
 use Clio\Component\Pattern\Registry\Registry;
 
-class NormalizerMapping extends AbstractRegistryServiceMapping
+class SerializerMapping extends AbstractRegistryServiceMapping
 {
-	private $_normalizer;
+	private $_serializer;
 
 	/**
 	 * __construct 
 	 * 
 	 * @param Registry $registry 
-	 * @param mixed $normalizerId 
+	 * @param mixed $serializerId 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Metadata $metadata, Registry $registry, $normalizerId, array $options = array())
+	public function __construct(Metadata $metadata, Registry $registry, $serializerId, array $options = array())
 	{
-		parent::__construct($metadata, $registry, array('normalizer' => $normalizerId), $options);
+		parent::__construct($metadata, $registry, array('serializer' => $serializerId), $options);
 	}
 
 	/**
-	 * setNormalizer 
+	 * setSerializer 
 	 * 
-	 * @param Normalizer $normalizer 
+	 * @param Serializer $serializer 
 	 * @access public
 	 * @return void
 	 */
-	public function setNormalizer(Normalizer $normalizer)
+	public function setSerializer(Serializer $serializer)
 	{
-		$this->_normalizer = $normalizer;
+		$this->_serializer = $serializer;
 		return $this;
 	}
 
 	/**
-	 * getNormalizer 
+	 * getSerializer 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function getNormalizer()
+	public function getSerializer()
 	{
-		if($this->_normalizer) {
-			$this->_normalizer = $this->getService('normalizer');
+		if($this->_serializer) {
+			$this->_serializer = $this->getService('serializer');
 		}
-		return $this->_normalizer;
+		return $this->_serializer;
 	}
 
 	/**
@@ -67,7 +67,7 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 			$type = 'array';
 		}
 
-		return $this->getNormalizer()->normalize($data, $type, $this->createContext());
+		return $this->getSerializer()->normalize($data, $type, $this->createContext());
 	}
 
 	/**
@@ -84,7 +84,7 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 			$type = 'array';
 		}
 
-		return $this->getNormalizer()->denormalize($data, $type, $this->createContext());
+		return $this->getSerializer()->denormalize($data, $type, $this->createContext());
 	}
 
 	/**
@@ -96,7 +96,7 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 	protected function createContext()
 	{
 		$context = new Context();
-		$context->setNormalizer($this->getNormalizer());
+		$context->setSerializer($this->getSerializer());
 
 		return $context;
 	}
@@ -106,24 +106,24 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 	 */
 	public function getName()
 	{
-		return 'normalizer';
+		return 'serializer';
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function setNormalizerId($id)
+	public function setSerializerId($id)
 	{
-		$this->setServiceId('normalizer', $id);
+		$this->setServiceId('serializer', $id);
 		return $this;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getNormalizerId()
+	public function getSerializerId()
 	{
-		return $this->getServiceId('normalizer');
+		return $this->getServiceId('serializer');
 	}
 }
 

@@ -103,11 +103,5 @@ class SchemaAccessorMapping extends AccessorMapping implements Schema, Reflectio
 	{
 		return $this->getMetadata()->isSchemaData($data);
 	}
-
-	public function dumpConfig()
-	{
-		return array(
-		);
-	}
 }
 

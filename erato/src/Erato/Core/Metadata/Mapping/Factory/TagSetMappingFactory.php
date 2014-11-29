@@ -51,7 +51,7 @@ class TagSetMappingFactory extends AbstractSchemaMetadataMappingFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function doCreateMapping(Metadata $metadata)
+	protected function doCreateMapping(Metadata $metadata, array $options)
 	{
 		if(($metadata instanceof ClassMetadata) && ($metadata->getReflectionClass()->implementsInterface(self::CONTAINER_INTERFACE))) {
 

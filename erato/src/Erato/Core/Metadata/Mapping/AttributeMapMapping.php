@@ -124,22 +124,21 @@ class AttributeMapMapping extends AbstractMapping
 		);
 	}
 
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
-		return serialize(array(
-			$this->fieldName,
-			$this->defaultClass,
-		));
+		$extra['fieldName'] = $this->fieldName;
+		$extra['defaultClass'] = $this->defaultClass;
+		return parent::serialize($extra);
 	}
 
 	public function unserialize($serialized)
 	{
-		$data = unserialize($serialized);
+		$extra = parent::unserialize($serialized);
 
-		list(
-			$this->fieldName,
-			$this->defaultClass,
-		) = $data;
+		$this->fieldName = $extra['fieldName'];
+		$this->defaultClass = $extra['defaultClass'];
+
+		return $extra;
 	}
 }
 

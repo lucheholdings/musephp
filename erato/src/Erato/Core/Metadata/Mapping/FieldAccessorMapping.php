@@ -106,12 +106,10 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 	 * @access public
 	 * @return void
 	 */
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
-		return serialize(array(
-			$this->type,
-			$this->getOptions()
-		));
+		$extra['type'] = $this->type;
+		return parent::serialize($extra);
 	}
 	
 
@@ -124,12 +122,12 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 	 */
 	public function unserialize($serialized)
 	{
-		list(
-			$this->type,
-			$options
-		) = unserialize($serialized);
+		$extra = parent::unserialize($serialized);
 
-		$this->setOptions($options);
+		$this->type = $extra['type'];
+		unset($extra['type']);
+
+		return $extra;
 	}
     
     public function getAccessorFactory()
@@ -156,8 +154,8 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 	public function dumpConfig()
 	{
 		return array(
-			$this->type,
-			$this->getOptions()
+			'type' => $this->type,
+			'options' => $this->getOptions()
 		);
 	}
 }

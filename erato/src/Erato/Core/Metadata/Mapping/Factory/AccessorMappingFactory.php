@@ -49,7 +49,7 @@ class AccessorMappingFactory extends AbstractFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function doCreateMapping(Metadata $metadata)
+	protected function doCreateMapping(Metadata $metadata, array $options)
 	{
 		if($metadata instanceof ClassMetadata) {
 			$mapping = new SchemaAccessorMapping($metadata);

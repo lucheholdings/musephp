@@ -1,7 +1,9 @@
 <?php
 namespace Erato\Core\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
+use Clio\Extra\Metadata\Mapping\AbstractRegistryServiceMapping;
+use Clio\Component\Util\Metadata\Metadata;
+use Clio\Component\Pattern\Registry\Registry;
 
 /**
  * SchemifierMapping 
@@ -12,16 +14,8 @@ use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class SchemifierMapping extends AbstractMapping
+class SchemifierMapping extends AbstractRegistryServiceMapping
 {
-	/**
-	 * type 
-	 *   Schemifier type 
-	 * @var mixed
-	 * @access private
-	 */
-	private $type;
-
 	/**
 	 * fieldKeyMappers 
 	 * 
@@ -29,6 +23,21 @@ class SchemifierMapping extends AbstractMapping
 	 * @access private
 	 */
 	private $fieldKeyMappers;
+
+	/**
+	 * __construct 
+	 * 
+	 * @param Metadata $metadata 
+	 * @param Registry $registry 
+	 * @param mixed $schemifieryId 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct(Metadata $metadata, Registry $registry, $schemifierFactoryId, array $options = array())
+	{
+		parent::__construct($metadata, $registry, array('schemifier_factory' => $schemifierFactoryId), $options);
+	}
 
 	/**
 	 * getSchemifier 
@@ -39,14 +48,7 @@ class SchemifierMapping extends AbstractMapping
 	public function getSchemifier()
 	{
 		if(!$this->schemifier) {
-			$builder = new SchemifierBuidler();
-			$bulider
-				->setType($this->type)
-				->setSchema($this->getSchemifierSchema())
-				->setOptions($this->options)
-			;
-
-			$this->schemifier = $builder->build();
+			$this->getService('schemifier_factory')->createSchemifier($this->getSchemifierSchema(), $this->options);
 		}
 		return $this->schemifier;
 	}
@@ -64,7 +66,7 @@ class SchemifierMapping extends AbstractMapping
 				$this->schemifierSchema = new ClassSchema($this->getMetadata()->getClassReflector());
 			} else {
 				// fixme
-				throw new \Exception('Not Impl');
+				throw new \Exception('Not Impl yet');
 			}
 		}
 
@@ -82,25 +84,21 @@ class SchemifierMapping extends AbstractMapping
 		return 'schemifier';
 	}
     
-    public function getType()
-    {
-        return $this->type;
-    }
-    
-    public function setType($type)
-    {
-        $this->type = $type;
-        return $this;
-    }
-
-
-	public function serialize()
+	public function serialize(array $extra = array())
 	{
+		$extra['mappers'] = $this->fieldKeyMappers;
 
+		return parent::serialize($extra);
 	}
 
-	public function unserialize()
+	public function unserialize($serialized)
 	{
+		$extra = parent::unserialize($serialized);
+
+		$this->fieldKeyMappers = $extra['mappers'];
+		unset($extra['mappers']);
+
+		return $extra;
 	}
 }
 

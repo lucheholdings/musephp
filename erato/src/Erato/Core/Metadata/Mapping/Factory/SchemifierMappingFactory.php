@@ -2,14 +2,14 @@
 namespace Erato\Core\Metadata\Mapping\Factory;
 
 use Clio\Extra\Metadata\Mapping\Factory\AbstractRegistryServiceMappingFactory;
-use Erato\Core\Metadata\Mapping\NormalizerMapping;
-use Clio\Component\Tool\Normalizer\Normalizer;
+use Erato\Core\Metadata\Mapping\SchemifierMapping;
+use Clio\Component\Tool\Schemifier\Schemifier;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Clio\Component\Util\Injection\ClassInjector;
 
 /**
- * NormalizerMappingFactory 
+ * SchemifierMappingFactory 
  * 
  * @uses AbstractMappingFactory
  * @package { PACKAGE }
@@ -17,19 +17,19 @@ use Clio\Component\Util\Injection\ClassInjector;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class NormalizerMappingFactory extends AbstractRegistryServiceMappingFactory 
+class SchemifierMappingFactory extends AbstractRegistryServiceMappingFactory 
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function doCreateMapping(Metadata $metadata, array $options)
 	{
-		if(isset($options['normalizer'])) {
-			$normalizer = $options['normalizer'];
+		if(isset($options['schemifier_factory'])) {
+			$factory = $options['schemifier_factory'];
 		} else {
-			$normalizer = $this->getServiceId('normalizer');
+			$factory = $this->getServiceId('schemifier_factory');
 		}
-		return new NormalizerMapping($metadata, $this->getRegistry(), $normalizer, $options);
+		return new SchemifierMapping($metadata, $this->getRegistry(), $factory, $options);
 	}
 
 	/**

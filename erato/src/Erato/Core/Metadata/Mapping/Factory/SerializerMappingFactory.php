@@ -2,14 +2,14 @@
 namespace Erato\Core\Metadata\Mapping\Factory;
 
 use Clio\Extra\Metadata\Mapping\Factory\AbstractRegistryServiceMappingFactory;
-use Erato\Core\Metadata\Mapping\NormalizerMapping;
-use Clio\Component\Tool\Normalizer\Normalizer;
+use Erato\Core\Metadata\Mapping\SerializerMapping;
+use Clio\Component\Tool\Serializer\Serializer;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Clio\Component\Util\Injection\ClassInjector;
 
 /**
- * NormalizerMappingFactory 
+ * SerializerMappingFactory 
  * 
  * @uses AbstractMappingFactory
  * @package { PACKAGE }
@@ -17,19 +17,19 @@ use Clio\Component\Util\Injection\ClassInjector;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class NormalizerMappingFactory extends AbstractRegistryServiceMappingFactory 
+class SerializerMappingFactory extends AbstractRegistryServiceMappingFactory 
 {
 	/**
 	 * {@inheritdoc}
 	 */
 	public function doCreateMapping(Metadata $metadata, array $options)
 	{
-		if(isset($options['normalizer'])) {
-			$normalizer = $options['normalizer'];
+		if(isset($options['serializer'])) {
+			$serializer = $options['serializer'];
 		} else {
-			$normalizer = $this->getServiceId('normalizer');
+			$serializer = $this->getServiceId('serializer');
 		}
-		return new NormalizerMapping($metadata, $this->getRegistry(), $normalizer, $options);
+		return new SerializerMapping($metadata, $this->getRegistry(), $serializer, $options);
 	}
 
 	/**
