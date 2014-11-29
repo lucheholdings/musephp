@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Metadata\Mapping;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\Collection as FactoryCollection;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * LazyMappingCollection 
@@ -42,7 +42,7 @@ class LazyMappingCollection extends Collection
 	 */
 	protected function initContainer()
 	{
-		$this->setValueValidator(new ClassValidator('Clio\Component\Util\Metadata\Mapping'));
+		$this->setValueValidator(new SubclassValidator('Clio\Component\Util\Metadata\Mapping'));
 	}
 
 	/**

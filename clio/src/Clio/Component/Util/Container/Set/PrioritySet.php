@@ -6,7 +6,7 @@ use Clio\Component\Util\Container\AbstractContainer;
 use Clio\Component\Util\Container\Storage;
 use Clio\Component\Util\Container\Storage\ValidatableStorage;
 use Clio\Component\Util\Validator\Validator,
-	Clio\Component\Util\Validator\ClassValidator
+	Clio\Component\Util\Validator\SubclassValidator
 ;
 
 /**
@@ -42,7 +42,7 @@ class PrioritySet extends AbstractContainer implements Set
 
 		if(!$this->storage instanceof Storage\ValidatableStorage) {
 			$this->storage = new ValidatableStorage($this->storage);
-			$this->storage->setValueValidator(new ClassValidator('Clio\Component\Util\Container\Storage'));
+			$this->storage->setValueValidator(new SubclassValidator('Clio\Component\Util\Container\Storage'));
 		}
 
 		// Insert with default priority

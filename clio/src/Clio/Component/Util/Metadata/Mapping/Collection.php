@@ -4,7 +4,7 @@ namespace Clio\Component\Util\Metadata\Mapping;
 use Clio\Component\Util\Metadata\Mapping;
 use Clio\Component\Util\Container\Map\Map;
 use Clio\Component\Util\Container\Storage\ValidatableStorage;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * Collection 
@@ -30,7 +30,7 @@ class Collection extends Map
 		if(!$this->getStorage() instanceof ValidatableStorage) {
 			$this->setStorage(new ValidatableStorage($this->getStorage()));
 		}
-		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Metadata\Mapping'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Util\Metadata\Mapping'));
 	}
 
 	/**

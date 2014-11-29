@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Attribute;
 
 use Clio\Component\Util\Container\Map\Map;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 class SimpleAttributeMap extends Map implements AttributeMap
 {
@@ -10,7 +10,7 @@ class SimpleAttributeMap extends Map implements AttributeMap
 	{
 		$this
 			->enableStorageValidation()
-			->setValueValidator(new ClassValidator('Clio\Component\Util\Attribute\Attribute'))
+			->setValueValidator(new SubclassValidator('Clio\Component\Util\Attribute\Attribute'))
 		;
 		parent::initContainer($values);
 	}

@@ -5,7 +5,7 @@ use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\Mapping\Factory;
 use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 use Clio\Component\Pattern\Factory\NamedCollection;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 use Clio\Component\Util\Injection\InjectorMap;
 
@@ -26,6 +26,14 @@ class Collection extends NamedCollection implements Factory
 	 * @access private
 	 */
 	private $injector;
+
+	/**
+	 * options 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $options;
 
 	/**
 	 * createTypeMapping 
@@ -53,7 +61,7 @@ class Collection extends NamedCollection implements Factory
 	 */
 	protected function initFactory()
 	{
-		$this->getStorage()->setValueValidator(new ClassValidator('Clio\Component\Util\Metadata\Mapping\Factory'));
+		$this->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Util\Metadata\Mapping\Factory'));
 	}
 
 	/**
@@ -88,5 +96,16 @@ class Collection extends NamedCollection implements Factory
 
 		return $this->injector;
 	}
+    
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
 }
 

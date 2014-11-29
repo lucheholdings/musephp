@@ -50,7 +50,7 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 	 */
 	public final function createMapping(Metadata $metadata, array $options = array())
 	{
-		$mapping = $this->doCreateMapping($metadata);
+		$mapping = $this->doCreateMapping($metadata, $options);
 
 		// Inject Dependencies
 		$injector = $this->getInjector();

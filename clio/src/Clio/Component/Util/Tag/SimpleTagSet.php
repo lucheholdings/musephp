@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Tag;
 
 use Clio\Component\Util\Container\Set\Set;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * SimpleTagSet 
@@ -23,7 +23,7 @@ class SimpleTagSet extends Set implements TagSet
 	{
 		$this
 			->enableStorageValidation()
-			->setValueValidator(new ClassValidator('Clio\Component\Util\Tag\Tag'))
+			->setValueValidator(new SubclassValidator('Clio\Component\Util\Tag\Tag'))
 		;
 
 		parent::initContianer($values);
