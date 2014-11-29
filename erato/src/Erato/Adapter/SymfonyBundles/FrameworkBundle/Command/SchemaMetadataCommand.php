@@ -63,9 +63,20 @@ class SchemaMetadataCommand extends ContainerAwareCommand
 
 		$data = array(
 			'SchemaName' => $schema->getName(),
-			'Fields' => $schema->getFields(),
 		);
 
+		$fields = array();
+		foreach($schema->getFields() as $field) {
+			$mappings = array();
+			foreach($field->getMappings() as $mapping) {
+				$mappings[$mapping->getName()] = $this->getMappingInfo($mapping);
+			}
+			$fields[$field->getName()] = array(
+				'type'    => $field->getType()->getName(),
+				'Mapping' => $mappings,
+			);
+		}
+		$data['Fields'] = $fields;
 
 		$mappings = $schema->getMappings();
 		if(0 < count($mappings)) {

@@ -10,6 +10,7 @@
 	    <parameter key="erato_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaMetadataRegistry</parameter>
 		<!--  -->
 	    <parameter key="erato_framework.metadata.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
+	    <parameter key="erato_framework.metadata.registry.cache_loader.ttl">10</parameter>
 	    <parameter key="erato_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
 		
 		<!-- -->
@@ -42,6 +43,9 @@
 			<argument type="service" id="erato_framework.metadata.registry.factory_loader"/>
 			<argument type="service" id="erato_framework.metadata.registry.cache_loader.cache" on-invalid="null"/>
 			<argument type="service" id="erato_framework.metadata.cache_warmer" on-invalid="null"/>
+			<call method="setTtl">
+				<argument>%erato_framework.metadata.registry.cache_loader.ttl%</argument>
+			</call>
 		</service>
 
 		<service 

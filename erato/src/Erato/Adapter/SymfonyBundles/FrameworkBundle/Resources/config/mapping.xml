@@ -11,6 +11,9 @@
 		<parameter key="erato_framework.metadata.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
 		<parameter key="erato_framework.metadata.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
 		<parameter key="erato_framework.metadata.normalizer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\NormalizerMappingFactory</parameter>
+		<parameter key="erato_framework.metadata.serializer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SerializerMappingFactory</parameter>
+		<parameter key="erato_framework.metadata.schemifier_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemifierMappingFactory</parameter>
+		<parameter key="erato_framework.metadata.schema_manager_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaManagerMappingFactory</parameter>
     </parameters>
 
 	<services>
@@ -42,9 +45,33 @@
 			id="erato_framework.metadata.default_mapping_factory.normalizer"
 			class="%erato_framework.metadata.normalizer_mapping_factory.class%"
 		>
-			<argument type="service" id="erato_framework.normalizer" on-invalid="null"/>
+			<argument type="service" id="erato_framework.container_registry"/>
+			<argument></argument>
 		</service>
 
+		<service
+			id="erato_framework.metadata.default_mapping_factory.serializer"
+			class="%erato_framework.metadata.serializer_mapping_factory.class%"
+		>
+			<argument type="service" id="erato_framework.container_registry"/>
+			<argument></argument>
+		</service>
+
+		<service
+			id="erato_framework.metadata.default_mapping_factory.schemifier"
+			class="%erato_framework.metadata.schemifier_mapping_factory.class%"
+		>
+			<argument type="service" id="erato_framework.container_registry"/>
+			<argument></argument>
+		</service>
+
+		<service
+			id="erato_framework.metadata.default_mapping_factory.schema_manager"
+			class="%erato_framework.metadata.schema_manager_mapping_factory.class%"
+		>
+			<argument type="service" id="erato_framework.schema_manager.class_factory" on-invalid="null"/>
+			<argument>%erato_framework.schema_manager.default.class%</argument>
+		</service>
 		<!-- Mapping Factory -->
 		<service
 			id="erato_framework.metadata.mapping_factory.collection"

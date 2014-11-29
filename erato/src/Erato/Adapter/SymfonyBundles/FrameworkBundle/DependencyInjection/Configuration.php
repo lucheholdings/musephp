@@ -39,8 +39,9 @@ class Configuration implements ConfigurationInterface
 						->append($this->buildTagSetMappingSection())
 						->append($this->buildAccessorMappingSection())
 						->append($this->buildNormalizerMappingSection())
-						//->append($this->buildSerializerMappingSection())
-						//->append($this->buildSchemifierMappingSection())
+						->append($this->buildSerializerMappingSection())
+						->append($this->buildSchemifierMappingSection())
+						->append($this->buildSchemaManagerMappingSection())
 					->end()
 					->end()
 				->end()
@@ -127,6 +128,7 @@ class Configuration implements ConfigurationInterface
 					->end()
 					->children()
 						->scalarNode('type')->defaultValue('file_system')->end()
+						->scalarNode('ttl')->defaultValue(0)->end()
 						->arrayNode('options')
 							->defaultValue(array('directory' => '%kernel.cache_dir%/erato_framework/metadata', 'extension' => 'cache.php'))
 							->prototype('variable')
@@ -155,6 +157,10 @@ class Configuration implements ConfigurationInterface
 					->info('Default attribute field name')
 					->defaultValue('attributes')
 				->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
 			->end()
 		;
 
@@ -178,6 +184,10 @@ class Configuration implements ConfigurationInterface
 					->info('Default tag fieldname')
 					->defaultValue('tags')
 				->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
 			->end()
 		;
 
@@ -193,7 +203,11 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
-				->scalarNode('default_serailzier')->defaultValue('erato_framework.serializer')->end()
+				->scalarNode('default_serializer')->defaultValue('erato_framework.serializer')->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
 			->end()
 		;
 
@@ -209,6 +223,10 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
 			->end()
 		;
 
@@ -224,7 +242,11 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
-				->scalarNode('defualt_schemifier')->defaultValue('erato_framework.schemifier')->end()
+				->scalarNode('default_factory')->defaultValue('erato_framework.schemifier.factory.normalizer')->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
 			->end()
 		;
 
@@ -241,11 +263,34 @@ class Configuration implements ConfigurationInterface
 			->addDefaultsIfNotSet()
 			->children()
 				->scalarNode('default_normalizer')->defaultValue('erato_framework.normalizer')->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
 			->end()
 		;
 		return $node;
 	}
 
+	protected function buildSchemaManagerMappingSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('schema_manager');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->scalarNode('default_class')->defaultValue('%erato_framework.schema_manager.default.class%')->end()
+				->scalarNode('factory_service')->defaultValue('erato_framework.schema_manager.class_factory')->end()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
+			->end()
+		;
+		return $node;
+	}
 	//
 
 	protected function buildAccessorSection()
