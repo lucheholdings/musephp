@@ -17,8 +17,11 @@ class SubclassInjector extends ClassInjector implements Injector
 	 */
 	protected function doInject($refObject, $object)
 	{
-		if($this->getReflectionClass()->isSubclassOf($object)) {
-			throw new InjectionException('Object "%s" dose not implement or is not a subclass of "%s"', get_class($object), $this->getReflectionClass()->getName()); 
+		if($refObject->isSubclassOf($this->getReflectionClass())) {
+			if($this->isStrict()) {
+				throw new InjectionException(sprintf('Object "%s" dose not implement or is not a subclass of "%s"', get_class($object), $this->getReflectionClass()->getName())); 
+			}
+			return $object;
 		}
 
 		parent::doInject($refObject, object);
