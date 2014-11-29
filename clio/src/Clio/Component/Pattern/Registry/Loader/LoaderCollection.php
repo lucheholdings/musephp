@@ -3,7 +3,7 @@ namespace Clio\Component\Pattern\Registry\Loader;
 
 use Clio\Component\Pattern\Registry\EntryLoader;
 use Clio\Component\Util\Container\Set\PrioritySet;
-use Clio\Component\Util\Validator\ClassValidator;
+use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * LoaderCollection 
@@ -25,7 +25,7 @@ class LoaderCollection extends PrioritySet implements EntryLoader
 	 */
 	protected function initContainer()
 	{
-		$this->setValueValidator(new ClassValidator('Clio\Component\Pattern\Registry\EntryLoader'));
+		$this->setValueValidator(new SubclassValidator('Clio\Component\Pattern\Registry\EntryLoader'));
 	}
 
 	/**
