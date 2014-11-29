@@ -90,7 +90,7 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 
 		$constructor = new InjectionConstructor(
 			$this->getConstructorForDoctrineCacheType($type),
-			$this->getInjectorForDoctrineCacheType($type)
+			$this->getInjectorForDoctrineCacheType($type, $args)
 		);
 
 		return $constructor->construct($class, $args); 
@@ -124,7 +124,7 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 
 	}
 
-	public function getInjectorForDoctrineCacheType($type)
+	public function getInjectorForDoctrineCacheType($type, &$args)
 	{
 		$injector = null;
 		switch($type) {
@@ -139,8 +139,8 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 			}
 			break;
 		case 'memcached':
-			if($memcached = $this->shiftArg($ags, 'memcached')) {
-				$injector =new MethodInjector('setMemcached', array($memcached));
+			if($memcached = $this->shiftArg($args, 'memcached')) {
+				$injector = new MethodInjector('setMemcached', array($memcached));
 			}
 			break;
 		case 'redis':
