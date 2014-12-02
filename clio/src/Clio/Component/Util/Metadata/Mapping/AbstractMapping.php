@@ -115,10 +115,41 @@ abstract class AbstractMapping implements Mapping
         return $this->options;
     }
     
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
         $this->options = $options;
         return $this;
     }
+
+	public function mergeOptions(array $options)
+	{
+		$this->options = $this->doMergeOptions($this->options, $options);
+	}
+
+	protected function doMergeOptions($first, $second)
+	{
+		if(!is_array($first)) {
+			return $second;
+		}
+
+		foreach($second as $key => $value) {
+			if(!isset($first[$key])) {
+				$first[$key] = $value;
+			} else if(is_scalar($first[$key]) || is_scalar($value)) {
+				$first[$key] = $value;
+			} else {
+				$first[$key] = $this->doMergeOptions($first[$key], $value);
+			}
+		}
+		
+		return $first;
+	}
+
+	public function dumpConfig()
+	{
+		return array(
+			'options' => $this->getOptions()
+		);
+	}
 }
 

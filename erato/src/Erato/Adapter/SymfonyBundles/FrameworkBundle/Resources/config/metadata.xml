@@ -14,7 +14,7 @@
 	    <parameter key="erato_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
 		
 		<!-- -->
-        <parameter key="erato_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
+        <parameter key="erato_framework.metadata.class_metadata_factory.class">Erato\Core\Metadata\Factory\ClassMetadataFactory</parameter>
 		<!-- Loader -->
         <parameter key="erato_framework.metadata.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
 		<!-- Mapping Injector -->
@@ -22,6 +22,9 @@
 
 		<parameter key="erato_framework.metadata.cache_clearer.class">Clio\Adapter\SymfonyBundles\ComponentBundle\Cache\CacheProviderClearer</parameter>
 
+		<parameter key="erato_framework.metadata.choice_config_loader.class">Erato\Core\Metadata\Config\Loader\ChoiceLoader</parameter>
+		<parameter key="erato_framework.metadata.merge_config_loader.class">Erato\Core\Metadata\Config\Loader\MergeLoader</parameter>
+		<parameter key="erato_framework.metadata.annotation_config_loader.class">Erato\Bridge\DoctrineCommon\Metadata\Config\Loader\AnnotationLoader</parameter>
     </parameters>
 
 	<services>
@@ -73,6 +76,10 @@
 			class="%erato_framework.metadata.class_metadata_factory.class%"
 		>
 			<argument type="service" id="erato_framework.metadata.mapping_factory"/>
+
+			<call method="setLoader">
+				<argument type="service" id="erato_framework.metadata.config_loader" on-invalid="ignore"/>
+			</call>
 		</service>
 
 		<!-- Mapping Factory -->
@@ -103,6 +110,28 @@
 		>
 			<argument type="service" id="erato_framework.metadata.registry.cache_loader.cache" on-invalid="null"/>
 			<tag name="kernel.cache_clearer"/>
+		</service>
+
+		<!-- Configuration Loader -->
+		<service
+			id="erato_framework.metadata.default_config_loader.choice"
+			class="%erato_framework.metadata.choice_config_loader.class%"
+			abstract="true"
+		>
+		</service>
+		<service
+			id="erato_framework.metadata.default_config_loader.merge"
+			class="%erato_framework.metadata.merge_config_loader.class%"
+			abstract="true"
+		>
+		</service>
+
+		<service
+			id="erato_framework.metadata.default_config_loader.annotation"
+			class="%erato_framework.metadata.annotation_config_loader.class%"
+			abstract="true"
+		>
+			<argument type="service" id="annotation_reader"/>
 		</service>
 	</services>	
 </container>

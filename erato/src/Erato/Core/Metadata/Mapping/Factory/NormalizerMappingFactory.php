@@ -27,6 +27,7 @@ class NormalizerMappingFactory extends AbstractRegistryServiceMappingFactory
 		if(isset($options['normalizer'])) {
 			$normalizer = $options['normalizer'];
 		} else {
+			// Get default normalizer service
 			$normalizer = $this->getServiceId('normalizer');
 		}
 		return new NormalizerMapping($metadata, $this->getRegistry(), $normalizer, $options);

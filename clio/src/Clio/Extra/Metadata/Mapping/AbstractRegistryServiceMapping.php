@@ -28,37 +28,38 @@ abstract class AbstractRegistryServiceMapping extends AbstractMapping
 {
 	private $_registry;
 
-	private $serviceIds;
-
 	public function __construct(Metadata $metadata, Registry $registry = null, array $serviceIds = array(), array $options = array())
 	{
+		$options['services'] = $serviceIds;
 		parent::__construct($metadata, $options);
 		$this->_registry = $registry;
-		$this->serviceIds = $serviceIds;
 	}
     
     public function getServiceIds()
     {
-        return $this->serviceIds;
+        return $this->getOption('services');
     }
     
     public function setServiceIds(array $serviceIds)
     {
-        $this->serviceIds = $serviceIds;
+        $this->setOption('services', $serviceIds);
         return $this;
     }
 
 	public function setServiceId($name, $id)
 	{
-		$this->serviceIds[$name] = $id;
+		$services = $this->getOption('services');
+		$services[$name] = $id;
+		$this->setOptions('services', $services);
 	}
 
 	public function getServiceId($name)
 	{
-		if(!isset($this->serviceIds[$name])) {
+		$services = $this->getOption('services');
+		if(!isset($services[$name])) {
 			throw new \RuntimeException(sprintf('Service for "%s" is not specified.', $name));
 		}
-		return $this->serviceIds[$name];
+		return $this->services[$name];
 	}
 
 	public function getService($name)
@@ -80,35 +81,9 @@ abstract class AbstractRegistryServiceMapping extends AbstractMapping
         return $this;
     }
 
-	/**
-	 * {@inheritdoc}
-	 * 
-	 * Serialize with the serviceId only.
-	 * Registry will be injected by the warmer
-	 */
-	public function serialize(array $extra = array())
-	{
-		$extra['service_ids'] = $this->serviceIds;
-		return parent::serialize($extra);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function unserialize($serialized)
-	{
-		$extra = parent::unserialize($serialized);
-		
-		$this->serviceIds = $extra['service_ids'];
-		unset($extra['service_ids']);
-
-		return $extra;
-	}
-
 	public function dumpConfig()
 	{
 		return array(
-			'services'   => $this->serviceIds,
 			'options'    => $this->getOptions(),
 		);
 	}

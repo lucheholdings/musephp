@@ -3,8 +3,6 @@ namespace Clio\Component\Util\Metadata\Schema\Factory;
 
 use Clio\Component\Util\Metadata\Schema\ClassMetadata;
 use Clio\Component\Util\Metadata\Field\PropertyMetadata;
-use Clio\Component\Util\Metadata\Mapping\Factory\FactoryCollection;
-use Clio\Component\Util\Metadata\Mapping\MappingCollection;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 
 /**

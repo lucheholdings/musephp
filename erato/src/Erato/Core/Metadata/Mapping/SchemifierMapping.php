@@ -36,7 +36,7 @@ class SchemifierMapping extends AbstractRegistryServiceMapping
 	 */
 	public function __construct(Metadata $metadata, Registry $registry, $schemifierFactoryId, array $options = array())
 	{
-		parent::__construct($metadata, $registry, array('schemifier_factory' => $schemifierFactoryId), $options);
+		parent::__construct($metadata, $registry, array('factory' => $schemifierFactoryId), $options);
 	}
 
 	/**
@@ -48,7 +48,7 @@ class SchemifierMapping extends AbstractRegistryServiceMapping
 	public function getSchemifier()
 	{
 		if(!$this->schemifier) {
-			$this->getService('schemifier_factory')->createSchemifier($this->getSchemifierSchema(), $this->options);
+			$this->getService('factory')->createSchemifier($this->getSchemifierSchema(), $this->options);
 		}
 		return $this->schemifier;
 	}

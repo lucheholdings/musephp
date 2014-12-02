@@ -24,10 +24,10 @@ class SchemifierMappingFactory extends AbstractRegistryServiceMappingFactory
 	 */
 	public function doCreateMapping(Metadata $metadata, array $options)
 	{
-		if(isset($options['schemifier_factory'])) {
-			$factory = $options['schemifier_factory'];
+		if(isset($options['factory'])) {
+			$factory = $options['factory'];
 		} else {
-			$factory = $this->getServiceId('schemifier_factory');
+			$factory = $this->getServiceId('factory');
 		}
 		return new SchemifierMapping($metadata, $this->getRegistry(), $factory, $options);
 	}

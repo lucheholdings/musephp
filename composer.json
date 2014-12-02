@@ -20,12 +20,14 @@
     "require-dev": {
 		"doctrine/collections": "~1.2",
 		"doctrine/cache": "~1.2",
+		"doctrine/annotations": "~1.2",
         "symfony/config" : "~2.4",
 		"guzzlehttp/guzzle" :  "~4.1.0"
 	},
 	"suggest": {
 		"doctrine/collection" : "Doctrine Collection",
 		"doctrine/cache" : "Doctrine Cache",
+		"doctrine/annotations" : "Doctrine Annotation to configure with Annotation",
 		"guzzle/guzzle"  : "Guzzle Http Client 3.x",
 		"guzzlehttp/guzzle" : "Guzlze Http Client 4.x",
 		"kriswallsmith/buzz" : "Buzz Http Client"

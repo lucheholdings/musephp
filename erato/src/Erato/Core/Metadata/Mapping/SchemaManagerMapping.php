@@ -26,14 +26,6 @@ class SchemaManagerMapping extends AbstractMapping
 	private $_managerClassFactory;
 
 	/**
-	 * managerClass 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $managerClass;
-
-	/**
 	 * __construct 
 	 * 
 	 * @param Metadata $metadata 
@@ -44,9 +36,9 @@ class SchemaManagerMapping extends AbstractMapping
 	 */
 	public function __construct(Metadata $metadata, $managerClass, SchemaManagerClassFactory $managerClassFactory = null, array $options = array())
 	{
+		$options['manager_class'] = $managerClass;
 		parent::__construct($metadata, $options);
 		$this->_managerClassFactory = $managerClassFactory;
-		$this->managerClass = $managerClass;
 	}
 
 	/**
@@ -102,7 +94,7 @@ class SchemaManagerMapping extends AbstractMapping
      */
     public function getManagerClass()
     {
-        return $this->managerClass;
+        return $this->getOption('manager_class');
     }
     
     /**
@@ -114,38 +106,8 @@ class SchemaManagerMapping extends AbstractMapping
      */
     public function setManagerClass($managerClass)
     {
-        $this->managerClass = $managerClass;
+        $this->setOption('manager_class', $managerClass);
         return $this;
     }
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function serialize(array $extra = array())
-	{
-		$extra['manager_class'] = $this->managerClass;
-		return parent::serialize($extra);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function unserialize($serialized)
-	{
-		$extra = parent::unserialize($serialized);
-
-		$this->managerClass = $extra['manager_class'];
-		unset($extra['manager_class']);
-
-		return $extra;
-	}
-
-	public function dumpConfig()
-	{
-		return array(
-			'manager_class' => $this->getManagerClass(),
-
-		);
-	}
 }
 

@@ -67,6 +67,16 @@ class EratoFrameworkExtension extends Extension
 
 	protected function configureMetadata($container, array $configs)
 	{
+		// configure loader
+		{
+			$loaders = (array) $configs['config_loader'];
+
+			$definition = new DefinitionDecorator('erato_framework.metadata.default_config_loader.annotation');
+			
+			$container->setDefinition('erato_framework.metadata.config_loader.annotation', $definition);
+			$container->setAlias('erato_framework.metadata.config_loader', 'erato_framework.metadata.config_loader.annotation');
+		}
+
 		$this->configureMetadataCache($container, $configs['cache']);
 
 		if($configs['cache']['enabled']) {
@@ -76,6 +86,7 @@ class EratoFrameworkExtension extends Extension
 			$container->setAlias('erato_framework.metadata.registry.loader', 'erato_framework.metadata.registry.factory_loader');
 		}
 	}
+
 
 	protected function configureMetadataCache($container, array $configs)
 	{
@@ -211,7 +222,7 @@ class EratoFrameworkExtension extends Extension
 		if($configs['enabled']) {
 
 			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.schemifier');
-			$definition->replaceArgument(1, array('schemifier_factory' => $configs['default_factory']));
+			$definition->replaceArgument(1, array('factory' => $configs['default_factory']));
 			$definition->addMethodCall('setOptions', array($configs['options']));
 
 			$this->enableMapping($definition, 'schemifier');

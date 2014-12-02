@@ -19,14 +19,6 @@ use Clio\Component\Util\Accessor\AccessorAware;
 class FieldAccessorMapping extends AccessorMapping implements AccessorField, AccessorAware 
 {
 	/**
-	 * type 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $type;
-
-	/**
 	 * accessorFactory 
 	 * 
 	 * @var mixed
@@ -52,9 +44,8 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 	 */
 	public function __construct(Metadata $metadata, $type, array $options = array())
 	{
-		$this->type = $type;
-
-		parent::__construct($metadata);
+		$options['type'] = $type;
+		parent::__construct($metadata, $options);
 	}
 
 	/**
@@ -69,10 +60,10 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 		$schemaMetadata = $this->getMetadata()->getSchemaMetadata();
 
 		if($schemaMetadata->hasMapping('attribute_map') && ($fieldMetadata->getName() == $schemaMetadata->getMapping('attribute_map')->getFieldName())) {
-			$this->type = 'attributes';
+			$this->setType('attributes');
 
 		} else if($schemaMetadata->hasMapping('tag_set') && ($fieldMetadata->getName() == $schemaMetadata->getMapping('tag_set')->getFieldName())) {
-			$this->type = 'tags';
+			$this->setType('tags');
 		}
 	}
     
@@ -84,7 +75,7 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
      */
     public function getType()
     {
-        return $this->type;
+        return $this->getOption('type');
     }
     
     /**
@@ -96,40 +87,10 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
      */
     public function setType($type)
     {
-        $this->type = $type;
+        $this->setOption('type', $type);
         return $this;
     }
 
-	/**
-	 * serialize 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function serialize(array $extra = array())
-	{
-		$extra['type'] = $this->type;
-		return parent::serialize($extra);
-	}
-	
-
-	/**
-	 * unserialize 
-	 * 
-	 * @param mixed $serialized 
-	 * @access public
-	 * @return void
-	 */
-	public function unserialize($serialized)
-	{
-		$extra = parent::unserialize($serialized);
-
-		$this->type = $extra['type'];
-		unset($extra['type']);
-
-		return $extra;
-	}
-    
     public function getAccessorFactory()
     {
         return $this->accessorFactory;
@@ -145,18 +106,10 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 	{
 		if(!$this->accessor) {
 			$accessorField = new NamedField($this->getMetadata()->getSchemaMetadata()->getMapping('accessor'), $this->getMetadata()->getName());
-			$this->accessor = $this->getAccessorFactory()->createFieldAccessorByType($this->type, $accessorField, $this->getOptions());
+			$this->accessor = $this->getAccessorFactory()->createFieldAccessorByType($this->getType(), $accessorField, $this->getOptions());
 		}
 
 		return $this->accessor;
-	}
-
-	public function dumpConfig()
-	{
-		return array(
-			'type' => $this->type,
-			'options' => $this->getOptions()
-		);
 	}
 }
 

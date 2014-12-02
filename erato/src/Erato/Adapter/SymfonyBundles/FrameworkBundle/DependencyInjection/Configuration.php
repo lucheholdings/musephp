@@ -117,6 +117,7 @@ class Configuration implements ConfigurationInterface
 			->info('Metadata Configuration')
 			->addDefaultsIfNotSet()
 			->children()
+				->variableNode('config_loader')->defaultValue('annotation')->end()
 				->arrayNode('cache')
 					->canBeDisabled()
 					->addDefaultsIfNotSet()
