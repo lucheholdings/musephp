@@ -60,5 +60,16 @@ class MethodInjector extends AbstractInjector
 		//
 		$refMethod->invokeArgs($object, $this->args);
 	}
+    
+    public function getMethodName()
+    {
+        return $this->methodName;
+    }
+    
+    public function setMethodName($methodName)
+    {
+        $this->methodName = $methodName;
+        return $this;
+    }
 }
 

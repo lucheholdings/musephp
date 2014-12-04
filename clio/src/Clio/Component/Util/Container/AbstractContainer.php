@@ -151,5 +151,22 @@ abstract class AbstractContainer implements Container
 
 		$this->storage->setKeyValidator($validator);
 	}
+
+	public function merge($other)
+	{
+		if(!$other instanceof static) {
+			throw new \RuntimeException('Container::merge has to be the same class');
+		}
+
+		return new static(array_merge($this->toArray(), $other->toArray()));
+	}
+
+	public function map(\Closure $callback)
+	{
+		$container = clone $this;
+		$container->setStorage($this->getStorage()->map($callback));
+
+		return $container;
+	}
 }
 

@@ -1,5 +1,5 @@
 <?php
-namespace Calliope\Framework\Core;
+namespace Calliope\Core;
 
 /**
  * Filter 

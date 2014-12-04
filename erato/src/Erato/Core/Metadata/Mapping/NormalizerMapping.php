@@ -46,9 +46,10 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 	 */
 	public function getNormalizer()
 	{
-		if($this->_normalizer) {
+		if(!$this->_normalizer) {
 			$this->_normalizer = $this->getService('normalizer');
 		}
+
 		return $this->_normalizer;
 	}
 
@@ -67,7 +68,7 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 			$type = 'array';
 		}
 
-		return $this->getNormalizer()->normalize($data, $type, $this->createContext());
+		return $this->getNormalizer()->normalize($data, null, $this->createContext());
 	}
 
 	/**

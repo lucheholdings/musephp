@@ -20,11 +20,11 @@ class SchemaManagerCompilerPass implements CompilerPassInterface
 {
 	public function process(ContainerBuilder $container)
 	{
-		//$classnameRegistry = $container->findDefinition('calliope_framework.scheme_manager_registry_by_classname');
-		$registry = $container->findDefinition('calliope_framework.scheme_manager_registry');
+		//$classnameRegistry = $container->findDefinition('calliope_framework.schema_manager_registry_by_classname');
+		$registry = $container->findDefinition('calliope_framework.schema_manager_registry');
 
 
-		foreach($container->findTaggedServiceIds('calliope_framework.scheme_manager') as $id => $tags) {
+		foreach($container->findTaggedServiceIds('calliope_framework.schema_manager') as $id => $tags) {
 			foreach($tags as $tagAttrs) {
 				if(isset($tagAttrs['for'])) {
 					// Warning:

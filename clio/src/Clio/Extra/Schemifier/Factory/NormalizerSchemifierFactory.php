@@ -4,8 +4,8 @@ namespace Clio\Extra\Schemifier\Factory;
 use Clio\Component\Tool\Schemifier\Factory\SchemifierFactory;
 use Clio\Component\Tool\Normalizer\Normalizer;
 
+use Clio\Component\Pattern\Factory\ComponentFactory;
 use Clio\Component\Tool\Schemifier\FieldKeyMapperRegistry;
-
 use Clio\Extra\Schemifier\NormalizerSchemifier;
 
 
@@ -42,7 +42,7 @@ class NormalizerSchemifierFactory extends ComponentFactory implements Schemifier
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Normalizer $normalizer, FieldKeyMapperRegistry $mapperRegsitry = null)
+	public function __construct(Normalizer $normalizer, FieldKeyMapperRegistry $mapperRegistry = null)
 	{
 		$this->normalizer = $normalizer;
 		$this->mapperRegistry = $mapperRegistry;

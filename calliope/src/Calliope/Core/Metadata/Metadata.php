@@ -13,9 +13,5 @@ namespace Calliope\Core\Metadata;
  */
 class Metadata extends InheritSchemaMetadata
 {
-    public function getSchemaMetadata()
-    {
-		return $this->getParent();
-    }
 }
 

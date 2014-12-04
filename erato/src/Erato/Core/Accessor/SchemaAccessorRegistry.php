@@ -38,5 +38,16 @@ class SchemaAccessorRegistry extends ReferenceRegistry implements Registry
 		$metadata = $this->getMetadataRegistry()->get($name);
 		return $metadata->hasMapping('accessor');
 	}
+    
+    public function getMetadataRegistry()
+    {
+        return $this->metadataRegistry;
+    }
+    
+    public function setMetadataRegistry($metadataRegistry)
+    {
+        $this->metadataRegistry = $metadataRegistry;
+        return $this;
+    }
 }
 

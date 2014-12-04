@@ -4,91 +4,9 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
-	<parameters>
-		<!--<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Framework\Core\AliasedSchemaManagerRegistry</parameter>-->
-		<parameter key="calliope_framework.service_registry.class">Clio\Bridge\SymfonyDI\Registry\ServiceContainerRegistry</parameter>
-		<parameter key="calliope_framework.scheme_manager_registry.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\SchemaManagerRegistry</parameter>
+    <services>
+        <service id="calliope_framework.container_registry" alias="clio_component.container_registry"/>
 
-		<parameter key="calliope_framework.scheme_manager_factory.class">Calliope\Bridge\Symfony\Factory\ContainerAwareSchemaManagerFactory</parameter>
+    </services>
 
-		<parameter key="calliope_framework.type_connection_factory.class">Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory</parameter>
-
-		<parameter key="calliope_framework.connection_factory.model.class">Calliope\Framework\Core\Connection\Factory\ProxyManagerConnectionFactory</parameter>
-		<parameter key="calliope_framework.connection_factory.doctrine_orm.class">Calliope\Bridge\Doctrine\Connection\DoctrineOrmConnectionFactory</parameter>
-		<parameter key="calliope_framework.connection_factory.doctrine_repository.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Connection\DoctrineRepositoryConnectionFactory</parameter>
-
-		<parameter key="calliope_framework.class_metadata_mapping_factory.scheme.class">Calliope\Adapter\Doctrine\Core\Metadata\Mapping\Factory\AnnotationSchemaMappingFactory</parameter>
-	</parameters>
-
-	<services>
-		<service
-			id="calliope_framework.service_registry"
-			class="%calliope_framework.service_registry.class%"
-		>
-			<argument type="service" id="service_container"/>
-		</service>
-<!--
-		<service 
-			id="calliope_framework.scheme_manager_registry_by_classname"
-			class="%calliope_framework.scheme_manager_registry_by_classname.class%"
-		>
-			<argument type="service" id="calliope_framework.service_registry"/>
-		</service>
--->
-		<!-- alias with classname -->
-		<service 
-			id="calliope_framework.scheme_manager_registry"
-			class="%calliope_framework.scheme_manager_registry.class%"
-		>
-			<argument type="service" id="calliope_framework.service_registry"/>
-		</service>
-
-		<service id="calliope_framework.scheme_manager_factory" class="%calliope_framework.scheme_manager_factory.class%">
-			<argument type="service" id="calliope_framework.class_metadata_registry" on-invalid="null"/>
-			<argument type="service" id="calliope_framework.type_connection_factory" on-invalid="null"/>
-			<argument type="service" id="calliope_framework.filter_delegator_factory" on-invalid="null"/>
-			<argument type="service" id="service_container"/>
-		</service>
-
-		<service
-			id="calliope_framework.type_connection_factory.default"
-			class="%calliope_framework.type_connection_factory.class%"
-		>
-		</service>
-		
-		<service
-			id="calliope_framework.connection_factory.model"
-			class="%calliope_framework.connection_factory.model.class%"
-		>
-			<argument type="service" id="calliope_framework.scheme_manager_registry" />
-			<tag name="calliope_framework.type_connection_factory" type="model"/>
-		</service>
-
-		<service
-			id="calliope_framework.connection_factory.doctrine_orm"
-			class="%calliope_framework.connection_factory.doctrine_orm.class%"
-		>
-			<argument type="service" id="doctrine" on-invalid="null" />
-			<tag name="calliope_framework.type_connection_factory" type="doctrine.orm"/>
-		</service>
-
-		<service
-			id="calliope_framework.connection_factory.doctrine_repository"
-			class="%calliope_framework.connection_factory.doctrine_repository.class%"
-		>
-			<argument type="service" id="service_container"/>
-			<tag name="calliope_framework.type_connection_factory" type="doctrine.repository"/>
-		</service>
-
-		<service
-			id="calliope_framework.class_metadata_mapping_factory.scheme"
-			class="%calliope_framework.class_metadata_mapping_factory.scheme.class%"
-		>
-			<argument type="service" id="annotation_reader"/>
-			<tag name="clio_framework.class_metadata_mapping_factory"/>
-		</service>
-
-		<service id="calliope_framework.type_connection_factory" alias="calliope_framework.type_connection_factory.default" />
-
-	</services>
 </container>

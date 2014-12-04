@@ -1,6 +1,7 @@
 <?php
 namespace Calliope\Core;
 
+use Calliope\Core\Manager;
 /**
  * Connection 
  * 
@@ -15,82 +16,24 @@ interface Connection
 	 * getConnectFrom 
 	 * 
 	 * @access public
-	 * @return void
+	 * @return Manager 
 	 */
 	function getConnectFrom();
 
 	/**
-	 * flush
+	 * connect 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function flush();
+	function connect(Manager $from);
 
 	/**
-	 * create
+	 * disconnect 
 	 * 
-	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function create($model);
-
-	/**
-	 * update
-	 * 
-	 * @param mixed $model 
-	 * @access public
-	 * @return void
-	 */
-	function update($model);
-
-	/**
-	 * delete 
-	 * 
-	 * @param mixed $model 
-	 * @access public
-	 * @return void
-	 */
-	function delete($model);
-
-	/**
-	 * reload 
-	 * 
-	 * @param mixed $model 
-	 * @access public
-	 * @return void
-	 */
-	function reload($model);
-
-	/**
-	 * findBy 
-	 *   Find models with criteria condition 
-	 * @param array $criteria 
-	 * @param array $orderBy 
-	 * @param mixed $limit 
-	 * @param mixed $offset 
-	 * @access public
-	 * @return void
-	 */
-	function findBy(array $criteria, array $orderBy = array(), $limit = null, $offset = null);
-
-	/**
-	 * findOneBy 
-	 *   Find a model with criteria condition 
-	 * @param array $criteria 
-	 * @access public
-	 * @return void
-	 */
-	function findOneBy(array $criteria, array $orderBy = null);
-
-	/**
-	 * countBy 
-	 *   Count models with criteria condition
-	 * @param array $criteria 
-	 * @access public
-	 * @return void
-	 */
-	function countBy(array $criteria);
+	function disconnect();
 }
 

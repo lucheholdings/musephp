@@ -31,6 +31,7 @@ class Configuration implements ConfigurationInterface
 				->append($this->buildCodingSection())
 				->append($this->buildAccessorSection())
 				->append($this->buildNormalizerSection())
+				->append($this->buildSchemifierSection())
 				->append($this->buildMetadataSection())
 				->arrayNode('mappings')
 					->addDefaultsIfNotSet()
@@ -243,7 +244,7 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
-				->scalarNode('default_factory')->defaultValue('erato_framework.schemifier.factory.normalizer')->end()
+				->scalarNode('default_factory')->defaultValue('erato_framework.schemifier_factory.normalizer')->end()
 				->arrayNode('options')
 					->defaultValue(array())
 					->prototype('variable')->end()
@@ -309,6 +310,21 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
+	protected function buildSchemifierSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('schemifier');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->scalarNode('default_factory')->defaultValue('erato_framework.schemifier_factory')->end()
+			->end()
+		;
+		return $node;
+	}
+
 	protected function buildNormalizerSection()
 	{
 		$treeBuilder = new TreeBuilder();
@@ -317,11 +333,6 @@ class Configuration implements ConfigurationInterface
 		$node
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
-		;
-		$node
-			->children()
-				->scalarNode('use_clio_normalizer')->defaultTrue()->end()
-			->end()
 		;
 
 		$strategyNodes = $node
@@ -333,6 +344,12 @@ class Configuration implements ConfigurationInterface
 
 		$defaultStrategies = array(
 			'accessor'      => array('enabled' => true, 'priority' => 100),
+			'datetime'      => array('enabled' => true, 'priority' => 600),
+			'reference'     => array('enabled' => true, 'priority' => 100),
+			'std_class'     => array('enabled' => true, 'priority' => 500),
+			'array_access'  => array('enabled' => false, 'priority' => 500),
+			'scalar'        => array('enabled' => true, 'priority' => 0),
+			'normalizable'  => array('enabled' => true, 'priority' => 1000),
 		);
 
 

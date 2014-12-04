@@ -26,62 +26,50 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
 		$rootNode
 			->children()
-				->append($this->buildServiceMappingSection())
-				->append($this->buildManagerSection())
-				->append($this->buildFilterSection())
-				// Advanced 
-				->append($this->buildJMSSerializerSection(array('attribute_collection'), array()))
+				//->append($this->buildServiceMappingSection())
+				//->append($this->buildFilterSection())
+				//->append($this->buildManagerSection())
+				->append($this->buildSchemaSection())
 			->end()
 		;
 
         return $treeBuilder;
     }
 
-	protected function buildServiceMappingSection()
+	protected function buildSchemaSection()
 	{
 		$tree = new TreeBuilder();
 
-		$node = $tree->root('services');
-
-		$node
-			->addDefaultsIfNotSet()
-			->children()
-				->scalarNode('registry')->defaultNull()->end()
-				->scalarNode('default_hash_resolver')->defaultNull()->end()
-				->scalarNode('class_metadata_registry')->defaultNull()->end()
-				->scalarNode('schemifier_factory')->defaultNull()->end()
-			->end()
-		;
-		
-		return $node;
-	}
-
-	protected function buildManagerSection()
-	{
-		$tree = new TreeBuilder();
-
-		$node = $tree->root('schemes');
+		$node = $tree->root('schemas');
 
 		$node
 			->useAttributeAsKey('name')
+			->info('Schema definitions')
 			->prototype('array')
-			->beforeNormalization()
-				->ifString()
-				->then(function($v){ return array('connect_to' => $v, 'type' => 'alias');})
-			->end()
-			->children()
-				->scalarNode('class')->defaultNull()->end()
-				->scalarNode('manager_class')->defaultNull()->end()
-				->scalarNode('type')->cannotBeEmpty()->end()
-				->scalarNode('connect_to')->cannotBeEmpty()->end()
-				->arrayNode('filters')
-					->defaultValue(array())
-					->prototype('scalar')->end()
-				->end()
-				->arrayNode('options')
-					->useAttributeAsKey('key')
-					->treatNullLike(array())
-					->prototype('variable')->end()
+				->children()
+					->scalarNode('class')->cannotBeEmpty()->info('Target class path')->end()
+					->scalarNode('manager_class')->defaultNull()->info('SchemaManager classpath')->end()
+					->scalarNode('type')->cannotBeEmpty()->info('Connection Type')->end()
+					->scalarNode('connect_to')->cannotBeEmpty()->end()
+					->arrayNode('filters')
+						->info('List of filter service ids')
+						->example(array('service.filter_01', 'filter_02'))
+						->defaultValue(array())
+						->prototype('scalar')->end()
+					->end()
+					->arrayNode('options')
+						->info('SchemaManager options')
+						->useAttributeAsKey('key')
+						->treatNullLike(array())
+						->prototype('variable')->end()
+					->end()
+					->arrayNode('mappings')
+						->info('Schema Mapping Options - with this options, you can overwite static schema mapping')
+						->example(array('normalizer' => array('normalizer' => 'normalizer.service_id')))
+						->useAttributeAsKey('key')
+						->treatNullLike(array())
+						->prototype('variable')->end()
+					->end()
 				->end()
 			->end()
 		;

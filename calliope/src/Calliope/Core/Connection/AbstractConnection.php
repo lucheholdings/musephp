@@ -2,7 +2,7 @@
 namespace Calliope\Core\Connection;
 
 use Calliope\Core\Connection;
-use Calliope\Core\SchemaManagerInterface;
+use Calliope\Core\Manager;
 
 /**
  * AbstractConnection 
@@ -10,8 +10,8 @@ use Calliope\Core\SchemaManagerInterface;
  * @uses Connection
  * @abstract
  * @package { PACKAGE }
- * @copyright { COPYRIGHT } (c) { COMPANY }
- * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
 abstract class AbstractConnection implements Connection 
@@ -43,19 +43,16 @@ abstract class AbstractConnection implements Connection
 	/**
 	 * __construct 
 	 * 
-	 * @param SchemaManagerInterface $connectFrom 
+	 * @param Manager $connectFrom 
 	 * @param mixed $connectTo 
 	 * @access public
 	 * @return void
 	 */
 	public function __construct($connectTo = null, array $options = array())
 	{
-		$this->connectTo = null;
 		$this->options = $options;
 
-		if($connectTo) {
-			$this->setConnectTo($connectTo);
-		}
+		$this->setConnectTo($connectTo);
 	}
     
     /**
@@ -66,20 +63,10 @@ abstract class AbstractConnection implements Connection
      */
     public function getConnectFrom()
     {
+		if(!$this->connectFrom) {
+			throw new \RuntimeException('Connection is disconnected.');
+		}
         return $this->connectFrom;
-    }
-    
-    /**
-     * Set connectFrom.
-     *
-     * @access public
-     * @param connectFrom the value to set.
-     * @return mixed Class instance for method-chanin.
-     */
-    public function setConnectFrom(SchemaManagerInterface $connectFrom)
-    {
-        $this->connectFrom = $connectFrom;
-        return $this;
     }
     
     /**
@@ -102,25 +89,36 @@ abstract class AbstractConnection implements Connection
      */
     public function setConnectTo($connectTo)
     {
-		$this->validateConnectTo($connectTo);
+		$this->disconnect();
 		$this->connectTo = $connectTo;
+
         return $this;
     }
 
 	/**
-	 * validateConnectTo 
+	 * connect 
+	 *   Establish connection 
+	 * @access public
+	 * @return void
+	 */
+	public function connect(Manager $from)
+	{
+		$this->connectFrom = $from;
+		$this->doConnect();
+	}
+
+	public function disconnect()
+	{
+		$this->connectFrom = null;
+	}
+
+	/**
+	 * doConnect 
 	 * 
-	 * @param mixed $connectTo 
-	 * @abstract
 	 * @access protected
 	 * @return void
 	 */
-	abstract protected function validateConnectTo($connectTo);
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function flush()
+	protected function doConnect()
 	{
 	}
 }

@@ -14,9 +14,11 @@ class SchemaListCommand extends ContainerAwareCommand
 	protected function configure()
 	{
 		$this
-			->setName('calliope:scheme:list')
+			->setName('calliope:schema:list')
+			->setDescription('List all calliope schemas')
 			->setDefinition(array(
-				new InputArgument('scheme', InputArgument::OPTIONAL, 'Target Schema'),
+				new InputArgument('schema', InputArgument::OPTIONAL, 'Pick one Schema to show more detail'),
+				new InputOption('profile', null, InputOption::VALUE_NONE, 'show execution time, memory usage.'),
 			))
 			;
 	}
@@ -24,49 +26,54 @@ class SchemaListCommand extends ContainerAwareCommand
 	
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		if($scheme = $input->getArgument('scheme')) {
-			$this->displaySchemaDetail($output, $scheme);
+		if($schema = $input->getArgument('schema')) {
+			$this->displaySchemaDetail($output, $schema);
 		} else {
 			$this->displaySchemaList($output);
 		}
+
+		if($input->getOption('profile') && $this->getHelper('profiler')) {
+			$this->getHelper('profiler')->renderCurrentProfile($output);
+		}
 	}
 
-	protected function displaySchemaDetail(OutputInterface $output, $schemeName)
+	protected function displaySchemaDetail(OutputInterface $output, $schemaName)
 	{
 		$registry = $this->getSchemaRegistry();
 
-		if($registry->hasAlias($schemeName)) {
-			$manager = $registry->getSchemaManagerByAlias($schemeName);	
-		} else if($registry->hasSchemaManager($schemeName)) {
-			$manager = $registry->getSchemaManager($schemeName);
+
+		if($registry->has($schemaName)) {
+			$manager = $registry->get($schemaName);	
 		}
 
 		if($manager) {
-			$scheme = array(
+			$schema = array(
 				'manager_class' => get_class($manager),
-				'scheme_class' => $manager->getClassMetadata()->getName(),
+				'schema_class'  => $manager->getClassMetadata()->getName(),
 				'connection_class' => get_class($manager->getConnection()),
 			);
-			$output->writeln(Yaml::dump($scheme));
+			$output->writeln(Yaml::dump($schema));
 		}
 	}
 
 	protected function displaySchemaList(OutputInterface $output)
 	{
 		$registry = $this->getSchemaRegistry();
-		$schemes = array();
-		foreach($registry as $alias => $manager) {
-			$schemes[$alias] = array(
-				'scheme_class' => $manager->getClassMetadata()->getName(),
-			);
+		$schemas = array();
+
+		$tableHelper = $this->getHelper('table');
+
+		$tableHelper->setHeaders(array('name', 'schema_class', 'connection'));
+		foreach($registry as $alias => $schema) {
+			$tableHelper->addRow(array($schema->getName(), $schema->getParent()->getName(), get_class($schema->getMapping('schema_manager')->getManager()->getConnection())));
 		}
 
-		$output->writeln(Yaml::dump($schemes));
+		$tableHelper->render($output);
 	}
 
 	protected function getSchemaRegistry()
 	{
-		return $this->getContainer()->get('calliope_framework.scheme_manager_registry');
+		return $this->getContainer()->get('calliope_framework.metadata.registry');
 	}
 }
 

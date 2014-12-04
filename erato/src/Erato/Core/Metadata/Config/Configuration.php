@@ -15,9 +15,11 @@ class Configuration
 
 	public function apply(SchemaMetadata $metadata)
 	{
-		foreach($this->configs['mappings'] as $mappingName => $mappingConfigs) {
-			if($metadata->hasMapping($mappingName)) {
-				$metadata->getMapping($mappingName)->mergeOptions($mappingConfigs);
+		if(isset($this->configs['mappings'])) {
+			foreach($this->configs['mappings'] as $mappingName => $mappingConfigs) {
+				if($metadata->hasMapping($mappingName)) {
+					$metadata->getMapping($mappingName)->mergeOptions($mappingConfigs);
+				}
 			}
 		}
 

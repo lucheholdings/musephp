@@ -10,6 +10,13 @@
         <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
 		<!-- Strategy Classes -->
         <parameter key="erato_framework.normalizer.accessor_strategy.class">Clio\Extra\Normalizer\Strategy\AccessorStrategy</parameter>
+
+        <parameter key="erato_framework.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
+        <parameter key="erato_framework.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
+        <parameter key="erato_framework.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
+        <parameter key="erato_framework.normalizer.array_access_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy</parameter>
+        <parameter key="erato_framework.normalizer.normalizable_strategy.class">Clio\Component\Tool\Normalizer\Strategy\NormalizableStrategy</parameter>
+        <parameter key="erato_framework.normalizer.std_class_strategy.class">Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy</parameter>
     </parameters>
 
     <services>
@@ -35,6 +42,42 @@
 			<argument type="service" id="erato_framework.accessor.registry" on-invalid="null"/>
 		</service>
 		
+		<service 
+			id="erato_framework.normalizer.default_strategy.datetime" 
+			class="%erato_framework.normalizer.datetime_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service 
+			id="erato_framework.normalizer.default_strategy.reference" 
+			class="%erato_framework.normalizer.reference_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service
+			id="erato_framework.normalizer.default_strategy.scalar"
+			class="%erato_framework.normalizer.scalar_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service 
+			id="erato_framework.normalizer.default_strategy.std_class" 
+			class="%erato_framework.normalizer.std_class_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service 
+			id="erato_framework.normalizer.default_strategy.array_access" 
+			class="%erato_framework.normalizer.array_access_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service 
+			id="erato_framework.normalizer.default_strategy.normalizable" 
+			class="%erato_framework.normalizer.normalizable_strategy.class%"
+			public="false"
+		>
+		</service>
     </services>
 </container>
 

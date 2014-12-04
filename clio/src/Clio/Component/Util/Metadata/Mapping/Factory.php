@@ -20,7 +20,7 @@ interface Factory
 	 * @access public
 	 * @return void
 	 */
-	function createMapping(Metadata $metadata);
+	function createMapping(Metadata $metadata, array $options = array());
 
 	/**
 	 * isSupportedMetadata 

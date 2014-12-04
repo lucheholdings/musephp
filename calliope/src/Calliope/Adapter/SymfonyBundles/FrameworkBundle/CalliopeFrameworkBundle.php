@@ -4,8 +4,7 @@ namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Calliope\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler\SchemaManagerCompilerPass,
-	Calliope\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection\Compiler\TypeConnectionFactoryCompilerPass;
+use Calliope\Adapter\SymfonyBundles\FrameworkBundle\DependencyInjection;
 
 /**
  * CalliopeFrameworkBundle 
@@ -31,9 +30,11 @@ class CalliopeFrameworkBundle extends Bundle
 		
 
 		// Gather components tagged "metadata_manager"
-		$container->addCompilerPass(new SchemaManagerCompilerPass());
-		$container->addCompilerPass(new TypeConnectionFactoryCompilerPass());
-		$container->addCompilerPass(new DependencyInjection\Compiler\FilterCompilerPass());
-		$container->addCompilerPass(new DependencyInjection\Compiler\FilterFactoryCompilerPass());
+		$container->addCompilerPass(new DependencyInjection\Compiler\MetadataCompilerPass());
+		$container->addCompilerPass(new DependencyInjection\Compiler\ConnectionCompilerPass());
+		//$container->addCompilerPass(new SchemaManagerCompilerPass());
+		//$container->addCompilerPass(new TypeConnectionFactoryCompilerPass());
+		//$container->addCompilerPass(new DependencyInjection\Compiler\FilterCompilerPass());
+		//$container->addCompilerPass(new DependencyInjection\Compiler\FilterFactoryCompilerPass());
 	}
 }

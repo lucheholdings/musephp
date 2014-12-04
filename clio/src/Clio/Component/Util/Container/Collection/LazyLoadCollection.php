@@ -109,7 +109,8 @@ class LazyLoadCollection extends Collection implements Loadable
 		if(!$this->isLoaded()) {
 			$this->load();
 		}
-		parent::map($closure);
+
+		return parent::map($closure);
 	}
 }
 

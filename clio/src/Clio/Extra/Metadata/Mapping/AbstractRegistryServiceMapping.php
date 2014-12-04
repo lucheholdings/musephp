@@ -59,7 +59,7 @@ abstract class AbstractRegistryServiceMapping extends AbstractMapping
 		if(!isset($services[$name])) {
 			throw new \RuntimeException(sprintf('Service for "%s" is not specified.', $name));
 		}
-		return $this->services[$name];
+		return $services[$name];
 	}
 
 	public function getService($name)

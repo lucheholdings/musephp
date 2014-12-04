@@ -27,7 +27,7 @@ class SchemaMetadataCommand extends ContainerAwareCommand
 				new InputArgument('schema', InputArgument::REQUIRED, 'Target Schema'),
 				new InputOption('with-mapping', null, InputOption::VALUE_NONE, 'Show mapping detail'),
 				// 
-				new InputOption('profiler', null, InputOption::VALUE_NONE, 'show execution time, memory usage.'),
+				new InputOption('profile', null, InputOption::VALUE_NONE, 'show execution time, memory usage.'),
 			))
 		;
 	}
@@ -39,7 +39,7 @@ class SchemaMetadataCommand extends ContainerAwareCommand
 		$this->displaySchemaDetail($schema, $output);
 
 
-		if($input->getOption('profiler') && $this->getHelper('profiler')) {
+		if($input->getOption('profile') && $this->getHelper('profiler')) {
 			$this->getHelper('profiler')->renderCurrentProfile($output);
 		}
 	}

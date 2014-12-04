@@ -60,6 +60,9 @@ class MethodFieldAccessor extends AbstractSingleFieldAccessor
 	{
 		$method = $this->getSetterReflector();
 
+		if(!$method) {
+			throw new \RuntimeException(sprintf('Setter for field "%s" is not initialized.', $this->getFieldName()));
+		}
 		return $method->invoke($object, $value);
 	}
 
@@ -74,6 +77,9 @@ class MethodFieldAccessor extends AbstractSingleFieldAccessor
 	{
 		$method = $this->getGetterReflector();
 
+		if(!$method) {
+			throw new \RuntimeException(sprintf('Getter for field "%s" is not initialized.', $this->getFieldName()));
+		}
 		return $method->invoke($object);
 	}
 

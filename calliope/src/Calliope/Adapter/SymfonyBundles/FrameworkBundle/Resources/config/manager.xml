@@ -1,0 +1,20 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+	<parameters>
+		<parameter key="calliope_framework.schema_manager_class_factory.class">Calliope\Core\Manager\Factory\ClassFactory</parameter>
+	</parameters>
+
+	<services>
+		<service
+			id="calliope_framework.schema_manager_class_factory"
+			class="%calliope_framework.schema_manager_class_factory.class%"
+		>
+		</service>
+	</services>
+</container>
+

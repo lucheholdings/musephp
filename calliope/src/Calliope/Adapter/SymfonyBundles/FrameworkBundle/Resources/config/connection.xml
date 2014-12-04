@@ -1,0 +1,77 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+	<parameters>
+		<parameter key="calliope_framework.connection_factory.collection.class">Calliope\Core\Connection\Factory\FactoryMap</parameter>
+		<parameter key="calliope_framework.default_connection.class">Calliope\Core\Connection\Connection</parameter>
+
+		<parameter key="calliope_framework.connection_factory.doctrine_orm.class">Calliope\Bridge\DoctrineOrm\Connection\ConnectionFactory</parameter>
+		<parameter key="calliope_framework.connection_factory.model.class">Calliope\Core\Connection\Factory\UsecaseConnectionFactory</parameter>
+		<parameter key="calliope_framework.connection_factory.service.class">Calliope\Bridge\Terpsichore\Connection\Factory</parameter>
+		<parameter key="calliope_framework.connection_factory.confluence.class">Calliope\Core\Connection\Factory\ConfluenceConnectionFactory</parameter>
+	</parameters>
+
+	<services>
+		<!-- Connection -->
+		<service
+			id="calliope_framework.default_connection"
+			class="%calliope_framework.default_connection.class%"
+			factory-service="calliope_framework.connection_factory"
+			factory-method="createConnection"
+		>
+			<argument></argument><!-- Type -->
+			<argument></argument><!-- ConnectTo -->
+			<argument></argument><!-- options -->
+		</service>
+
+		<!-- Connection Factory -->
+		<service
+			id="calliope_framework.connection_factory"
+			alias="calliope_framework.connection_factory.collection"
+		/>
+
+		<service
+			id="calliope_framework.connection_factory.collection"
+			class="%calliope_framework.connection_factory.collection.class%"
+		>
+		</service>
+
+		<!-- specific connection factories -->
+		<service
+			id="calliope_framework.connection_factory.doctrine_orm"
+			class="%calliope_framework.connection_factory.doctrine_orm.class%"
+		>
+			<argument type="service" id="doctrine"/>
+			<tag name="calliope_framework.connection_factory" for="doctrine.orm"/>
+		</service>
+		<service
+			id="calliope_framework.connection_factory.model"
+			class="%calliope_framework.connection_factory.model.class%"
+		>
+			<argument type="service" id="calliope_framework.metadata.registry"/>
+			<tag name="calliope_framework.connection_factory" for="model"/>
+		</service>
+		<!--
+		<service
+			id="calliope_framework.connection_factory.service"
+			class="%calliope_framework.connection_factory.service.class%"
+		>
+			<argument type="service" id="calliope_framework.external_service_registry" on-invalid="ignore"/>
+			<tag name="calliope_framework.connection_factory" for="service"/>
+		</service>
+		-->
+		<!--
+		<service
+			id="calliope_framework.connection_factory.confluence"
+			class="%calliope_framework.connection_factory.confluence.class%"
+		>
+			<argument type="service" id="calliope_framework.container_registry"/>
+			<tag name="calliope_framework.connection_factory" for="confluence"/>
+		</service>
+		-->
+	</services>
+</container>

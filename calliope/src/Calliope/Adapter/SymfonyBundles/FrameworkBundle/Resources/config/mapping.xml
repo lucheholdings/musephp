@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+	<parameters>
+		<parameter key="calliope_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
+		<parameter key="calliope_framework.metadata.schema_manager_mapping_factory.class">Calliope\Core\Metadata\Mapping\Factory\SchemaManagerMappingFactory</parameter>
+	</parameters>
+
+	<services>
+		<service
+			id="calliope_framework.metadata.mapping_factory.collection"
+			class="%calliope_framework.metadata.mapping_factory_collection.class%"
+		>
+		</service>
+
+		<service
+			id="calliope_framework.metadata.mapping_factory.schema_manager"
+			class="%calliope_framework.metadata.schema_manager_mapping_factory.class%"
+		>
+			<argument type="service" id="calliope_framework.container_registry"/>
+			<argument type="service" id="calliope_framework.schema_manager_class_factory"/>
+
+			<tag name="calliope_framework.metadata.mapping_factory" for="schema_manager"/>
+		</service>
+	</services>
+</container>

@@ -51,11 +51,11 @@ class SchemaManagerRegistry extends AliasServiceRegistry implements SchemaRegist
 	/**
 	 * removeSchema 
 	 * 
-	 * @param mixed $schemeClass 
+	 * @param mixed $schemaClass 
 	 * @access public
 	 * @return void
 	 */
-	public function removeSchema($schemeClass)
+	public function removeSchema($schemaClass)
 	{
 		throw new \Exception('::removeSchema is not supported');
 	}

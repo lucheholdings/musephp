@@ -25,9 +25,8 @@ class SchemaManagerClassFactory extends ClassFactory
 	public function createManagerWithClass($class, SchemaMetadata $schemaMetadata)
 	{
 		$args = func_get_args();
-		$args = array_slice($args, 2);
 
-		return $this->createClassArgs($class, $args);
+		return $this->createClassArgs($this->shiftArg($args, 'class'), $args);
 	}
 }
 

@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Manager;
 
-use Clio\Component\Util\Metadata\Schema\SchemaMetadata;
+use Clio\Component\Util\Metadata\SchemaMetadata;
 use Erato\Core\SchemaManager as SchemaManagerInterface;
 
 /**
@@ -33,8 +33,8 @@ class SchemaManager implements SchemaManagerInterface
 	 */
 	public function newInstance()
 	{
-		if(!$this->getMetadata()->hasMapping('consturctor')) {
-			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping constructor.', $this->getMetadata()));
+		if(!$this->getSchemaMetadata()->hasMapping('consturctor')) {
+			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping constructor.', $this->getSchemaMetadata()));
 		}
 		return $this->getMetadadata()->getMappign('constructor')->construct(func_get_args());
 	}
@@ -44,10 +44,10 @@ class SchemaManager implements SchemaManagerInterface
 	 */
 	public function getAccessor()
 	{
-		if(!$this->getMetadata()->hasMapping('accessor')) {
-			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping accessor.', $this->getMetadata()));
+		if(!$this->getSchemaMetadata()->hasMapping('accessor')) {
+			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping accessor.', $this->getSchemaMetadata()));
 		}
-		return $this->getMetadata()->getMapping('accessor')->getAccessor();
+		return $this->getSchemaMetadata()->getMapping('accessor')->getAccessor();
 	}
 
 	/**
@@ -55,16 +55,27 @@ class SchemaManager implements SchemaManagerInterface
 	 */
 	public function schemify($data)
 	{
-		if(!$this->getMetadata()->hasMapping('schemifier')) {
-			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping schemifier.', $this->getMetadata()));
+		if(!$this->getSchemaMetadata()->hasMapping('schemifier')) {
+			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping schemifier.', $this->getSchemaMetadata()));
 		}
-		return $this->getMetadata()->getMapping('schemifier')->schemify($data);
+		return $this->getSchemaMetadata()->getMapping('schemifier')->schemify($data);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getMetadata()
+	public function normalize($data)
+	{
+		if(!$this->getSchemaMetadata()->hasMapping('normalizer')) {
+			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping normalizer.', $this->getSchemaMetadata()));
+		}
+		return $this->getSchemaMetadata()->getMapping('normalizer')->normalize($data);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getSchemaMetadata()
 	{
 		return $this->metadata;
 	}

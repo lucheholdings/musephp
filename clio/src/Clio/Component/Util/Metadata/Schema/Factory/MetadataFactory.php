@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\Schema\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\Collection as FactoryCollection;
+use Clio\Component\Util\Metadata\Mapping\Factory\Collection as MappingFactoryCollection;
 use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 use Clio\Component\Pattern\Factory\MappedFactory;
 use Clio\Component\Util\Metadata\SchemaMetadata;
@@ -30,7 +30,7 @@ abstract class MetadataFactory implements MappedFactory
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(FactoryCollection $mappingFactory = null)
+	public function __construct(MappingFactoryCollection $mappingFactory = null)
 	{
 		$this->mappingFactory = $mappingFactory;
 	}

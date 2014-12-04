@@ -65,7 +65,9 @@ class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy, 
 		
 		// Set Field Values
 		foreach($data as $key => $value) {
-			$accessor->set($key, $value);
+			if($accessor->existsField($key)) {
+				$accessor->set($key, $value);
+			}
 		}
 
 		return $accessor->getData();

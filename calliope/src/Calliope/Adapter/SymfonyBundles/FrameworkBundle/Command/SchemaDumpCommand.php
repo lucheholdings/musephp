@@ -14,12 +14,14 @@ class SchemaDumpCommand extends ContainerAwareCommand
 	protected function configure()
 	{
 		$this
-			->setName('calliope:scheme:dump')
+			->setName('calliope:schema:dump')
+			->setDescription('Dump data in schema')
 			->setDefinition(array(
-				new InputArgument('scheme', InputArgument::REQUIRED, 'Target Schema'),
+				new InputArgument('schema', InputArgument::REQUIRED, 'Target Schema'),
 				new InputOption('offset', null, InputOption::VALUE_REQUIRED, 'Offset', 0),
 				new InputOption('page', null, InputOption::VALUE_REQUIRED, 'Page Offset', 1),
 				new InputOption('size', null, InputOption::VALUE_REQUIRED, 'Page Size', 10),
+				new InputOption('profile', null, InputOption::VALUE_NONE, 'show execution time, memory usage.'),
 			))
 			;
 	}
@@ -27,7 +29,7 @@ class SchemaDumpCommand extends ContainerAwareCommand
 	
 	protected function execute(InputInterface $input, OutputInterface $output)
 	{
-		$schemeName = $input->getArgument('scheme');
+		$schemaName = $input->getArgument('schema');
 		$registry = $this->getSchemaRegistry();
 
 		$size    = (int)$input->getOption('size');
@@ -36,27 +38,27 @@ class SchemaDumpCommand extends ContainerAwareCommand
 
 		$offset = (($page - 1) * $size) + $offset;
 
-		if($registry->hasAlias($schemeName)) {
-			$manager = $registry->getSchemaManagerByAlias($schemeName);	
-		} else if($registry->hasSchemaManager($schemeName)) {
-			$manager = $registry->getSchemaManager($schemeName);
+		if($registry->has($schemaName)) {
+			$manager = $registry->get($schemaName)->getMapping('schema_manager')->getManager();
 		}
 
 		if($manager) {
 			$dump = $manager->findBy(array(), array(), $size, $offset);
-			// pre-load to avoid JMS Recursion
-			$dump->load();
 
-			$serializer = $this->getContainer()->get('jms_serializer');
-			$serialized = $serializer->serialize($dump, 'json');
-			$output->writeln(json_encode(json_decode($serialized), JSON_PRETTY_PRINT));
+			$data = $manager->normalize($dump, 'json');
+			$output->writeln(json_encode(($data), JSON_PRETTY_PRINT));
 			//$output->writeln(json_encode($dump, JSON_PRETTY_PRINT));
+		}
+
+
+		if($input->getOption('profile') && $this->getHelper('profiler')) {
+			$this->getHelper('profiler')->renderCurrentProfile($output);
 		}
 	}
 
 	protected function getSchemaRegistry()
 	{
-		return $this->getContainer()->get('calliope_framework.scheme_manager_registry');
+		return $this->getContainer()->get('calliope_framework.metadata.registry');
 	}
 }
 

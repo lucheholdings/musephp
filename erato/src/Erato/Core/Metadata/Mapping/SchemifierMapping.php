@@ -4,6 +4,8 @@ namespace Erato\Core\Metadata\Mapping;
 use Clio\Extra\Metadata\Mapping\AbstractRegistryServiceMapping;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Pattern\Registry\Registry;
+use Clio\Component\Util\Metadata\Schema\ClassMetadata;
+use Clio\Component\Tool\Schemifier\ClassSchema;
 
 /**
  * SchemifierMapping 
@@ -17,12 +19,28 @@ use Clio\Component\Pattern\Registry\Registry;
 class SchemifierMapping extends AbstractRegistryServiceMapping
 {
 	/**
+	 * schemifierSchema 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $schemifierSchema;
+
+	/**
 	 * fieldKeyMappers 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
 	private $fieldKeyMappers;
+
+	/**
+	 * schemifier
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $schemifier;
 
 	/**
 	 * __construct 
@@ -48,7 +66,7 @@ class SchemifierMapping extends AbstractRegistryServiceMapping
 	public function getSchemifier()
 	{
 		if(!$this->schemifier) {
-			$this->getService('factory')->createSchemifier($this->getSchemifierSchema(), $this->options);
+			$this->schemifier = $this->getService('factory')->createSchemifier($this->getSchemifierSchema(), $this->getOptions());
 		}
 		return $this->schemifier;
 	}
@@ -63,7 +81,7 @@ class SchemifierMapping extends AbstractRegistryServiceMapping
 	{
 		if(!$this->schemifierSchema) {
 			if($this->getMetadata() instanceof ClassMetadata) {
-				$this->schemifierSchema = new ClassSchema($this->getMetadata()->getClassReflector());
+				$this->schemifierSchema = new ClassSchema($this->getMetadata()->getReflectionClass());
 			} else {
 				// fixme
 				throw new \Exception('Not Impl yet');
@@ -71,6 +89,11 @@ class SchemifierMapping extends AbstractRegistryServiceMapping
 		}
 
 		return $this->schemifierSchema;
+	}
+
+	public function schemify($data)
+	{
+		return $this->getSchemifier()->schemify($data);
 	}
 
 	/**

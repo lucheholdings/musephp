@@ -9,58 +9,83 @@ This is a Symfony Bundle to use Calliope Framework.
 on app/config/config.yml,
 
 	calliope_framework:
-		schemes:
-        	scheme_alias:
-				# Required.
-				type: [model, doctrine.orm, reference, decorate]
-				# Required.
-            	class: Path\To\Namespaced\SchemaClass
-				# Optional.
-				manager_class: Path\To\Namespaced\ManagerClass
-				# Required
-            	connect_to:   connect_to
-				# Optional.
-				options:
-					key: value
-			doctrine_entity:
-				type:        doctrine.orm 
-				class:       Path\To\Namespaced\EntityClass
-				connect_to:  doctrine_entity_manager
-			model_sample:
-				type:        model
-				class:       Path\To\Namespaced\ModelClass
-				connect_to:  doctrine_entity
-			reference_sample:
-				type:        reference
-				connect_to:  base_schema_alias
-			decorate_sample:
-				type:        decorate
-				class:       Path\To\Namespaced\DecratedModelClass
-				connect_to:  base_schema_alias
-				options:
-					decorates:    decorator_schema_alias
-					identifiers:  { main_id: decorate_id }
-					cache:        cache_provider_id
-			rest_sample:
-				type:        rest
-				class:       Path\To\Namespaced\ModelClass
-				connect_to:  terpsichore_client_id
+		filters:
+			service_user_filter:
+				class:       Service\Filter\UserFilter
+				priority:    high
+				arguments:
+					- foo
+					- bar
+		schemas:
+			database.user:
+				type:        doctrine.orm
+				class:       Entity\User
+
+			rest.user
+				type:        service
+				connect_to:  terpsichore.user_service
+				class:       Service\Model\User
 				options:
 					methods:
-						create:     terpsichore.create.service_name
-						update:     terpsichore.update.service_name
-						delete:     terpsichore.delete.service_name
-						fetch:      terpsichore.fetch.service_name
+						create:  user.create.service_name
+						update:  user.update.service_name
+						delete:  user.delete.service_name
+						fetch:   user.fetch.service_name
 
+			in_service.userinfo:
+				type:            model
+				class:           Service\Model\UserInfo
+				manager_class:   Service\UserManagre
+				connect_to:      rest.user
+				filters:
+					- service_user_filter
+				options:
+					fetch_cache:     cache_provider
+
+			complex_service.user:
+				type:            decorate
+				class:           Service\Model\ComplexUser
+				connect_to:      rest.user
+				options:
+					decorate_with:
+						in_service.userinfo: 
+							identifiers: {id: in_service.userinfo.user_id}
 					
+## Configuration in bundle
+  
+ We also provide configuration in bundle by following way.
+
+	# bundle_root/Resources/config/calliope.yml
+	configs:
+		filters:
+			....
+		schemas:
+			...
+
+All bundle configuration automatically merged.
+
+CAUSION 
+  app.config always overwrite the bundle configurations.
+  Each bundle schema have namespaced prefix on the name.
+  E.g)
+    AcmeBundle has "acme." prefix on the schema name.
+    This prefix automatically resolved by the bundle configuration. 
+
+	You can change the schema name use "alias" type schema.
+
+	simplify_schema:
+		type:        alias
+		connect_to:  acme.schema
+
 ## Schema and Connection Type
 
-  - doctrine.orm
-  - model
-  - reference
-  - decorate
-  - rest
+  - alias          Alias to point another
+  - doctrine.orm   Doctrine ORM Entity
+  - model          Usecase model which only schemify other.
+  - decorate       Bind two or more models 
+  - service        Terpsichore Service 
 
+<!--
 ## Cache the response
 
   Calliope can cache the fetch response with criteria. 
@@ -74,3 +99,4 @@ on app/config/config.yml,
 	# Cache the data
 	$data = $schemManager->normalize($model);
 	$cacheProvider->save($cacheId, $data);
+-->

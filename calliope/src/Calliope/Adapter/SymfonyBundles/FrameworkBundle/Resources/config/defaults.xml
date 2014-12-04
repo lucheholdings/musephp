@@ -7,9 +7,9 @@
 
 	<services>
 		<service
-			id="calliope_framework.scheme_manager.default"
+			id="calliope_framework.schema_manager.default"
 			class="Calliope\Framework\Core\SchemaManagerInterface"
-			factory-service="calliope_framework.scheme_manager_factory"
+			factory-service="calliope_framework.schema_manager_factory"
 			factory-method="createSchemaManager"
 		>
 			<argument></argument><!-- Schema Class -->

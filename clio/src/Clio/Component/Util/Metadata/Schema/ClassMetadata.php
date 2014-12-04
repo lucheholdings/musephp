@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\Schema;
 
-use Clio\Component\Util\Metadata\InheritableMetadata;
+use Clio\Component\Util\Metadata\InheritedMetadata;
 use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 
 /**
@@ -13,7 +13,7 @@ use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClassMetadata extends AbstractSchemaMetadata implements InheritableMetadata 
+class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata 
 {
 	/**
 	 * reflectionClass 
@@ -60,7 +60,7 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritableMetadat
 	{
 		return $this->getReflectionClass()->getName();
 	}
-    
+
     /**
      * getParent 
      * 

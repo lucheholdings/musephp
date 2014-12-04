@@ -43,12 +43,13 @@ class Collection extends NamedCollection implements Factory
 	 * @access public
 	 * @return void
 	 */
-	public function createMapping(Metadata $metadata)
+	public function createMapping(Metadata $metadata, array $options = array())
 	{
 		$collection = new MappingCollection();
 		foreach($this as $key => $factory) {
+			$mappingOptions = isset($options[$key]) ? $options[$key] : array();
 			if($factory->isSupportedMetadata($metadata)) {
-				$mapping = $factory->createMapping($metadata);
+				$mapping = $factory->createMapping($metadata, $mappingOptions);
 				$collection->setMapping($mapping->getName(), $mapping);
 			}
 		}

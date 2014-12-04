@@ -21,6 +21,11 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 	 */
 	private $values = array();
 
+	public function __construct(array $values = array())
+	{
+		$this->values = $values;
+	}
+
 	// Storage Methods
 	/**
 	 * {@inheritdoc}
@@ -169,6 +174,13 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 		default:
 			throw new \InvalidArgumentException(sprintf('Iteration Mode %d is not supported.', $mode));
 		}
+	}
+
+	public function map(\Closure $callback)
+	{
+		$mapped = array_map($callback, $this->values); 
+
+		return new static($mapped);
 	}
 
 	/**

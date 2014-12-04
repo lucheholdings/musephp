@@ -75,6 +75,7 @@ class Configuration implements ConfigurationInterface
 			'array_access'  => array('enabled' => false, 'priority' => 0),
 			'scalar'        => array('enabled' => true, 'priority' => 0),
 			'jms'           => array('enabled' => true, 'priority' => 0),
+			'normalizable'  => array('enabled' => true, 'priority' => 200),
 		);
 
 

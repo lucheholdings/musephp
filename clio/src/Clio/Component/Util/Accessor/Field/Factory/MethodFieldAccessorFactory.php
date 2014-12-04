@@ -59,9 +59,9 @@ class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 		if(array_key_exists('getter', $options)) {
 			$getters = array($options['getter']);
 		} else {
-			$getters = array(Psr1::formatMethodName('get'.ucfirst($fieldName), 'is'.ucfirst($fieldName)));
+			$getters = array(Psr1::formatMethodName('get'.ucfirst($fieldName)), Psr1::formatMethodName('is'.ucfirst($fieldName)));
 		}
-		
+
 		return $this->guessMethod($schema, $getters);
 	}
 
@@ -80,7 +80,7 @@ class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 		if(array_key_exists('setter', $options)) {
 			$setters = array($options['setter']);
 		} else {
-			$setters = array(Psr1::formatMethodName('set'.ucfirst($fieldName)));
+			$setters = array(Psr1::formatMethodName('set' . ucfirst($fieldName)));
 		}
 		
 		return $this->guessMethod($schema, $setters);

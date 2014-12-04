@@ -7,8 +7,7 @@
     <parameters>
         <parameter key="erato_framework.schemifier.class">Clio\Component\Tool\Schemifier\Schemifier</parameter>
         <parameter key="erato_framework.schemifier_field_mapper_registry.class">Clio\Component\Tool\Schemifier\FieldMapperRegistry</parameter>
-        <parameter key="erato_framework.schemifier_factory.normalizer.class">Erato\Core\Schemifier\Factory\NormalizerSchemifierFactory</parameter>
-		<parameter key="erato_framework.class_metadata_mapping_factory.schemifier.class">Erato\Core\Metadata\Mapping\Factory\SchemifierMappingFactory</parameter>
+        <parameter key="erato_framework.schemifier_factory.normalizer.class">Clio\Extra\Schemifier\Factory\NormalizerSchemifierFactory</parameter>
     </parameters>
 
 	<services>
@@ -23,19 +22,6 @@
 
 		<service id="erato_framework.schemifier_factory" alias="erato_framework.schemifier_factory.normalizer" />
 
-		<service 
-			id="erato_framework.class_metadata_mapping_factory.schemifier.default"
-			class="%erato_framework.class_metadata_mapping_factory.schemifier.class%"
-		>
-			<argument type="service" id="erato_framework.schemifier_factory"/>
-		</service>
-
-
-		<service 
-			id="erato_framework.schemifier_field_mapper_registry"
-			class="%erato_framework.schemifier_field_mapper_registry.class%"
-		>
-		</service>
 	</services>	
 </container>
 

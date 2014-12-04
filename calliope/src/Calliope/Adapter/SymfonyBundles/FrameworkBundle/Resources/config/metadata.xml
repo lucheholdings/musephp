@@ -1,0 +1,85 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+
+	<parameters>
+		<!-- Registry -->
+	    <parameter key="calliope_framework.metadata.registry.class">Calliope\Core\Metadata\MetadataRegistry</parameter>
+	    <parameter key="calliope_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaMetadataRegistry</parameter>
+
+	    <parameter key="calliope_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
+		
+		<!-- -->
+        <parameter key="calliope_framework.metadata.schema_metadata_factory.class">Calliope\Core\Metadata\Factory\SchemaMetadataFactory</parameter>
+	</parameters>
+
+	<services>
+		<!-- Registry -->
+		<service
+			id="calliope_framework.metadata.registry"
+			class="%calliope_framework.metadata.registry.class%"
+		>
+			<argument type="service" id="calliope_framework.metadata.schema_metadata_factory"/>
+		</service>
+
+		<!-- Loader -->
+		<service
+			id="calliope_framework.metadata.registry.factory_loader"
+			class="%calliope_framework.metadata.registry.factory_loader.class%"
+		>
+			<argument type="service" id="calliope_framework.metadata.schema_metadata_factory"/>
+		</service>
+
+		<!-- Factory -->
+		<service
+			id="calliope_framework.metadata.schema_metadata_factory"
+			class="%calliope_framework.metadata.schema_metadata_factory.class%"
+		>
+			<argument type="service" id="erato_framework.metadata.registry"/>
+			<argument type="service" id="calliope_framework.metadata.mapping_factory"/>
+		</service>
+
+		<!-- Mapping Factory -->
+		<service
+			id="calliope_framework.metadata.mapping_factory"
+			alias="calliope_framework.metadata.mapping_factory.collection"
+		/>
+
+		<service
+			id="calliope_framework.metadata.mapping_factory.collection"
+			class=""
+		>
+		</service>
+
+		<!-- Injector -->
+		<service
+			id="calliope_framework.metadata.mapping_injectors"
+			class="Clio\Component\Util\Injection\Injector"
+			factory-service="calliope_framework.metadata.mapping_factory"
+			factory-method="getInjector"
+		>
+		</service>
+
+<!--
+		<service
+			id="calliope_framework.metadata.bottom_up_config_loader"
+			class=""
+		>
+			
+		</service>
+
+		<service
+			id="calliope_framework.metadata.config_loader.file_locator"
+			class="%calliope_framework.metadata.config_loader.file_locator.class%"
+		>
+			<argument>%kernel.bundles%</argument>
+		</service>
+-->
+
+	
+	</services>
+</container>
+

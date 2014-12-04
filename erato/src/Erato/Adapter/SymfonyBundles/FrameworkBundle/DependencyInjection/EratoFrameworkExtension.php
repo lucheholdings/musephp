@@ -45,12 +45,12 @@ class EratoFrameworkExtension extends Extension
 		////$this->configureCounter($container, $config['counter']);
 		////$this->configureKvs($container, $config['kvs']);
 		////$this->configureSerializer($container, $config['serializer']);
-		////$this->configureSchemifier($container, $config['schemifier']);
 		////$this->configureFieldAccessor($container, $config['field_accessor']);
 		////$this->configureClassMetadata($container, $config['class_metadata']);
 
 		////$this->configureJMSSerializer($container, $config['jms_serializer']);
 		$this->configureNormalizer($container, $config['normalizer']);
+		$this->configureSchemifier($container, $config['schemifier']);
     }
 
 	protected function initParameters($container, $configs)
@@ -310,13 +310,6 @@ class EratoFrameworkExtension extends Extension
 					$definition
 				);
 			}
-
-			if($configs['use_clio_normalizer']) {
-				// if use clio normalizer, then chain the normalizer
-				$definition = $container->getDefinition('erato_framework.normalizer.strategy_collection');
-				
-				$definition->addMethodCall('addStrategy', array(new Reference('clio_component.normalizer', 0)));
-			}
 		}
 	}
 
@@ -340,10 +333,10 @@ class EratoFrameworkExtension extends Extension
 			$this->getLoader()->load('schemifier.xml');
 		
 			// 
-			$container->setAlias(
-				'erato_framework.schemifier_factory',
-				$configs['factory_id']
-			);
+			//$container->setAlias(
+			//	'erato_framework.schemifier_factory',
+			//	$configs['default_factory']
+			//);
 		}
 	}
 
