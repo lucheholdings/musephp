@@ -5,100 +5,100 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
 	<parameters>
-		<parameter key="calliope_framework.filter_registry.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\FilterRegistry</parameter>
-		<parameter key="calliope_framework.filter.class">Calliope\Framework\Core\Filter</parameter>
-		<parameter key="calliope_framework.filter.doctrine_orm_filter.class">Calliope\Bridge\Doctrine\Filter\DoctrineOrmFilter</parameter>
-		<parameter key="calliope_framework.filter_delegator_factory.class">Calliope\Framework\Core\Filter\Factory\FilterDelegatorFactory</parameter>
-		<parameter key="calliope_framework.typed_filter_factory.class">Calliope\Framework\Core\Filter\Factory\TypedFilterFactory</parameter>
-		<parameter key="calliope_framework.class_filter_factory.class">Calliope\Framework\Core\Filter\Factory\ClassFilterFactory</parameter>
-		<parameter key="calliope_framework.service_filter_factory.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\Factory\ServiceFilterFactory</parameter>
-		<parameter key="calliope_framework.tag_filter_factory.class">Calliope\Framework\Extension\Filter\Factory\TagFilterFactory</parameter>
-		<parameter key="calliope_framework.property_filter_factory.class">Calliope\Framework\Extension\Filter\Factory\PropertyFilterFactory</parameter>
-		<parameter key="calliope_framework.active_user_filter_factory.class">Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\Factory\ActiveUserFilterFactory</parameter>
+		<!-- Filter Interface -->
+		<parameter key="calliope_framework.default_filter.class">Calliope\Core\Filter</parameter>
+		<!-- Filter Factory -->
+		<parameter key="calliope_framework.filter_chain_factory.class">Calliope\Core\Filter\Factory\ChainedFilterFactory</parameter>
+		<parameter key="calliope_framework.connection_filter_factory.class">Calliope\Core\Filter\Factory\ConnectionFilterFactory</parameter>
+		<parameter key="calliope_framework.event_dispatcher_filter_factory.class">Calliope\Bridge\SymfonyComponents\Filter\Factory\EventDispatcherFilterFactory</parameter>
+		<!-- FilterListener Registry -->
+		<parameter key="calliope_framework.filter_listener_registry.class">Clio\Bridge\SymfonyComponents\Registry\AliasContainerRegistry</parameter>
+
+		<!-- FilterListener -->
+		<parameter key="calliope_framework.default_filter_listener.class">stdClass</parameter>
+		<parameter key="calliope_framework.filter_listener_factory_collection.class">Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory\FactoryMap</parameter>
+		<parameter key="calliope_framework.filter_listener_class_factory.class">Calliope\Extra\Filter\ListenerFactory\ClassFactory</parameter>
+		<parameter key="calliope_framework.cache_filter_listener_factory.class">Calliope\Extra\Filter\ListenerFactory\CacheFactory</parameter>
+		<parameter key="calliope_framework.search_filter_listener_factory.class">Calliope\Extra\Filter\ListenerFactory\SearchFactory</parameter>
 	</parameters>
 
 	<services>
-		
 		<service
-			id="calliope_framework.filter_registry"
-			class="%calliope_framework.filter_registry.class%"
+			id="calliope_framework.default_filter"
+			class="%calliope_framework.default_filter.class%"
+			factory-service="calliope_framework.filter_chain_factory"
+			factory-method="createChainedFilter"
 		>
-			<argument type="service" id="calliope_framework.service_registry"/>
+			<argument></argument><!-- options -->
 		</service>
 
-		<!-- FilterDelegator Factory -->
+		<!-- Filter Factory -->
 		<service
-			id="calliope_framework.filter_delegator_factory"
-			class="%calliope_framework.filter_delegator_factory.class%"
+			id="calliope_framework.filter_chain_factory"
+			class="%calliope_framework.filter_chain_factory.class%"
 		>
-			<argument type="service" id="calliope_framework.filter_registry"/>
-
-			<call method="addDefaultFilter">
-				<argument type="service" id="calliope_framework.filter.doctrine_orm_filter"/>
-			</call>
 		</service>
 
 		<service
-			id="calliope_framework.typed_filter_factory"
-			class="%calliope_framework.typed_filter_factory.class%"
+			id="calliope_framework.filter_factory.event_dispatcher"
+			class="%calliope_framework.event_dispatcher_filter_factory.class%"
 		>
+			<!-- Prepend the created filter -->
+			<tag name="calliope_framework.filter_chain_factory" position="first"/>
+		</service>
+		<service
+			id="calliope_framework.filter_factory.connection"
+			class="%calliope_framework.connection_filter_factory.class%"
+		>
+			<!-- Append the created filter -->
+			<tag name="calliope_framework.filter_chain_factory" position="last"/>
 		</service>
 
-		<service id="calliope_framework.filter_factory" alias="calliope_framework.typed_filter_factory"/>
-
+		<!-- ConnectionFilterListener -->
 		<service
-			id="calliope_framework.filter.default"
-			class="%calliope_framework.filter.class%"
-			abstract="true"
-			factory-service="calliope_framework.filter_factory"
-			factory-method="createFilter"
+			id="calliope_framework.default_connection_filter_listener"
+			class="%calliope_framework.default_filter_listener.class%"
+			factory-service="calliope_framework.filter_listener_registry"
+			factory-method="get"
 		>
-			<argument></argument>
-			<argument type="collection"></argument>
+			<argument></argument><!-- name of the listener -->
 		</service>
 
 
-		<!-- actual filter factories -->
 		<service
-			id="calliope_framework.filter_factory.class"
-			class="%calliope_framework.class_filter_factory.class%"
+			id="calliope_framework.filter_listener_registry"
+			class="%calliope_framework.filter_listener_registry.class%"
 		>
-			<tag name="calliope_framework.filter_factory" for="class"/>
-		</service>
-		<service
-			id="calliope_framework.filter_factory.service"
-			class="%calliope_framework.service_filter_factory.class%"
-		>
-			<argument type="service" id="service_container" />
-			<tag name="calliope_framework.filter_factory" for="service"/>
-		</service>
-		<service
-			id="calliope_framework.filter_factory.tag"
-			class="%calliope_framework.tag_filter_factory.class%"
-		>
-			<tag name="calliope_framework.filter_factory" for="tag"/>
-		</service>
-		<service
-			id="calliope_framework.filter_factory.property"
-			class="%calliope_framework.property_filter_factory.class%"
-		>
-			<tag name="calliope_framework.filter_factory" for="property"/>
-		</service>
-		<service
-			id="calliope_framework.filter_factory.active_user"
-			class="%calliope_framework.active_user_filter_factory.class%"
-		>
-			<tag name="calliope_framework.filter_factory" for="active_user"/>
-
 			<argument type="service" id="service_container"/>
 		</service>
 
+		<!-- FilterListener -->
+		<service
+			id="calliope_framework.default_filter_listener"
+			class="%calliope_framework.default_filter_listener.class%"
+			factory-service="calliope_framework.filter_listener_factory"
+			factory-method="createFilterListener"
+		>
+			<argument></argument><!-- type -->
+			<argument></argument><!-- arguments -->
+		</service>
+		<!-- FilterListener Factory -->
+		<service
+			id="calliope_framework.filter_listener_factory"
+			alias="calliope_framework.filter_listener_factory_collection"
+		/>
 
 		<service
-			id="calliope_framework.filter.doctrine_orm_filter"
-			class="%calliope_framework.filter.doctrine_orm_filter.class%"
+			id="calliope_framework.filter_listener_factory_collection"
+			class="%calliope_framework.filter_listener_factory_collection.class%"
 		>
-			<tag name="calliope_framework.filter"/>
+		</service>
+
+		<service
+			id="calliope_framework.filter_listener_factory.class"
+			class="%calliope_framework.filter_listener_class_factory.class%"
+		>
+			<tag name="calliope_framework.filter_listener_factory" for="class"/>
 		</service>
 	</services>
 </container>

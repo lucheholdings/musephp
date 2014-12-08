@@ -18,6 +18,15 @@ interface Factory
 	 * @access public
 	 * @return void
 	 */
-	function createFilter(array $options = array());
+	function createFilter();
+
+	/**
+	 * createFilterArgs 
+	 * 
+	 * @param array $args 
+	 * @access public
+	 * @return void
+	 */
+	function createFilterArgs(array $args);
 }
 

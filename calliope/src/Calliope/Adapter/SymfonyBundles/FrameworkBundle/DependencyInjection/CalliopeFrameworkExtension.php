@@ -9,6 +9,7 @@ use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Definition;
 use Symfony\Component\DependencyInjection\DefinitionDecorator;
 use Symfony\Component\DependencyInjection\Reference;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 /**
@@ -59,7 +60,7 @@ class CalliopeFrameworkExtension extends Extension
 		//$loader->load('filters.xml');
 
 
-		//$this->registerFilters($container, $config['filters']);
+		$this->registerFilterListeners($container, $config['listeners']);
 		// Register Schema Managers
 		$this->registerSchemas($container, $config['schemas']);
 
@@ -81,59 +82,121 @@ class CalliopeFrameworkExtension extends Extension
 
 		$registry = $container->getDefinition('calliope_framework.metadata.registry');
 		foreach($schemas as $name => $params) {
+			if('alias' == $params['type']) {
+				// Aliasing to the service.
+				$registry->addMethodCall('setAlias', array($name, $params['connect_to']));
+			} else {
+				$configs = array();
 
-			$configs = array();
+				// set mapping configuration
+				$configs['mappings'] = $params['mappings']; 
 
-			// set mapping configuration
-			$configs['mappings'] = $params['mappings']; 
+				// set strict configuratins
+				$configs['class'] = $params['class'];
 
-			// set strict configuratins
-			$configs['class'] = $params['class'];
 
-			// Create Connection for the manager
-			$connectionId = $this->createConnection($container, $name, $params['type'], $params['connect_to'], isset($params['options']['connection']) ? $params['options']['connection'] : array());
+				$dispatcherId       = $this->createConnectionEventDispatcher($container, $name);
+				// Create Connection for the manager
+				$connectionId = $this->createConnection($container, $name, $params['type'], $params['connect_to'], isset($params['options']['connection']) ? $params['options']['connection'] : array());
 
-			$configs['mappings']['schema_manager'] = array(
-				'manager_class'   => $params['manager_class'],
-				'connection'      => $connectionId,
-				'filters'         => $params['filters'], 
-				'options'         => $params['options'], 
-			);
+				// Create Connection Filters
+				$this->createConnectionFilters($container, $name, array('event_dispatcher' => new Reference($dispatcherId)));
 
-			$registry->addMethodCall('set', array($name, $configs));
+
+				// append FilterListeners on EventDispatcherFilter
+				if(isset($params['listeners']) && !empty($params['listeners'])) {
+					foreach($params['listeners'] as $listenerName) {
+						$listenerId = $this->createConnectionFilterListener($container, $name, $listenerName, $dispatcherId);
+					}
+				}
+
+				$configs['mappings']['schema_manager'] = array(
+					'manager_class'   => $params['manager_class'],
+					'connection'      => $connectionId,
+					'options'         => $params['options'], 
+				);
+
+				$registry->addMethodCall('set', array($name, $configs));
+			}
 		}
+	}
+
+	protected function createConnectionFilterListener($container, $schemaName, $listenerName, $dispatcherId)
+	{
+		$connectionFilterListener = new DefinitionDecorator('calliope_framework.default_connection_filter_listener');
+		$connectionFilterListener->replaceArgument(0, $listenerName);
+
+		$connectionFilterListener->addTag('calliope_framework.connection_filter_listener', array('dispatcher' => $dispatcherId));
+
+		$container->setDefinition(
+			'calliope_framework.filter_listener.' . $schemaName. '.filter_listener_' . $listenerName,
+			$connectionFilterListener
+		);
 	}
 
 	protected function createConnection($container, $name, $type, $connectTo, array $options)
 	{
-		$id = 'calliope_framework.connection.' . $name;
-		// get prototype definition
-		$connection = new DefinitionDecorator('calliope_framework.default_connection');
+		$connectionId       = $this->createConnectionRaw($container, $name, $type, $connectTo, $options);
 
-		$connection->replaceArgument(0, $type);
-		$connection->replaceArgument(1, $connectTo);
-		$connection->replaceArgument(2, $options);
+		// Create Listeners
 
-		$container->setDefinition($id, $connection);
+		$filterConnectionId = 'calliope_framework.connection.' . $name;
+
+		// Create Filter Connection with Raw Connection and Filter
+		$filterConnection = new DefinitionDecorator('calliope_framework.filter_connection._default');
+		$filterConnection->replaceArgument(0, new Reference($connectionId));
+		$filterConnection->replaceArgument(1, new Reference($filterConnectionId . '.filters', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+		$container->setDefinition($filterConnectionId, $filterConnection);
+
+		return $filterConnectionId;
+	}
+
+	protected function createConnectionRaw($container, $name, $type, $connectTo, array $options)
+	{
+		$id = 'calliope_framework.connection_raw.' . $name;
+		$definition = new DefinitionDecorator('calliope_framework.connection._default');
+		$definition->replaceArgument(0, $type);
+		$definition->replaceArgument(1, $connectTo);
+		$definition->replaceArgument(2, $options);
+		$container->setDefinition($id, $definition);
 
 		return $id;
 	}
 
-	protected function registerFilters($container, array $filters)
+	protected function createConnectionEventDispatcher($container, $name)
 	{
-		foreach($filters as $name => $params) {
-			$definition = new DefinitionDecorator('calliope_framework.filter.default');
+		$id = 'calliope_framework.connection_' . $name . '.event_dispatcher';
 
-			$definition
-				->replaceArgument(0, $params['type'])
-				->replaceArgument(1, $params['options'])
-			;
-			
-			$definition->addTag('calliope_framework.filter', array('for' => $name));
+		$definition = new DefinitionDecorator('calliope_framework.event_dispatcher._default');
+		$container->setDefinition($id, $definition);
+
+		return $id;
+	}
+
+	protected function createConnectionFilters($container, $schemaName, array $options = array())
+	{
+		// Create Filters
+		$filterDefinition = new DefinitionDecorator('calliope_framework.default_filter');
+		$filterDefinition->replaceArgument(0, $options);
+		$container->setDefinition('calliope_framework.connection.' . $schemaName . '.filters', $filterDefinition);
+	}
+
+	protected function registerFilterListeners($container, array $filters)
+	{
+		$this->getLoader()->load('filters.xml');
+		foreach($filters as $name => $params) {
+			// Get filter listener prototype
+			$definition = new DefinitionDecorator('calliope_framework.default_filter_listener');
+
+			//
+			$definition->replaceArgument(0, $params['type']);
+			$definition->replaceArgument(1, $params['arguments']);
+
+			$definition->addTag('calliope_framework.filter_listener', array('for' => $name));
 			
 			// Set Defintion
 			$container->setDefinition(
-				'calliope_framework.filters.' . $name,
+				'calliope_framework.filter_listener.' . $name,
 				$definition
 			);
 		}

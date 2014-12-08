@@ -1,0 +1,18 @@
+<?php
+namespace Clio\Bridge\SymfonyComponents\Registry;
+
+use Clio\Component\Pattern\Registry\RegistryMap;
+
+class AliasContainerRegistry extends RegistryMap 
+{
+	public function __construct(ContainerInterface $container)
+	{
+		$this->container = $container;
+	}
+
+	public function get($id)
+	{
+		$this->
+	}
+}
+

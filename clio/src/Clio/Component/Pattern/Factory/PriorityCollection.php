@@ -4,6 +4,7 @@ namespace Clio\Component\Pattern\Factory;
 use Clio\Component\Exception\UnsupportedException;
 
 use Clio\Component\Util\Container\Set\PrioritySet;
+use Clio\Component\Util\Container\Storage\ValidatableStorage;
 use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
@@ -29,9 +30,9 @@ class PriorityCollection extends PrioritySet implements Factory
 	 * @access protected
 	 * @return void
 	 */
-	protected function initContainer(array $values)
+	protected function initContainer(array $values = array())
 	{
-		parent::initContainer();
+		parent::initContainer($values);
 
 		if(!$this->getStorage() instanceof ValidatableStorage) {
 			$this->setStorage(new ValidatableStorage($this->getStorage()));
@@ -79,6 +80,36 @@ class PriorityCollection extends PrioritySet implements Factory
 			}
 		}
 		return false;
+	}
+
+	public function isSupported()
+	{
+		return true;
+	}
+
+	/**
+	 * shiftArg 
+	 * 
+	 * @param array $args 
+	 * @param mixed $aliasKey 
+	 * @param mixed $default 
+	 * @access public
+	 * @return void
+	 */
+	public function shiftArg(array &$args, $aliasKey = null, $default = null) 
+	{
+		// we try to use the aliasKey to grab the arg, iff aliasKey is specified
+		if($aliasKey && array_key_exists($aliasKey, $args)) {
+			$arg = $args[$aliasKey];
+			unset($args[$aliasKey]);
+		} else if(0 < count($args)) {
+			// just shift arg
+			$arg = array_shift($args);
+		} else {
+			$arg = $default;
+		}
+
+		return $arg;
 	}
 }
 

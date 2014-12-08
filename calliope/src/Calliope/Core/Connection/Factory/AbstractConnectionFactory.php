@@ -24,7 +24,7 @@ abstract class AbstractConnectionFactory extends AbstractFactory implements Fact
 	 */
 	protected function doCreate(array $args)
 	{
-		return $this->createConnection($args);
+		return $this->createConnection($this->shiftArg($args, 'connect_to'), $this->shiftArg($arg, 'options'));
 	}
 }
 

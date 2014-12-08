@@ -32,6 +32,7 @@ class CalliopeFrameworkBundle extends Bundle
 		// Gather components tagged "metadata_manager"
 		$container->addCompilerPass(new DependencyInjection\Compiler\MetadataCompilerPass());
 		$container->addCompilerPass(new DependencyInjection\Compiler\ConnectionCompilerPass());
+		$container->addCompilerPass(new DependencyInjection\Compiler\FilterCompilerPass());
 		//$container->addCompilerPass(new SchemaManagerCompilerPass());
 		//$container->addCompilerPass(new TypeConnectionFactoryCompilerPass());
 		//$container->addCompilerPass(new DependencyInjection\Compiler\FilterCompilerPass());

@@ -6,8 +6,10 @@
 
 
 	<parameters>
+		<parameter key="calliope_framework.default_event_dispatcher.class">Calliope\Bridge\SymfonyComponents\Filter\FilterEventDispatcher</parameter>
 		<parameter key="calliope_framework.connection_factory.collection.class">Calliope\Core\Connection\Factory\FactoryMap</parameter>
-		<parameter key="calliope_framework.default_connection.class">Calliope\Core\Connection\Connection</parameter>
+		<parameter key="calliope_framework.default_connection.class">Calliope\Core\Connection</parameter>
+		<parameter key="calliope_framework.filter_connection.class">Calliope\Core\Connection\FilterConnection</parameter>
 
 		<parameter key="calliope_framework.connection_factory.doctrine_orm.class">Calliope\Bridge\DoctrineOrm\Connection\ConnectionFactory</parameter>
 		<parameter key="calliope_framework.connection_factory.model.class">Calliope\Core\Connection\Factory\UsecaseConnectionFactory</parameter>
@@ -16,9 +18,15 @@
 	</parameters>
 
 	<services>
+		<!-- EventDispatcher Mock -->
+		<service
+			id="calliope_framework.event_dispatcher._default"
+			class="%calliope_framework.default_event_dispatcher.class%"
+		>
+		</service>
 		<!-- Connection -->
 		<service
-			id="calliope_framework.default_connection"
+			id="calliope_framework.connection._default"
 			class="%calliope_framework.default_connection.class%"
 			factory-service="calliope_framework.connection_factory"
 			factory-method="createConnection"
@@ -26,6 +34,13 @@
 			<argument></argument><!-- Type -->
 			<argument></argument><!-- ConnectTo -->
 			<argument></argument><!-- options -->
+		</service>
+		<service
+			id="calliope_framework.filter_connection._default"
+			class="%calliope_framework.filter_connection.class%"
+		>
+			<argument></argument><!-- Connection Reference -->
+			<argument></argument><!-- FilterDelegator Reference -->
 		</service>
 
 		<!-- Connection Factory -->

@@ -11,4 +11,5 @@ namespace Calliope\Core;
  */
 interface Filter
 {
+	
 }

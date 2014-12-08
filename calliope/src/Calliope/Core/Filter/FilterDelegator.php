@@ -1,5 +1,6 @@
 <?php
 namespace Calliope\Core\Filter;
+use Calliope\Core\Filter;
 
 /**
  * FilterDelegator 
@@ -12,95 +13,95 @@ namespace Calliope\Core\Filter;
 interface FilterDelegator
 {
 	/**
-	 * onPreFlush 
+	 * filterRequestFlush 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function onPreFlush();
+	function filterRequestFlush(Request $request, Response $resopnse);
 
 	/**
-	 * onPostFlush 
+	 * filterResponseFlush 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function onPostFlush();
+	function filterResponseFlush(Request $request, Response $resopnse);
 
 	/**
-	 * onPreCreate 
+	 * filterRequestCreate 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPreCreate($model);
+	function filterRequestCreate(Request $request, Response $resopnse);
 
 	/**
-	 * onPostCreate 
+	 * filterResponseCreate 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPostCreate($model);
+	function filterResponseCreate(Request $request, Response $resopnse);
 
 	/**
-	 * onPreUpdate 
+	 * filterRequestUpdate 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPreUpdate($model);
+	function filterRequestUpdate(Request $request, Response $resopnse);
 
 	/**
-	 * onPostUpdate 
+	 * filterResponseUpdate 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPostUpdate($model);
+	function filterResponseUpdate(Request $request, Response $resopnse);
 	
 	/**
-	 * onPreDelete 
+	 * filterRequestDelete 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPreDelete($model);
+	function filterRequestDelete(Request $request, Response $resopnse);
 
 	/**
-	 * onPostDelete 
+	 * filterResponseDelete 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPostDelete($model);
+	function filterResponseDelete(Request $request, Response $resopnse);
 
 	/**
-	 * onPreReload 
+	 * filterRequestReload 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPreReload($model);
+	function filterRequestReload(Request $request, Response $resopnse);
 
 	/**
-	 * onPostReload 
+	 * filterResponseReload 
 	 * 
 	 * @param mixed $model 
 	 * @access public
 	 * @return void
 	 */
-	function onPostReload($model);
+	function filterResponseReload(Request $request, Response $resopnse);
 
 	/**
-	 * onPreFindBy 
+	 * filterRequestFindBy 
 	 * 
 	 * @param array $criteria 
 	 * @param array $orderBy 
@@ -109,10 +110,10 @@ interface FilterDelegator
 	 * @access public
 	 * @return void
 	 */
-	function onPreFindBy(array $criteria, array $orderBy, $limit, $offset);
+	function filterRequestFindBy(Request $request, Response $resopnse);
 
 	/**
-	 * onPostFindBy 
+	 * filterResponseFindBy 
 	 * 
 	 * @param mixed $result 
 	 * @param array $criteria 
@@ -122,20 +123,20 @@ interface FilterDelegator
 	 * @access public
 	 * @return void
 	 */
-	function onPostFindBy($result, array $criteria, array $orderBy, $limit, $offset);
+	function filterResponseFindBy(Request $request, Response $resopnse);
 
 	/**
-	 * onPreFindOneBy 
+	 * filterRequestFindOneBy 
 	 * 
 	 * @param array $criteria 
 	 * @param array $orderBy 
 	 * @access public
 	 * @return void
 	 */
-	function onPreFindOneBy(array $criteria, array $orderBy);
+	function filterRequestFindOneBy(Request $request, Response $resopnse);
 
 	/**
-	 * onPostFindOneBy 
+	 * filterResponseFindOneBy 
 	 * 
 	 * @param mixed $result 
 	 * @param array $criteria 
@@ -143,34 +144,26 @@ interface FilterDelegator
 	 * @access public
 	 * @return void
 	 */
-	function onPostFindOneBy($result, array $criteria, array $orderBy);
+	function filterResponseFindOneBy(Request $request, Response $resopnse);
 
 	/**
-	 * onPreCountBy 
+	 * filterRequestCountBy 
 	 * 
 	 * @param array $criteria 
 	 * @access public
 	 * @return void
 	 */
-	function onPreCountBy(array $criteria);
+	function filterRequestCountBy(Request $request, Response $resopnse);
 
 	/**
-	 * onPostCountBy 
+	 * filterResponseCountBy 
 	 * 
 	 * @param mixed $result 
 	 * @param array $criteria 
 	 * @access public
 	 * @return void
 	 */
-	function onPostCountBy($result, array $criteria);
-
-	/**
-	 * onConnect 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function onConnect();
+	function filterResponseCountBy(Request $request, Response $resopnse);
 
 	/**
 	 * attachFilter 
@@ -179,7 +172,7 @@ interface FilterDelegator
 	 * @access public
 	 * @return void
 	 */
-	function attachFilter($filter);
+	function attachFilter(Filter $filetr);
 
 	/**
 	 * detachFilter 
@@ -188,6 +181,6 @@ interface FilterDelegator
 	 * @access public
 	 * @return void
 	 */
-	function detachFilter($filter);
+	function detachFilter(Filter $filter);
 }
 

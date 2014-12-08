@@ -26,10 +26,8 @@ class Configuration implements ConfigurationInterface
         // more information on that topic.
 		$rootNode
 			->children()
-				//->append($this->buildServiceMappingSection())
-				//->append($this->buildFilterSection())
-				//->append($this->buildManagerSection())
 				->append($this->buildSchemaSection())
+				->append($this->buildFilterListenerSection())
 			->end()
 		;
 
@@ -46,13 +44,22 @@ class Configuration implements ConfigurationInterface
 			->useAttributeAsKey('name')
 			->info('Schema definitions')
 			->prototype('array')
+				->beforeNormalization()
+					->ifString()
+					->then(function($v){
+						return array(
+							'type'       => 'alias',
+							'connect_to' => $v,
+						);
+					})
+				->end()
 				->children()
-					->scalarNode('class')->cannotBeEmpty()->info('Target class path')->end()
+					->scalarNode('class')->info('Target class path')->end()
 					->scalarNode('manager_class')->defaultNull()->info('SchemaManager classpath')->end()
 					->scalarNode('type')->cannotBeEmpty()->info('Connection Type')->end()
 					->scalarNode('connect_to')->cannotBeEmpty()->end()
-					->arrayNode('filters')
-						->info('List of filter service ids')
+					->arrayNode('listeners')
+						->info('List of filter listeners')
 						->example(array('service.filter_01', 'filter_02'))
 						->defaultValue(array())
 						->prototype('scalar')->end()
@@ -77,22 +84,24 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	protected function buildFilterSection()
+	protected function buildFilterListenerSection()
 	{
 		$tree = new TreeBuilder();
 
-		$node = $tree->root('filters');
+		$node = $tree->root('listeners');
 
 		$node
+			->info('Filter Listener definitions.')
 			->useAttributeAsKey('name')
 			->prototype('array')
 			->beforeNormalization()
 				->ifString()
-				->then(function($v){ return array('type' => 'service', 'options' => array('id' => $v));})
+				->then(function($v){ return array('type' => 'alias', 'options' => array('id' => $v));})
 			->end()
 			->children()
-				->scalarNode('type')->cannotBeEmpty()->end()
-				->arrayNode('options')
+				->scalarNode('type')->info('Type of filter listener factory')->cannotBeEmpty()->end()
+				->scalarNode('priority')->defaultValue(100)->end()
+				->arrayNode('arguments')
 					->useAttributeAsKey('key')
 					->treatNullLike(array())
 					->defaultValue(array())

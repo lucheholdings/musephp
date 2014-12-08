@@ -107,6 +107,11 @@ class NamedCollection extends Map implements MappedFactory, Factory
 			return $factory->createByKeyArgs($key, $args);
 		}
 
+		return $this->doCreateFactoryArgs($factory, $args);
+	}
+
+	protected function doCreateFactoryArgs($factory, array $args = array())
+	{
 		return $factory->createArgs($args);
 	}
 

@@ -33,6 +33,14 @@ abstract class AbstractConnection implements Connection
 	protected $connectTo;
 
 	/**
+	 * connectToName 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	protected $connectToName;
+
+	/**
 	 * options 
 	 * 
 	 * @var mixed
@@ -92,6 +100,12 @@ abstract class AbstractConnection implements Connection
 		$this->disconnect();
 		$this->connectTo = $connectTo;
 
+		if(is_string($connectTo)) {
+			$this->_connectTo = (string)$connectTo;
+		} else {
+			$this->_connectTo = 'unknown';
+		}
+
         return $this;
     }
 
@@ -120,6 +134,11 @@ abstract class AbstractConnection implements Connection
 	 */
 	protected function doConnect()
 	{
+	}
+
+	public function getConnectToName()
+	{
+		return $this->_connectTo;
 	}
 }
 
