@@ -1,6 +1,0 @@
-Calliope\Framework\Core\Model\Tag:
-    exclusion_policy: ALL
-    properties:
-        name:
-            expose:   true
-            type:     string

@@ -12,6 +12,11 @@ use Symfony\Component\DependencyInjection\Reference;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
+use Clio\Extra\Loader as ClioLoader;
+use Clio\Component\Util as ClioUtil;
+use Clio\Component\Exception\ResourceNotFoundException;
+use Clio\Bridge\SymfonyComponents\Format\Yaml\Yaml as YamlFormat;
+
 /**
  * CalliopeFrameworkExtension 
  * 
@@ -71,7 +76,7 @@ class CalliopeFrameworkExtension extends Extension
 
 	/**
 	 * registerSchemas 
-	 * 
+	 *
 	 * @param mixed $container 
 	 * @param array $schemas 
 	 * @access protected
@@ -79,6 +84,46 @@ class CalliopeFrameworkExtension extends Extension
 	 */
 	protected function registerSchemas($container, array $schemas)
 	{
+		// Load configurations under Bundles
+		{
+			$dirs = $this->getBundleConfigDir($container->getParameter('kernel.bundles'));
+			
+			$importedSchemas = array();
+			// Load Bundle related schemas
+			foreach($dirs as $bundleName => $dir) {
+				$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
+				$loader  = new ClioLoader\FormatFileLoader(new ClioUtil\Locator\FileLocator($dir), array(new YamlFormat()));
+				try {
+					$bundleConfigs = $loader->load('schema.yml');
+					if(!isset($bundleConfigs['schema'])) {
+						continue;
+					}
+					$bundleSchemas = $bundleConfigs['schema'];
+					
+					foreach($bundleSchemas as $name => $schemaConfig) {
+						$importedSchemas[$bundleNameSnakeCase . '.' . $name] = $schemaConfig; 
+					}
+				} catch(ResourceNotFoundException $ex) {
+					// ignore exception
+				}
+			}
+
+			// fixme: should be in loader
+			array_walk($importedSchemas, function(&$v) {
+				if(!isset($v['mappings']))
+					$v['mappings'] = array();
+
+				if(!isset($v['manager_class'])) 
+					$v['manager_class'] = null;
+				if(!isset($v['options']))
+					$v['options'] = array();
+			});
+
+			$schemas = array_merge($importedSchemas, $schemas);
+			
+		}
+		
+
 
 		$registry = $container->getDefinition('calliope_framework.metadata.registry');
 		foreach($schemas as $name => $params) {
@@ -253,7 +298,7 @@ class CalliopeFrameworkExtension extends Extension
         $directories = array();
         foreach ($bundles as $name => $class) {
             $ref = new \ReflectionClass($class);
-            $directories[$ref->getNamespaceName()] = dirname($ref->getFileName()).'/Resources/config/';
+            $directories[$name] = dirname($ref->getFileName()).'/Resources/config/';
         }
 
 		return $directories;

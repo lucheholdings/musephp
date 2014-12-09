@@ -1,3 +1,0 @@
-Calliope\Framework\Core\Model\TaggableFlexibleModel:
-    exclusion_policy: ALL
-    access_type:      public_method
