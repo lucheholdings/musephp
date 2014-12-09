@@ -1,8 +1,11 @@
 <?php
 namespace Clio\Extra\Loader;
 
+use Clio\Component\Pattern\Loader\FileLoader;
 use Clio\Component\Util\Format;
-use Clio\Component\Util\FileFormat;
+use Clio\Component\Util\Format\FileFormat;
+use Clio\Component\Util\Locator\Locator;
+use Clio\Component\Exception\UnsupportedException;
 
 /**
  * FormatFileLoader 
@@ -13,7 +16,7 @@ use Clio\Component\Util\FileFormat;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class FormatLoader extends FileLoader
+class FormatFileLoader extends FileLoader
 {
 	/**
 	 * formats 
@@ -22,6 +25,13 @@ class FormatLoader extends FileLoader
 	 * @access private
 	 */
 	private $formats;
+
+	public function __construct(Locator $locator, array $formats = array())
+	{
+		parent::__construct($locator);
+
+		$this->formats = $formats;
+	}
 
 	/**
 	 * load 
@@ -33,6 +43,11 @@ class FormatLoader extends FileLoader
 	public function load($resource)
 	{
 		$format = $this->resolveFormat($resource);
+
+		if(!$format) {
+			// 
+			throw new UnsupportedException(sprintf('Resource "%s" is not supported format to load', $resource));
+		}
 
 		// if line breaks not exists, then might be file name 
 		if(false === strpos("\n", $resource) && $this->getLocator()) {
@@ -53,10 +68,9 @@ class FormatLoader extends FileLoader
 	public function resolveFormat($resource)
 	{
 		$extension = pathinfo($resource, PATHINFO_EXTENSION);
-
 		// 
 		foreach($this->formats as $format) {
-			if(($format instanceof FileFormat) && $format->validExtension($extension)) {
+			if(($format instanceof FileFormat) && $format->isValidExtension($extension)) {
 				return $format;
 			}
 		}

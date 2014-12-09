@@ -20,14 +20,29 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	private $mappings; 
 
+	private $cleaned = false;
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function clean()
 	{
-		foreach($this->getMappings() as $mapping) {
-			$mapping->clean();
+		if(!$this->cleaned) {
+			$this->cleaned = true;
+			foreach($this->getMappings() as $mapping) {
+				$mapping->clean();
+			}
 		}
+	}
+
+	public function dirty()
+	{
+		$this->cleaned = false;
+	}
+
+	public function isDirty()
+	{
+		return !$this->cleaned;
 	}
 
 	/**
@@ -46,6 +61,9 @@ abstract class AbstractMetadata implements Metadata
 		if(!$this->mappings) {
 			$this->mappings = new MappingCollection();
 		}
+
+		$this->clean();
+
         return $this->mappings;
     }
     
@@ -56,9 +74,12 @@ abstract class AbstractMetadata implements Metadata
     {
 		$this->mappings = $mappings;
 
+		$this->dirty();
+
 		foreach($mappings as $mapping) {
 			$mapping->setMetadata($this);
 		}
+
         return $this;
     }
 
@@ -75,6 +96,7 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function getMapping($name)
 	{
+		$this->clean();
 		return $this->getMappings()->getMapping($name);
 	}
 
@@ -83,6 +105,7 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function setMapping($name, Mapping $mapping)
 	{
+		$this->dirty();
 		$this->getMappings()->setMapping($name, $mapping);
 		$mapping->setMetadata($this);
 		return $this;
@@ -90,6 +113,8 @@ abstract class AbstractMetadata implements Metadata
 
 	public function serialize(array $extra = array())
 	{
+		$this->clean();
+
 		return serialize(array(
 			$this->mappings,
 			$extra

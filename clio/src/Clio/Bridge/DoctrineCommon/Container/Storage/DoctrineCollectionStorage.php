@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Bridge\Doctrine\Container\Storage;
+namespace Clio\Bridge\DoctrineCommon\Container\Storage;
 
 use Clio\Component\Util\Container\Storage;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
@@ -30,6 +30,14 @@ class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, St
 	}
 
 	// Storage Methods
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getRaw()
+	{
+		return $this->getDoctrineCollection();
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */

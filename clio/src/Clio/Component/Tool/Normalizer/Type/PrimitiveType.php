@@ -1,8 +1,6 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
-use Clio\Component\Tool\Normalizer\Type;
-
 /**
  * PrimitiveType 
  * 
@@ -12,7 +10,7 @@ use Clio\Component\Tool\Normalizer\Type;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PrimitiveType implements Type 
+class PrimitiveType extends AbstractType
 {
 	/**
 	 * name 

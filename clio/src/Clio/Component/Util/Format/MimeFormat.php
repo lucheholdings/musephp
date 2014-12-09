@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Format;
 
 /**
- * ContentTypeFormat 
+ * MimeFormat 
  * 
  * @uses Format
  * @package { PACKAGE }
@@ -10,16 +10,16 @@ namespace Clio\Component\Util\Format;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface ContentTypeFormat extends Format
+interface MimeFormat extends Format
 {
 	/**
-	 * validateContentType
+	 * isValidContentType
 	 * 
 	 * @param mixed $extension 
 	 * @access public
 	 * @return bool
 	 */
-	function validateContentType($contentType);
+	function isValidContentType($contentType);
 
 	/**
 	 * getContentType

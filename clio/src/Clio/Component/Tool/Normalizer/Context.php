@@ -172,7 +172,7 @@ class Context
 		if(is_object($data)) {
 			foreach($this->stack as $scope) {
 				if($data === $scope->getData()) {
-					throw new CircularException('The target object is already in scope.', $data);
+					throw new CircularException(sprintf('The target object "%s" is already in scope.', $type->getName()), $data);
 				}
 			}
 		}

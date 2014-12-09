@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Format;
 
-class StandardFormat extends BasicFormat implements FileFormat, ContentTypeFormat 
+class StandardFormat extends BasicFormat implements FileFormat, MimeFormat 
 {
 	private $extension;
 
@@ -50,25 +50,25 @@ class StandardFormat extends BasicFormat implements FileFormat, ContentTypeForma
 	}
 
 	/**
-	 * validateExtension 
+	 * isValidExtension 
 	 * 
 	 * @param mixed $extension 
 	 * @access public
 	 * @return void
 	 */
-	public function validateExtension($extension)
+	public function isValidExtension($extension)
 	{
 		return in_array($extension, $this->extension);
 	}
 
 	/**
-	 * validateContentType 
+	 * isValidContentType 
 	 * 
 	 * @param mixed $contentType 
 	 * @access public
 	 * @return void
 	 */
-	public function validateContentType($contentType)
+	public function isValidContentType($contentType)
 	{
 		return in_array($extension, $this->contentType);
 	}

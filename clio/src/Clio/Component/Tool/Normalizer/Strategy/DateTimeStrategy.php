@@ -14,7 +14,7 @@ use Clio\Component\Tool\Normalizer\Type;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class DateTimeStrategy extends ObjectStrategy 
+class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
 	const DEFAULT_FORMAT = 'Y-m-d H:i:s';
 
@@ -33,9 +33,7 @@ class DateTimeStrategy extends ObjectStrategy
 			$format = $this->getFormat();
 		}
 
-		$data->format($format);
-
-		return $data;
+		return $data->format($format);
 	}
 
 	protected function doDenormalize($data, Type $type, Context $context, $object = null)
@@ -54,7 +52,7 @@ class DateTimeStrategy extends ObjectStrategy
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType) && $type->getClassReflector()->isSubclassOf('DateTime');
+		return ($type instanceof ObjectType) && ('DateTime' == $type->getClassReflector()->getName());
 	}
 
 	/**
@@ -62,6 +60,18 @@ class DateTimeStrategy extends ObjectStrategy
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType) && $type->getClassReflector()->isSubclassOf('DateTime');
+		return ($type instanceof ObjectType) && ('DateTime' == $type->getClassReflector()->getName());
 	}
+
+    
+    public function getFormat()
+    {
+        return $this->format;
+    }
+    
+    public function setFormat($format)
+    {
+        $this->format = $format;
+        return $this;
+    }
 }

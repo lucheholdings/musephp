@@ -74,7 +74,7 @@ class InheritedFieldMetadata extends AbstractFieldMetadata implements InheritedM
 	public function getMappings($includeInherited = true)
 	{
 		if($includeInherited) {
-			return merge(parent::getMappings(), $this->getParent()->getMappings());
+			return parent::getMappings()->merge($this->getParent()->getMappings());
 		} else {
 			parent::getMappings();
 		}

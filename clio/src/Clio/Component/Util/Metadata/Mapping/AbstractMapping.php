@@ -121,6 +121,12 @@ abstract class AbstractMapping implements Mapping
         return $this;
     }
 
+	public function setOption($key, $value)
+	{
+		$this->options[$key] = $value;
+		return $this;
+	}
+
 	public function getOption($key)
 	{
 		return $this->options[$key];

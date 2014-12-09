@@ -1,10 +1,12 @@
 <?php
 namespace Calliope\Framework\Core\Metadata\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Schema\MappingFactory;
-use Clio\Component\Util\Metadata\SchemaMetadata,
+use Clio\Component\Util\Metadata\Metadata,
+	Clio\Component\Util\Metadata\Metadata\Schema\SchemaMetadata,
+	Clio\Component\Util\Metadata\Mapping\Factory as MappingFactory,
 	Clio\Component\Util\Metadata\Schema\ClassMetadata;
 
+use Calliope\Framework\Core\Metadata\Mapping\SchemaMapping;
 use Clio\Component\Pattern\Factory\ComponentFactory;
 
 /**
@@ -18,6 +20,8 @@ use Clio\Component\Pattern\Factory\ComponentFactory;
  */
 class SchemaMappingFactory implements MappingFactory
 {
+	private $options;
+
 	/**
 	 * createMapping 
 	 * 
@@ -26,7 +30,7 @@ class SchemaMappingFactory implements MappingFactory
 	 * @access public
 	 * @return void
 	 */
-	public function createMapping(SchemaMetadata $metadata, array $options = array())
+	public function createMapping(Metadata $metadata, array $options = array())
 	{
 		$mapping = null;
 		if($metadata instanceof ClassMetadata) {
@@ -35,6 +39,26 @@ class SchemaMappingFactory implements MappingFactory
 		}
 
 		return $mapping;
+	}
+
+	public function getInjector()
+	{
+		return null;
+	}
+
+	public function isSupportedMetadata(Metadata $metadata)
+	{
+		return $metadata instanceof SchemaMetadata;
+	}
+
+	public function setOptions(array $options)
+	{
+		$this->options = $options;
+	}
+
+	public function getOptions()
+	{
+		return $this->options;
 	}
 }
 

@@ -22,6 +22,7 @@ class SchemaDumpCommand extends ContainerAwareCommand
 				new InputOption('page', null, InputOption::VALUE_REQUIRED, 'Page Offset', 1),
 				new InputOption('size', null, InputOption::VALUE_REQUIRED, 'Page Size', 10),
 				new InputOption('profile', null, InputOption::VALUE_NONE, 'show execution time, memory usage.'),
+				new InputOption('serializer', null, InputOption::VALUE_NONE, 'serialize result as json.'),
 			))
 			;
 	}
@@ -46,10 +47,16 @@ class SchemaDumpCommand extends ContainerAwareCommand
 			$dump = $manager->findBy(array(), array(), $size, $offset);
 
 			$data = $manager->normalize($dump, 'json');
-			$output->writeln(json_encode(($data), JSON_PRETTY_PRINT));
 			//$output->writeln(json_encode($dump, JSON_PRETTY_PRINT));
-		}
 
+			if($input->getOption('serializer')) {
+				$serializer = $this->getContainer()->get('jms_serializer');
+
+				$output->writeln($serializer->serialize($data, 'json'));
+			} else {
+				$output->writeln(json_encode(($data), JSON_PRETTY_PRINT));
+			}
+		}
 
 		if($input->getOption('profile') && $this->getHelper('profiler')) {
 			$this->getHelper('profiler')->renderCurrentProfile($output);

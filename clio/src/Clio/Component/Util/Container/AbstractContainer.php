@@ -129,6 +129,7 @@ abstract class AbstractContainer implements Container
 		if(!$this->storage instanceof ValidatableStorage) {
 			$this->storage = new ValidatableStorage($this->storage);
 		}
+		return $this;
 	}
 
 	public function disableStorageValidation()
@@ -136,6 +137,7 @@ abstract class AbstractContainer implements Container
 		if($this->storage instanceof ValidatableStorage) {
 			$this->storage = $this->storage->getSource();
 		}
+		return $this;
 	}
 
 	public function setValueValidator(Validator $validator) 
@@ -143,6 +145,7 @@ abstract class AbstractContainer implements Container
 		$this->enableStorageValidation();
 
 		$this->storage->setValueValidator($validator);
+		return $this;
 	}
 
 	public function setKeyValidator(Validator $validator)
@@ -150,6 +153,7 @@ abstract class AbstractContainer implements Container
 		$this->enableStorageValidation();
 
 		$this->storage->setKeyValidator($validator);
+		return $this;
 	}
 
 	public function merge($other)

@@ -68,10 +68,6 @@ abstract class MetadataFactory implements MappedFactory
 			$schemaMetadata->setMappings($this->getMappingFactory()->createMapping($schemaMetadata));
 		}
 
-		// CleanUp Metadata 
-		// This calls to resolve mapping relation.
-		$schemaMetadata->clean();
-
 		return $schemaMetadata;
 	}
 	

@@ -1,7 +1,8 @@
 <?php
-namespace Clio\Component\Patter\Loader;
+namespace Clio\Component\Pattern\Loader;
 
 use Clio\Component\Util\Locator\Locator;
+use Clio\Component\Exception\ResourceNotFoundException;
 
 /**
  * FileLoader 
@@ -56,7 +57,7 @@ class FileLoader implements Loader
 			$path = $locator->locate($file, true);
 		} catch(\InvalidArgumentException $ex) {
 			// File is not located.
-			throw new ResourceNotFoundException(sprintf('Resource "%s" is not found.', $file));
+			throw new ResourceNotFoundException(sprintf('Resource "%s" is not found.', $file), 0, $ex);
 		}
 		
 		// Import the file with file format 
@@ -72,7 +73,7 @@ class FileLoader implements Loader
 	protected function doImportFile($path)
 	{
 		// Unknow format, so just load the file as string.
-		return file_get_contents($file);
+		return file_get_contents($path);
 	}
     
     /**
@@ -98,5 +99,10 @@ class FileLoader implements Loader
         $this->locator = $locator;
         return $this;
     }
+
+	public function canLoad($resource)
+	{
+		return true;
+	}
 }
 

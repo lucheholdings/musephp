@@ -77,10 +77,10 @@ abstract class AbstractLocator implements Locator
      * isAbsolutePath 
      * 
      * @param mixed $file 
-     * @access private
+     * @access protected
      * @return void
      */
-    private function isAbsolutePath($file)
+    protected function isAbsolutePath($file)
     {
         if ($file[0] === '/' || $file[0] === '\\'
             || (strlen($file) > 3 && ctype_alpha($file[0])

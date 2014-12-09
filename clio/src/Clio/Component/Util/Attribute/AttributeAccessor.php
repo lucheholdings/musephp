@@ -50,6 +50,21 @@ class AttributeAccessor
 	}
 
 	/**
+	 * getKeyValues 
+	 * 
+	 * @param AttributeMap $container 
+	 * @access public
+	 * @return void
+	 */
+	public function getKeyValues(AttributeMap $container)
+	{
+		foreach($container->getKeyValues() as $attr) {
+			$values[$attr->getKey()] = $attr->getValue();
+		}
+		return $values;
+	}
+
+	/**
 	 * get 
 	 * 
 	 * @param AttributeMap $container 

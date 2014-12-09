@@ -28,6 +28,17 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 
 	// Storage Methods
 	/**
+	 * getRaw 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getRaw()
+	{
+		return $this->values;
+	}
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function toArray()

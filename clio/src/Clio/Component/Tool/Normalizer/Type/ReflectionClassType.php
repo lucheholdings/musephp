@@ -13,7 +13,7 @@ use Clio\Component\Pattern\Constructor\Constructor,
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ReflectionClassType implements ObjectType 
+class ReflectionClassType extends AbstractType implements ObjectType 
 {
 	private $classReflector;
 

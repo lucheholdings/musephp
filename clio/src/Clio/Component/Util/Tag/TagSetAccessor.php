@@ -91,6 +91,15 @@ class TagSetAccessor
 
 		return $container;
 	}
+
+	public function getNames(TagSet $container)
+	{
+		$names = array();
+		foreach($container as $tag) {
+			$names[] = $tag->getName();
+		}
+		return $names;
+	}
     
     /**
      * Get tagFactory.

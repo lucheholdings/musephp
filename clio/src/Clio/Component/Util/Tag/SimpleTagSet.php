@@ -26,7 +26,7 @@ class SimpleTagSet extends Set implements TagSet
 			->setValueValidator(new SubclassValidator('Clio\Component\Util\Tag\Tag'))
 		;
 
-		parent::initContianer($values);
+		parent::initContainer($values);
 	}
 
 	/**
@@ -42,6 +42,10 @@ class SimpleTagSet extends Set implements TagSet
 	 */
 	public function getNameArray()
 	{
-		return $this->getKeys();
+		$names = array();
+		foreach($this as $tag) {
+			$names[] = $tag->getName();
+		}
+		return $names;
 	}
 }

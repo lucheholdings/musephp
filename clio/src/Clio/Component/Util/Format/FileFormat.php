@@ -13,13 +13,13 @@ namespace Clio\Component\Util\Format;
 interface FileFormat extends Format
 {
 	/**
-	 * validateExtension 
+	 * isValidExtension 
 	 * 
 	 * @param mixed $extension 
 	 * @access public
-	 * @return bool
+	 * @return void
 	 */
-	function validateExtension($extension);
+	function isValidExtension($extension);
 
 	/**
 	 * getFileExtension 

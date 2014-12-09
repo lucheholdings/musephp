@@ -116,7 +116,7 @@ class AttributeMapAccessor implements MultiFieldAccessor
 	 */
 	public function getFieldValues($container)
 	{
-		return $container->getAttributeMap()->getKeyValueArray();
+		return $this->getAttributeAccessor()->getKeyValues($container->getAttributeMap());
 	}
 
 	/**

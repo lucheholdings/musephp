@@ -13,6 +13,11 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 		$this->source = $source;
 	}
 
+	public function getRaw()
+	{
+		return $this->getSource()->getRaw();
+	}
+
 	// Storage Methods
 	/**
 	 * {@inheritdoc}
