@@ -110,6 +110,11 @@ class BasicManager extends BaseSchemaManager implements Manager
 		$this->getConnection()->flush();
 	}
 
+	public function save()
+	{
+		$this->getConnection()->flush();
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */

@@ -62,10 +62,14 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 		if('ignore' == $fieldMetadata->getType()) {
 			$this->setType('ignore');
 		} else if($schemaMetadata->hasMapping('attribute_map') && ($fieldMetadata->getName() == $schemaMetadata->getMapping('attribute_map')->getFieldName())) {
+			$attrMapping = $schemaMetadata->getMapping('attribute_map');
 			$this->setType('attributes');
+			$this->setOption('attribute_class', $attrMapping->getAttributeClass());
 
 		} else if($schemaMetadata->hasMapping('tag_set') && ($fieldMetadata->getName() == $schemaMetadata->getMapping('tag_set')->getFieldName())) {
+			$tagMapping = $schemaMetadata->getMapping('tag_set');
 			$this->setType('tags');
+			$this->setOption('tag_class', $tagMapping->getTagClass());
 		}
 	}
     

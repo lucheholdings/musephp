@@ -23,6 +23,14 @@ abstract class AbstractMetadata implements Metadata
 	private $cleaned = false;
 
 	/**
+	 * options 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $options;
+
+	/**
 	 * {@inheritdoc}
 	 */
 	public function clean()
@@ -116,6 +124,7 @@ abstract class AbstractMetadata implements Metadata
 		$this->clean();
 
 		return serialize(array(
+			$this->options,
 			$this->mappings,
 			$extra
 		));
@@ -129,11 +138,38 @@ abstract class AbstractMetadata implements Metadata
 		}
 
 		list(
+			$this->options,
 			$this->mappings,
 			$extra
 		) = $data;
 
 		return $extra;
+	}
+    
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
+    public function setOptions($options)
+    {
+        $this->options = $options;
+        return $this;
+    }
+
+	public function hasOption($name)
+	{
+		return isset($this->options[$name]);
+	}
+
+	public function getOption($name)
+	{
+		return $this->options[$name];
+	}
+
+	public function setOption($name, $value)
+	{
+		$this->options[$name] = $value;
 	}
 }
 

@@ -1,0 +1,7 @@
+Clio\Component\Util\Container\AbstractContainer:
+    exclusion_policy:    ALL
+    read_only:           true 
+    properties:
+        storage:
+            exclude:     true
+            expose:      false

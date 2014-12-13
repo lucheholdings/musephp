@@ -42,9 +42,9 @@ class ParameterMap
 	 * @access public
 	 * @return void
 	 */
-	public function get($key)
+	public function get($key, $default = null)
 	{
-		return $this->params[$key];
+		return isset($this->params[$key]) ? $this->params[$key] : $default;
 	}
 
 	/**

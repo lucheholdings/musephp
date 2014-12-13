@@ -30,6 +30,7 @@ class BasicFactory implements Factory
 		case 'boolean':
 		case 'array':
 		case 'null':
+		case 'mixed':
 			return $this->createPrimitiveType($name);
 			break;
 		default:

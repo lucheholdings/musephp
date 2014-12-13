@@ -49,7 +49,7 @@ class FilterConnection extends ProxyConnection
 
 		$this->getFilter()->{'filter' . ucfirst($method)}($request, $response);
 
-		return $response->get('response');
+		return $response->get('data');
 	}
 
 	/**

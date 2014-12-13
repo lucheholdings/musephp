@@ -94,7 +94,7 @@ class CalliopeFrameworkExtension extends Extension
 				$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
 				$loader  = new ClioLoader\FormatFileLoader(new ClioUtil\Locator\FileLocator($dir), array(new YamlFormat()));
 				try {
-					$bundleConfigs = $loader->load('schema.yml');
+					$bundleConfigs = $loader->load('calliope.yml');
 					if(!isset($bundleConfigs['schema'])) {
 						continue;
 					}
@@ -120,7 +120,6 @@ class CalliopeFrameworkExtension extends Extension
 			});
 
 			$schemas = array_merge($importedSchemas, $schemas);
-			
 		}
 		
 

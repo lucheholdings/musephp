@@ -23,6 +23,8 @@ class Normalizer implements
 	 */
 	private $strategy;
 
+	private $typeRegistry;
+
 	/**
 	 * __construct 
 	 * 
@@ -30,9 +32,10 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Strategy $strategy)
+	public function __construct(Strategy $strategy, TypeRegistry $typeRegistry = null)
 	{
 		$this->strategy = $strategy;
+		$this->typeRegistry = $typeRegistry;
 	}
 
 	/**
@@ -58,7 +61,7 @@ class Normalizer implements
 	public function normalize($data, $type = null, Context $context = null)
 	{
 		if(!$context) {
-			$context = new Context();
+			$context = new Context($this->getTypeRegistry());
 			$context->setNormalizer($this);
 		}
 
@@ -93,7 +96,7 @@ class Normalizer implements
 	{
 		try {
 			if(!$context) {
-				$context = new Context();
+				$context = new Context($this->getTypeRegistry());
 				$context->setNormalizer($this);
 			}
 
@@ -134,6 +137,17 @@ class Normalizer implements
     public function setStrategy(Strategy $strategy)
     {
         $this->strategy = $strategy;
+        return $this;
+    }
+    
+    public function getTypeRegistry()
+    {
+        return $this->typeRegistry;
+    }
+    
+    public function setTypeRegistry($typeRegistry)
+    {
+        $this->typeRegistry = $typeRegistry;
         return $this;
     }
 }

@@ -52,10 +52,14 @@ class Context
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(TypeFactory $typeFactory = null)
+	public function __construct(TypeRegistry $typeRegistry = null)
 	{
 		$this->stack = new \SplStack();
-		$this->typeRegistry = new TypeRegistry($typeFactory);
+
+		if(!$typeRegistry) 
+			$typeRegistry = new TypeRegistry();
+
+		$this->typeRegistry = $typeRegistry;
 	}
     
     /**

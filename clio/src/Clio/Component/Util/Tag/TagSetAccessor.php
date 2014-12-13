@@ -45,14 +45,16 @@ class TagSetAccessor
 
 	public function add(TagSet $container, $name)
 	{
-		if(!$container->has($name)) {
-			$container->add($this->createTag($name));
+		if(!$container->containsName($name)) {
+			$tag = $this->createTag($name);
+			$tag->setOwner($container->getOwner());
+			$container->add($tag);
 		}
 	}
 
 	public function has(TagSet $container, $name)
 	{
-		return $container->has($name);
+		return $container->containsName($name);
 	}
 	
 	public function remove(TagSet $container, $name)

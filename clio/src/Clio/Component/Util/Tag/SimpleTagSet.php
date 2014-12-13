@@ -16,6 +16,8 @@ use Clio\Component\Util\Validator\SubclassValidator;
  */
 class SimpleTagSet extends Set implements TagSet
 {
+	private $owner;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -34,7 +36,8 @@ class SimpleTagSet extends Set implements TagSet
 	 */
 	public function containsName($name)
 	{
-		return $this->containsKey($name);
+		return in_array($name, $this->getNameArray());
+		//$this->containsKey($name);
 	}
 
 	/**
@@ -48,4 +51,15 @@ class SimpleTagSet extends Set implements TagSet
 		}
 		return $names;
 	}
+    
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+    
+    public function setOwner(TagSetAware $owner)
+    {
+        $this->owner = $owner;
+        return $this;
+    }
 }

@@ -23,7 +23,8 @@ class Connection extends BaseConnection
 		try {
 			return parent::findOneBy($criteria, $orderBy);
 		} catch(\Doctrine\ORM\NoResultException $ex) {
-			throw new ResourceExceptions\NotFoundException($this->getConnectTo()->getClassName(), $criteria, 0, $ex);
+			throw new ResourceExceptions\NotFoundException(
+				sprintf('Not Found : %s [%s]', $this->getDoctrineClassMetadata()->getName(), json_encode($criteria)), 0, $ex);
 		}
 	}
 
@@ -32,7 +33,12 @@ class Connection extends BaseConnection
 		try {
 			return parent::delete($model);
 		} catch(\Doctrine\ORM\NoResultException $ex) {
-			throw new ResourceExceptions\NotFoundException($this->getConnectTo()->getClassName(), array(), 0, $ex);
+			throw new ResourceExceptions\NotFoundException(
+				sprintf(
+					'Not Found : %s', 
+					$this->getDoctrineClassMetadata()->getName()
+				), 
+				0, $ex);
 		}
 	}
 
@@ -41,7 +47,12 @@ class Connection extends BaseConnection
 		try {
 			return parent::update($model);
 		} catch(\Doctrine\ORM\NoResultException $ex) {
-			throw new ResourceExceptions\NotFoundException($this->getConnectTo()->getClassName(), array(), 0, $ex);
+			throw new ResourceExceptions\NotFoundException(
+				sprintf(
+					'Not Found : %s',
+					$this->getDoctrineClassMetadata()->getName()
+				), 
+				0, $ex);
 		}
 	}
 }

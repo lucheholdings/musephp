@@ -39,6 +39,7 @@ class TaggableModel extends Model implements TagSetAware
     {
 		if(!$this->_tags) {
 			$this->_tags = new SimpleTagSet(array(), new DoctrineCollectionStorage($this->tags));
+			$this->_tags->setOwner($this);
 		}
         return $this->_tags;
     }

@@ -135,6 +135,9 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 	 */
 	public function existsAt($key)
     {
+		if(!is_string($key) && !is_numeric($key)) {
+			throw new \Exception(sprintf('Invalid key type "%s" is given', is_object($key) ? get_class($key) : gettype($key)));
+		}
 		return array_key_exists($key, $this->values);
     }
 
@@ -185,6 +188,12 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 		default:
 			throw new \InvalidArgumentException(sprintf('Iteration Mode %d is not supported.', $mode));
 		}
+	}
+
+	public function filter(\Closure $callback)
+	{
+		$filtered = array_filter($this->values, $callback);
+		return new static($filtered);
 	}
 
 	public function map(\Closure $callback)

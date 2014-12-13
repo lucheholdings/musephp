@@ -113,7 +113,7 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
 			}
 			return $model;
 		} catch(DuplicateException $ex) {
-			throw new DuplicateException(get_class($model), array(), 0, $ex);
+			throw new DuplicateException(sprintf('Duplicate Resource : %s', get_class($model)), 0, $ex);
 		}
 	}
 
@@ -127,14 +127,16 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
 	public function update($model)
 	{
 		// Get the original Entity from the Database which matched with the given model identifiers.
-		$entity = $this->getConnectTo()->findOneBy($this->getIdentifiers($model));
 
-		$model = $this->getConnectFrom()->merge($entity, $model);
+		if(!$this->isManaged($model)) {
+			$entity = $this->getRepository()->findOneBy($this->getIdentifiers($model));
 
+			$model = $this->getConnectFrom()->merge($entity, $model);
+		}
 		try {
 			$this->doFlush();
 		} catch(DuplicateException $ex) {
-			throw new DuplicateException(get_class($model), array(), 0, $ex);
+			throw new DuplicateException(sprintf('Duplicate Resource : %s', get_class($model)), 0, $ex);
 		}
 
 		return $model;
@@ -164,7 +166,7 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
 				$code = $prev->getCode();
 				if($code == '23000') {
 					if(1062 == $prev->errorInfo[1]) {
-						throw new DuplicateException(null, array(), 0, $ex);
+						throw new DuplicateException('Duplicate Exception', 0, $ex);
 					}
 				} 
 			}
@@ -280,6 +282,11 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
 			$this->classMetadata = $this->getObjectManager()->getClassMetadata($this->getConnectFrom()->getStaticSchemaMetadata()->getName());
 		}
 		return $this->classMetadata;
+	}
+
+	protected function isManaged($model)
+	{
+		return \Doctrine\ORM\UnitOfWork::STATE_MANAGED === $this->getObjectManager()->getUnitOfWork()->getEntityState($model);
 	}
 }
 

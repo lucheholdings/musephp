@@ -165,6 +165,14 @@ abstract class AbstractContainer implements Container
 		return new static(array_merge($this->toArray(), $other->toArray()));
 	}
 
+	public function filter(\Closure $callable)
+	{
+		$container = clone $this;
+		$container->setStorage($this->getStorage()->filter($callable));
+
+		return $container;
+	}
+
 	public function map(\Closure $callback)
 	{
 		$container = clone $this;

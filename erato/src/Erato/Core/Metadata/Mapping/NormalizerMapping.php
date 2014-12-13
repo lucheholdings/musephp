@@ -96,7 +96,7 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 	 */
 	protected function createContext()
 	{
-		$context = new Context();
+		$context = new Context($this->getNormalizer()->getTypeRegistry());
 		$context->setNormalizer($this->getNormalizer());
 
 		return $context;

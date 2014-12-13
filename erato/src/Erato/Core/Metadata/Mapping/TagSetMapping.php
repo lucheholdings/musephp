@@ -51,7 +51,7 @@ class TagSetMapping extends AbstractMapping
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Metadata $metadata, $fieldName = 'tags', $defaultClass = 'Clio\Component\Util\Attribute\SimpleAttribute')
+	public function __construct(Metadata $metadata, $fieldName = 'tags', $defaultClass = 'Clio\Component\Util\Tag\SimpleTag')
 	{
 		parent::__construct($metadata);
 		$this->fieldName = $fieldName;
@@ -106,6 +106,7 @@ class TagSetMapping extends AbstractMapping
 	public function getTagClass()
 	{
 		$field = $this->getTagFieldMetadata();
+
 		if(!$field) {
 			return self::DEFAULT_TAG_CLASS;
 		}

@@ -38,7 +38,8 @@ class TaggableFlexibleModel extends FlexibleModel implements TagSetAware
     public function getTagSet()
     {
 		if(!$this->_tags) {
-			$this->_tags = new SimpleTagSet(array(), new DoctrineCollectionStorage($this->tags));
+			$this->_tags = new SimpleTagSet(array(), new DoctrineCollectionStorage($this->getTags()));
+			$this->_tags->setOwner($this);
 		}
         return $this->_tags;
     }

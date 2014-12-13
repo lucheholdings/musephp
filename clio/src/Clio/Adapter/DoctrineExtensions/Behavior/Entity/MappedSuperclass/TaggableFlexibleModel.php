@@ -72,6 +72,14 @@ abstract class TaggableFlexibleModel extends BaseModel
 		$this->tags = new ArrayCollection();
 	}
 
+	public function getTags()
+	{
+		if(!$this->tags)
+			$this->tags = new ArrayCollection();
+
+		return parent::getTags();
+	}
+
 	/**
 	 * doTimestampOnPrePersist 
 	 * 

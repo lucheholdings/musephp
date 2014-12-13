@@ -1,7 +1,8 @@
 <?php
 namespace Calliope\Core\Metadata\Factory;
 
-use Clio\Component\Util\Metadata\Schema\InheritedSchemaMetadata;
+//use Clio\Component\Util\Metadata\Schema\InheritedSchemaMetadata;
+use Calliope\Core\Metadata\UsecaseSchema;
 use Clio\Component\Util\Metadata\Mapping\Factory\Collection as MappingFactoryCollection;
 
 use Erato\Core\Metadata\MetadataRegistry;
@@ -24,7 +25,7 @@ class SchemaMetadataFactory
 	{
 		$parentMetadata = $this->getRegistry()->get($class);
 
-		$metadata = new InheritedSchemaMetadata($parentMetadata, $name);
+		$metadata = new UsecaseSchema($parentMetadata, $name);
 
 		if($this->getMappingFactory()) {
 

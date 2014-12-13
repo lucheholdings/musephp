@@ -66,7 +66,7 @@ class SchemaListCommand extends ContainerAwareCommand
 		$tableHelper->setHeaders(array('name', 'schema_class', 'connection', 'connect_to'));
 		foreach($registry as $name => $schema) {
 			if($registry->hasAlias($name)) {
-				$tableHelper->addRow(array($schema->getName(), 'Alias', 'Alias', $registry->getAlias($name)));
+				$tableHelper->addRow(array($name, $schema->getParent()->getName() , 'Alias', $registry->getAlias($name)));
 			} else {
 				$tableHelper->addRow(array($schema->getName(), $schema->getParent()->getName(), get_class($schema->getMapping('schema_manager')->getManager()->getConnection()), $schema->getMapping('schema_manager')->getManager()->getConnection()->getConnectToName()));
 			}

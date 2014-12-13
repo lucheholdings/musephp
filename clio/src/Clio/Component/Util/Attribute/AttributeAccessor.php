@@ -58,6 +58,7 @@ class AttributeAccessor
 	 */
 	public function getKeyValues(AttributeMap $container)
 	{
+		$values = array();
 		foreach($container->getKeyValues() as $attr) {
 			$values[$attr->getKey()] = $attr->getValue();
 		}

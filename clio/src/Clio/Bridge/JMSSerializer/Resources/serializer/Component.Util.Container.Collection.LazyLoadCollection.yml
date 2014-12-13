@@ -1,0 +1,13 @@
+Clio\Component\Util\Container\Collection\LazyLoadCollection:
+    exclusion_policy:    ALL
+    read_only:           true 
+    properties:
+        loaded:
+            exclude:     true
+            expose:      false
+        loader:
+            exclude:     true
+            expose:      false
+        postLoadCallbacks:
+            exclude:     true
+            expose:      false

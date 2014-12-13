@@ -44,6 +44,20 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 
 		parent::__construct($fields);
 	}
+
+	public function newInstance()
+	{
+		return $this->newInstanceArgs(func_get_args());
+	}
+
+	public function newInstanceArgs(array $args)
+	{
+		if($this->hasMapping('constructor')) {
+			return $this->getMapping('constructor')->construct($this->getReflectionClass(), $args);
+		} else {
+			return $this->getReflectionClass()->newInstanceArgs($args);
+		}
+	}
     
     /**
      * {@inheritdoc}

@@ -1,6 +1,10 @@
 <?php
 namespace Erato\Core;
 
+use Clio\Component\Util\Psr\Psr1,
+	Clio\Component\Util\Grammer\Grammer;
+
+
 class CodingStandard 
 {
 	const NAMING_CLASS       = 'class';

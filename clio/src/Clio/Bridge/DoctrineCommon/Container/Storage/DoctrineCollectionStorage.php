@@ -151,5 +151,21 @@ class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, St
         $this->doctrineCollection = $doctrineCollection;
         return $this;
     }
+
+	public function map(\Closure $callable)
+	{
+		$storage = clone $this;
+		$this->setDoctrineCollection($this->doctrineCollection->map($callable));
+
+		return $storage;
+	}
+
+	public function filter(\Closure $callable)
+	{
+		$storage = clone $this;
+		$this->setDoctrineCollection($this->doctrineCollection->filter($callable));
+
+		return $storage;
+	}
 }
 

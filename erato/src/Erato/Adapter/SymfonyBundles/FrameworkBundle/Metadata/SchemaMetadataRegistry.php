@@ -3,7 +3,8 @@ namespace Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata;
 
 use Clio\Adapter\SymfonyBundles\ComponentBundle\DependencyInjection\ServiceReference;
 
-use Clio\Component\Util\Metadata\SchemaMetadataRegistry as RegistryInterface;
+use Erato\Core\SchemaRegistry as RegistryInterface;
+
 
 class SchemaMetadataRegistry extends ServiceReference implements RegistryInterface 
 {

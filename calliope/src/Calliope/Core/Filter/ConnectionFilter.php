@@ -26,7 +26,7 @@ class ConnectionFilter implements Filter
 			$request->get('offset', null)
 		);
 
-		$response->set('response', $data);
+		$response->set('data', $data);
 	}
 
 	/**
@@ -39,13 +39,13 @@ class ConnectionFilter implements Filter
 			$request->get('orderBy', array())
 		);
 
-		$response->set('response', $data);
+		$response->set('data', $data);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function filterFlush()
+	public function filterFlush(Request $request, Response $response)
 	{
 		$request->get('connection')->flush();
 	}
@@ -57,7 +57,7 @@ class ConnectionFilter implements Filter
 	{
 		$data = $request->get('connection')->create($request->get('data'));
 
-		$response->set('response', $data);
+		$response->set('data', $data);
 	}
 
 	/**
@@ -67,7 +67,7 @@ class ConnectionFilter implements Filter
 	{
 		$data = $request->get('connection')->update($request->get('data'));
 
-		$response->set('response', $data);
+		$response->set('data', $data);
 	}
 
 	/**
@@ -77,7 +77,7 @@ class ConnectionFilter implements Filter
 	{
 		$data = $request->get('connection')->delete($request->get('data'));
 
-		$response->set('response', $data);
+		$response->set('data', $data);
 	}
 
 	/**
@@ -87,7 +87,7 @@ class ConnectionFilter implements Filter
 	{
 		$data = $request->get('connection')->reload($request->get('data'));
 
-		$response->set('response', $data);
+		$response->set('data', $data);
 	}
 
 	/**
@@ -97,7 +97,7 @@ class ConnectionFilter implements Filter
 	{
 		$count = $request->get('connection')->countBy($request->get('criteria'));
 
-		$response->set('response', $count);
+		$response->set('data', $count);
 	}
 }
 
