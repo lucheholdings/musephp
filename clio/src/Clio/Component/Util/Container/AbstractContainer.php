@@ -158,7 +158,7 @@ abstract class AbstractContainer implements Container
 
 	public function merge($other)
 	{
-		if(!$other instanceof static) {
+		if(!is_array($other) && (!$other instanceof static)) {
 			throw new \RuntimeException('Container::merge has to be the same class');
 		}
 

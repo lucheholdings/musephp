@@ -2,7 +2,6 @@
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model;
 
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\UserProviderStrategy; 
-//use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\ChainUserProviderStrategy; 
 /**
  * UserProvider 
  * 

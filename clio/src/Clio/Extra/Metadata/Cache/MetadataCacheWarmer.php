@@ -49,7 +49,7 @@ class MetadataCacheWarmer implements CacheWarmer
 		
 		$metadata = $this->doInject($metadata);
 
-		foreach($metadata->getFields() as $field) {
+		foreach($metadata->getFields(false) as $field) {
 			$this->doInject($field);
 		}
 		return $metadata;

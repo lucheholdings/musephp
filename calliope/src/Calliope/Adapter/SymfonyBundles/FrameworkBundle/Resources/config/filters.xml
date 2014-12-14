@@ -12,12 +12,18 @@
 		<parameter key="calliope_framework.connection_filter_factory.class">Calliope\Core\Filter\Factory\ConnectionFilterFactory</parameter>
 		<parameter key="calliope_framework.event_dispatcher_filter_factory.class">Calliope\Bridge\SymfonyComponents\Filter\Factory\EventDispatcherFilterFactory</parameter>
 		<!-- FilterListener Registry -->
-		<parameter key="calliope_framework.filter_listener_registry.class">Clio\Bridge\SymfonyComponents\Registry\AliasContainerRegistry</parameter>
+		<parameter key="calliope_framework.filter_listener_factory_registry.class">Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory\ListenerFactoryRegistry</parameter>
+		<!--
+		<parameter key="calliope_framework.filter_listener_factory_registry.class">Clio\Bridge\SymfonyComponents\Registry\AliasContainerRegistry</parameter>
+		-->
 
 		<!-- FilterListener -->
-		<parameter key="calliope_framework.default_filter_listener.class">stdClass</parameter>
-		<parameter key="calliope_framework.filter_listener_factory_collection.class">Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory\FactoryMap</parameter>
-		<parameter key="calliope_framework.filter_listener_class_factory.class">Calliope\Extra\Filter\ListenerFactory\ClassFactory</parameter>
+		<parameter key="calliope_framework.default_filter_listener.class">Filter</parameter>
+		<parameter key="calliope_framework.default_filter_listener_factory.class">Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory</parameter>
+		<parameter key="calliope_framework.filter_listener_factory_class_factory.class">Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory\ListenerFactoryClassFactory</parameter>
+
+		<!-- Extra Filters -->
+		<parameter key="calliope_framework.active_user_filter_listener_factory.class">Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory\ActiveUserListenerFactory</parameter>
 		<parameter key="calliope_framework.cache_filter_listener_factory.class">Calliope\Extra\Filter\ListenerFactory\CacheFactory</parameter>
 		<parameter key="calliope_framework.search_filter_listener_factory.class">Calliope\Extra\Filter\ListenerFactory\SearchFactory</parameter>
 	</parameters>
@@ -54,51 +60,49 @@
 			<tag name="calliope_framework.filter_chain_factory" position="last"/>
 		</service>
 
-		<!-- ConnectionFilterListener -->
-		<service
-			id="calliope_framework.default_connection_filter_listener"
-			class="%calliope_framework.default_filter_listener.class%"
-			factory-service="calliope_framework.filter_listener_registry"
-			factory-method="get"
-		>
-			<argument></argument><!-- name of the listener -->
-		</service>
-
-
-		<service
-			id="calliope_framework.filter_listener_registry"
-			class="%calliope_framework.filter_listener_registry.class%"
-		>
-			<argument type="service" id="service_container"/>
-		</service>
-
 		<!-- FilterListener -->
 		<service
 			id="calliope_framework.default_filter_listener"
 			class="%calliope_framework.default_filter_listener.class%"
-			factory-service="calliope_framework.filter_listener_factory"
+			factory-service="calliope_framework.filter_listener_factory_registry"
 			factory-method="createFilterListener"
 		>
-			<argument></argument><!-- type -->
-			<argument></argument><!-- arguments -->
+			<argument></argument><!-- type of listener fatory -->
+			<argument></argument><!-- options to overwrite default options -->
 		</service>
+
 		<!-- FilterListener Factory -->
 		<service
-			id="calliope_framework.filter_listener_factory"
-			alias="calliope_framework.filter_listener_factory_collection"
-		/>
-
-		<service
-			id="calliope_framework.filter_listener_factory_collection"
-			class="%calliope_framework.filter_listener_factory_collection.class%"
+			id="calliope_framework.filter_listener_factory_factory"
+			class="%calliope_framework.filter_listener_factory_class_factory.class%"
 		>
 		</service>
 
 		<service
-			id="calliope_framework.filter_listener_factory.class"
-			class="%calliope_framework.filter_listener_class_factory.class%"
+			id="calliope_framework.default_filter_listener_factory"
+			class="%calliope_framework.default_filter_listener_factory.class%"
+			factory-service="calliope_framework.filter_listener_factory_factory"
+			factory-method="createFilterListenerFactory"
 		>
-			<tag name="calliope_framework.filter_listener_factory" for="class"/>
+			<argument></argument><!-- Factory class -->
+			<argument></argument><!-- Default options -->
+		</service>
+
+		<service
+			id="calliope_framework.filter_listener_factory_registry"
+			class="%calliope_framework.filter_listener_factory_registry.class%"
+		>
+			<argument type="service" id="service_container"/>
+		</service>
+
+		<service
+			id="calliope_framework.active_user_filter_listener_factory"
+			class="%calliope_framework.active_user_filter_listener_factory.class%"
+		>
+			<argument type="service" id="security.context"/>
+			<argument type="service" id="erato_framework.metadata.registry"/>
+
+			<tag name="calliope_framework.filter_listener_factory" for="active_user"/>
 		</service>
 	</services>
 </container>

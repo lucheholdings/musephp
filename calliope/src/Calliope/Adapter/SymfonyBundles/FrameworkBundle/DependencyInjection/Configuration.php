@@ -27,7 +27,7 @@ class Configuration implements ConfigurationInterface
 		$rootNode
 			->children()
 				->append($this->buildSchemaSection())
-				->append($this->buildFilterListenerSection())
+				->append($this->buildFilterListenerFactorySection())
 			->end()
 		;
 
@@ -60,9 +60,9 @@ class Configuration implements ConfigurationInterface
 					->scalarNode('connect_to')->cannotBeEmpty()->end()
 					->arrayNode('listeners')
 						->info('List of filter listeners')
-						->example(array('service.filter_01', 'filter_02'))
+						->example(array('service.filter_01' => null, 'filter_02' => array('overwrite_key' => 'overwrite_value', 'additional_option' => 'additional_value')))
 						->defaultValue(array())
-						->prototype('scalar')->end()
+						->prototype('variable')->end()
 					->end()
 					->arrayNode('options')
 						->info('SchemaManager options')
@@ -84,11 +84,11 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	protected function buildFilterListenerSection()
+	protected function buildFilterListenerFactorySection()
 	{
 		$tree = new TreeBuilder();
 
-		$node = $tree->root('listeners');
+		$node = $tree->root('listener_factories');
 
 		$node
 			->info('Filter Listener definitions.')
@@ -99,9 +99,9 @@ class Configuration implements ConfigurationInterface
 				->then(function($v){ return array('type' => 'alias', 'options' => array('id' => $v));})
 			->end()
 			->children()
-				->scalarNode('type')->info('Type of filter listener factory')->cannotBeEmpty()->end()
+				->scalarNode('class')->info('Class of FilterListenerFactory')->cannotBeEmpty()->end()
 				->scalarNode('priority')->defaultValue(100)->end()
-				->arrayNode('arguments')
+				->arrayNode('options')
 					->useAttributeAsKey('key')
 					->treatNullLike(array())
 					->defaultValue(array())

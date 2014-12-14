@@ -39,18 +39,24 @@ class LoadableRegistry extends ProxyRegistry
 		$this->loader = $loader;
 	}
 
+	protected function load($key)
+	{
+		$entry = null;
+		// Load for the key
+		if($this->loader && $this->loader->canLoad($key)) {
+			$entry = $this->loader->loadEntry($key);
+		}
+		
+		return $entry;
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */
 	public function get($key)
 	{
 		if(!$this->getRegistry()->has($key)) {
-			$entry = null;
-			// Load for the key
-			if($this->loader && $this->loader->canLoad($key)) {
-				$entry = $this->loader->loadEntry($key);
-			}
-			
+			$entry = $this->load($key);
 			if($entry) {
 				$this->getRegistry()->set($key, $entry);
 			}

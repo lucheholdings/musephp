@@ -20,6 +20,12 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	private $mappings; 
 
+	/**
+	 * cleaned 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
 	private $cleaned = false;
 
 	/**

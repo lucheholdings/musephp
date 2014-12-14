@@ -12,11 +12,32 @@ namespace Calliope\Bridge\SymfonyComponents\Filter;
 interface ListenerFactory
 {
 	/**
-	 * createArgs 
+	 * __construct 
+	 *   Constructor of the ListenerFactory
+	 *   Any arguments should not be REQUIRED to create from FactoryFactory 
 	 * 
-	 * @param array $args 
+	 * @access protected
+	 * @return void
+	 */
+	function __construct();
+
+	/**
+	 * createFilterListener 
+	 *   Create new FilterListener with overwrite Options 
+	 * 
+	 * @param array $options 
 	 * @access public
 	 * @return void
 	 */
-	function createArgs(array $args);
+	function createFilterListener(array $options);
+
+	/**
+	 * setDefaultOptions 
+	 *   Set DefaultOptions
+	 * 
+	 * @param array $options 
+	 * @access public
+	 * @return void
+	 */
+	function setDefaultOptions(array $options);
 }

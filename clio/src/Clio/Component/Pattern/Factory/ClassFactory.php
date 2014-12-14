@@ -51,6 +51,9 @@ class ClassFactory extends AbstractFactory
 	public function createClassArgs($class, array $args = array())
 	{
 		if(!$class instanceof \ReflectionClass) {
+			if(!is_string($class)) {
+				throw new \InvalidArgumentException(sprintf('Invalid argument type "%s"', gettype($class)));
+			}
 			$class = new \ReflectionClass($class);
 		}
 		$args = $this->resolveArgs($args);

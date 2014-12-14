@@ -25,9 +25,10 @@ class FilterCompilerPass implements CompilerPassInterface
 	{
 
 		$this->processFilterChainFactory($container);
+
 		$this->processFilterListener($container);
 		$this->processFilterListenerFactory($container);
-		$this->processConnectionFilterListener($container);
+		//$this->processConnectionFilterListener($container);
 	}
 
 	protected function processFilterChainFactory(ContainerBuilder $container)
@@ -61,14 +62,14 @@ class FilterCompilerPass implements CompilerPassInterface
 
 	protected function processFilterListenerFactory($container)
 	{
-		$factoryMap = $container->findDefinition('calliope_framework.filter_listener_factory_collection');
+		$registry = $container->findDefinition('calliope_framework.filter_listener_factory_registry');
 		foreach($container->findTaggedServiceIds('calliope_framework.filter_listener_factory') as $id => $tags) {
 			foreach($tags as $params) {
-				$factoryMap->addMethodCall(
+				$registry->addMethodCall(
 					'set',
 					array(
 						$params['for'],
-						new Reference($id)
+						$id
 					)
 				);
 			}
@@ -77,38 +78,17 @@ class FilterCompilerPass implements CompilerPassInterface
 
 	protected function processFilterListener($container)
 	{
-		$registry = $container->findDefinition('calliope_framework.filter_listener_registry');
-
-		foreach($container->findTaggedServiceIds('calliope_framework.filter_listener') as $filterId => $tags) {
+		foreach($container->findTaggedServiceIds('calliope_framework.filter_listener') as $listenerId => $tags) {
 			foreach($tags as $params) {
+				$dispatcher = $container->findDefinition($params['dispatcher']);
 
-				// Set alias for the filterListener services
-				$registry->addMethodCall(
-					'set',
+				$dispatcher->addMethodCall(
+					'addFilterListener',
 					array(
-						$params['for'],
-						$filterId
-					)
-				);
-			}
-		}
-	}
-
-	protected function processConnectionFilterListener($container)
-	{
-		foreach($container->findTaggedServiceIds('calliope_framework.connection_filter_listener') as $listenerId => $tags) {
-			foreach($tags as $params) {
-				// Get Dispatcher Connection
-				$dispatcher = $container->getDefinition($params['dispatcher']);
-
-				$priority = 0;
-				if(isset($params['priority'])) 
-					$priority = $params['priority'];
-
-				$dispatcher->addMethodCall('addFilterListener', array(
-					new Reference($listenerId), 
-					$priority
-				));
+						//new Reference($listenerId),
+						new Reference($listenerId),
+						isset($params['priority']) ? $params['priority'] : 100
+					));
 			}
 		}
 	}

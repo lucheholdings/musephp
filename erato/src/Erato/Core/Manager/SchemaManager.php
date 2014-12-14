@@ -33,10 +33,7 @@ class SchemaManager implements SchemaManagerInterface
 	 */
 	public function newInstance()
 	{
-		if(!$this->getSchemaMetadata()->hasMapping('consturctor')) {
-			throw new \RuntimeException(sprintf('Schema "%s" does not support Mapping constructor.', $this->getSchemaMetadata()));
-		}
-		return $this->getMetadadata()->getMappign('constructor')->construct(func_get_args());
+		return $this->getSchemaMetadata()->newInstanceArgs(func_get_args());
 	}
 
 	/**

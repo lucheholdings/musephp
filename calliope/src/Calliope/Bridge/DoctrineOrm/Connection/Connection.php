@@ -5,7 +5,7 @@ use Calliope\Bridge\DoctrineCommon\Connection\Connection as BaseConnection;
 use Doctrine\Common\Persistence\ObjectManager,
 	Doctrine\Common\Persistence\ObjectRepository;
 
-use Calliope\Core\Exception as ResourceExceptions;
+use Calliope\Core\Exception as CalliopeExceptions;
 
 /**
  * Connection 
@@ -23,7 +23,7 @@ class Connection extends BaseConnection
 		try {
 			return parent::findOneBy($criteria, $orderBy);
 		} catch(\Doctrine\ORM\NoResultException $ex) {
-			throw new ResourceExceptions\NotFoundException(
+			throw new CalliopeExceptions\NotFoundException(
 				sprintf('Not Found : %s [%s]', $this->getDoctrineClassMetadata()->getName(), json_encode($criteria)), 0, $ex);
 		}
 	}
@@ -33,7 +33,7 @@ class Connection extends BaseConnection
 		try {
 			return parent::delete($model);
 		} catch(\Doctrine\ORM\NoResultException $ex) {
-			throw new ResourceExceptions\NotFoundException(
+			throw new CalliopeExceptions\NotFoundException(
 				sprintf(
 					'Not Found : %s', 
 					$this->getDoctrineClassMetadata()->getName()
@@ -47,7 +47,7 @@ class Connection extends BaseConnection
 		try {
 			return parent::update($model);
 		} catch(\Doctrine\ORM\NoResultException $ex) {
-			throw new ResourceExceptions\NotFoundException(
+			throw new CalliopeExceptions\NotFoundException(
 				sprintf(
 					'Not Found : %s',
 					$this->getDoctrineClassMetadata()->getName()

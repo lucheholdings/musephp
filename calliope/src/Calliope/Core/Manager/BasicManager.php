@@ -118,7 +118,7 @@ class BasicManager extends BaseSchemaManager implements Manager
 	/**
 	 * {@inheritdoc}
 	 */
-	public function findOneBy(array $criteria, array $orderBy = null)
+	public function findOneBy(array $criteria, array $orderBy = array())
 	{
 		return $this->getConnection()->findOneBy($criteria, $orderBy);
 	}

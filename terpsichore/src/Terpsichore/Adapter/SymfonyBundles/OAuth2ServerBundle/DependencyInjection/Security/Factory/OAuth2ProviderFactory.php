@@ -34,7 +34,7 @@ class OAuth2ProviderFactory implements SecurityFactoryInterface
 			->setDefinition('terpsichore_oauth2_server.security.scope_role_map.' . $id, $scopeMap)
 			->replaceArgument(0, $scopes)
 		;
-
+		
 		// AuthenticationProvider
         $container
             ->setDefinition($providerId, new DefinitionDecorator('terpsichore_oauth2_server.security.authentication_provider._default'))

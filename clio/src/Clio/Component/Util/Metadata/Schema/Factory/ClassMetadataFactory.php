@@ -32,7 +32,13 @@ class ClassMetadataFactory extends MetadataFactory
 			throw new \InvalidArgumentException('ClassMetadataFactory only accept ReflectionClass or an existing class name.');
 		}
 
-		$schemaMetadata = new ClassMetadata($schema);
+		$parent = null;
+		$parentClass = $schema->getParentClass();
+		if($parentClass) {
+			$parent = $this->createMetadata($parentClass);
+		}
+
+		$schemaMetadata = new ClassMetadata($schema, array(), $parent);
 
 		// Create Fields for default class properties 
 		foreach($schema->getProperties() as $property) {

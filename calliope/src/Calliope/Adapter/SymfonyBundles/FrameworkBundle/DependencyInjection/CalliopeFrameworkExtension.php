@@ -65,7 +65,7 @@ class CalliopeFrameworkExtension extends Extension
 		//$loader->load('filters.xml');
 
 
-		$this->registerFilterListeners($container, $config['listeners']);
+		$this->registerFilterListenerFactories($container, $config['listener_factories']);
 		// Register Schema Managers
 		$this->registerSchemas($container, $config['schemas']);
 
@@ -149,8 +149,8 @@ class CalliopeFrameworkExtension extends Extension
 
 				// append FilterListeners on EventDispatcherFilter
 				if(isset($params['listeners']) && !empty($params['listeners'])) {
-					foreach($params['listeners'] as $listenerName) {
-						$listenerId = $this->createConnectionFilterListener($container, $name, $listenerName, $dispatcherId);
+					foreach($params['listeners'] as $listenerName => $listenerOptions) {
+						$listenerId = $this->createConnectionFilterListener($container, $name, $listenerName, $dispatcherId, $listenerOptions);
 					}
 				}
 
@@ -165,15 +165,16 @@ class CalliopeFrameworkExtension extends Extension
 		}
 	}
 
-	protected function createConnectionFilterListener($container, $schemaName, $listenerName, $dispatcherId)
+	protected function createConnectionFilterListener($container, $schemaName, $listenerName, $dispatcherId, array $listenerOptions = array())
 	{
-		$connectionFilterListener = new DefinitionDecorator('calliope_framework.default_connection_filter_listener');
+		$connectionFilterListener = new DefinitionDecorator('calliope_framework.default_filter_listener');
 		$connectionFilterListener->replaceArgument(0, $listenerName);
+		$connectionFilterListener->replaceArgument(1, $listenerOptions);
 
-		$connectionFilterListener->addTag('calliope_framework.connection_filter_listener', array('dispatcher' => $dispatcherId));
+		$connectionFilterListener->addTag('calliope_framework.filter_listener', array('dispatcher' => $dispatcherId));
 
 		$container->setDefinition(
-			'calliope_framework.filter_listener.' . $schemaName. '.filter_listener_' . $listenerName,
+			'calliope_framework.filter_listener_on_' . $schemaName. '.filter_listener_' . $listenerName,
 			$connectionFilterListener
 		);
 	}
@@ -225,22 +226,32 @@ class CalliopeFrameworkExtension extends Extension
 		$container->setDefinition('calliope_framework.connection.' . $schemaName . '.filters', $filterDefinition);
 	}
 
-	protected function registerFilterListeners($container, array $filters)
+	/**
+	 * registerFilterListenerFactories 
+	 *   
+	 * @param mixed $container 
+	 * @param array $filters 
+	 * @access protected
+	 * @return void
+	 */
+	protected function registerFilterListenerFactories($container, array $filters)
 	{
 		$this->getLoader()->load('filters.xml');
 		foreach($filters as $name => $params) {
-			// Get filter listener prototype
-			$definition = new DefinitionDecorator('calliope_framework.default_filter_listener');
+			// FactoryFactory might be a better design
+			// Get listenerFactory prototype
+			$definition = new DefinitionDecorator('calliope_framework.default_filter_listener_factory');
 
+			$params['options']['priority'] = $params['priority'];
 			//
-			$definition->replaceArgument(0, $params['type']);
-			$definition->replaceArgument(1, $params['arguments']);
+			$definition->replaceArgument(0, $params['class']);
+			$definition->replaceArgument(1, $params['options']);
 
-			$definition->addTag('calliope_framework.filter_listener', array('for' => $name));
+			$definition->addTag('calliope_framework.filter_listener_factory', array('for' => $name));
 			
 			// Set Defintion
 			$container->setDefinition(
-				'calliope_framework.filter_listener.' . $name,
+				'calliope_framework.filter_listener_factory.' . $name,
 				$definition
 			);
 		}

@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\Schema;
 
+use Clio\Component\Util\Metadata\SchemaMetadata;
 use Clio\Component\Util\Metadata\InheritedMetadata;
 use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 
@@ -38,9 +39,10 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(\ReflectionClass $reflectionClass, array $fields = array())
+	public function __construct(\ReflectionClass $reflectionClass, array $fields = array(), ClassMetadata $parent = null)
 	{
 		$this->reflectionClass = $reflectionClass;
+		$this->parent = $parent;
 
 		parent::__construct($fields);
 	}
@@ -57,6 +59,14 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 		} else {
 			return $this->getReflectionClass()->newInstanceArgs($args);
 		}
+	}
+
+	public function getFields($includeInherit = true)
+	{
+		if($includeInherit && $this->hasParent())
+			return array_merge($this->getParent()->getFields(), parent::getFields());
+		else
+			return parent::getFields();
 	}
     
     /**
@@ -86,7 +96,7 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 		if(null === $this->parent) {
 			if($this->getReflectionClass()->getParentClass()) {
 				// Load parent Metadata
-				$this->parent = $this->getRegistry()->get($this->getReflectionClass()->getParentClass());
+				throw new \RuntimeException('Metadata is not initialized yet. Please set parent Metadata for inherited.');
 			} else {
 				$this->parent = false;
 			}
@@ -107,11 +117,21 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
         return $this;
     }
 
+	public function hasParent()
+	{
+		return (bool)$this->getReflectionClass()->getParentClass();
+	}
+
+	public function getParentName()
+	{
+		return $this->getReflectionClass()->getParentClass()->getName();
+	}
+	
 	public function serialize(array $extra = array())
 	{
 		return serialize(array(
 			$this->reflectionClass->getName(),
-			$this->getFields(),
+			$this->getFields(false),
 			$this->getMappings()->toArray(),
 			$extra
 		));
