@@ -40,7 +40,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 	 */
 	public function get($container, $field)
 	{
-		if($this->getAccessor()->isSupportMethod($container, $field, self::ACCESS_GET)) {
+		if($this->getAccessor()->isSupportMethod($container, $field, self::TYPE_GET)) {
 			return $this->getAccessor()->get($container, $field);
 		} else {
 			return $this->next()->get($container, $field);
@@ -52,7 +52,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 	 */
 	public function set($container, $field, $value)
 	{
-		if($this->getAccessor()->isSupportMethod($container, $field, self::ACCESS_SET)) {
+		if($this->getAccessor()->isSupportMethod($container, $field, self::TYPE_SET)) {
 			$this->getAccessor()->set($container, $field, $value);
 		} else {
 			$this->next()->set($container, $field, $value);
@@ -65,7 +65,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 	 */
 	public function isNull($container, $field)
 	{
-		if($this->getAccessor()->isSupportMethod($container, $field, self::ACCESS_GET)) {
+		if($this->getAccessor()->isSupportMethod($container, $field, self::TYPE_GET)) {
 			return $this->getAccessor()->set($container, $field);
 		} else {
 			return $this->next()->isNull($container, $field);
@@ -77,7 +77,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 	 */
 	public function clear($container, $field)
 	{
-		if($this->getAccessor()->isSupportMethod($container, $field, self::ACCESS_SET)) {
+		if($this->getAccessor()->isSupportMethod($container, $field, self::TYPE_SET)) {
 			$this->getAccessor()->clear($container, $field);
 		} 
 		if($this->next()){

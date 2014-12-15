@@ -94,7 +94,6 @@ class UsecaseConnection extends AbstractConnection implements CRUDConnection
 	public function create($model)
 	{
 		$response = $this->getConnectTo()->create($this->getConnectTo()->schemify($model));
-
 		if($response) {
 			return $this->getConnectFrom()->schemify($response);
 		}

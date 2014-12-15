@@ -74,7 +74,7 @@ class AttributeMapAccessor implements MultiFieldAccessor
 	 */
 	public function isNull($container, $key)
 	{
-		return ($container->getAttributeMap()->hasKey($key) && (null === $container->getAttributeMap()->get($key)->getValue()));
+		return ($container->getAttributeMap()->has($key) && (null === $container->getAttributeMap()->get($key)->getValue()));
 	}
 
 	/**
@@ -139,7 +139,7 @@ class AttributeMapAccessor implements MultiFieldAccessor
 	 */
 	public function existsField($container, $field)
 	{
-		return $container->getAttributeMap()->hasKey($field);
+		return $container->getAttributeMap()->has($field);
 	}
 
 	/**

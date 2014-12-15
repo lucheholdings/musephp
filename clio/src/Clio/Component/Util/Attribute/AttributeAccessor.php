@@ -30,7 +30,7 @@ class AttributeAccessor
 	 */
 	public function __construct(AttributeFactory $factory = null)
 	{
-		if($factory) {
+		if(!$factory) {
 			$factory = new AttributeComponentFactory();
 		}
 		$this->attributeFactory = $factory;
@@ -75,7 +75,7 @@ class AttributeAccessor
 	 */
 	public function get(AttributeMap $container, $key)
 	{
-		if(!$container->hasKey($key)) {
+		if(!$container->has($key)) {
 			throw new \Clio\Component\Exception\InvalidArgumentException(sprintf('AttributeMap dose not have "%s"', $key));
 		}
 
@@ -93,7 +93,7 @@ class AttributeAccessor
 	 */
 	public function set(AttributeMap $container, $key, $value, $owner = null)
 	{
-		if($container->hasKey($key)) {
+		if($container->has($key)) {
 			$container->get($key)->setValue($value);
 		} else {
 			$container->set($key, $this->createAttribute($key, $value, $owner));
@@ -112,7 +112,7 @@ class AttributeAccessor
 	 */
 	public function add(AttributeMap $container, $key, $value, $owner = null)
 	{
-		if(!$container->hasKey($key)) {
+		if(!$container->has($key)) {
 			$container->set($key, $this->createAttribute($key, $value, $owner));
 		}
 		return $this;

@@ -47,7 +47,9 @@ class ConnectionFilter implements Filter
 	 */
 	public function filterFlush(Request $request, Response $response)
 	{
-		$request->get('connection')->flush();
+		$connection = $request->get('connection');
+		if(method_exists($connection, 'flush'))
+			$connection->flush();
 	}
 
 	/**

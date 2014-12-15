@@ -84,7 +84,7 @@ abstract class AbstractCollection implements MultiFieldAccessor
 	{
 		try {
 			$accessor = $this->getFieldAccessor($field);
-			return $accessor->isSupportMethod($container, $type);
+			return $accessor->isSupportMethod($container, $field, $type);
 		} catch(\Exception $ex) {
 			// Field not exists, so not supported.
 			return false;

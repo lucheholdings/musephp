@@ -27,7 +27,7 @@ class SimpleAttributeMap extends Map implements AttributeMap
 
 	public function set($key, $value)
 	{
-		$value->setOwner($owner);
+		$value->setOwner($this->getOwner());
 		return parent::set($key, $value);
 	}
 }

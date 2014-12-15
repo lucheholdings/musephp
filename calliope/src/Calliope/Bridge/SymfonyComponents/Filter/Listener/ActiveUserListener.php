@@ -52,14 +52,15 @@ class ActiveUserListener extends AbstractListener
 
 		if(!empty($mappings)) {
 			$user = $this->getActiveUser();
-			if(is_object($user)) {
-				$schema = $this->getSchemaFor($user);
 
-				$accessor = $schema->getMapping('accessor')->getAccessor();
+			if(is_object($user)) {
+				$userSchema = $this->getSchemaFor($user);
+
+				$userAccessor = $userSchema->getMapping('accessor')->getAccessor();
 
 				foreach($mappings as $userField => $dataField) {
-					if($accessor->existsField($user, $userField)) {
-						$fieldValue = $accessor->get($user, $userField);
+					if($userAccessor->existsField($user, $userField)) {
+						$fieldValue = $userAccessor->get($user, $userField);
 
 						// update criteira
 						$criteria[$dataField] = $fieldValue;
@@ -74,9 +75,46 @@ class ActiveUserListener extends AbstractListener
 					}
 				}
 			}
-
 			// update request criteria
 			$event->getRequest()->set('criteria', $criteria);
+		}
+
+	}
+
+	public function onPreSave(FilterEvent $event)
+	{
+		$data = $event->getRequest()->get('data');
+
+		$mappings = $this->getOption('mapping', array());
+
+		if(!empty($mappings)) {
+			$user = $this->getActiveUser();
+			$dataSchema = $this->getSchemaFor($data);
+			$dataAccessor = $dataSchema->getMapping('accessor')->getAccessor();
+
+			if(is_object($user)) {
+				$userSchema = $this->getSchemaFor($user);
+				$userAccessor = $userSchema->getMapping('accessor')->getAccessor();
+
+				foreach($mappings as $userField => $dataField) {
+					if($userAccessor->existsField($user, $userField)) {
+						$fieldValue = $userAccessor->get($user, $userField);
+
+						// update criteira
+						$dataAccessor->set($data, $dataField, $fieldValue);
+					}
+				}
+			} else if(is_numeric($user)) {
+				// we can only convert "id" for the user.
+
+				foreach($mappings as $userField => $dataField) {
+					if('id' === $userField) {
+						$dataAccessor->set($data, $dataField, $user);
+					}
+				}
+			}
+			// update request criteria
+			$event->getRequest()->set('data', $data);
 		}
 	}
 
