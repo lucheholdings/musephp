@@ -90,7 +90,7 @@ class TypeRegistry
 		} else if(is_object($data)) {
 			$type = $factory->createType(get_class($data), $mixed->getOptions());
 		} else {
-			//var_dump($data);exit;
+			// null 
 			$type = new Type\NullType();
 		}
 
