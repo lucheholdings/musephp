@@ -42,7 +42,9 @@ class ClassMetadataFactory extends MetadataFactory
 
 		// Create Fields for default class properties 
 		foreach($schema->getProperties() as $property) {
-			$schemaMetadata->addField($this->createFieldMetadata($schemaMetadata, $property->getName()));
+			if($schema == $property->getDeclaringClass()) {
+				$schemaMetadata->addField($this->createFieldMetadata($schemaMetadata, $property->getName()));
+			}
 		}
 
 		return $schemaMetadata;

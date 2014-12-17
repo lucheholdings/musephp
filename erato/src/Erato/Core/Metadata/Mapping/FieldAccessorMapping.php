@@ -111,7 +111,7 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField, Acc
 	public function getAccessor()
 	{
 		if(!$this->accessor) {
-			$accessorField = new NamedField($this->getMetadata()->getSchemaMetadata()->getMapping('accessor'), $this->getMetadata()->getName());
+			$accessorField = new NamedField($this->getMetadata()->getSchemaMetadata()->getMapping('accessor'), $this->getMetadata()->getName(), array());
 			$this->accessor = $this->getAccessorFactory()->createFieldAccessorByType($this->getType(), $accessorField, $this->getOptions());
 		}
 

@@ -66,10 +66,15 @@ class Field extends BaseAnnotation implements FieldMappingAnnotation
 	 */
 	public function getConfigs()
 	{
-		return array(
-			'name'  => $this->getName(),
-			'type'  => $this->getType(),
-		);
+		$configs = array();
+		
+		if($this->getName()) 
+			$configs['name'] = $this->getName();
+
+		if($this->getType())
+			$configs['type'] = $this->getType();
+
+		return $configs;
 	}
 
 	/**

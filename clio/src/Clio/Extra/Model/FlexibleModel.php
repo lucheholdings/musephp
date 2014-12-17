@@ -42,7 +42,7 @@ class FlexibleModel extends Model implements AttributeMapAware
     public function getAttributeMap()
     {
 		if(!$this->_attributes) {
-			$this->_attributes = new SimpleAttributeMap(array(), new DoctrineCollectionStorage($this->attributes));
+			$this->_attributes = new SimpleAttributeMap(array(), new DoctrineCollectionStorage($this->getAttributes()));
 			$this->_attributes->setOwner($this);
 		}
         return $this->_attributes;
@@ -66,6 +66,9 @@ class FlexibleModel extends Model implements AttributeMapAware
     
     public function getAttributes()
     {
+		if(!$this->attributes) 
+			$this->attributes = new ArrayCollection();
+
         return $this->attributes;
     }
     

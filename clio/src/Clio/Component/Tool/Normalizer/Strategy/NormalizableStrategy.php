@@ -19,7 +19,7 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 		array_walk($normalized, function(&$value, $key, $data) {
 			list($type, $context) = $data;
 			// Field Type
-			if($fieldType = $type->getFieldType($key)) {
+			if($fieldType = $type->getFieldType($key, $context)) {
 				$fieldType = $context->getTypeRegistry()->getType($fieldType);
 			} else {
 				$fieldType = $context->getTypeRegistry()->guessType($value);
@@ -43,7 +43,7 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 		array_walk($data, function(&$value, $key, $data) {
 			list($type, $context) = $data;
 			// Field Type
-			if($fieldType = $type->getFieldType($key)) {
+			if($fieldType = $type->getFieldType($key, $context)) {
 				$fieldType = $context->getTypeRegistry()->getType($fieldType);
 			} else {
 				$fieldType = $context->getTypeRegistry()->guessType($value);

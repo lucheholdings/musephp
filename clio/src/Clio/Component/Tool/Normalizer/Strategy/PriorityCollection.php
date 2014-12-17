@@ -8,6 +8,8 @@ use Clio\Component\Tool\Normalizer\Type;
 use Clio\Component\Exception\UnsupportedException;
 use Clio\Component\Util\Validator\SubclassValidator;
 
+use Psr\Log as PsrLog;
+
 /**
  * PriorityCollection 
  * 
@@ -76,6 +78,7 @@ class PriorityCollection extends PrioritySet implements
 			if( ($strategy instanceof NormalizationStrategy) && 
 				$strategy->canNormalize($object, $type, $context)) 
 			{
+				$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Strategy Handle normalize.', array('strategy' => get_class($strategy)));
 				return $strategy->normalize($object, $type, $context);
 			}
 		}
@@ -117,11 +120,12 @@ class PriorityCollection extends PrioritySet implements
 			if( ($strategy instanceof DenormalizationStrategy) && 
 				$strategy->canDenormalize($data, $type, $context)) 
 			{
+				$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Strategy Handle denormalize.', array('strategy' => get_class($strategy)));
 				return $strategy->denormalize($data, $type, $context);
 			}
 		}
 
-		throw new UnsupportedException(sprintf('No strategy supports to normalize for type "%s[%s]".', get_class($type), (string)$type));
+		throw new UnsupportedException(sprintf('No strategy supports to denormalize for type "%s[%s]".', get_class($type), (string)$type));
 	}
 
 	/**
@@ -143,6 +147,19 @@ class PriorityCollection extends PrioritySet implements
 		}
 
 		return false;
+	}
+
+	public function getLogger()
+	{
+		if(!$this->logger)
+			$this->logger = PsrLog\NullLogger();
+
+		return $this->logger;
+	}
+
+	public function setLogger(PsrLog\LoggerInterface $logger)
+	{
+		$this->logger = $logger;
 	}
 }
 

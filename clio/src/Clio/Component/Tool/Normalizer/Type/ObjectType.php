@@ -2,6 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Type;
 
 use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Tool\Normalizer\Context;
 
 interface ObjectType extends Type
 {
@@ -60,7 +61,7 @@ interface ObjectType extends Type
 	 * @access public
 	 * @return void
 	 */
-	function getFieldType($field);
+	function getFieldType($field, Context $context);
 
 	/**
 	 * getDataPool 

@@ -13,6 +13,8 @@
 		<!-- Strategy Classes -->
         <parameter key="erato_framework.normalizer.accessor_strategy.class">Clio\Extra\Normalizer\Strategy\AccessorStrategy</parameter>
 
+        <parameter key="erato_framework.normalizer.mixed_strategy.class">Clio\Component\Tool\Normalizer\Strategy\MixedStrategy</parameter>
+        <parameter key="erato_framework.normalizer.null_strategy.class">Clio\Component\Tool\Normalizer\Strategy\NullStrategy</parameter>
         <parameter key="erato_framework.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
         <parameter key="erato_framework.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
         <parameter key="erato_framework.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
@@ -26,6 +28,10 @@
         <service id="erato_framework.normalizer" class="%erato_framework.normalizer.class%">
 			<argument type="service" id="erato_framework.normalizer.strategy"/>
 			<argument type="service" id="erato_framework.normalizer.type_registry"/>
+
+			<call method="setLogger">
+				<argument type="service" id="logger"/>
+			</call>
         </service>
 
 		<service id="erato_framework.normalizer.type_registry" class="%erato_framework.normalizer.type_registry.class%">
@@ -44,6 +50,9 @@
 			id="erato_framework.normalizer.strategy_collection"
 			class="%erato_framework.normalizer.strategy_collection.class%"
 		>
+			<call method="setLogger">
+				<argument type="service" id="logger"/>
+			</call>
 		</service>
 		<!-- STRATEGIES -->
 		<service 
@@ -53,6 +62,18 @@
 			<argument type="service" id="erato_framework.accessor.registry" on-invalid="null"/>
 		</service>
 		
+		<service 
+			id="erato_framework.normalizer.default_strategy.mixed" 
+			class="%erato_framework.normalizer.mixed_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service 
+			id="erato_framework.normalizer.default_strategy.null" 
+			class="%erato_framework.normalizer.null_strategy.class%"
+			public="false"
+		>
+		</service>
 		<service 
 			id="erato_framework.normalizer.default_strategy.datetime" 
 			class="%erato_framework.normalizer.datetime_strategy.class%"

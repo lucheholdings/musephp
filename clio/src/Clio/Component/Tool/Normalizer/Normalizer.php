@@ -3,6 +3,9 @@ namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Exception\UnsupportedException;
 
+use Psr\Log as PsrLog;
+
+
 /**
  * Normalizer 
  * 
@@ -13,7 +16,8 @@ use Clio\Component\Exception\UnsupportedException;
  */
 class Normalizer implements 
 	Strategy\NormalizationStrategy,
-	Strategy\DenormalizationStrategy
+	Strategy\DenormalizationStrategy,
+	PsrLog\LoggerAwareInterface
 {
 	/**
 	 * strategy 
@@ -24,6 +28,8 @@ class Normalizer implements
 	private $strategy;
 
 	private $typeRegistry;
+
+	private $logger;
 
 	/**
 	 * __construct 
@@ -60,6 +66,9 @@ class Normalizer implements
 	 */
 	public function normalize($data, $type = null, Context $context = null)
 	{
+		if(null === $data) {
+			return $data;
+		}
 		if(!$context) {
 			$context = new Context($this->getTypeRegistry());
 			$context->setNormalizer($this);
@@ -71,12 +80,32 @@ class Normalizer implements
 			$type = $context->getTypeRegistry()->getType($type);
 		}
 
+		if($type instanceof Type\MixedType) {
+			$mixed= $context->getTypeRegistry()->resolveMixed($type, $data);
+			$type = $mixed;
+		}
+
+		// Original Scope
+		if($context->isEmptyScope()) {
+			$context->enterScope($data, $type, '_source');
+		}
+
 		$strategy = $this->getStrategy();
 		if(!$strategy instanceof Strategy\NormalizationStrategy) {
 			throw new UnsupportedException('Normalizer Strategy dose not support normalize.');
 		}
 
+		if($type)
+			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Normalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+		else 
+			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Normalize');
+
 		$normalized = $strategy->normalize($data, $type, $context);
+
+		if($type)
+			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Normalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+		else 
+			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Normalize');
 
 		return $normalized;
 	}
@@ -104,12 +133,28 @@ class Normalizer implements
 				$type = $context->getTypeRegistry()->getType($type);
 			}
 
+			if($type instanceof Type\MixedType) {
+				$mixed= $context->getTypeRegistry()->resolveMixed($type, $data);
+
+				$type = $mixed;
+			}
+
+			// Original Scope
+			if($context->isEmptyScope()) {
+				$context->enterScope($data, $type, '_source');
+			}
+
 			$strategy = $this->getStrategy();
 			if(!$strategy instanceof Strategy\DenormalizationStrategy) {
 				throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
 			}
 
-			return $strategy->denormalize($data, $type, $context); 
+			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+			$denormalized = $strategy->denormalize($data, $type, $context); 
+
+			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+
+			return $denormalized;
 			
 		} catch(\Exception $ex) {
 			throw new \Exception(sprintf('Failed to denormalize data [%s]', json_encode($data)), 0, $ex);
@@ -148,6 +193,20 @@ class Normalizer implements
     public function setTypeRegistry($typeRegistry)
     {
         $this->typeRegistry = $typeRegistry;
+        return $this;
+    }
+    
+    public function getLogger()
+    {
+		if(!$this->logger) 
+			$this->logger = new PsrLog\NullLogger();
+
+        return $this->logger;
+    }
+    
+    public function setLogger(PsrLog\LoggerInterface $logger)
+    {
+        $this->logger = $logger;
         return $this;
     }
 }

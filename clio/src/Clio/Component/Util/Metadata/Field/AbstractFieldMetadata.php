@@ -89,28 +89,18 @@ abstract class AbstractFieldMetadata extends AbstractMetadata implements FieldMe
 
 	public function serialize(array $extra = array())
 	{
-		return serialize(array(
-			$this->type,
-			$this->name,
-			$this->getMappings()->toArray(),
-			$extra
-		));
+		$extra['type'] = $this->type;
+		$extra['name'] = $this->name;
+
+		return parent::serialize($extra);
 	}
 
 	public function unserialize($serialized)
 	{
-		$data = unserialize($serialized);
-		if(!$data) {
-			throw new \RuntimeException(sprintf('Failed to unserialize "%s"', __CLASS__));
-		}
-		list(
-			$this->type,
-			$this->name,
-			$mappings,
-			$extra
-		) = $data;
+		$extra = parent::unserialize($serialized);
 
-		$this->setMappings(new MappingCollection($mappings));
+		$this->type = $extra['type'];
+		$this->name = $extra['name'];
 
 		return $extra;
 	}

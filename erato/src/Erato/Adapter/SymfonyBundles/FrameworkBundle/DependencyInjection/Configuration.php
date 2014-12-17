@@ -343,13 +343,15 @@ class Configuration implements ConfigurationInterface
 		;
 
 		$defaultStrategies = array(
-			'accessor'      => array('enabled' => true, 'priority' => 100),
+			'null'          => array('enabled' => true, 'priority' => 1000),
+			'mixed'         => array('enabled' => true, 'priority' => 1000),
+			'normalizable'  => array('enabled' => true, 'priority' => 1000),
 			'datetime'      => array('enabled' => true, 'priority' => 600),
-			'reference'     => array('enabled' => true, 'priority' => 100),
 			'std_class'     => array('enabled' => true, 'priority' => 500),
 			'array_access'  => array('enabled' => false, 'priority' => 500),
+			'accessor'      => array('enabled' => true, 'priority' => 100),
+			'reference'     => array('enabled' => true, 'priority' => 100),
 			'scalar'        => array('enabled' => true, 'priority' => 0),
-			'normalizable'  => array('enabled' => true, 'priority' => 1000),
 		);
 
 

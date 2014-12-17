@@ -136,6 +136,11 @@ abstract class AbstractMapping implements Mapping
 	{
 		$this->options = $this->doMergeOptions($this->options, $options);
 	}
+	
+	public function hasOption($key)
+	{
+		return isset($this->options[$key]);
+	}
 
 	protected function doMergeOptions($first, $second)
 	{

@@ -2,7 +2,8 @@
 namespace Erato\Core\Metadata\Mapping\Factory;
 
 use Clio\Extra\Metadata\Mapping\Factory\AbstractRegistryServiceMappingFactory;
-use Erato\Core\Metadata\Mapping\NormalizerMapping;
+use Erato\Core\Metadata\Mapping\NormalizerMapping,
+	Erato\Core\Metadata\Mapping\NormalizerFieldMapping;
 use Clio\Component\Tool\Normalizer\Normalizer;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
@@ -24,13 +25,18 @@ class NormalizerMappingFactory extends AbstractRegistryServiceMappingFactory
 	 */
 	public function doCreateMapping(Metadata $metadata, array $options)
 	{
-		if(isset($options['normalizer'])) {
-			$normalizer = $options['normalizer'];
+
+		if($metadata instanceof SchemaMetadata) {
+			if(isset($options['normalizer'])) {
+				$normalizer = $options['normalizer'];
+			} else {
+				// Get default normalizer service
+				$normalizer = $this->getServiceId('normalizer');
+			}
+			return new NormalizerMapping($metadata, $this->getRegistry(), $normalizer, $options);
 		} else {
-			// Get default normalizer service
-			$normalizer = $this->getServiceId('normalizer');
+			return new NormalizerFieldMapping($metadata, $options);
 		}
-		return new NormalizerMapping($metadata, $this->getRegistry(), $normalizer, $options);
 	}
 
 	/**
@@ -42,7 +48,8 @@ class NormalizerMappingFactory extends AbstractRegistryServiceMappingFactory
 	 */
 	public function isSupportedMetadata(Metadata $metadata)
 	{
-		return ($metadata instanceof SchemaMetadata);
+		return true;
+		//return ($metadata instanceof SchemaMetadata);
 	}
 }
 

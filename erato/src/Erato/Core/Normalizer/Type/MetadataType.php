@@ -4,6 +4,7 @@ namespace Erato\Core\Normalizer\Type;
 use Clio\Component\Tool\Normalizer\Type\AbstractType,
 	Clio\Component\Tool\Normalizer\Type\ObjectType,
 	Clio\Component\Tool\Normalizer\Type\ReferenceType;
+use Clio\Component\Tool\Normalizer\Context;
 
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Erato\Core\CodingStandard;
@@ -92,7 +93,7 @@ class MetadataType extends AbstractType implements ObjectType
 	{
 		$identifiers = array();
 		foreach($this->getIdentifierFields() as $field) {
-			$property = $this->classReflector->getProperty($this->getCodingStandard()->formatNaming(CodingStandard::NAMING_PROPERTY, $field));
+			$property = $this->getClassReflector()->getProperty($this->getCodingStandard()->formatNaming(CodingStandard::NAMING_PROPERTY, $field));
 			$property->setAccessible(true);;
 
 			$value = $property->getValue($data); 
@@ -117,14 +118,16 @@ class MetadataType extends AbstractType implements ObjectType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFieldType($field)
+	public function getFieldType($field, Context $context)
 	{
 		$propertyName = $this->getCodingStandard()->formatNaming(CodingStandard::NAMING_PROPERTY, $field);
 
 		if($this->getMetadata()->hasField($propertyName))
-			return $this->getMetadata()->getField($propertyName)->getType();
+			$type = $this->getMetadata()->getField($propertyName)->getMapping('normalizer')->getType($context);
+		else 
+			$type = 'mixed';
 
-		return 'mixed';
+		return $context->getTypeRegistry()->getType($type);
 	}
 
 	/**

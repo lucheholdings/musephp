@@ -19,6 +19,8 @@ class Scope
 	 */
 	private $type;
 
+	private $path;
+
 	/**
 	 * __construct 
 	 * 
@@ -27,10 +29,11 @@ class Scope
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($data, Type $type)
+	public function __construct($data, Type $type, $path = '_source')
 	{
 		$this->data = $data;
 		$this->type = $type;
+		$this->path = $path;
 	}
     
     /**
@@ -78,6 +81,17 @@ class Scope
     public function setType(Type $type)
     {
         $this->type = $type;
+        return $this;
+    }
+    
+    public function getPath()
+    {
+        return $this->path;
+    }
+    
+    public function setPath($path)
+    {
+        $this->path = $path;
         return $this;
     }
 }

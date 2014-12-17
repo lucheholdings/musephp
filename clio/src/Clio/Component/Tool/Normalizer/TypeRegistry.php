@@ -78,6 +78,25 @@ class TypeRegistry
 		;
 	}
 
+	public function resolveMixed(Type\MixedType $mixed, $data)
+	{
+		$factory = $this->getTypeFactory();
+		$type    = null;
+
+		if(is_scalar($data)) {
+			$type = $factory->createType(gettype($data), $mixed->getOptions());
+		} else if(is_array($data)) {
+			$type = $factory->createType('array', $mixed->getOptions());
+		} else if(is_object($data)) {
+			$type = $factory->createType(get_class($data), $mixed->getOptions());
+		} else {
+			//var_dump($data);exit;
+			$type = new Type\NullType();
+		}
+
+		return $type;
+	}
+
 	/**
 	 * createType 
 	 * 
