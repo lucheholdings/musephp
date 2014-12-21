@@ -1,7 +1,6 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\User;
 
-use Clio\Component\Auth\OAuth2\User\Provider\UserinfoProvider;
 use Doctrine\Common\Cache\Cache;
 
 /**

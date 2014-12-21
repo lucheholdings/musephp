@@ -7,7 +7,8 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\ClientInterface,
 	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\AuthCodeInterface,
 	Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model\UserInterface
 ;
-use Clio\Component\Auth\OAuth2\Util\ScopeUtilInterface;
+
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Util\ScopeUtil;
 
 /**
  * StorageUtil 
@@ -32,7 +33,7 @@ class StorageUtil
 	/**
 	 * __construct 
 	 * 
-	 * @param ScopeUtilInterface $scopeUtil 
+	 * @param ScopeUtil $scopeUtil 
 	 * @access public
 	 * @return void
 	 */
@@ -44,11 +45,11 @@ class StorageUtil
 	/**
 	 * setScopeUtil 
 	 * 
-	 * @param ScopeUtilInterface $scopeUtil 
+	 * @param ScopeUtil $scopeUtil 
 	 * @access public
 	 * @return void
 	 */
-	public function setScopeUtil(ScopeUtilInterface $scopeUtil)
+	public function setScopeUtil(ScopeUtil $scopeUtil)
 	{
 		$this->scopeUtil = $scopeUtil;
 	}
