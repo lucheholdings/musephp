@@ -73,11 +73,15 @@ class Configuration implements ConfigurationInterface
 		$node = $treeBuilder->root('coding_standard');
 
 		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
 			->children()
 				->arrayNode('naming')
+					->addDefaultsIfNotSet()
 					->children()
 						->scalarNode('class')->defaultValue('pascal')->end()
 						->scalarNode('property')->defaultValue('camel')->end()
+						->scalarNode('method')->defaultValue('camel')->end()
 						->scalarNode('array_field')->defaultValue('snake')->end()
 					->end()
 				->end()

@@ -4,6 +4,7 @@ namespace Clio\Extra\Serializer\Strategy;
 use Clio\Component\Tool\Serializer\Context;
 use Clio\Component\Tool\Normalizer\Normalizer;
 use Clio\Component\Tool\ArrayTool\Coder\Coder;
+use Clio\Component\Tool\ArrayTool\Mapper\RecursiveKeyMapper;
 use Clio\Component\Tool\Serializer\Strategy\AbstractStrategy;
 use Clio\Component\Tool\Serializer\Strategy\SerializationStrategy,
 	Clio\Component\Tool\Serializer\Strategy\DeserializationStrategy
@@ -47,7 +48,10 @@ class NormalizerStrategy extends AbstractStrategy implements SerializationStrate
 		$normalized = $this->getNormalizer()->normalize($data, $context->get('normalizer_context', null));
 
 		// Convert normalized field to array field
-		//$rule = $context->getCodingStandard();
+		if($context->has('field_mapper')) {
+			$mapper = new RecursiveKeyMapper($context->get('field_mapper'));
+			$normalized = $mapper->map($normalized);
+		}
 
 		return $this->getCoder()->encode($normalized, $format);
 	}
@@ -64,6 +68,12 @@ class NormalizerStrategy extends AbstractStrategy implements SerializationStrate
 	{
 		// Decode the data to normalized data with Decoder
 		$normalized = $this->getCoder()->decode($data, $format);
+
+		// Convert normalized field key to property field
+		if($context->has('field_mapper')) {
+			$mapper = new RecursiveKeyMapper($context->get('field_mapper'));
+			$normalized = $mapper->inverseMap($normalized);
+		}
 
 		// Denormalize the data with Normalizer.
 		return $this->getNormalizer()->denormalize($data, $type, $context->get('normalizer_context', null));

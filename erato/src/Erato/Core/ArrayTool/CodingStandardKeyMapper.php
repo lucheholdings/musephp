@@ -2,7 +2,7 @@
 namespace Erato\Core\ArrayTool;
 
 use Clio\Component\Tool\ArrayTool\Mapper\Mapper;
-use Erato\Core\CondingStandard;
+use Erato\Core\CodingStandard;
 
 /**
  * CodingStandardKeyMapper 
@@ -24,6 +24,10 @@ abstract class CodingStandardKeyMapper implements Mapper
 	 */
 	private $codingStandard;
 
+	private $namingFrom;
+
+	private $namingTo;
+
 	/**
 	 * __construct 
 	 * 
@@ -31,9 +35,11 @@ abstract class CodingStandardKeyMapper implements Mapper
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(CodingStandard $codingStandard)
+	public function __construct(CodingStandard $codingStandard, $from, $to)
 	{
 		$this->codingStandard = $codingStandard;
+		$this->namingFrom = $from;
+		$this->namingTo   = $to;
 	}
     
 	/**
@@ -45,9 +51,9 @@ abstract class CodingStandardKeyMapper implements Mapper
 	 */
 	public function map(array $values)
 	{
-		$cleaned = array()
+		$cleaned = array();
 		foreach($values as $key => $value) {
-			$cleaned[$this->getCodingStandard()->formatNaming($this->getMapToNaming(), $key)] = $value;
+			$cleaned[$this->getCodingStandard()->formatNaming($this->getNamingTo(), $key)] = $value;
 		}
 
 		return $cleaned;
@@ -62,17 +68,13 @@ abstract class CodingStandardKeyMapper implements Mapper
 	 */
 	public function inverseMap(array $data)
 	{
-		$cleaned = array()
+		$cleaned = array();
 		foreach($values as $key => $value) {
-			$cleaned[$this->getCodingStandard()->formatNaming($this->getMapFromNaming(), $key)] = $value;
+			$cleaned[$this->getCodingStandard()->formatNaming($this->getNamingFrom(), $key)] = $value;
 		}
 
 		return $cleaned;
 	}
-
-	abstract protected function getNamingFrom();
-
-	abstract protected function getNamingTo();
 
     /**
      * getCodingStandard 
@@ -95,6 +97,28 @@ abstract class CodingStandardKeyMapper implements Mapper
     public function setCodingStandard(CodingStandard $codingStandard)
     {
         $this->codingStandard = $codingStandard;
+        return $this;
+    }
+    
+    public function getNamingFrom()
+    {
+        return $this->namingFrom;
+    }
+    
+    public function setNamingFrom($namingFrom)
+    {
+        $this->namingFrom = $namingFrom;
+        return $this;
+    }
+    
+    public function getNamingTo()
+    {
+        return $this->namingTo;
+    }
+    
+    public function setNamingTo($namingTo)
+    {
+        $this->namingTo = $namingTo;
         return $this;
     }
 }

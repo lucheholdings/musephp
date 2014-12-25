@@ -1,21 +1,28 @@
 <?php
-namespace Erato\Adapter\SymonyBundles\FrameworkBundle\Coding;
+namespace Erato\Adapter\SymfonyBundles\FrameworkBundle\Coding;
 
+use Erato\Core\CodingStandard;
 use Clio\Component\Util\Grammer\Grammer;
+
 
 class CustomizableCodingStandard extends CodingStandard 
 {
+
+	const RULE_PASCALIZE = 'pascal';
+	const RULE_SNAKIZE   = 'snake';
+	const RULE_CAMELIZE  = 'camel';
+
 	private $namingFormats = array();
 
-	public function __construct()
+	public function __construct(array $rules = array())
 	{
 		// set default namingFormats
-		$this->namingFormats	= array(
-			self::NAMING_CLASS        => 'pascal',
-			self::NAMING_PROPERTY     => 'camel',
-			self::NAMING_METHOD       => 'camel',
-			self::NAMING_ARRAY_FIELD  => 'snake',
-		);
+		$this->namingFormats	= array_replace(array(
+				self::NAMING_CLASS        => self::RULE_PASCALIZE,
+				self::NAMING_PROPERTY     => self::RULE_CAMELIZE,
+				self::NAMING_METHOD       => self::RULE_CAMELIZE,
+				self::NAMING_ARRAY_FIELD  => self::RULE_SNAKIZE,
+			), $rules);
 	}
 
 	public function setNamingFormat($naming, $format)
@@ -25,6 +32,8 @@ class CustomizableCodingStandard extends CodingStandard
 
 	public function getNamingFormat($naming)
 	{
+		if(!isset($this->namingFormats[$naming])) 
+			throw new \InvalidArgumentException(sprintf('Unknown format type "%s".', $naming));
 		return $this->namingFormats[$naming];
 	}
 
@@ -38,11 +47,11 @@ class CustomizableCodingStandard extends CodingStandard
 	protected function doFormat($formatType, array $name)
 	{
 		switch($formatType) {
-		case 'snake': 
+		case self::RULE_SNAKIZE: 
 			return Grammer::snakize(implode('_', $name));
-		case 'pascal': 
+		case self::RULE_PASCALIZE: 
 			return Grammer::pascalize(implode('_', $name));
-		case 'camel': 
+		case self::RULE_CAMELIZE: 
 			return Grammer::camelize(implode('_', $name));
 		default:
 			throw new \InvalidArgumentException(sprintf('Format type "%s" is not valid type.', $formatType));

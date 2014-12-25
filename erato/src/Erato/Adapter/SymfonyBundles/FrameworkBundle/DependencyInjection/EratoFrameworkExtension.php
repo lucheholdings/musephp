@@ -34,6 +34,7 @@ class EratoFrameworkExtension extends Extension
 		$this->loader->load('metadata.xml');
 		$this->loader->load('mapping.xml');
 
+		$this->configureCoding($container, $config['coding_standard']);
 		$this->configureCacheFactory($container, $config['cache_factory']);
 		$this->configureMetadata($container, $config['metadata']);
 		//$this->configureSchema($configs['schema']);
@@ -58,6 +59,19 @@ class EratoFrameworkExtension extends Extension
 	{
 	}
 
+	protected function configureCoding($container, $configs)
+	{
+		if($configs['enabled']) {
+			$definition = new DefinitionDecorator('erato_framework.coding_standard.default');
+
+			$definition->replaceArgument(0, $configs['naming']);
+
+			$container->setDefinition(
+				'erato_framework.coding_standard',
+				$definition
+			);
+		}
+	}
 	protected function configureCacheFactory($container, $configs)
 	{
 		if(isset($configs['enabled'])) {

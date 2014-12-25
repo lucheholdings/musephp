@@ -24,15 +24,28 @@ class Serializer implements
 	private $strategy;
 
 	/**
+	 * contextFactory 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $contextFactory;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param Strategy $strategy 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Strategy $strategy)
+	public function __construct(Strategy $strategy, ContextFactory $contextFactory = null)
 	{
 		$this->strategy = $strategy;
+
+		if(!$contextFactory)
+			$contextFactory = new BasicContextFactory();
+
+		$this->contextFactory = $contextFactory;
 	}
 
 	/**
@@ -50,10 +63,10 @@ class Serializer implements
 		}
 
 		if(!$context) {
-			$context = new Context();
+			$context = $this->getContextFactory()->createContext();
 		} else if(!$context instanceof Context) {
 			// fixme: Try to create Context from the given data.
-			$context = new Context();
+			$context = $this->getContextFactory()->createContext();
 		} 
 
 		return $this->strategy->serialize($data, $format, $context);
@@ -88,10 +101,10 @@ class Serializer implements
 		}
 
 		if(!$context) {
-			$context = new Context();
+			$context = $this->getContextFactory()->createContext();
 		} else if(!$context instanceof Context) {
 			// fixme: Try to create Context from the given data.
-			$context = new Context();
+			$context = $this->getContextFactory()->createContext();
 		} 
 
 		return $this->strategy->deserialize($data, $type, $format, $context);
@@ -115,5 +128,16 @@ class Serializer implements
 	{
 		return $this->getStrategy()->getSupportFormats();
 	}
+    
+    public function getContextFactory()
+    {
+        return $this->contextFactory;
+    }
+    
+    public function setContextFactory(ContextFactory $contextFactory)
+    {
+        $this->contextFactory = $contextFactory;
+        return $this;
+    }
 }
 

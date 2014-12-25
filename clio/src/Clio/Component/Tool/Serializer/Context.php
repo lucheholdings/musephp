@@ -20,6 +20,18 @@ class Context
 	private $params;
 
 	/**
+	 * __construct 
+	 * 
+	 * @param array $params 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct(array $params = array())
+	{
+		$this->params = $params;
+	}
+
+	/**
 	 * has 
 	 * 
 	 * @param mixed $name 

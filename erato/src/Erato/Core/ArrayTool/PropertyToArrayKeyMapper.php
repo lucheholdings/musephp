@@ -14,14 +14,9 @@ use Erato\Core\CodingStandard;
  */
 class PropertyToArrayKeyMapper extends CodingStandardKeyMapper 
 {
-	protected function getNamingFrom()
+	public function __construct($standard)
 	{
-		return CodingStandard::NAMING_PROPERTY;
-	}
-
-	protected function getNamingTo()
-	{
-		return CodingStandard::NAMING_ARRAY_FIELD;
+		parent::__construct($standard, CodingStandard::NAMING_PROPERTY, CodingStandard::NAMING_ARRAY_FIELD);
 	}
 }
 

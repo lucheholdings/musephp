@@ -6,6 +6,9 @@
 
     <parameters>
         <parameter key="erato_framework.serializer.class">Clio\Component\Tool\Serializer\Serializer</parameter>
+
+
+		<parameter key="erato_framework.serializer.context_factory.class">Erato\Core\Serializer\ContextFactory</parameter>
         <parameter key="erato_framework.serializer.strategy.class">Clio\Component\Tool\Serializer\Strategy</parameter>
         <parameter key="erato_framework.serializer.strategy_collection.class">Clio\Component\Tool\Serializer\Strategy\PriorityStrategyCollection</parameter>
         <parameter key="erato_framework.serializer.normalizer_strategy.class">Clio\Extra\Serializer\Strategy\NormalizerStrategy</parameter>
@@ -24,6 +27,14 @@
 			class="%erato_framework.serializer.class%"
 		>
 			<argument type="service" id="erato_framework.serializer.strategy" />
+			<argument type="service" id="erato_framework.serializer.context_factory" />
+		</service>
+
+		<service
+			id="erato_framework.serializer.context_factory"
+			class="%erato_framework.serializer.context_factory.class%"
+		>
+			<argument type="service" id="erato_framework.coding_standard" />
 		</service>
 
 		<service
