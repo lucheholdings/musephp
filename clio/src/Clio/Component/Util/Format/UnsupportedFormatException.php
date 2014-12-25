@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Util\Format;
 
+use Clio\Component\Exception as CoreExceptions;
+
 /**
  * UnsupportedFormatException 
  * 
@@ -10,7 +12,7 @@ namespace Clio\Component\Util\Format;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class UnsupportedFormatException extends Exception
+class UnsupportedFormatException extends CoreExceptions\Exception implements Throwable
 {
 }
 

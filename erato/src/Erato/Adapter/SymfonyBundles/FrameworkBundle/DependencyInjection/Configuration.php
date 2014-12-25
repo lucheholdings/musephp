@@ -29,9 +29,11 @@ class Configuration implements ConfigurationInterface
 			->children()
 				->append($this->buildCacheFactorySection())
 				->append($this->buildCodingSection())
+				->append($this->buildCoderSection())
 				->append($this->buildAccessorSection())
 				->append($this->buildNormalizerSection())
 				->append($this->buildSchemifierSection())
+				->append($this->buildSerializerSection())
 				->append($this->buildMetadataSection())
 				->arrayNode('mappings')
 					->addDefaultsIfNotSet()
@@ -82,6 +84,39 @@ class Configuration implements ConfigurationInterface
 			->end()
 		;
 
+		return $node;
+	}
+
+	protected function buildCoderSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('coder');
+
+		$node
+			->addDefaultsIfNotSet()
+			->canBeDisabled()
+			->children()
+				->arrayNode('format')
+					->addDefaultsIfNotSet()
+					->children()
+						->arrayNode('yaml')
+							->canBeDisabled()
+							->addDefaultsIfNotSet()
+							->children()
+								->scalarNode('id')->defaultValue('erato_framework.coder.yaml._default')->end()
+							->end()
+						->end()
+						->arrayNode('json')
+							->canBeDisabled()
+							->addDefaultsIfNotSet()
+							->children()
+								->scalarNode('id')->defaultValue('erato_framework.coder.json._default')->end()
+							->end()
+						->end()
+					->end()
+				->end()
+			->end()
+		;
 		return $node;
 	}
 
@@ -356,6 +391,49 @@ class Configuration implements ConfigurationInterface
 		foreach($defaultStrategies as $name => $defaults) {
 			$this->addNormalizerStrategySection($strategyNodes, $name, $defaults['enabled'], $defaults['priority']);
 		}
+
+		return $node;
+	}
+
+	protected function buildSerializerSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('serializer');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->arrayNode('strategies')
+					->addDefaultsIfNotSet()
+					->children()
+						->arrayNode('normalizer')
+							->addDefaultsIfNotSet()
+							->canBeDisabled()
+							->children()
+								->scalarNode('id')->defaultValue('erato_framework.serializer.strategy.normalizer.default')->end()
+								->scalarNode('priority')->defaultValue(200)->end()
+							->end()
+						->end()
+						->arrayNode('json')
+							->addDefaultsIfNotSet()
+							->canBeDisabled()
+							->children()
+								->scalarNode('id')->defaultValue('erato_framework.serializer.strategy.json.default')->end()
+								->scalarNode('priority')->defaultValue(500)->end()
+							->end()
+						->end()
+						->arrayNode('php')
+							->addDefaultsIfNotSet()
+							->canBeDisabled()
+							->children()
+								->scalarNode('id')->defaultValue('erato_framework.serializer.strategy.php.default')->end()
+								->scalarNode('priority')->defaultValue(500)->end()
+							->end()
+						->end()
+					->end()
+				->end()
+		;
 
 		return $node;
 	}

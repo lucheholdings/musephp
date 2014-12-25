@@ -7,8 +7,7 @@ use Clio\Component\Tool\Normalizer\Context,
 	Clio\Component\Tool\Normalizer\Type,
 	Clio\Component\Tool\Normalizer\Type\ObjectType
 ;
-use Clio\Component\Tool\ArrayTool\Mapper,
-	Clio\Component\Tool\ArrayTool\DummyMapper;
+use Clio\Component\Tool\ArrayTool\Mapper;
 
 /**
  * KeyMapNormalizer 
@@ -23,12 +22,12 @@ class KeyMapNormalizer extends Normalizer
 {
 	protected $keyMapper;
 
-	public function __construct(Strategy $strategy, Mapper $keyMapper = null)
+	public function __construct(Strategy $strategy, Mapper\Mapper $keyMapper = null)
 	{
 		parent::__construct($strategy);
 
 		if(!$keyMapper) {
-			$keyMapper = new DummyMapper(); 
+			$keyMapper = new Mapper\DummyMapper(); 
 		}
 		$this->keyMapper = $keyMapper;
 	}
@@ -91,7 +90,7 @@ class KeyMapNormalizer extends Normalizer
 	 * @access public
 	 * @return void
 	 */
-	public function setKeyMapper(Mapper $keyMapper)
+	public function setKeyMapper(Mapper\Mapper $keyMapper)
 	{
 		$this->keyMapper = $keyMapper;
 	}

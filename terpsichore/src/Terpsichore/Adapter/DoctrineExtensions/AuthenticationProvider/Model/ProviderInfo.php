@@ -6,7 +6,7 @@
  * @license ${ LICENSE }
  * 
  */
-namespace Terpsichore\Client\Auth\Provider\Info;
+namespace Terpsichore\Adapter\DoctrineExtensions\AuthenticationProvider\Model;
 
 /**
  * ProviderInfo 
@@ -27,39 +27,39 @@ interface ProviderInfo
 	function getName();
 
 	/**
-	 * hasAttribute 
+	 * hasProvider 
 	 * 
 	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	function hasAttribute($key);
+	function has($key);
 
 	/**
-	 * getAttribute 
+	 * get 
 	 * 
 	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	function getAttribute($key);
+	function get($key);
 
 	/**
-	 * setAttribute 
+	 * set 
 	 * 
 	 * @param mixed $key 
 	 * @param mixed $value 
 	 * @access public
 	 * @return void
 	 */
-	function setAttribute($key, $value);
+	function set($key, $value);
 
 	/**
-	 * getAttributes 
+	 * get 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function getAttributes();
+	function getKeyValues();
 }
 

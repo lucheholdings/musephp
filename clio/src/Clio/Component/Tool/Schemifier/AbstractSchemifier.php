@@ -1,8 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Schemifier;
 
-use Clio\Component\Tool\ArrayTool\KeyMapper;
-use Clio\Component\Tool\ArrayTool\DummyMapper;
+use Clio\Component\Tool\ArrayTool\Mapper;
 use Clio\Component\Util\Container\Map\Map;
 
 /**
@@ -105,7 +104,7 @@ abstract class AbstractSchemifier implements Schemifier
 		if($this->getFieldKeyMappers()->has($sourceType)) {
 			$fieldKeyMapper = $this->getFieldKeyMappers()->get($sourceType);
 		} else {
-			$fieldKeyMapper = new DummyFieldMapper();
+			$fieldKeyMapper = new Mapper\DummyMapper();
 		}
 
 		return $fieldKeyMapper;

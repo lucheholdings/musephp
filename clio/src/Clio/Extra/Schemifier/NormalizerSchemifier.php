@@ -7,7 +7,7 @@ use Clio\Component\Tool\Schemifier\Schemifier,
 use Clio\Component\Tool\Schemifier\Exception as SchemifierException;
 use Clio\Component\Tool\Schemifier\FieldMapperRegistry;
 
-use Clio\Component\Tool\ArrayTool\InverseMapper;
+use Clio\Component\Tool\ArrayTool\Mapper;
 
 use Clio\Component\Tool\Normalizer\Exception as NormalizerException;
 /**

@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\ArrayTool;
 
-use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\Tool\ArrayTool\Mapper\Mapper;
 use Erato\Core\CondingStandard;
 
 /**

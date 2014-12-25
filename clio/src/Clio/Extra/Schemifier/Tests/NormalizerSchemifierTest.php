@@ -8,7 +8,7 @@ use Clio\Component\Tool\Normalizer\Strategy\PriorityCollection,
 	Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy
 ;
 use Clio\Component\Tool\Schemifier\ClassSchema;
-use Clio\Component\Tool\ArrayTool\KeyMapper;
+use Clio\Component\Tool\ArrayTool\Mapper;
 
 /**
  * NormalizerSchemifierTest 
@@ -53,7 +53,7 @@ class NormalizerSchemifierTest extends \PHPUnit_Framework_TestCase
 		$data = array('hoge' => 'Foo', 'bar' => 'Bar');
 		
 		// set fieldKeyMapper for 'hoge' -> 'foo'
-		$schemified = $schemifier->schemify($data, array('field_key_mapper' => new KeyMapper(array('hoge' => 'foo'), false)));
+		$schemified = $schemifier->schemify($data, array('field_key_mapper' => new Mapper\KeyMapper(array('hoge' => 'foo'), false)));
 
 		$this->assertInstanceOf($this->getSchemaClass(), $schemified);
 		$this->assertEquals('Foo', $schemified->getFoo());

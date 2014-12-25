@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder,
 	Symfony\Component\DependencyInjection\Reference;
 
 /**
- * SerializerCompilerPass:w
+ * CoderCompilerPass:w
  * 
  * @uses CompilerPassInterface
  * @package { PACKAGE }
@@ -16,20 +16,20 @@ use Symfony\Component\DependencyInjection\ContainerBuilder,
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SerializerCompilerPass implements CompilerPassInterface
+class CoderCompilerPass implements CompilerPassInterface
 {
 	public function process(ContainerBuilder $container)
 	{
-		if($container->hasDefinition('erato_framework.serializer.strategy_collection')) {
-			$registry = $container->getDefinition('erato_framework.serializer.strategy_collection');
-			foreach($container->findTaggedServiceIds('erato_framework.serializer.strategy') as $id => $tags) {
+		if($container->hasDefinition('erato_framework.coder_collection')) {
+			$registry = $container->getDefinition('erato_framework.coder_collection');
+			foreach($container->findTaggedServiceIds('erato_framework.coder') as $id => $tags) {
 				foreach($tags as $tagAttrs) {
 					if(isset($tagAttrs)) {
 						//  
 						$registry->addMethodCall(
-							'add', array(
-								new Reference($id),
-								$tagAttrs['priority']
+							'set', array(
+								$tagAttrs['for'],
+								new Reference($id)
 							)
 						);
 					} 

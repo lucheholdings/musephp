@@ -22,6 +22,8 @@ class EratoFrameworkBundle extends Bundle
 		$container->addCompilerPass(new Compiler\AccessorCompilerPass());
 		$container->addCompilerPass(new Compiler\NormalizerCompilerPass());
 		$container->addCompilerPass(new Compiler\MetadataCompilerPass());
+		$container->addCompilerPass(new Compiler\CoderCompilerPass());
+		$container->addCompilerPass(new Compiler\SerializerCompilerPass());
 		//$container->addCompilerPass(new Compiler\CacheCompilerPass());
 
 		// Gather compoents tagged "metadata_manager"

@@ -1,9 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Schemifier;
 
-use Clio\Component\Tool\ArrayTool\Mapper,
-	Clio\Component\Tool\ArrayTool\InverseMapper
-;
+use Clio\Component\Tool\ArrayTool\Mapper;
 
 /**
  * FieldMapperRegistry 
@@ -83,7 +81,7 @@ class FieldMapperRegistry
 	 * @access public
 	 * @return void
 	 */
-	public function set($src, $dest, Mapper $mapper)
+	public function set($src, $dest, Mapper\Mapper $mapper)
 	{
 		$src = $this->convertType($src);
 		$dest = $this->convertType($dest);
@@ -99,7 +97,7 @@ class FieldMapperRegistry
 			if(!isset($this->mappers[$dest])) {
 				$this->mappers[$dest] = array();
 			}
-			$this->mappers[$dest][$src] = new InverseMapper($mapper);
+			$this->mappers[$dest][$src] = new Mapper\InverseMapper($mapper);
 		}
 
 		return $this;

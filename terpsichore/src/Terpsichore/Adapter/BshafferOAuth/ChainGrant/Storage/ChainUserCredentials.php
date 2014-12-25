@@ -8,7 +8,7 @@
  */
 namespace Terpsichore\Adapter\BshafferOAuth\ChainGrant\Storage;
 
-use Terpsichore\Client\Auth\Token;
+use Terpsichore\Core\Auth\Token;
 
 /**
  * ChainUserCredentials 

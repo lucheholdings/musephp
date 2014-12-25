@@ -1,0 +1,40 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="erato_framework.coder.class">Clio\Component\Tool\ArrayTool\Coder\Coder</parameter>
+        <parameter key="erato_framework.coder_collection.class">Clio\Component\Tool\ArrayTool\Coder\NamedCoderCollection</parameter>
+        <parameter key="erato_framework.coder.json.class">Clio\Component\Tool\ArrayTool\Coder\JsonCoder</parameter>
+        <parameter key="erato_framework.coder.yaml.class">Clio\Bridge\SymfonyComponents\ArrayTool\Coder\YamlCoder</parameter>
+    </parameters>
+
+	<services>
+		<service
+			id="erato_framework.coder"
+			alias="erato_framework.coder_collection"
+		/>
+
+
+		<service
+			id="erato_framework.coder_collection"
+			class="%erato_framework.coder_collection.class%"
+		>
+		</service>
+
+
+		<!-- Default Strategies -->
+		<service
+			id="erato_framework.coder.yaml._default"
+			class="%erato_framework.coder.yaml.class%"
+		>
+		</service>
+		<service
+			id="erato_framework.coder.json._default"
+			class="%erato_framework.coder.json.class%"
+		>
+		</service>
+	</services>	
+</container>

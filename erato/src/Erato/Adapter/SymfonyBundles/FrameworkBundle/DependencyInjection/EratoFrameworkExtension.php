@@ -44,13 +44,14 @@ class EratoFrameworkExtension extends Extension
 		//$this->configureMetadata($container, $config['metadata']);
 		////$this->configureCounter($container, $config['counter']);
 		////$this->configureKvs($container, $config['kvs']);
-		////$this->configureSerializer($container, $config['serializer']);
 		////$this->configureFieldAccessor($container, $config['field_accessor']);
 		////$this->configureClassMetadata($container, $config['class_metadata']);
 
 		////$this->configureJMSSerializer($container, $config['jms_serializer']);
+		$this->configureCoder($container, $config['coder']);
 		$this->configureNormalizer($container, $config['normalizer']);
 		$this->configureSchemifier($container, $config['schemifier']);
+		$this->configureSerializer($container, $config['serializer']);
     }
 
 	protected function initParameters($container, $configs)
@@ -313,17 +314,44 @@ class EratoFrameworkExtension extends Extension
 		}
 	}
 
-	protected function configureSerializer($container, $configs)
+	protected function configureCoder($container, $configs)
 	{
 		if($configs['enabled']) {
 			// If configuration enabled, then load serializer.xml
+			$this->getLoader()->load('coder.xml');
+
+			foreach($configs['format'] as $name => $coderConfig) {
+				if($coderConfig['enabled']) {
+					$coderDefinition = new DefinitionDecorator($coderConfig['id']);
+					$coderDefinition->addTag('erato_framework.coder', array('for' => $name));
+					
+					$container->setDefinition(
+						'erato_framework.coder.' . $name,
+						$coderDefinition
+					);
+				}
+			}
+		}
+	}
+
+	protected function configureSerializer($container, $configs)
+	{
+		if($configs['enabled']) {
+
+			// If configuration enabled, then load serializer.xml
 			$this->getLoader()->load('serializer.xml');
 
-			// Map Strategy
-			$container->setAlias(
-				'erato_framework.serializer_strategy',
-				$configs['strategy']
-			);
+			foreach($configs['strategies'] as $name => $strategyConfig) {
+				if($strategyConfig['enabled']) {
+					$strategyDefinition = new DefinitionDecorator($strategyConfig['id']);
+					$strategyDefinition->addTag('erato_framework.serializer.strategy', array('priority' => $strategyConfig['priority']));
+					
+					$container->setDefinition(
+						'erato_framework.serializer.strategy.' . $name,
+						$strategyDefinition
+					);
+				}
+			}
 		}
 	}
 

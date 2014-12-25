@@ -2,11 +2,9 @@
 namespace Clio\Component\Tool\Serializer\Strategy;
 
 use Clio\Component\Tool\Serializer\Context;
-use Clio\Component\Tool\Serializer\Json\Serializable as JsonSerializable,
-	Clio\Component\Tool\Serializer\Json\Deserializable as JsonDeserializable;
 
 /**
- * JsonSerializableStrategy 
+ * PhpSerializableStrategy 
  * 
  * @uses AbstractStrategy
  * @uses SerializationStrategy
@@ -16,7 +14,7 @@ use Clio\Component\Tool\Serializer\Json\Serializable as JsonSerializable,
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class JsonSerializableStrategy extends AbstractStrategy implements SerializationStrategy, DeserializationStrategy
+class PhpSerializableStrategy extends AbstractStrategy implements SerializationStrategy, DeserializationStrategy
 {
 	/**
 	 * doSerialize 
@@ -29,11 +27,11 @@ class JsonSerializableStrategy extends AbstractStrategy implements Serialization
 	 */
 	protected function doSerialize($data, $format, Context $context)
 	{
-		if(($format === 'json') && ($data instanceof JsonSerializable)) {
-			return $data->serializeJson();
+		if(($format === 'php') && ($data instanceof Serializable)) {
+			return serialize($data);
 		}
 
-		throw new \InvalidArgumentException(sprintf('JsonSerializableStrategy only support an instance of JsonSerializable with json format.'));
+		throw new \InvalidArgumentException(sprintf('PhpSerializableStrategy only support an instance of Serializable with php format.'));
 	}
 
 	/**
@@ -48,15 +46,15 @@ class JsonSerializableStrategy extends AbstractStrategy implements Serialization
 	 */
 	protected function doDeserialize($data, $type, $format, Context $context)
 	{
-		if(($format === 'json') && ($data instanceof JsonDeserializable)) {
-			return $data->deserializeJson($data);
+		if(($format === 'php') && ($data instanceof Serializable)) {
+			return unserialize($data);
 		}
 
-		throw new \InvalidArgumentException(sprintf('JsonSerializableStrategy only support an instance of JsonDeserializable'));
+		throw new \InvalidArgumentException(sprintf('PhpSerializableStrategy only support an instance of Serializable'));
 	}
 
 	/**
-	 * canSerialize
+	 * canSerialize 
 	 * 
 	 * @param mixed $data 
 	 * @param mixed $format 
@@ -67,7 +65,7 @@ class JsonSerializableStrategy extends AbstractStrategy implements Serialization
 	{
 		$dataReflector = new \ReflectionClass($data);
 
-		return ($format === 'json') && ($dataReflector->implementsInterface('Clio\Component\Tool\Serializer\Json\Serializable'));
+		return ($format === 'php') && ($dataReflection->implementsInterface('\Serializable'));
 	}
 
 	/**
@@ -81,9 +79,9 @@ class JsonSerializableStrategy extends AbstractStrategy implements Serialization
 	 */
 	public function canDeserialize($data, $type, $format = null)
 	{
-		$typeReflector = new \ReflectionClass($type);
+		$typeReflection = new \ReflectionClass($type);
 
-		return ($format === 'json') && ($typeReflector->implementsInterface('Clio\Component\Tool\Serializer\Json\Deserializable'));
+		return ($format === 'php') && ($typeReflection->implementsInterface('\Serializable'));
 	}
 
 	/**
@@ -94,7 +92,7 @@ class JsonSerializableStrategy extends AbstractStrategy implements Serialization
 	 */
 	public function getSupportFormats()
 	{
-		return array('json');
+		return array('php');
 	}
 }
 

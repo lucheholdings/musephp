@@ -12,10 +12,25 @@ namespace Clio\Component\Tool\Serializer;
  * @license { LICENSE }
  */
 class Serializer implements 
-	SerializationStrategy, 
-	DeserializationStrategy
+	Strategy\SerializationStrategy, 
+	Strategy\DeserializationStrategy
 {
-	public function __construct(SerializerStrategy $strategy)
+	/**
+	 * strategy 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $strategy;
+
+	/**
+	 * __construct 
+	 * 
+	 * @param Strategy $strategy 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct(Strategy $strategy)
 	{
 		$this->strategy = $strategy;
 	}
@@ -28,12 +43,20 @@ class Serializer implements
 	 * @access public
 	 * @return void
 	 */
-	public function serialize($data, $format = null)
+	public function serialize($data, $format = null, $context = null)
 	{
-		if(!$this->strategy instanceof SerializationStrategy) {
+		if(!$this->strategy instanceof Strategy\SerializationStrategy) {
 			throw new \Clio\Component\Exception\RuntimeException('Strategy dose not support serialize.');
 		}
-		return $this->strategy->serialize($data, $format);
+
+		if(!$context) {
+			$context = new Context();
+		} else if(!$context instanceof Context) {
+			// fixme: Try to create Context from the given data.
+			$context = new Context();
+		} 
+
+		return $this->strategy->serialize($data, $format, $context);
 	}
 
 	/**
@@ -53,31 +76,44 @@ class Serializer implements
 	 * deserialize 
 	 * 
 	 * @param mixed $data 
-	 * @param mixed $class 
+	 * @param mixed $type 
 	 * @param mixed $format 
 	 * @access public
 	 * @return void
 	 */
-	public function deserialize($data, $class, $format = null)
+	public function deserialize($data, $type, $format = null, $context = null)
 	{
-		if(!$this->strategy instanceof DeserializationStrategy) {
+		if(!$this->strategy instanceof Strategy\DeserializationStrategy) {
 			throw new \Clio\Component\Exception\RuntimeException('Strategy dose not support deserialize.');
 		}
-		return $this->strategy->deserialize($data, $class, $format);
+
+		if(!$context) {
+			$context = new Context();
+		} else if(!$context instanceof Context) {
+			// fixme: Try to create Context from the given data.
+			$context = new Context();
+		} 
+
+		return $this->strategy->deserialize($data, $type, $format, $context);
 	}
 
 	/**
 	 * canDeserialize 
 	 * 
 	 * @param mixed $data 
-	 * @param mixed $class 
+	 * @param mixed $type 
 	 * @param mixed $format 
 	 * @access public
 	 * @return void
 	 */
-	public function canDeserialize($data, $class, $format = null)
+	public function canDeserialize($data, $type, $format = null)
 	{
-		return $this->strategy->canDeserialize($data, $class, $format);
+		return $this->strategy->canDeserialize($data, $type, $format);
+	}
+
+	public function getSupportFormats()
+	{
+		return $this->getStrategy()->getSupportFormats();
 	}
 }
 
