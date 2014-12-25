@@ -63,6 +63,8 @@ class PhpSerializableStrategy extends AbstractStrategy implements SerializationS
 	 */
 	public function canSerialize($data, $format = null)
 	{
+		if(!is_object($data)) 
+			return false;
 		$dataReflector = new \ReflectionClass($data);
 
 		return ($format === 'php') && ($dataReflection->implementsInterface('\Serializable'));

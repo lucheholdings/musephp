@@ -65,6 +65,8 @@ class JsonSerializableStrategy extends AbstractStrategy implements Serialization
 	 */
 	public function canSerialize($data, $format = null)
 	{
+		if(!is_object($data)) 
+			return false;
 		$dataReflector = new \ReflectionClass($data);
 
 		return ($format === 'json') && ($dataReflector->implementsInterface('Clio\Component\Tool\Serializer\Json\Serializable'));
