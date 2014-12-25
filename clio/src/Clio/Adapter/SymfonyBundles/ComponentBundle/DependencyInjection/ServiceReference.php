@@ -21,6 +21,11 @@ class ServiceReference implements Reference
         return $this;
     }
 
+	public function _getServiceId()
+	{
+		return $this->_serviceId;
+	}
+
 	public function service()
 	{
 		if(!$this->_container || !$this->_serviceId) {

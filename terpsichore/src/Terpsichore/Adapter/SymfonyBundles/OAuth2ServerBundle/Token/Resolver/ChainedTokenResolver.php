@@ -3,9 +3,6 @@ namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver;
 
 use Symfony\Component\HttpFoundation\Request;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver;
-use Clio\Component\Auth\OAuth2\Token\Provider\ChainGrantTokenProviderInterface;
-use Clio\Component\Auth\OAuth2\User\Provider\UserinfoProviderInterface;
-use Clio\Component\Auth\OAuth2\Token\ChainedToken;
 
 /**
  * ChainedTokenResolver 

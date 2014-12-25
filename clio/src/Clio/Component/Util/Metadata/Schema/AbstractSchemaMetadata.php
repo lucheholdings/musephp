@@ -131,9 +131,13 @@ abstract class AbstractSchemaMetadata extends AbstractMetadata implements Schema
 
 	public function unserialize($serialized)
 	{
-		$extra = parent::unserialize();
+		$extra = parent::unserialize($serialized);
 
 		$this->fields = $extra['fields'];
+
+		foreach($this->fields as $field) {
+			$field->setSchemaMetadata($this);
+		}
 		unset($extra['fields']);
 
 		return $extra;

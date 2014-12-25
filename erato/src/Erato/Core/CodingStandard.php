@@ -23,7 +23,7 @@ class CodingStandard
 			return Psr1::formatMethodName(implode('_', $args));
 		case self::NAMING_PROPERTY: 
 			return Grammer::camelize(implode('_', $args));
-		case self::NAMING_ARRAY_FILED: 
+		case self::NAMING_ARRAY_FIELD: 
 			return Grammer::snakize(implode('_', $args));
 		default:
 			throw new \InvalidArgumentException(sprintf('Naming "%s" is unknown constraint.', $naming));

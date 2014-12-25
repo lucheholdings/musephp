@@ -14,12 +14,12 @@ class Context
 	private $normalizer;
 
 	/**
-	 * stack 
+	 * scopeStack 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
-	private $stack;
+	private $scopeStack;
 
 	/**
 	 * mapper 
@@ -54,7 +54,7 @@ class Context
 	 */
 	public function __construct(TypeRegistry $typeRegistry = null)
 	{
-		$this->stack = new \SplStack();
+		$this->scopeStack = new \SplStack();
 
 		if(!$typeRegistry) 
 			$typeRegistry = new TypeRegistry();
@@ -68,21 +68,21 @@ class Context
      * @access public
      * @return void
      */
-    public function getStack()
+    public function getScopeStack()
     {
-        return $this->stack;
+        return $this->scopeStack;
     }
     
     /**
      * setStack 
      * 
-     * @param mixed $stack 
+     * @param mixed $scopeStack 
      * @access public
      * @return void
      */
-    public function setStack($stack)
+    public function setScopeStack($scopeStack)
     {
-        $this->stack = $stack;
+        $this->scopeStack = $scopeStack;
         return $this;
     }
 
@@ -160,7 +160,7 @@ class Context
 	 */
 	public function getCurrentScope()
 	{
-		return $this->stack->top();
+		return $this->scopeStack->top();
 	}
 
 	/**
@@ -171,17 +171,20 @@ class Context
 	 * @access public
 	 * @return void
 	 */
-	public function enterScope($data, Type $type)
+	public function enterScope($data, Type $type, $field = '_source')
 	{
+		if($type instanceof Type\MixedType) {
+			$type->resolve($this, $data);
+		}
 		if(is_object($data)) {
-			foreach($this->stack as $scope) {
+			foreach($this->scopeStack as $scope) {
 				if($data === $scope->getData()) {
-					throw new CircularException(sprintf('The target object "%s" is already in scope.', $type->getName()), $data);
+					throw new CircularException($data, $type, sprintf('The target object "%s" is already in scope.', $type->getName()));
 				}
 			}
 		}
 		
-		$this->stack->push(new Scope($data, $type));
+		$this->scopeStack->push(new Scope($data, $type, $field));
 	}
 
 	/**
@@ -192,7 +195,7 @@ class Context
 	 */
 	public function leaveScope()
 	{
-		return $this->stack->pop();
+		return $this->scopeStack->pop();
 	}
 
 	/**
@@ -216,5 +219,20 @@ class Context
         $this->normalizer = $normalizer;
         return $this;
     }
+
+	public function getScopePath()
+	{
+		$path = '';
+		foreach($this->scopeStack as $scope) {
+			$path = $scope->getPath() . '.' . $path;
+		}
+
+		return $path;
+	}
+
+	public function isEmptyScope()
+	{
+		return $this->scopeStack->isEmpty();
+	}
 }
 

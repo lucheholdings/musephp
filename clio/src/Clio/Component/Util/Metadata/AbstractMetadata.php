@@ -34,7 +34,7 @@ abstract class AbstractMetadata implements Metadata
 	 * @var mixed
 	 * @access private
 	 */
-	private $options;
+	private $options = array();
 
 	/**
 	 * {@inheritdoc}
@@ -131,7 +131,7 @@ abstract class AbstractMetadata implements Metadata
 
 		return serialize(array(
 			$this->options,
-			$this->mappings,
+			$this->mappings->toArray(),
 			$extra
 		));
 	}
@@ -145,10 +145,14 @@ abstract class AbstractMetadata implements Metadata
 
 		list(
 			$this->options,
-			$this->mappings,
+			$mappings,
 			$extra
 		) = $data;
 
+		$this->mappings = new MappingCollection($mappings);
+		foreach($this->mappings as $mapping) {
+			$mapping->setMetadata($this);
+		}
 		return $extra;
 	}
     
@@ -157,7 +161,7 @@ abstract class AbstractMetadata implements Metadata
         return $this->options;
     }
     
-    public function setOptions($options)
+    public function setOptions(array $options)
     {
         $this->options = $options;
         return $this;
@@ -176,6 +180,7 @@ abstract class AbstractMetadata implements Metadata
 	public function setOption($name, $value)
 	{
 		$this->options[$name] = $value;
+		return $this;
 	}
 }
 

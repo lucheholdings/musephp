@@ -22,8 +22,9 @@ class MetadataTypeFactory extends BasicFactory
 
 	protected function createObjectType($name)
 	{
-		if(!$this->getSchemaRegistry()->has((string)$name)) 
+		if(!$this->getSchemaRegistry()->has((string)$name)) {
 			return parent::createObjectType((string)$name);
+		}
 
 		return new MetadataType($this->getSchemaRegistry()->get((string)$name), $this->getCodingStandard());
 	}

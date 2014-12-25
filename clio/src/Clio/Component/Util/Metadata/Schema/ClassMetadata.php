@@ -129,30 +129,17 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 	
 	public function serialize(array $extra = array())
 	{
-		return serialize(array(
-			$this->reflectionClass->getName(),
-			$this->getFields(false),
-			$this->getMappings()->toArray(),
-			$extra
-		));
+		$extra['name'] = $this->reflectionClass->getName();
+
+		return parent::serialize($extra);
 	}
 
 	public function unserialize($serialized)
 	{
-		$data = unserialize($serialized);
-		if(!$data) {
-			throw new \RuntimeException(sprintf('Failed to unserialize "%s"', __CLASS__));
-		}
-		list(
-			$class,
-			$fields,
-			$mappings,
-			$extra
-		) = $data;
+		$extra = parent::unserialize($serialized);
 
-		$this->reflectionClass = new \ReflectionClass($class);
-		$this->setFields($fields);
-		$this->setMappings(new MappingCollection($mappings));
+		$this->reflectionClass = new \ReflectionClass($extra['name']);
+		$this->parent = null;
 
 		return $extra;
 	}

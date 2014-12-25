@@ -71,7 +71,7 @@ class AccessorMappingFactory extends AbstractFactory
 			$accessType = 'ignore';
 		} else if($metadata instanceof PropertyMetadata) {
 			if($metadata->getReflectionProperty()->isPublic()) {
-				$accessType = 'property';
+				$accessType = 'public_property';
 			} else { 
 				$accessType = 'method';
 			}

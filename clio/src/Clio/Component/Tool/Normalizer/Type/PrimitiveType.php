@@ -1,5 +1,6 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Tool\Normalizer\Context;
 
 /**
  * PrimitiveType 
@@ -48,9 +49,12 @@ class PrimitiveType extends AbstractType
 		return $this->name;
 	}
 
-	public function getFieldType($field)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function getFieldType($field, Context $context)
 	{
-		return null;
+		return new MixedType();
 	}
 }
 

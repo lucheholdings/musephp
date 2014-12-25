@@ -16,11 +16,14 @@ class CircularException extends BaseException
 {
 	private $data;
 
-	public function __construct($message = '', $data = null, $code = 0, \Exception $prev = null)
+	private $type;
+
+	public function __construct($data, Type $type, $message = '', $code = 0, \Exception $prev = null)
 	{
 		parent::__construct($message, $code, $prev);
 
 		$this->data = $data;
+		$this->type = $type;
 	}
     
     public function getData()
@@ -31,6 +34,17 @@ class CircularException extends BaseException
     public function setData($data)
     {
         $this->data = $data;
+        return $this;
+    }
+    
+    public function getType()
+    {
+        return $this->type;
+    }
+    
+    public function setType(Type $type)
+    {
+        $this->type = $type;
         return $this;
     }
 }

@@ -30,7 +30,7 @@ class CacheProviderClearer implements CacheClearerInterface
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(CacheProvider $cacheProvider)
+	public function __construct(CacheProvider $cacheProvider = null)
 	{
 		$this->cacheProvider = $cacheProvider;
 	}
@@ -45,7 +45,8 @@ class CacheProviderClearer implements CacheClearerInterface
 	public function clear($cacheDir)
 	{
 		// Clear all cache
-		$this->cacheProvider->flush();
+		if($this->cacheProvider)
+			$this->cacheProvider->flush();
 	}
     
     /**

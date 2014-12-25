@@ -30,21 +30,35 @@ abstract class AbstractStrategy implements Strategy
 			throw new \InvalidArgumentException('Strategy requires $type is an instanceof of Type.');
 		}
 
-		$context->enterScope($data, $type);
-		
 		// normalize the data to array
 		$normalized = $this->doNormalize($data, $type, $context);
 		
 		if(is_array($normalized)) {
 			// recursively call normalize
 			array_walk($normalized, function(&$value, $key, $data) {
+				if(null === $value) {
+					return;
+				}
 				list($context, $type) = $data;
 
-				$value = $context->getNormalizer()->normalize($value, null, $context);
+				$fieldType = $type->getFieldType($key, $context);
+
+				try {
+					$this->enterScope($context, $value, $fieldType, $key);
+						
+					$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+
+					$this->leaveScope($context);
+				} catch(CircularException $ex) {
+					// if data type can refer then avoid circularException.
+					if(!$type->canReference()) {
+						throw $ex;
+					}
+
+					$value = $context->getNormalizer()->normalize($data, $type->reference(), $context);
+				}
 			}, array($context, $type));
 		}
-
-		$context->leaveScope();
 
 		return $normalized;
 	}
@@ -62,28 +76,31 @@ abstract class AbstractStrategy implements Strategy
 			throw new \InvalidArgumentException('Strategy required $type as an instanceof of Type.');
 		}
 
-		// Check the data is already in scope or not
-		// Enter Scope
-		$scope = $context->enterScope($data, $type);
-
 		// Convert data before denormalize
 		if(is_array($data)) {
 			array_walk($data, function(&$value, $key, $data) {
 				list($type, $context) = $data;
 				// Field Type
-				if($fieldType = $type->getFieldType($key)) {
+				if($fieldType = $type->getFieldType($key, $context)) {
 					$fieldType = $context->getTypeRegistry()->getType($fieldType);
 				} else {
 					$fieldType = $context->getTypeRegistry()->guessType($value);
 				}
+
+				if($fieldType instanceof Type\NullType) {
+					return;
+				}
+
+				$this->enterScope($context, $value, $fieldType, $key);
 				// 
 				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
+
+				$this->leaveScope($context);
+
 			}, array($type, $context));
 		}
 		
 		$denormalized = $this->doDenormalize($data, $type, $context);
-
-		$context->leaveScope();
 
 		return $denormalized;
 	}
@@ -130,6 +147,21 @@ abstract class AbstractStrategy implements Strategy
 	public function setOption($name, $value)
 	{
 		$this->options[$name] = $value;
+	}
+
+
+	protected function enterScope($context, $value, $type, $field)
+	{
+		if(!$type instanceof Type) {
+			$type = $context->getTypeRegistry()->getType($type);
+		}
+
+		$context->enterScope($value, $type, $field);
+	}
+
+	protected function leaveScope($context)
+	{
+		$context->leaveScope();
 	}
 }
 

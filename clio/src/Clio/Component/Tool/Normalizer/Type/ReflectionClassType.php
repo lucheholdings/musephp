@@ -3,6 +3,7 @@ namespace Clio\Component\Tool\Normalizer\Type;
 
 use Clio\Component\Pattern\Constructor\Constructor,
 	Clio\Component\Pattern\Constructor\NoConstructConstructor;
+use Clio\Component\Tool\Normalizer\Context;
 
 /**
  * ReflectionClassType 
@@ -126,11 +127,13 @@ class ReflectionClassType extends AbstractType implements ObjectType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getFieldType($field)
+	public function getFieldType($field, Context $context)
 	{
-		return isset($this->fieldTypeNames[$field])
+		$type = isset($this->fieldTypeNames[$field])
 			? $this->fieldTypeNames[$field]
-			: null;
+			: 'mixed';
+
+		return $context->getTypeRegistry()->get($type);
 	}
 
 	public function setFieldType($field, $type)

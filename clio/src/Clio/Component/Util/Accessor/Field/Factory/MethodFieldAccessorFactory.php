@@ -25,7 +25,7 @@ class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 		$setter = $this->getSetterReflector($field->getSchema()->getReflectionClass(), $field->getName(), $options);
 
 		if(!$getter && !$setter) {
-			throw new \InvalidArgumentException(sprintf('Class "%s" does not have getter and setter.', $field->getSchema()->getName()));
+			throw new \InvalidArgumentException(sprintf('Field "%s::%s" does not have getter and setter.', $field->getSchema()->getName()));
 		}
 
 		return new MethodFieldAccessor($field->getName(), $getter, $setter);

@@ -31,9 +31,9 @@ class ReferenceType implements Type
 		return $this->getName();
 	}
 
-	public function getFieldType($field)
+	public function getFieldType($field, Context $context)
 	{
-		return $this->getOriginalType()->getFieldType($field);
+		return $this->getOriginalType()->getFieldType($field, $context);
 	}
 
 	public function getIdentifierFields()
@@ -50,7 +50,6 @@ class ReferenceType implements Type
 	{
 		return $this->getOriginalType()->getClassReflector();
 	}
-
     
     public function getOriginalType()
     {

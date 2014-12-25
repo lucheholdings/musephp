@@ -63,17 +63,21 @@ class CachedLoader extends ProxyLoader
 	 */
 	public function loadEntry($key)
 	{
-		if($this->cacheProvider->contains($key)) {
-			$entry = $this->cacheProvider->fetch($key);
-			
-			// Warmup cache
-			if($this->getCacheWarmer()) {
-				$entry = $this->getCacheWarmer()->warmup($entry);
+		try {
+			if($this->cacheProvider->contains($key)) {
+				$entry = $this->cacheProvider->fetch($key);
+				
+				// Warmup cache
+				if($this->getCacheWarmer()) {
+					$entry = $this->getCacheWarmer()->warmup($entry);
+				}
+			} else {
+				$entry = $this->getLoader()->loadEntry($key);
+				// Save
+				$this->cacheProvider->save($key, $entry, $this->getTtl());
 			}
-		} else {
-			$entry = $this->getLoader()->loadEntry($key);
-			// Save
-			$this->cacheProvider->save($key, $entry, $this->getTtl());
+		} catch(\Exception $ex) {
+			throw new \RuntimeException(sprintf('Failed to load for "%s"', (string)$key), 0, $ex);
 		}
 
 		return $entry;

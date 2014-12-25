@@ -29,32 +29,35 @@ abstract class ObjectStrategy extends AbstractStrategy
 		} else if(!$type instanceof Type) {
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
-
-		try {
-			$context->enterScope($data, $type);
-		} catch(CircularException $ex) {
-			// if data type can refer then avoid circularException.
-			if(!$type->canReference()) {
-				throw $ex;
-			}
-			return $context->getNormalizer()->normalize($data, $type->reference(), $context);
-			//$context->enterScope($data, $type->reference());
-		}
-		
+	
 		// normalize the data to array
 		$normalized = $this->doNormalize($data, $type, $context);
 		
 		if(is_array($normalized)) {
 			// recursively call normalize
 			array_walk($normalized, function(&$value, $key, $data) {
+				if(null === $value) {
+					return;
+				}
 				list($context, $type) = $data;
 
-				$fieldType = $type->getFieldType($key);
-				$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+				$fieldType = $type->getFieldType($key, $context);
+
+				try {
+					$this->enterScope($context, $value, $fieldType, $key);
+
+					$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+
+					$this->leaveScope($context);
+				} catch(CircularException $ex) {
+					// if data type can refer then avoid circularException.
+					if(!$fieldType->canReference()) {
+						throw $ex;
+					}
+					$value = $context->getNormalizer()->normalize($value, $fieldType->reference(), $context);
+				}
 			}, array($context, $type));
 		}
-
-		$context->leaveScope();
 
 		return $normalized;
 	}
@@ -72,22 +75,23 @@ abstract class ObjectStrategy extends AbstractStrategy
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
-		// Check the data is already in scope or not
-		// Enter Scope
-		$scope = $context->enterScope($data, $type);
-
 		// Convert data before denormalize
 		if(is_array($data)) {
 			array_walk($data, function(&$value, $key, $data) {
 				list($type, $context) = $data;
 				// Field Type
-				if($fieldType = $type->getFieldType($key)) {
+				if($fieldType = $type->getFieldType($key, $context)) {
 					$fieldType = $context->getTypeRegistry()->getType($fieldType);
 				} else {
 					$fieldType = $context->getTypeRegistry()->guessType($value);
 				}
+				
+				$context->enterScope($value, $fieldType, $key);
 				// 
 				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
+
+				$context->leaveScope();
+
 			}, array($type, $context));
 		}
 		

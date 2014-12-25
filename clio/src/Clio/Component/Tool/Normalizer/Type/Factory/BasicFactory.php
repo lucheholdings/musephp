@@ -4,7 +4,9 @@ namespace Clio\Component\Tool\Normalizer\Type\Factory;
 use Clio\Component\Tool\Normalizer\Type\Factory;
 // Types
 use Clio\Component\Tool\Normalizer\Type\PrimitiveType,
-	Clio\Component\Tool\Normalizer\Type\ReflectionClassType
+	Clio\Component\Tool\Normalizer\Type\ReflectionClassType,
+	Clio\Component\Tool\Normalizer\Type\MixedType,
+	Clio\Component\Tool\Normalizer\Type\NullType
 ;
 
 /**
@@ -18,7 +20,7 @@ use Clio\Component\Tool\Normalizer\Type\PrimitiveType,
  */
 class BasicFactory implements Factory 
 {
-	public function createType($name)
+	public function createType($name, array $options = array())
 	{
 		switch($name) {
 		case 'int':
@@ -29,14 +31,33 @@ class BasicFactory implements Factory
 		case 'bool':
 		case 'boolean':
 		case 'array':
+			$type = $this->createPrimitiveType($name);
+			break;
 		case 'null':
+		case 'ignore':
+			$type = $this->createNullType($name);
+			break;
 		case 'mixed':
-			return $this->createPrimitiveType($name);
+			$type = $this->createMixedType();
 			break;
 		default:
-			return $this->createObjectType($name);
+			$type = $this->createObjectType($name);
 			break;
 		}
+
+		$type->setOptions($options);
+
+		return $type;
+	}
+
+	protected function createNullType()
+	{
+		return new NullType();
+	}
+
+	protected function createMixedType()
+	{
+		return new MixedType();
 	}
 
 	protected function createPrimitiveType($name)
