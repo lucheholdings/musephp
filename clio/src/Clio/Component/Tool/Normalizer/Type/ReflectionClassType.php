@@ -14,7 +14,7 @@ use Clio\Component\Tool\Normalizer\Context;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ReflectionClassType extends AbstractType implements ObjectType 
+class ReflectionClassType extends AbstractType implements ObjectType, ReferencableType 
 {
 	private $classReflector;
 
@@ -77,14 +77,6 @@ class ReflectionClassType extends AbstractType implements ObjectType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canReference()
-	{
-		return !empty($this->identifierFields);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getIdentifierFields()
 	{
 		return $this->identifierFields;
@@ -119,14 +111,6 @@ class ReflectionClassType extends AbstractType implements ObjectType
 	/**
 	 * {@inheritdoc}
 	 */
-	public function reference()
-	{
-		return new ReferenceType($this);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getFieldType($field, Context $context)
 	{
 		$type = isset($this->fieldTypeNames[$field])
@@ -152,5 +136,22 @@ class ReflectionClassType extends AbstractType implements ObjectType
 
 		return $this->dataPool;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canReference()
+	{
+		return !empty($this->identifierFields);
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function reference()
+	{
+		return new ReferenceType($this);
+	}
+
 }
 

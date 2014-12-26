@@ -45,17 +45,18 @@ abstract class ObjectStrategy extends AbstractStrategy
 
 				try {
 					$this->enterScope($context, $value, $fieldType, $key);
-
-					$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
-
-					$this->leaveScope($context);
 				} catch(CircularException $ex) {
 					// if data type can refer then avoid circularException.
 					if(!$fieldType->canReference()) {
-						throw $ex;
+						throw new \RuntimeException(sprintf('Circular reference cannot be solved. Please specify identifier(s) of "%s" on Path("%s")', $fieldType->getName(), $context->getPathInCurrentScope($key)), 0, $ex);
 					}
-					$value = $context->getNormalizer()->normalize($value, $fieldType->reference(), $context);
+
+					$fieldType = $fieldType->reference();
+					$this->enterScope($context, null, $fieldType, $key);
 				}
+				$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+
+				$this->leaveScope($context);
 			}, array($context, $type));
 		}
 
@@ -90,7 +91,7 @@ abstract class ObjectStrategy extends AbstractStrategy
 				// 
 				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
 
-				$context->leaveScope();
+				$this->leaveScope($context);
 
 			}, array($type, $context));
 		}
@@ -99,15 +100,7 @@ abstract class ObjectStrategy extends AbstractStrategy
 		// But first check the pool if the data exists
 		$object = null;
 		if($type instanceof ObjectType) {
-			$identifiers = array();
-			foreach($type->getIdentifierFields() as $field) {
-				if(!isset($data[$field])) {
-					$identifiers = null;
-					break;
-				}
-
-				$identifiers[$field] = $data[$field];
-			}
+			$identifiers = $type->getIdentifierValues($data);
 
 			if($identifiers) {
 				// use this as object
@@ -120,8 +113,6 @@ abstract class ObjectStrategy extends AbstractStrategy
 		if(($type instanceof ObjectType) && $type->canReference()) { 
 			$type->getDataPool()->add($denormalized);
 		}
-
-		$context->leaveScope();
 
 		return $denormalized;
 	}

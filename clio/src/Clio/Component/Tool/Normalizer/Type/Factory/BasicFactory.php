@@ -3,11 +3,7 @@ namespace Clio\Component\Tool\Normalizer\Type\Factory;
 
 use Clio\Component\Tool\Normalizer\Type\Factory;
 // Types
-use Clio\Component\Tool\Normalizer\Type\PrimitiveType,
-	Clio\Component\Tool\Normalizer\Type\ReflectionClassType,
-	Clio\Component\Tool\Normalizer\Type\MixedType,
-	Clio\Component\Tool\Normalizer\Type\NullType
-;
+use Clio\Component\Tool\Normalizer\Type;
 
 /**
  * BasicFactory 
@@ -23,21 +19,23 @@ class BasicFactory implements Factory
 	public function createType($name, array $options = array())
 	{
 		switch($name) {
-		case 'int':
-		case 'integer':
-		case 'string':
-		case 'float':
-		case 'double':
-		case 'bool':
-		case 'boolean':
-		case 'array':
-			$type = $this->createPrimitiveType($name);
+		case Type::TYPE_INT:
+		case Type::TYPE_INTEGER:
+		case Type::TYPE_STRING:
+		case Type::TYPE_FLOAT:
+		case Type::TYPE_DOUBLE:
+		case Type::TYPE_BOOL:
+		case Type::TYPE_BOOLEAN:
+			$type = $this->createScalarType($name);
 			break;
-		case 'null':
-		case 'ignore':
+		case Type::TYPE_ARRAY:
+			$type = $this->createArrayType();
+			break;
+		case Type::TYPE_NULL:
+		case Type::TYPE_IGNORE:
 			$type = $this->createNullType($name);
 			break;
-		case 'mixed':
+		case Type::TYPE_MIXED:
 			$type = $this->createMixedType();
 			break;
 		default:
@@ -52,17 +50,22 @@ class BasicFactory implements Factory
 
 	protected function createNullType()
 	{
-		return new NullType();
+		return new Type\NullType();
 	}
 
 	protected function createMixedType()
 	{
-		return new MixedType();
+		return new Type\MixedType();
 	}
 
-	protected function createPrimitiveType($name)
+	protected function createScalarType($name)
 	{
-		return new PrimitiveType($name);
+		return new Type\ScalarType($name);
+	}
+
+	protected function createArrayType()
+	{
+		return new Type\ArrayType();
 	}
 
 	protected function createObjectType($name)
@@ -71,7 +74,7 @@ class BasicFactory implements Factory
 			throw new \InvalidArgumentException(sprintf('Class "%s" is not exists for normalization type.', $name));
 		}
 
-		return new ReflectionClassType(new \ReflectionClass($name));
+		return new Type\ReflectionClassType(new \ReflectionClass($name));
 	}
 }
 

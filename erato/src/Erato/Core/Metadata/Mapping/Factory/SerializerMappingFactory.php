@@ -29,6 +29,7 @@ class SerializerMappingFactory extends AbstractRegistryServiceMappingFactory
 		} else {
 			$serializer = $this->getServiceId('serializer');
 		}
+
 		return new SerializerMapping($metadata, $this->getRegistry(), $serializer, $options);
 	}
 

@@ -23,22 +23,6 @@ interface ObjectType extends Type
 	function getClassReflector();
 
 	/**
-	 * canReference 
-	 *   Validate this type can referred or not. 
-	 * @access public
-	 * @return bool
-	 */
-	function canReference();
-
-	/**
-	 * reference 
-	 *   Create ReferenceType for this type 
-	 * @access public
-	 * @return ReferenceType
-	 */
-	function reference();
-
-	/**
 	 * getIdentifierFields 
 	 * 
 	 * @access public

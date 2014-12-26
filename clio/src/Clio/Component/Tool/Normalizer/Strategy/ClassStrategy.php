@@ -17,7 +17,6 @@ abstract class ClassStrategy extends ObjectStrategy
 {
 	abstract protected function getClassName();
 
-
 	/**
 	 * {@inheritdoc}
 	 */

@@ -1,4 +1,13 @@
-# Sample Configuration
+## Annotations
+
+@Schema\Field("type", name="field_name")
+
+@Schema\Id
+
+@Schema\Manager
+
+
+## Sample Configuration
 
 
     <?php

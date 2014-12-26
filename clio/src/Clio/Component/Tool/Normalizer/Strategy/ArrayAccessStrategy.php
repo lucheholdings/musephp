@@ -2,7 +2,6 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\ObjectType;
 use Clio\Component\Tool\Normalizer\Type;
 
 /**
@@ -25,6 +24,8 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 			foreach($data as $key => $value) {
 				$arrayData[$key] = $value;
 			}
+		} else if(is_array($data)) {
+			$arrayData = $data;
 		} else {
 			throw new \Exception('ArrayAccess also required Traversable to normalize data.');
 		}
@@ -34,6 +35,9 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 
 	protected function doDenormalize($data, Type $type, Context $context, $object = null)
 	{
+		if($type instanceof Type\ArrayType)
+			return $data;
+
 		// Construct Object
 		if(!$object) {
 			$object = $type->construct();
@@ -56,6 +60,11 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return parent::canNormalize($data, $type, $context) && ($type->getClassReflector()->isSubclassof('Traversable'));
+		return ($type instanceof Type\ArrayType) || (parent::canNormalize($data, $type, $context) && ($type->getClassReflector()->isSubclassof('Traversable')));
+	}
+
+	public function canDenormalize($data, $type, Context $context)
+	{
+		return ($type instanceof Type\ArrayType) || parent::canDenormalize($data, $type, $context);
 	}
 }

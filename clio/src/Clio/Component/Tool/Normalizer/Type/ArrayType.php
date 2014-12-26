@@ -2,7 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Type;
 
 /**
- * NullType 
+ * ArrayType 
  * 
  * @uses AbstractType
  * @package { PACKAGE }
@@ -10,14 +10,17 @@ namespace Clio\Component\Tool\Normalizer\Type;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class NullType extends AbstractType  
+class ArrayType extends AbstractType
 {
 	/**
-	 * {@inheritdoc}
+	 * getName 
+	 * 
+	 * @access public
+	 * @return void
 	 */
 	public function getName()
 	{
-		return self::TYPE_NULL;
+		return 'array';
 	}
 }
 

@@ -134,7 +134,7 @@ class Normalizer implements
 			}
 
 			if($type instanceof Type\MixedType) {
-				$mixed= $context->getTypeRegistry()->resolveMixed($type, $data);
+				$mixed = $context->getTypeRegistry()->resolveMixed($type, $data);
 
 				$type = $mixed;
 			}

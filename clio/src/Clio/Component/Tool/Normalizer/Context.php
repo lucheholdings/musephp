@@ -176,10 +176,11 @@ class Context
 		if($type instanceof Type\MixedType) {
 			$type->resolve($this, $data);
 		}
+
 		if(is_object($data)) {
 			foreach($this->scopeStack as $scope) {
 				if($data === $scope->getData()) {
-					throw new CircularException($data, $type, sprintf('The target object "%s" is already in scope.', $type->getName()));
+					throw new CircularException($data, $type, sprintf('The target object "%s" for path "%s" is already in scope.', $type->getName(), $this->getPathInCurrentScope($field)));
 				}
 			}
 		}
@@ -222,10 +223,19 @@ class Context
 
 	public function getScopePath()
 	{
-		$path = '';
+		$paths = array();
 		foreach($this->scopeStack as $scope) {
-			$path = $scope->getPath() . '.' . $path;
+			array_unshift($paths, $scope->getPath());
 		}
+
+		return implode($paths, '.');
+	}
+
+	public function getPathInCurrentScope($path)
+	{
+		$prefix = $this->getScopePath();
+		if($prefix) 
+			$path = $prefix . '.' . $path;
 
 		return $path;
 	}
@@ -233,6 +243,16 @@ class Context
 	public function isEmptyScope()
 	{
 		return $this->scopeStack->isEmpty();
+	}
+
+	public function hasPathType($path)
+	{
+		return false;
+	}
+
+	public function getPathType($path)
+	{
+		return null;
 	}
 }
 
