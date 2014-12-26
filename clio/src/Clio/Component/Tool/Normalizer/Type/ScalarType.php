@@ -22,5 +22,23 @@ class ScalarType extends NamedType
 	{
 		throw new \RuntimeException('Scalar cannot have a subfield.');
 	}
+
+	public function isValidData($data)
+	{
+		switch($this->getName()) {
+		case self::TYPE_INT:
+		case self::TYPE_INTEGER:
+		case Type::TYPE_FLOAT:
+		case Type::TYPE_DOUBLE:
+			return is_numeric($data);
+		case Type::TYPE_STRING:
+			return is_string($data);
+		case Type::TYPE_BOOL:
+		case Type::TYPE_BOOLEAN:
+			return is_bool($data);
+		}
+
+		return false;
+	}
 }
 

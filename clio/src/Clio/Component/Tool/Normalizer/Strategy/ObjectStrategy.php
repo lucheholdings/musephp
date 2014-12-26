@@ -108,7 +108,12 @@ abstract class ObjectStrategy extends AbstractStrategy
 			}
 		}
 
-		$denormalized = $this->doDenormalize($data, $type, $context, $object);
+		// check if the data is already denormalized
+		if(is_object($data) && $type->isValidData($data)) {
+			$denormalized = $data; 
+		} else {
+			$denormalized = $this->doDenormalize($data, $type, $context, $object);
+		}
 
 		if(($type instanceof ObjectType) && $type->canReference()) { 
 			$type->getDataPool()->add($denormalized);

@@ -22,5 +22,10 @@ class ArrayType extends AbstractType
 	{
 		return 'array';
 	}
+
+	public function isValidData($data)
+	{
+		return is_array($data);
+	}
 }
 

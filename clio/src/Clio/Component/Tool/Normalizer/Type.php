@@ -49,5 +49,14 @@ interface Type
 	 * @return void
 	 */
 	function getFieldType($field, Context $context);
+
+	/**
+	 * isValidData 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
+	 */
+	function isValidData($data);
 }
 

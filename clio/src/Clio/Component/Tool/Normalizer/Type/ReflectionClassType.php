@@ -153,5 +153,10 @@ class ReflectionClassType extends AbstractType implements ObjectType, Referencab
 		return new ReferenceType($this);
 	}
 
+	public function isValidData($data)
+	{
+		return $this->getClassReflector()->isInstance($data);
+	}
+
 }
 

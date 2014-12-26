@@ -19,5 +19,10 @@ class NullType extends AbstractType
 	{
 		return self::TYPE_NULL;
 	}
+
+	public function isValidData($data)
+	{
+		return is_null($data);
+	}
 }
 

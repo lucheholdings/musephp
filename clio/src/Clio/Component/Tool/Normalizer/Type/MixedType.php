@@ -115,5 +115,12 @@ class MixedType extends AbstractType implements Type, ObjectType
 	{
 		return $this->getActualType()->reference();
 	}
+
+	public function isValidData($data)
+	{
+		if($this->actualType)
+			return $this->actualType->isValidData($data);
+		return true;
+	}
 }
 

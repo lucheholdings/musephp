@@ -5,6 +5,7 @@ use Clio\Component\Tool\Normalizer\Type\AbstractType,
 	Clio\Component\Tool\Normalizer\Type\ObjectType,
 	Clio\Component\Tool\Normalizer\Type\ReferenceType;
 use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Tool\Normalizer\Type\DataPool;
 
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Erato\Core\CodingStandard;
@@ -16,6 +17,8 @@ class MetadataType extends AbstractType implements ObjectType
 	private $identifierFields;
 
 	private $codingStandard;
+	
+	private $dataPool;
 
 	public function __construct(SchemaMetadata $metadata, CodingStandard $codingStandard = null)
 	{
@@ -163,5 +166,10 @@ class MetadataType extends AbstractType implements ObjectType
         $this->codingStandard = $codingStandard;
         return $this;
     }
+
+	public function isValidData($data)
+	{
+		return $this->getMetadata()->isSchemaData($data);
+	}
 }
 

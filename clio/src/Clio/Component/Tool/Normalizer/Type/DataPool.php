@@ -11,6 +11,8 @@ class DataPool extends Map
 	public function __construct(Type $type)
 	{
 		$this->type = $type;
+
+		parent::__construct();
 	}
 
 	public function add($data)
@@ -28,7 +30,7 @@ class DataPool extends Map
 	{
 		$key = implode('-', $ids);
 
-		return $this->hasKey($key) ? $this->get($key) : null;
+		return $this->has($key) ? $this->get($key) : null;
 	}
     
     public function getType()

@@ -116,5 +116,10 @@ class ReferenceType implements Type, ObjectType
 	{
 		return $this->getOriginalType()->getDataPool();
 	}
+
+	public function isValidData($data)
+	{
+		return $this->getOriginalType()->isValidData($data);
+	}
 }
 
