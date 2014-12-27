@@ -55,7 +55,7 @@ class TagSetFieldAccessor extends AbstractSingleFieldAccessor
 	public function set($object, $value)
 	{
 		$value = (array)$value;
-		return $this->getContainerAccessor()->replace($object->getTagSet(), $value);
+		return $this->getTagAccessor()->replace($object->getTagSet(), $value);
 	}
 
 	/**

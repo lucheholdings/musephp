@@ -5,6 +5,7 @@ use Clio\Component\Tool\Normalizer\Strategy\ObjectStrategy;
 use Clio\Component\Tool\Normalizer\Strategy\NormalizationStrategy,
 	Clio\Component\Tool\Normalizer\Strategy\DenormalizationStrategy
 ;
+use Clio\Component\Util\Accessor\Accessor;
 use Clio\Component\Util\Accessor\Factory\DataAccessorFactory;
 use Clio\Component\Util\Accessor\SchemaAccessorFactory;
 use Clio\Component\Util\Accessor\Factory\BasicClassAccessorFactory;
@@ -65,8 +66,11 @@ class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy, 
 		
 		// Set Field Values
 		foreach($data as $key => $value) {
-			if($accessor->existsField($key)) {
+			//if($accessor->existsField($key)) {
+			if($accessor->isSupportMethod($key, Accessor::ACCESS_SET)) {
 				$accessor->set($key, $value);
+			} else {
+				throw new \InvalidArgumentException(sprintf('Field "%s" is not exists.', $key));
 			}
 		}
 

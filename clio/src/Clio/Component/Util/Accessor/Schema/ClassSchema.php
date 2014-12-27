@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Schema;
 
 use Clio\Component\Util\Accessor\Schema;
-use Clio\Component\Util\Accessor\Field\NamedField;
+use Clio\Component\Util\Accessor\Field\PropertyField;
 /**
  * ClassSchema 
  * 
@@ -48,10 +48,11 @@ class ClassSchema implements Schema, ReflectionClassAwarable
 	public function getFields()
 	{
 		if(!$this->fields) {
+			// Create default fields
 			$this->fields = array();
 
 			foreach($this->getReflectionClass()->getProperties() as $property) {
-				$this->fields[] = new NamedField($this, $property->getName());
+				$this->fields[] = new PropertyField($property);
 			}
 		}
 

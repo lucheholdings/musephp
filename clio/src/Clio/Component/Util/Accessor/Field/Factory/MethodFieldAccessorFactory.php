@@ -21,14 +21,24 @@ class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function createFieldAccessor(Field $field, array $options = array())
 	{
-		$getter = $this->getGetterReflector($field->getSchema()->getReflectionClass(), $field->getName(), $options);
-		$setter = $this->getSetterReflector($field->getSchema()->getReflectionClass(), $field->getName(), $options);
+		$classField = null;
+
+		if($field instanceof Field\PropertyField) 
+			$classReflector = $field->getPropertyReflector()->getDeclaringClass();
+		else if($field instanceof Field\SchemaField)
+			$classReflector = $field->getSchema()->getReflectionClass();
+
+		if(!$classReflector)
+			throw new \RuntimeException('Field is not a clas field.');
+
+		$getter = $this->getGetterReflector($classReflector, $field->getName(), $options);
+		$setter = $this->getSetterReflector($classReflector, $field->getName(), $options);
 
 		if(!$getter && !$setter) {
-			throw new \InvalidArgumentException(sprintf('Field "%s::%s" does not have getter and setter.', $field->getSchema()->getName(), $field->getName()));
+			throw new \InvalidArgumentException(sprintf('Field "%s" does not have getter and setter.', $field->getAlias()));
 		}
 
-		return new MethodFieldAccessor($field->getName(), $getter, $setter);
+		return new MethodFieldAccessor($field->getAlias(), $getter, $setter);
 	}
 
 	/**
@@ -36,12 +46,14 @@ class MethodFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function isSupportedField(Field $field)
 	{
-		if(($field->getSchema() instanceof ReflectionClassAwarable) && $field->getSchema()->isReflectionClassAwared()) {
+		return ($field->getSchema() instanceof ClassSchema);
 
-			return true;
-		}
-
-		return false;
+		//if(($field->getSchema() instanceof ReflectionClassAwarable) && $field->getSchema()->isReflectionClassAwared()) {
+		//
+		//	return true;
+		//}
+		//
+		//return false;
 	}
 
 	/**

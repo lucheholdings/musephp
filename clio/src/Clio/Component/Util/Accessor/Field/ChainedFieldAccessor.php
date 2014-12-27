@@ -81,7 +81,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 			$this->getAccessor()->clear($container, $field);
 		} 
 		if($this->next()){
-			$this->next()->clear($container, $field, $value);
+			$this->next()->clear($container, $field);
 		}
 		return $this;
 	}
@@ -106,7 +106,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 			return true;		
 		}
 		
-		return $this->next()->existsFields($container, $field);
+		return $this->next()->existsField($container, $field);
 	}
 	
 	/**
@@ -114,7 +114,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 	 */
 	public function getFieldNames($container = null)
 	{
-		$fields = $this->next()->getFieldNames();
+		$fields = $this->next()->getFieldNames($container);
 
 		return array_merge(
 			$fields,

@@ -5,7 +5,7 @@ use Clio\Component\Util\Accessor\Field;
 use Clio\Component\Util\Accessor\Schema;
 
 /**
- * NamedField 
+ * SchemaField 
  * 
  * @uses Field
  * @package { PACKAGE }
@@ -13,7 +13,7 @@ use Clio\Component\Util\Accessor\Schema;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class NamedField implements Field 
+class SchemaField extends AbstractField
 {
 	/**
 	 * schema 
@@ -38,10 +38,12 @@ class NamedField implements Field
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Schema $schema, $name)
+	public function __construct(Schema $schema, $name, $alias = null)
 	{
 		$this->schema = $schema;
 		$this->name = $name;
+
+		parent::__construct($alias);
 	}
     
 	/**

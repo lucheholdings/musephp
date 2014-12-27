@@ -19,6 +19,8 @@ use Clio\Component\Exception\UnsupportedException;
 use Clio\Component\Util\Injection\ClassInjector;
 use Clio\Component\Util\Injection\InjectorCollection;
 
+use Erato\Core\CodingStandard;
+
 /**
  * AccessorMappingFactory 
  * 
@@ -38,12 +40,16 @@ class AccessorMappingFactory extends AbstractFactory
 
 	private $ignoreUnderscored;
 
-	public function __construct(SchemaAccessorFactory $schemaAccessorFactory, FieldAccessorFactory $fieldAccessorFactory, $ignoreUnderscored = true)
+	private $codingRule;
+
+	public function __construct(SchemaAccessorFactory $schemaAccessorFactory, FieldAccessorFactory $fieldAccessorFactory, CodingStandard $codingRule = null, $ignoreUnderscored = true)
 	{
 		$this->schemaAccessorFactory = $schemaAccessorFactory;
 		$this->fieldAccessorFactory = $fieldAccessorFactory;
 
 		$this->ignoreUnderscored = $ignoreUnderscored;
+
+		$this->codingRule = $codingRule;
 	}
 
 	/**
@@ -52,9 +58,9 @@ class AccessorMappingFactory extends AbstractFactory
 	protected function doCreateMapping(Metadata $metadata, array $options)
 	{
 		if($metadata instanceof ClassMetadata) {
-			$mapping = new SchemaAccessorMapping($metadata);
+			$mapping = new SchemaAccessorMapping($metadata, $options);
 		} else if(($metadata instanceof FieldMetadata)) {
-			$mapping = $this->createFieldMapping($metadata);
+			$mapping = $this->createFieldMapping($metadata, $options);
 		} else {
 			throw new UnsupportedException('SchemaMetadata is not an instance of ClassMetadata');
 		}
@@ -65,7 +71,7 @@ class AccessorMappingFactory extends AbstractFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function createFieldMapping($metadata)
+	protected function createFieldMapping($metadata, array $options)
 	{
 		if($this->ignoreUnderscored && (0 === strpos($metadata->getName(), '_'))) {
 			$accessType = 'ignore';
@@ -78,7 +84,11 @@ class AccessorMappingFactory extends AbstractFactory
 		} else {
 			$accessType = 'method';
 		}
-		return new FieldAccessorMapping($metadata, $accessType);
+
+		if(!isset($options['alias'])) 
+			$options['alias'] = $this->getCodingRule()->formatNaming(CodingStandard::NAMING_ACCESSOR_FIELD, $metadata->getName());
+
+		return new FieldAccessorMapping($metadata, $accessType, $options);
 	}
 
 	/**
@@ -138,5 +148,16 @@ class AccessorMappingFactory extends AbstractFactory
 		}
 		return $this->injector;
 	}
+    
+    public function getCodingRule()
+    {
+        return $this->codingRule;
+    }
+    
+    public function setCodingRule($codingRule)
+    {
+        $this->codingRule = $codingRule;
+        return $this;
+    }
 }
 

@@ -16,5 +16,17 @@ interface FieldAccessor
 	const TYPE_SET      = 2;
 	const TYPE_IS_EMPTY = 3;
 	const TYPE_CLEAR    = 4;
+
+	/**
+	 * isSupportMethod 
+	 * 
+	 * @param mixed $container 
+	 * @param mixed $field 
+	 * @param mixed $methodType 
+	 * @access public
+	 * @return void
+	 */
+	function isSupportMethod($container, $field, $methodType);
+
 }
 

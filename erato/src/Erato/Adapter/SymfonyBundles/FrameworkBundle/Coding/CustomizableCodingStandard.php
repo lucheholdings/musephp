@@ -7,7 +7,6 @@ use Clio\Component\Util\Grammer\Grammer;
 
 class CustomizableCodingStandard extends CodingStandard 
 {
-
 	const RULE_PASCALIZE = 'pascal';
 	const RULE_SNAKIZE   = 'snake';
 	const RULE_CAMELIZE  = 'camel';
@@ -18,10 +17,11 @@ class CustomizableCodingStandard extends CodingStandard
 	{
 		// set default namingFormats
 		$this->namingFormats	= array_replace(array(
-				self::NAMING_CLASS        => self::RULE_PASCALIZE,
-				self::NAMING_PROPERTY     => self::RULE_CAMELIZE,
-				self::NAMING_METHOD       => self::RULE_CAMELIZE,
-				self::NAMING_ARRAY_FIELD  => self::RULE_SNAKIZE,
+				self::NAMING_CLASS           => self::RULE_PASCALIZE,
+				self::NAMING_PROPERTY        => self::RULE_CAMELIZE,
+				self::NAMING_METHOD          => self::RULE_CAMELIZE,
+				self::NAMING_ARRAY_FIELD     => self::RULE_SNAKIZE,
+				self::NAMING_ACCESSOR_FIELD  => self::RULE_SNAKIZE,
 			), $rules);
 	}
 

@@ -43,7 +43,7 @@ class AttributeMapAccessorFactory extends AbstractFieldAccessorFactory
 			$attributeFactory = new AttributeComponentFactory($attributeClass);
 		}
 
-		return new AttributeMapAccessor($this->createAttributeAccessor($this->getAttributeFactory()));
+		return new AttributeMapAccessor($this->createAttributeAccessor($attributeFactory));
 	}
 
 	/**

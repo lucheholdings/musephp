@@ -3,9 +3,10 @@ namespace Clio\Extra\Metadata\Mapping;
 
 use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
 use Clio\Component\Util\Metadata\Metadata;
+use Clio\Component\Util\Metadata\Metadata\Field;
 use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
 use Clio\Component\Util\Accessor\Field as AccessorField;
-use Clio\Component\Util\Accessor\Field\NamedField;
+
 /**
  * FieldAccessorMapping 
  * 
@@ -143,7 +144,12 @@ class FieldAccessorMapping extends AccessorMapping implements AccessorField
 	public function getAccessor()
 	{
 		if(!$this->accessor) {
-			$accessorField = new NamedField($this->getMetadata()->getSchemaMetadata()->getMapping('accessor'), $this->getMetadata()->getName());
+			$alias = null;
+			if($this->getMetadata() instanceof Field\PropretyMetadata) {
+				$accessorField = new AccessorField\PropertyField($this->getMetadata()->getPropertyReflection());
+			} else {
+				$accessorField = new AccessorField\SchemaField($this->getMetadata()->getSchemaMetadata()->getMapping('accessor'), $this->getMetadata()->getName(), $alias);
+			}
 			$this->accessor = $this->getAccessorFactory()->createFieldAccessorByType($this->type, $accessorField, $this->getOptions());
 		}
 

@@ -100,6 +100,7 @@ class AttributeMapMapping extends AbstractMapping
 	public function getAttributeClass()
 	{
 		$field = $this->getAttributeFieldMetadata();
+
 		if(!$field) {
 			return null;
 		}
@@ -109,7 +110,7 @@ class AttributeMapMapping extends AbstractMapping
 			$type = $type->getInternalType();
 		}
 
-		if(!class_exists($type)) {
+		if(!class_exists($type->getName())) {
 			$type = $this->defaultClass;
 		}
 

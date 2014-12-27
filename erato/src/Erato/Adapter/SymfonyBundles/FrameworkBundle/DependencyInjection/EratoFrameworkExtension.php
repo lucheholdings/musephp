@@ -135,6 +135,9 @@ class EratoFrameworkExtension extends Extension
 		$this->configureSerializerMapping($container, $mappingConfig['serializer']);
 		$this->configureSchemifierMapping($container, $mappingConfig['schemifier']);
 		$this->configureSchemaManagerMapping($container, $mappingConfig['schema_manager']);
+		$this->configureIdentifierMapping($container, $mappingConfig['identifier']);
+		$this->configureMergerMapping($container, $mappingConfig['merger']);
+		$this->configureReplacerMapping($container, $mappingConfig['replacer']);
 	}
 
 	protected function configureAttributeMapMapping($container, $configs)
@@ -264,6 +267,54 @@ class EratoFrameworkExtension extends Extension
 
 			$container->setDefinition(
 				'erato_framework.metadata.mapping_factory.schema_manager',
+				$definition
+			);
+		}
+	}
+
+	protected function configureIdentifierMapping($container, $configs)
+	{
+		if(isset($configs['enabled'])) {
+
+			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.identifier');
+			$definition->addMethodCall('setOptions', array($configs['options']));
+
+			$this->enableMapping($definition, 'identifier');
+
+			$container->setDefinition(
+				'erato_framework.metadata.mapping_factory.identifier',
+				$definition
+			);
+		}
+	}
+
+	protected function configureMergerMapping($container, $configs)
+	{
+		if(isset($configs['enabled'])) {
+
+			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.merger');
+			$definition->addMethodCall('setOptions', array($configs['options']));
+
+			$this->enableMapping($definition, 'merger');
+
+			$container->setDefinition(
+				'erato_framework.metadata.mapping_factory.merger',
+				$definition
+			);
+		}
+	}
+
+	protected function configureReplacerMapping($container, $configs)
+	{
+		if(isset($configs['enabled'])) {
+
+			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.replacer');
+			$definition->addMethodCall('setOptions', array($configs['options']));
+
+			$this->enableMapping($definition, 'replacer');
+
+			$container->setDefinition(
+				'erato_framework.metadata.mapping_factory.replacer',
 				$definition
 			);
 		}

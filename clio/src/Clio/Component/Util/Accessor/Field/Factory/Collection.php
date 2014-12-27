@@ -46,13 +46,10 @@ class Collection extends NamedFactoryCollection implements FieldAccessorFactory
 
 	protected function guessFieldType(Field $field)
 	{
-		if($field->getSchema() instanceof Schema\ClassSchema) {
-			$classReflector = $field->getSchema()->getReflectionClass();
-			if($classReflector->hasProperty($field->getName()) && $classReflector->getProperty($field->getName())->isPublic()) {
-				return 'public_property';
-			} else {
-				return 'method';
-			}
+		if($field instanceof Field\PropertyField) {
+			return 'public_property';
+		} else if(($field instanceof Field\SchemaFiled) && ($field->getSchema() instanceof Schema\ClassSchema)) {
+			return 'method';
 		} else if($field->getSchema() instanceof Schema\ArraySchema) {
 			return 'array_field';
 		}

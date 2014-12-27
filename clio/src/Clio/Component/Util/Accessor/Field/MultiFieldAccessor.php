@@ -57,17 +57,6 @@ interface MultiFieldAccessor extends FieldAccessor
 	function clear($container, $field);
 
 	/**
-	 * isSupportMethod 
-	 * 
-	 * @param mixed $container 
-	 * @param mixed $field 
-	 * @param mixed $methodType 
-	 * @access public
-	 * @return void
-	 */
-	function isSupportMethod($container, $field, $methodType);
-
-	/**
 	 * getFieldNames 
 	 * 
 	 * @access public

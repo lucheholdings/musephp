@@ -135,9 +135,9 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 	 * @access public
 	 * @return void
 	 */
-	public function getOption($name)
+	public function getOption($name, $default = null)
 	{
-		return $this->options[$name];
+		return isset($this->options[$name]) ? $this->options[$name] : $default;
 	}
 
 	/**

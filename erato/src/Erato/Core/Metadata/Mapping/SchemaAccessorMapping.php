@@ -7,6 +7,7 @@ use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
 use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 
 use Clio\Component\Util\Accessor\SchemaDataAccessor;
+use Clio\Component\Util\Grammer\Grammer;
 
 /**
  * SchemaAccessorMapping 
@@ -91,7 +92,9 @@ class SchemaAccessorMapping extends AccessorMapping implements Schema, Reflectio
 			$this->fields = array();
 			foreach($this->getMetadata()->getFields() as $field) {
 				if($field->hasMapping('accessor')) {
-					$this->fields[$field->getName()] = $field->getMapping('accessor');
+					//$fieldName = Grammer::snakize($field->getName());
+					$fieldName = $field->getName();
+					$this->fields[$fieldName] = $field->getMapping('accessor');
 				}
 			}
 		}

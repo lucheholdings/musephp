@@ -22,7 +22,7 @@ class ArrayFieldAccessor extends AbstractSingleFieldAccessor
 	 */
 	public function get($container)
 	{
-		return $container[$this->getField()->getName()];
+		return $container[$this->getFieldName()];
 	}
 
 	/**
@@ -34,7 +34,7 @@ class ArrayFieldAccessor extends AbstractSingleFieldAccessor
 	 */
 	public function set($container, $value)
 	{
-		$container[$this->getField()->getName()] = $value;
+		$container[$this->getFieldName()] = $value;
 		return $this;
 	}
 
@@ -47,7 +47,7 @@ class ArrayFieldAccessor extends AbstractSingleFieldAccessor
 	 */
 	public function isNull($container)
 	{
-		return !isset($container[$this->getField()->getName()]);
+		return !isset($container[$this->getFieldName()]);
 	}
 
 	/**
@@ -55,7 +55,7 @@ class ArrayFieldAccessor extends AbstractSingleFieldAccessor
 	 */
 	public function clear($container)
 	{
-		unset($container[$this->getField()->getName()]);
+		unset($container[$this->getFieldName()]);
 		return $this;
 	}
 

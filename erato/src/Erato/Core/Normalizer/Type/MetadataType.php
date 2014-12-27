@@ -78,9 +78,7 @@ class MetadataType extends AbstractType implements ObjectType
 		if(!$this->identifierFields) {
 			$identifiers = array();
 
-			$identifiers = array_filter($this->getMetadata()->getFields(), function($field){
-				return $field->hasOption('identifier') && $field->getOption('identifier');
-			});
+			$identifiers = $this->getMetadata()->getMapping('identifier')->getFields();
 
 			$this->identifierFields = array_map(function($field){
 				return $this->getCodingStandard()->formatNaming(CodingStandard::NAMING_ARRAY_FIELD, $field->getName());
@@ -94,20 +92,21 @@ class MetadataType extends AbstractType implements ObjectType
 	 */
 	public function getIdentifierValues($data)
 	{
-		$identifiers = array();
-		foreach($this->getIdentifierFields() as $field) {
-			$property = $this->getClassReflector()->getProperty($this->getCodingStandard()->formatNaming(CodingStandard::NAMING_PROPERTY, $field));
-			$property->setAccessible(true);;
+		return $this->getMetadata()->getMapping('identifier')->getFieldValues($data);
+		//$identifiers = array();
+		//foreach($this->getIdentifierFields() as $field) {
+		//	$property = $this->getClassReflector()->getProperty($this->getCodingStandard()->formatNaming(CodingStandard::NAMING_PROPERTY, $field));
+		//	$property->setAccessible(true);;
 
-			$value = $property->getValue($data); 
+		//	$value = $property->getValue($data); 
 
-			if(!$value) {
-				throw new \RuntimeException(sprintf('Identifier "%s" is not filled.', $field));
-			}
-			$identifiers[$field] = $value;
-		}
+		//	if(!$value) {
+		//		throw new \RuntimeException(sprintf('Identifier "%s" is not filled.', $field));
+		//	}
+		//	$identifiers[$field] = $value;
+		//}
 
-		return $identifiers;
+		//return $identifiers;
 	}
 
 	/**

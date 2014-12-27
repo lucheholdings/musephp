@@ -21,11 +21,11 @@ class PublicPropertyFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function createFieldAccessor(Field $field, array $options = array())
 	{
-		$classReflector = $field->getSchema()->getReflectionClass();
+		//$classReflector = $field->getSchema()->getReflectionClass();
+		//
+		//$propertyReflector = $classReflector->getProperty($field->getName());
 
-		$propertyReflector = $classReflector->getProperty($field->getName());
-
-		return new PublicPropertyFieldAccessor($field->getName(), $propertyReflector);
+		return new PublicPropertyFieldAccessor($field->getAlias(), $field->getPropertyReflector());
 	}
 
 	/**
@@ -33,13 +33,7 @@ class PublicPropertyFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function isSupportedField(Field $field)
 	{
-		if(($field->getSchema() instanceof ReflectionClassAwarable) && $field->getSchema()->isReflectionClassAwared()) {
-			$classReflector = $field->getSchema()->getReflectionClass();
-
-			return ($classReflector->hasProperty($field->getName()) && $classReflector->getProperty($field->getName())->isPublic());
-		}
-
-		return false;
+		return $field instanceof Field\PropertyField;
 	}
 }
 

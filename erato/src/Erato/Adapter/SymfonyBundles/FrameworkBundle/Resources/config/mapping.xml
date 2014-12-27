@@ -14,6 +14,9 @@
 		<parameter key="erato_framework.metadata.serializer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SerializerMappingFactory</parameter>
 		<parameter key="erato_framework.metadata.schemifier_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemifierMappingFactory</parameter>
 		<parameter key="erato_framework.metadata.schema_manager_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaManagerMappingFactory</parameter>
+		<parameter key="erato_framework.metadata.identifier_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaIdentifierMappingFactory</parameter>
+		<parameter key="erato_framework.metadata.merger_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaMergerMappingFactory</parameter>
+		<parameter key="erato_framework.metadata.replacer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaReplacerMappingFactory</parameter>
     </parameters>
 
 	<services>
@@ -39,6 +42,7 @@
 		>
 			<argument type="service" id="erato_framework.accessor.schema_accessor_factory" on-invalid="null"/>
 			<argument type="service" id="erato_framework.accessor.field_accessor_factory" on-invalid="null"/>
+			<argument type="service" id="erato_framework.coding_standard" on-invalid="null"/>
 		</service>
 
 		<service
@@ -71,6 +75,22 @@
 		>
 			<argument type="service" id="erato_framework.schema_manager.class_factory" on-invalid="null"/>
 			<argument>%erato_framework.schema_manager.default.class%</argument>
+		</service>
+
+		<service
+			id="erato_framework.metadata.default_mapping_factory.identifier"
+			class="%erato_framework.metadata.identifier_mapping_factory.class%"
+		>
+		</service>
+		<service
+			id="erato_framework.metadata.default_mapping_factory.merger"
+			class="%erato_framework.metadata.merger_mapping_factory.class%"
+		>
+		</service>
+		<service
+			id="erato_framework.metadata.default_mapping_factory.replacer"
+			class="%erato_framework.metadata.replacer_mapping_factory.class%"
+		>
 		</service>
 		<!-- Mapping Factory -->
 		<service

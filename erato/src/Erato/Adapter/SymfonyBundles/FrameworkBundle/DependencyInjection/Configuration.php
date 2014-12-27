@@ -45,6 +45,9 @@ class Configuration implements ConfigurationInterface
 						->append($this->buildSerializerMappingSection())
 						->append($this->buildSchemifierMappingSection())
 						->append($this->buildSchemaManagerMappingSection())
+						->append($this->buildIdentifierMappingSection())
+						->append($this->buildMergerMappingSection())
+						->append($this->buildReplacerMappingSection())
 					->end()
 					->end()
 				->end()
@@ -259,6 +262,63 @@ class Configuration implements ConfigurationInterface
 	{
 		$treeBuilder = new TreeBuilder();
 		$node = $treeBuilder->root('accessor');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
+			->end()
+		;
+
+		return $node;
+	}
+
+	protected function buildIdentifierMappingSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('identifier');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
+			->end()
+		;
+
+		return $node;
+	}
+
+	protected function buildMergerMappingSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('merger');
+
+		$node
+			->canBeDisabled()
+			->addDefaultsIfNotSet()
+			->children()
+				->arrayNode('options')
+					->defaultValue(array())
+					->prototype('variable')->end()
+				->end()
+			->end()
+		;
+
+		return $node;
+	}
+
+	protected function buildReplacerMappingSection()
+	{
+		$treeBuilder = new TreeBuilder();
+		$node = $treeBuilder->root('replacer');
 
 		$node
 			->canBeDisabled()

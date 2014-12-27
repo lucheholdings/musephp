@@ -65,7 +65,7 @@ class ProxyMultiFieldAccessor implements MultiFieldAccessor
 	 */
 	public function clear($container, $field)
 	{
-		$this->getAccessor()->clear($contaier, $field);
+		$this->getAccessor()->clear($container, $field);
 	}
 	
 	/**
@@ -73,7 +73,7 @@ class ProxyMultiFieldAccessor implements MultiFieldAccessor
 	 */
 	public function isSupportMethod($container, $field, $methodType)
 	{
-		return $this->getAccessor()->isSupportMethod($contaier, $field, $methodType);
+		return $this->getAccessor()->isSupportMethod($container, $field, $methodType);
 	}
 	
 	/**

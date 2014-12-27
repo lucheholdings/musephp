@@ -68,10 +68,17 @@ class Type implements \Serializable
 	 */
 	public function __construct($type)
 	{
-		list(
-			$this->name,
-			$this->internalType
-		) = self::parseTypeString($type);
+		if(is_string($type)) {
+			list(
+				$this->name,
+				$this->internalType
+			) = self::parseTypeString($type);
+		} else if(is_array($type)) {
+			list(
+				$this->name,
+				$this->internalType
+			) = $type;
+		}
 	}
 
     /**

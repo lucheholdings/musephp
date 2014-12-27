@@ -85,5 +85,13 @@ abstract class AbstractSingleFieldAccessor implements SingleFieldAccessor
 
 		return $this;
 	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function isSupportMethod($container, $field, $methodType)
+	{
+		return true;
+	}
 }
 

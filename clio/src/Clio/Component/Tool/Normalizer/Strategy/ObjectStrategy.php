@@ -99,10 +99,15 @@ abstract class ObjectStrategy extends AbstractStrategy
 		// after all denormalize child fields, denormalize the data. 
 		// But first check the pool if the data exists
 		$object = null;
-		if($type instanceof ObjectType) {
-			$identifiers = $type->getIdentifierValues($data);
+		if(($type instanceof ObjectType) && is_array($data)) {
+			$identifiers = array();
+			foreach($type->getIdentifierFields() as $field) {
+				if(isset($data[$field])) {
+					$identifiers[$field] = $data[$field];
+				}
+			}
 
-			if($identifiers) {
+			if(!empty($identifiers)) {
 				// use this as object
 				$object = $type->getDataPool()->getByIdentifiers($identifiers);
 			}

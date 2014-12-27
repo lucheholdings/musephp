@@ -150,7 +150,7 @@ class SchemaDataAccessor implements Accessor
 	 */
 	public function isSupportMethod($field, $accessType)
 	{
-		return $this->getSchemaAccess()->isSupportMethod($this->getData(), $field, $accessType);
+		return $this->getSchemaAccessor()->isSupportMethod($this->getData(), $field, $accessType);
 	}
 
 	/**
