@@ -76,5 +76,22 @@ class SchemaManager implements SchemaManagerInterface
 	{
 		return $this->metadata;
 	}
+
+	public function hasMapping($mapping)
+	{
+		return $this->getSchemaMetadata()->hasMapping($mapping);
+	}
+
+	/**
+	 * getMapping 
+	 * 
+	 * @param mixed $mapping 
+	 * @access public
+	 * @return void
+	 */
+	public function getMapping($mapping)
+	{
+		return $this->getSchemaMetadata()->getMapping($mapping);
+	}
 }
 
