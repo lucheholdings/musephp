@@ -69,7 +69,11 @@ class Serializer implements
 			$context = $this->getContextFactory()->createContext();
 		} 
 
-		return $this->strategy->serialize($data, $format, $context);
+		try {
+			return $this->strategy->serialize($data, $format, $context);
+		} catch(\Exception $ex) {
+			throw new \RuntimeException(sprintf('Failed to serialize "%s"', is_object($data) ? get_class($data) : gettype($data)) , 0, $ex);
+		}
 	}
 
 	/**
@@ -107,7 +111,11 @@ class Serializer implements
 			$context = $this->getContextFactory()->createContext();
 		} 
 
-		return $this->strategy->deserialize($data, $type, $format, $context);
+		try {
+			return $this->strategy->deserialize($data, $type, $format, $context);
+		} catch(\Exception $ex) {
+			throw new \RuntimeException(sprintf('Failed to deserialize "%s"', $type), 0, $ex);
+		}
 	}
 
 	/**

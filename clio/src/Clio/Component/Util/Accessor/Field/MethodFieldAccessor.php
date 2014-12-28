@@ -98,10 +98,10 @@ class MethodFieldAccessor extends AbstractSingleFieldAccessor
 
 		if($field == $this->getFieldName()) {
 			switch($type) {
-			case self::TYPE_GET:
+			case self::ACCESS_GET:
 				$isSupport = (bool)$this->getGetterReflector();
 				break;
-			case self::TYPE_SET:
+			case self::ACCESS_SET:
 				$isSupport = (bool)$this->getSetterReflector();
 				break;
 			default:

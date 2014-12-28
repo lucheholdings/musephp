@@ -88,7 +88,9 @@ class Collection implements MultiFieldAccessor
 		foreach($this->accessors as $field => $accessor) {
 			if($accessor instanceof IgnoreFieldAccessor)
 				continue;
-			$values[$field] = $accessor->get($container);
+			if($accessor->isSupportMethod($container, $field, Accessor::ACCESS_GET)) {
+				$values[$field] = $accessor->get($container);
+			}
 		}
 
 		return $values;

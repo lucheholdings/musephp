@@ -12,10 +12,10 @@ namespace Clio\Component\Util\Accessor;
  */
 interface FieldAccessor 
 {
-	const TYPE_GET      = 1;
-	const TYPE_SET      = 2;
-	const TYPE_IS_EMPTY = 3;
-	const TYPE_CLEAR    = 4;
+	const ACCESS_GET      = 1;
+	const ACCESS_SET      = 2;
+	const ACCESS_IS_EMPTY = 3;
+	const ACCESS_CLEAR    = 4;
 
 	/**
 	 * isSupportMethod 

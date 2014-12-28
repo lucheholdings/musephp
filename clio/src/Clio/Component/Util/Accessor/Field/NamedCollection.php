@@ -44,7 +44,8 @@ class NamedCollection extends AbstractCollection
 			if($accessor instanceof IgnoreFieldAccessor)
 				continue;
 
-			$values[$field] = $accessor->get($container);
+			if($accessor->isSupportMethod($container, $field, self::ACCESS_GET))
+				$values[$field] = $accessor->get($container);
 		}
 
 		return $values;
