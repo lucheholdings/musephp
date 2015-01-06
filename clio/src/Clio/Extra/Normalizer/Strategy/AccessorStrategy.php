@@ -69,8 +69,6 @@ class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy, 
 			//if($accessor->existsField($key)) {
 			if($accessor->isSupportMethod($key, Accessor::ACCESS_SET)) {
 				$accessor->set($key, $value);
-			} else {
-				throw new \InvalidArgumentException(sprintf('Field "%s" is not exists.', $key));
 			}
 		}
 

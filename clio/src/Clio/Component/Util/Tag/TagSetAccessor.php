@@ -27,6 +27,9 @@ class TagSetAccessor
 	 */
 	public function __construct(TagFactory $tagFactory = null)
 	{
+		if(!$tagFactory) {
+			$tagFactory = new TagComponentFactory('Clio\Component\Util\Tag\SimpleTag');
+		}
 		$this->tagFactory = $tagFactory;
 	}
 
@@ -111,9 +114,6 @@ class TagSetAccessor
      */
     public function getTagFactory()
     {
-		if(!$this->tagFactory) {
-			$this->tagFactory = new TagComponentFactory('Clio\Component\Util\Tag\SimpleTag');
-		}
         return $this->tagFactory;
     }
     

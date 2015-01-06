@@ -44,8 +44,14 @@ final class Grammer
 	static public function snakize($word)
 	{
 		$word = self::replaceInvalidChars($word);
-		// replace UpperCase to snakecase 
-		return ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', $word)), '_');
+		return preg_replace_callback(
+			'/[A-Z]/', 
+			function($matches){ return '_' . strtolower($matches[0]); }, 
+			preg_replace_callback(
+				'/^([A-Z])/', 
+				function($matches) { return strtolower($matches[0]); }, 
+				$word
+			));
 	}
 
 	/**

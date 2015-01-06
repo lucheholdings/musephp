@@ -91,7 +91,7 @@ abstract class AbstractSingleFieldAccessor implements SingleFieldAccessor
 	 */
 	public function isSupportMethod($container, $field, $methodType)
 	{
-		return true;
+		return $field === $this->getFieldName();
 	}
 }
 

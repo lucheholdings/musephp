@@ -13,10 +13,10 @@
 
 		<!-- Field Accessor Factory -->
         <parameter key="erato_framework.accessor.field_accessor_factory.collection.class">Clio\Component\Util\Accessor\Field\Factory\Collection</parameter>
-        <parameter key="erato_framework.accessor.field_accessor_factory.attribute_map.class">Clio\Extra\Accessor\Field\Factory\AttributeMapAccessorFactory</parameter>
         <parameter key="erato_framework.accessor.field_accessor_factory.ignore.class">Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory</parameter>
         <parameter key="erato_framework.accessor.field_accessor_factory.public_property.class">Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory</parameter>
         <parameter key="erato_framework.accessor.field_accessor_factory.method.class">Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory</parameter>
+        <parameter key="erato_framework.accessor.field_accessor_factory.attribute_map.class">Clio\Extra\Accessor\Field\Factory\AttributeMapAccessorFactory</parameter>
         <parameter key="erato_framework.accessor.field_accessor_factory.tag_set.class">Clio\Extra\Accessor\Field\Factory\TagSetFieldAccessorFactory</parameter>
 
     </parameters>

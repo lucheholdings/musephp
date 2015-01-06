@@ -56,7 +56,7 @@ class TagSetMappingFactory extends AbstractSchemaMetadataMappingFactory
 		if(($metadata instanceof ClassMetadata) && ($metadata->getReflectionClass()->implementsInterface(self::CONTAINER_INTERFACE))) {
 
 			// 
-			$mapping = new TagSetMapping($metadata, $this->getTagField($metadata), $this->getDefaultClass());
+			$mapping = new TagSetMapping($metadata, $this->getTagField($metadata), $this->getDefaultClass(), $options);
 		} else {
 			throw new \InvalidArgumentException();
 		}

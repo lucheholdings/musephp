@@ -54,12 +54,14 @@ class TagSetFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function createFieldAccessor(Field $field, array $options = array())
 	{
-		if(!$this->tagFactory) {
+		if($this->tagFactory) {
+			$tagFactory = $this->getTagFactory();
+		} else {
 			$tagClass = null;
 			if(isset($options['tag_class'])) {
 				$tagClass = $options['tag_class'];
 			}
-			$this->tagFactory = new TagComponentFactory($tagClass);
+			$tagFactory = new TagComponentFactory($tagClass);
 		}
 		return new TagSetFieldAccessor($this->createTagAccessor($this->getTagFactory()));
 	}
