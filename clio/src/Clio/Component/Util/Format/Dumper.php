@@ -9,7 +9,7 @@ namespace Clio\Component\Util\Format;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Dumper
+interface Dumper extends FormatSupportable
 {
 	/**
 	 * dump 
@@ -19,14 +19,5 @@ interface Dumper
 	 * @return void
 	 */
 	function dump($context);
-
-	/**
-	 * isSupportedFormat 
-	 * 
-	 * @param mixed $format 
-	 * @access public
-	 * @return void
-	 */
-	function isSupportedFormat($format);
 }
 

@@ -9,7 +9,7 @@ namespace Clio\Component\Util\Format;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license MIT
  */
-interface Parser
+interface Parser extends FormatSupportable
 {
 	/**
 	 * parse 
@@ -19,14 +19,5 @@ interface Parser
 	 * @return void
 	 */
 	function parse($content);
-
-	/**
-	 * isSupportedFormat 
-	 * 
-	 * @param mixed $format 
-	 * @access public
-	 * @return void
-	 */
-	function isSupportedFormat($format);
 }
 
