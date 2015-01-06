@@ -62,7 +62,7 @@ abstract class Connection extends AbstractConnection implements ConnectionInterf
 	 */
 	public function delete($model)
 	{
-		$entity = $this->getConnectTo()->findOneBy($this->getIdentifiers($model));
+		$entity = $this->getRepository()->findOneBy($this->getIdentifiers($model));
 		$this->getObjectManager()->remove($entity);
 
 		$this->doFlush();
