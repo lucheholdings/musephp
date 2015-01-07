@@ -76,6 +76,8 @@ class GuzzleHttpConnection extends HttpConnection
 
 		try {
 			$response = $this->getHttpClient()->send($guzzleRequest);
+		} catch(\GuzzleHttp\Exception\ConnectException $ex) {
+			throw new GuzzleTransferException($this, $ex, $request);
 		} catch(\GuzzleHttp\Exception\ClientException $ex) {
 			throw new GuzzleTransferException($this, $ex, $request);
 		}

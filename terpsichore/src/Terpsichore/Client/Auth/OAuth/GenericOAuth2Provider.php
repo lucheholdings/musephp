@@ -23,7 +23,7 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	const TOKEN_ACCESS_TOKEN = 'access_token';
 	const TOKEN_TYPE             = 'token_type';
 	const TOKEN_REFRESH_TOKEN    = 'refresh_token';
-	const TOKEN_EXPIRES_IN       = 'expires';
+	const TOKEN_EXPIRES_IN       = 'expires_in';
 	const TOKEN_SCOPE            = 'scope';
 	const TOKEN_GRANT_TYPE       = 'grant_type';
 
