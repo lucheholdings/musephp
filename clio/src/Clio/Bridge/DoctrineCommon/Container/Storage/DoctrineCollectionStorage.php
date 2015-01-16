@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection as DoctrineCollection;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, Storage\SetAccessable
+class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, Storage\SetAccessable, \Serializable
 {
 	private $doctrineCollection;
 
@@ -128,7 +128,7 @@ class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, St
 	 */
 	public function serialize()
 	{
-		return $this->getDoctrineCollection()->serialize($this->getDoctrineCollection());
+		return serialize(array($this->doctrineCollection));
 	}
 
 	/**
@@ -136,9 +136,7 @@ class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, St
 	 */
 	public function unserialize($serialized)
 	{
-		$storage = unserialize($serialized);
-
-		$this->doctrineCollection = $storage;
+		list($this->doctrineCollection) = unserialize($serialized);
 	}
     
     public function getDoctrineCollection()

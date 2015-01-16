@@ -4,7 +4,7 @@ namespace Clio\Component\Util\Container\Storage;
 use Clio\Component\Util\Container\Storage;
 use Clio\Component\Exception as Exceptions;
 
-class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessable, \Countable 
+class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessable, \Countable, \Serializable
 {
 	private $source;
 
