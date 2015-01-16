@@ -26,6 +26,7 @@ class TransferException extends BaseException
 
 	public function __construct(Connection $connection, Request $request, $response = null, $message = '', $code = 0, \Exception $prev = null)
 	{
+		$message = sprintf('Failed to transfer [%s]: %s', $request->getHeader('uri'), $message);
 		parent::__construct($request, $response, $message, $code, $prev);
 	}
     
