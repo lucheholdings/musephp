@@ -43,16 +43,17 @@ class SchemaListCommand extends ContainerAwareCommand
 
 
 		if($registry->has($schemaName)) {
-			$manager = $registry->get($schemaName);	
-		}
-
-		if($manager) {
-			$schema = array(
-				'manager_class' => get_class($manager),
-				'schema_class'  => $manager->getClassMetadata()->getName(),
-				'connection_class' => get_class($manager->getConnection()),
-			);
-			$output->writeln(Yaml::dump($schema));
+			$metadata = $registry->get($schemaName);
+			if($metadata) {
+				
+				$manager =  $metadata->getManager();
+				$schema = array(
+					'manager_class' => get_class($manager),
+					'schema_class'  => $metadata->getParent()->getName(),
+					'connection_class' => get_class($manager->getConnection()),
+				);
+				$output->writeln(Yaml::dump($schema));
+			}
 		}
 	}
 
