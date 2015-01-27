@@ -64,6 +64,8 @@ class AdvancedCriteriaSchemaRepository extends AbstractSchemaRepository
 		$qb = $this->createQueryBuilder('q');
 		$qb->select('q');
 
+		// Apply defaultFetchCondition to the criteria
+		$criteria = array_replace($this->getDefaultFetchCriteria(), $criteria);
 		// Append Query Conditioin -updating where clouds- on QueryBuilder
 		foreach($criteria as $key => $value) {
 			// Join Or Where for specified field key
@@ -200,5 +202,10 @@ class AdvancedCriteriaSchemaRepository extends AbstractSchemaRepository
         $this->conditionResolver = $conditionResolver;
         return $this;
     }
+
+	protected function getDefaultFetchCriteria()
+	{
+		return array();
+	}
 }
 
