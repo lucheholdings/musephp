@@ -67,7 +67,7 @@ class CalliopeFrameworkExtension extends Extension
 
 		$this->registerFilterListenerFactories($container, $config['listener_factories']);
 		// Register Schema Managers
-		$this->registerSchemas($container, $config['schemas']);
+		$this->registerSchemas($container, $config['schemas'], isset($config['autoload']) ? true : $config['bundles'] );
 
 		//$this->registerDoctrineEventListeners($container, $config['schemas']);
 
@@ -79,33 +79,54 @@ class CalliopeFrameworkExtension extends Extension
 	 *
 	 * @param mixed $container 
 	 * @param array $schemas 
+	 * @param bool|array $bundles true as autoload, array as set of bundles to load. otherwise do not load bundle configuration.
 	 * @access protected
 	 * @return void
 	 */
-	protected function registerSchemas($container, array $schemas)
+	protected function registerSchemas($container, array $schemas, $bundles = true)
 	{
 		// Load configurations under Bundles
 		{
-			$dirs = $this->getBundleConfigDir($container->getParameter('kernel.bundles'));
-			
 			$importedSchemas = array();
-			// Load Bundle related schemas
-			foreach($dirs as $bundleName => $dir) {
-				$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
-				$loader  = new ClioLoader\FormatFileLoader(new ClioUtil\Locator\FileLocator($dir), array(new YamlFormat()));
-				try {
-					$bundleConfigs = $loader->load('calliope.yml');
-					if(!isset($bundleConfigs['schema'])) {
-						continue;
+			// AutoLoad Bundle related schemas
+			if($bundles) {
+				$dirs = $this->getBundleConfigDir($container->getParameter('kernel.bundles'));
+				foreach($dirs as $bundleName => $dir) {
+					$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
+					$loader  = new ClioLoader\FormatFileLoader(new ClioUtil\Locator\FileLocator($dir), array(new YamlFormat()));
+					try {
+						$bundleConfigs = $loader->load('calliope.yml');
+						if(!isset($bundleConfigs['schema'])) {
+							continue;
+						}
+						$bundleSchemas = $bundleConfigs['schema'];
+						
+						foreach($bundleSchemas as $name => $schemaConfig) {
+							$importedSchemas[$bundleNameSnakeCase . '.' . $name] = $schemaConfig; 
+						}
+					} catch(ResourceNotFoundException $ex) {
+						// ignore exception
 					}
-					$bundleSchemas = $bundleConfigs['schema'];
-					
-					foreach($bundleSchemas as $name => $schemaConfig) {
-						$importedSchemas[$bundleNameSnakeCase . '.' . $name] = $schemaConfig; 
-					}
-				} catch(ResourceNotFoundException $ex) {
-					// ignore exception
 				}
+			} else if(is_array($bundles)) {
+				$dirs = $this->getBundleConfigDir($container->getParameter('kernel.bundles'));
+				foreach($dirs as $bundleName => $dir) {
+					if(in_array($bundleName, $bundles)) {
+						$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
+						$loader  = new ClioLoader\FormatFileLoader(new ClioUtil\Locator\FileLocator($dir), array(new YamlFormat()));
+
+						$bundleConfigs = $loader->load('calliope.yml');
+						if(!isset($bundleConfigs['schema'])) {
+							continue;
+						}
+						$bundleSchemas = $bundleConfigs['schema'];
+						
+						foreach($bundleSchemas as $name => $schemaConfig) {
+							$importedSchemas[$bundleNameSnakeCase . '.' . $name] = $schemaConfig; 
+						}
+					}
+				}
+				
 			}
 
 			// fixme: should be in loader

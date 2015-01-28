@@ -88,5 +88,15 @@ class SimpleTask implements Task
         $this->arguments = $arguments;
         return $this;
     }
+
+	public function wait()
+	{
+		//
+	}
+
+	public function getResponse()
+	{
+		//
+	}
 }
 

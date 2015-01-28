@@ -25,9 +25,15 @@ class Configuration implements ConfigurationInterface
         // build your bundle. See the documentation linked above for
         // more information on that topic.
 		$rootNode
+			->addDefaultsIfNotSet()
 			->children()
 				->append($this->buildSchemaSection())
 				->append($this->buildFilterListenerFactorySection())
+				->scalarNode('autoload')->defaultTrue()->end()
+				->arrayNode('bundles')
+					->defaultValue(array())
+					->prototype('scalar')->end()
+				->end()
 			->end()
 		;
 

@@ -26,5 +26,22 @@ interface Task
 	 * @return array
 	 */
 	function getArguments();
+
+	/**
+	 * wait 
+	 *   Wait until task done
+	 * @access public
+	 * @return void
+	 */
+	function wait();
+
+	/**
+	 * getResponse 
+	 *   Get the task response. If task is not done yet, wait until it is done.
+	 *   
+	 * @access public
+	 * @return void
+	 */
+	function getResponse();
 }
 
