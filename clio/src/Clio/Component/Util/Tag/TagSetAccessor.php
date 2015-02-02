@@ -87,7 +87,7 @@ class TagSetAccessor
 		}
 
 		foreach($deleteScheduleTags as $tag) {
-			$container->remove($tag);
+			$container->removeByName($tag);
 		}
 
 		foreach($addScheduleTags as $tag) {

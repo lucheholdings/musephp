@@ -234,10 +234,18 @@ class ProxyStorage implements SequencialAccessable, SetAccessable, RandomAccessa
 	public function count()
 	{
 		if(!$this->getSource() instanceof \Countable) {
-			throw new \RuntimeException('Storage is not a Countable.');
+			throw new \RuntimeException(sprintf('Storage "%s" is not a Countable.', get_class($this->getSource())));
 		}
 
 		return count($this->getSource());
+	}
+
+	public function filter(\Closure $callback)
+	{
+		$container = clone $this;
+		$container->setSource($this->getSource()->filter($callback));
+
+		return $container;
 	}
 }
 

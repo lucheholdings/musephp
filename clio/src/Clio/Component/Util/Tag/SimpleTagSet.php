@@ -31,6 +31,17 @@ class SimpleTagSet extends Set implements TagSet
 		parent::initContainer($values);
 	}
 
+	public function removeByName($name)
+	{
+		$targets = $this->filter(function($v) use ($name){
+			return $name == $v->getName();
+		});
+
+		foreach($targets as $target) {
+			$this->remove($target);	
+		}
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */

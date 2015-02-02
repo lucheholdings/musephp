@@ -13,6 +13,8 @@ use Clio\Component\Util\Container\Set;
  */
 interface TagSet extends Set
 {
+	function removeByName($name);
+
 	/**
 	 * containsName 
 	 * 

@@ -66,7 +66,7 @@ class ChainedFieldAccessor extends ProxyMultiFieldAccessor
 	public function isNull($container, $field)
 	{
 		if($this->getAccessor()->isSupportMethod($container, $field, self::ACCESS_GET)) {
-			return $this->getAccessor()->set($container, $field);
+			return !((bool)$this->getAccessor()->get($container, $field));
 		} else {
 			return $this->next()->isNull($container, $field);
 		}
