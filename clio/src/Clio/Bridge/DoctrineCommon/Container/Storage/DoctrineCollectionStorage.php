@@ -13,7 +13,7 @@ use Doctrine\Common\Collections\Collection as DoctrineCollection;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, Storage\SetAccessable, \Serializable
+class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, Storage\SetAccessable, \Serializable, \Countable
 {
 	private $doctrineCollection;
 
@@ -161,9 +161,14 @@ class DoctrineCollectionStorage implements Storage, Storage\RandomAccessable, St
 	public function filter(\Closure $callable)
 	{
 		$storage = clone $this;
-		$this->setDoctrineCollection($this->doctrineCollection->filter($callable));
+		$storage->setDoctrineCollection($this->doctrineCollection->filter($callable));
 
 		return $storage;
+	}
+
+	public function count()
+	{
+		return $this->getDoctrineCollection()->count();
 	}
 }
 

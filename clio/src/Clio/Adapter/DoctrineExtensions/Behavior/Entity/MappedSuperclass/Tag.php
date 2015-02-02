@@ -35,7 +35,7 @@ abstract class Tag extends BaseTag
 	 * @access protected
 	 * 
 	 * @ORM\Id
-	 * @ORM\Column(name="`name`", type="string")
+	 * @ORM\Column(name="`name`", type="string", unique=false)
 	 */
 	protected $name;
 }

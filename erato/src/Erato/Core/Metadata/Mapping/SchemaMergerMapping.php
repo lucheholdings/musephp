@@ -40,8 +40,15 @@ class SchemaMergerMapping extends AbstractMapping
      */
     public function getMerger()
     {
-		if($this->_merger) {
-			$this->_merger = new AccessorMerger($this->getSchema(), $this->getIgnoreFields());
+		if(!$this->_merger) {
+			$ignoreFields = $this->getIgnoreFields();
+
+			$ids = $this->getMetadata()->getMapping('identifier')->getFieldNames();
+			$ignoreFields = array_merge($ignoreFields, $ids);
+
+			$mergeArray = $this->getOption('merge_array', true);
+
+			$this->_merger = new AccessorMerger($this->getMetadata(), $ignoreFields, $mergeArray);
 		}
         return $this->_merger;
     }
@@ -59,6 +66,9 @@ class SchemaMergerMapping extends AbstractMapping
 	 */
 	public function getIgnoreFields()
 	{
+		if($this->hasOption('ignore_fields'))
+			return $this->getOption('ignore_fields');
+
 		return array();
 	}
 }

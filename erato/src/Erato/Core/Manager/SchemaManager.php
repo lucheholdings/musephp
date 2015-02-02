@@ -2,6 +2,7 @@
 namespace Erato\Core\Manager;
 
 use Clio\Component\Util\Metadata\SchemaMetadata;
+use Clio\Extra\Builder\SchemaBuilder;
 use Erato\Core\SchemaManager as SchemaManagerInterface;
 
 /**
@@ -92,6 +93,11 @@ class SchemaManager implements SchemaManagerInterface
 	public function getMapping($mapping)
 	{
 		return $this->getSchemaMetadata()->getMapping($mapping);
+	}
+
+	public function createBuilder()
+	{
+		return new SchemaBuilder($this);
 	}
 }
 

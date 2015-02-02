@@ -117,6 +117,11 @@ class MetadataType extends AbstractType implements ObjectType
 		return new ReferenceType($this);
 	}
 
+	public function createReferencedValue(array $ids)
+	{
+		return null;
+	}
+
 	/**
 	 * {@inheritdoc}
 	 */

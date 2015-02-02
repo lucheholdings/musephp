@@ -244,6 +244,7 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 		return array(
 			'total' => $this->getTotal(),
 			'size'  => $this->getSize(),
+			'offset' => $this->getOffset(),
 			'request_size'  => $this->getRequestSize(),
 			'data'  => $this->toArray(),
 		);

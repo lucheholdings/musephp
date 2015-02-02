@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
+use Clio\Component\Tool\Normalizer\Types;
+
 /**
  * NullType 
  * 
@@ -17,7 +19,7 @@ class NullType extends AbstractType
 	 */
 	public function getName()
 	{
-		return self::TYPE_NULL;
+		return Types::TYPE_NULL;
 	}
 
 	public function isValidData($data)

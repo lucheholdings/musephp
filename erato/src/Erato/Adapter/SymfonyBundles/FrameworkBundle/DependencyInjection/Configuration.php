@@ -470,6 +470,7 @@ class Configuration implements ConfigurationInterface
 			->canBeDisabled()
 			->addDefaultsIfNotSet()
 			->children()
+				->enumNode('object_strategy')->defaultValue('identifier')->values(array('id', 'recursive', 'none'))->end()
 				->arrayNode('strategies')
 					->addDefaultsIfNotSet()
 					->children()

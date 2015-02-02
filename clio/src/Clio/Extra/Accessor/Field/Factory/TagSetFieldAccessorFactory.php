@@ -46,6 +46,7 @@ class TagSetFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function __construct($tagFieldName = 'tags')
 	{
+		$this->tagFactory = null;
 		$this->tagFieldName = $tagFieldName;
 	}
 
@@ -54,6 +55,7 @@ class TagSetFieldAccessorFactory extends AbstractFieldAccessorFactory
 	 */
 	public function createFieldAccessor(Field $field, array $options = array())
 	{
+		$tagFactory = null;
 		if($this->tagFactory) {
 			$tagFactory = $this->getTagFactory();
 		} else {
@@ -63,7 +65,7 @@ class TagSetFieldAccessorFactory extends AbstractFieldAccessorFactory
 			}
 			$tagFactory = new TagComponentFactory($tagClass);
 		}
-		return new TagSetFieldAccessor($this->createTagAccessor($this->getTagFactory()));
+		return new TagSetFieldAccessor($this->createTagAccessor($tagFactory));
 	}
 
 	/**

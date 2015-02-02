@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Bridge\SymfonyComponents\Notify;
 
+use Clio\Component\Util\Notify\Notifier;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface,
 	Symfony\Component\EventDispatcher\EventDispatcher
 ;

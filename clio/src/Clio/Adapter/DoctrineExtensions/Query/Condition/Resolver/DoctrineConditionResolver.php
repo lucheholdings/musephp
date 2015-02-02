@@ -77,13 +77,15 @@ class DoctrineConditionResolver implements ConditionResolver
 				$cond = $conditionResolver->resolveCondition($field, $value);
 				$cond = new DoctrineConditions\DoctrineTagAssociationCondition('tags', $parentAlias, $cond->getValueCondition());
 			}
-		} else {
+		} else if($metadata->hasAssociation('attributes')) {
 			// if(supports attributes)
 			$keyCond = $conditionResolver->resolveCondition('key', $field);
 			$cond = new DoctrineConditions\DoctrineAssociationCondition('attributes', $parentAlias, $keyCond);
 			
 			$valueCond = $conditionResolver->resolveCondition('value', $value);
 			$cond->addFieldCondition(new DoctrineConditions\DoctrineFieldCondition($valueCond->getValueCondition(), $valueCond->getField()));
+		} else {
+			throw new \RuntimeException(sprintf('Field "%s" is not a field or an association', $field));
 		}
 		return $cond;
 	}

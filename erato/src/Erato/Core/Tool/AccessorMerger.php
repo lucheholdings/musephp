@@ -17,6 +17,8 @@ class AccessorMerger
 
 	private $ignoreFields;
 
+	private $mergeArray;
+
 	/**
 	 * __construct 
 	 * 
@@ -25,10 +27,11 @@ class AccessorMerger
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(SchemaMetadata $schemaMetadata, array $ignoreFields = array())
+	public function __construct(SchemaMetadata $schemaMetadata, array $ignoreFields = array(), $mergeArray = true)
 	{
 		$this->schemaMetadata = $schemaMetadata;
 		$this->ignoreFields = $ignoreFields;
+		$this->mergeArray   = $mergeArray;
 	}
 
 	/**
@@ -61,7 +64,7 @@ class AccessorMerger
 	 */
 	protected function doMerge($origin, $source)
 	{
-		$classMetadata = $this->getClassMetadata();
+		$classMetadata = $this->getSchemaMetadata();
 
 		if(!$classMetadata->isSchemaData($origin)) {
 			throw new \InvalidArgumentException(sprintf('The instance of target is not a valid instance of "%s", but "%s" is given', $classMetadata->getClass(), is_object($origin) ? get_class($origin) : gettype($origin)));
@@ -72,19 +75,20 @@ class AccessorMerger
 
 		$accessor = $this->getAccessor();
 
-		foreach($accessor->getFields($source) as $field => $value) {
+		foreach($accessor->getFieldValues($source) as $field => $value) {
 			if(!in_array($field, $this->ignoreFields)) {
 				// accept to define "mergeFieldName" method, and if it is exists, use it.
 				if(method_exists($origin, 'merge'. ucfirst($field))) {
 					$method = 'merge' . ucfirst($field);
 					$origin->$method($value);
-				} else if($value) {
+				} else if(null !== $value) {
 					// Get FieldMerger
 					$baseValue = null;
-					if(!$accessor->isNull($origin, $field)) {
-						$baseValue= $accessor->get($origin, $field);
-						$value = $this->getFieldMerger($field)->merge($baseValue, $value);
+					if (!$accessor->isNull($origin, $field)) {
+						$baseValue = $accessor->get($origin, $field);
+						$value = $this->mergeField($baseValue, $value);
 					} 
+
 					$accessor->set($origin, $field, $value);
 				}
 			}
@@ -112,7 +116,16 @@ class AccessorMerger
 	 */
 	protected function getAccessor()
 	{
-		return $This->getSchemaMetadata()->getMapping('accessor');
+		return $this->getSchemaMetadata()->getMapping('accessor')->getAccessor();
+	}
+
+	public function mergeField($baseValue, $value)
+	{
+		if(is_array($baseValue) && is_array($value) && $this->mergeArray) {
+			return array_merge($baseValeu, $value);
+		} else {
+			return $value;
+		}
 	}
 }
 

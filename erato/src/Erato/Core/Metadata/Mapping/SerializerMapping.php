@@ -53,41 +53,6 @@ class SerializerMapping extends AbstractRegistryServiceMapping
 	}
 
 	/**
-	 * normalize 
-	 * 
-	 * @param mixed $data 
-	 * @access public
-	 * @return void
-	 */
-	public function normalize($data)
-	{
-		if($this->getMetadata() instanceof ClassMetadata) {
-			$type = $this->getMetadata()->getName();
-		} else {
-			$type = 'array';
-		}
-
-		return $this->getSerializer()->normalize($data, $type, $this->createContext());
-	}
-
-	/**
-	 * denormalize 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function denormalize($data)
-	{
-		if($this->getMetadata() instanceof ClassMetadata) {
-			$type = $this->getMetadata()->getName();
-		} else {
-			$type = 'array';
-		}
-
-		return $this->getSerializer()->denormalize($data, $type, $this->createContext());
-	}
-
-	/**
 	 * createContext 
 	 * 
 	 * @access protected

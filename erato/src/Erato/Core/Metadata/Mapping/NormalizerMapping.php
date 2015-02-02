@@ -62,11 +62,11 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 	 */
 	public function normalize($data)
 	{
-		if($this->getMetadata() instanceof ClassMetadata) {
-			$type = $this->getMetadata()->getName();
-		} else {
-			$type = 'array';
-		}
+		//if($this->getMetadata() instanceof ClassMetadata) {
+		//	$type = $this->getMetadata()->getName();
+		//} else {
+		//	$type = 'array';
+		//}
 
 		return $this->getNormalizer()->normalize($data, null, $this->createContext());
 	}

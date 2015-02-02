@@ -22,6 +22,15 @@ class SchemaMergerMappingFactory extends AbstractSchemaMetadataMappingFactory
 	 */
 	public function doCreateMapping(Metadata $metadata, array $options)
 	{
+		if(!isset($options['ignore_fields']))
+			$options['ignore_fields'] = $this->getOption('ignore_fields', array());
+		else
+			$options['ignore_fields'] = array_merge($this->getOption('ignore_fields', array()), $options['ignore_fields']);
+
+		if(!isset($options['merge_array'])) {
+			$options['merge_array'] = $this->getOption('merge_array', true);
+		}
+
 		return new SchemaMergerMapping($metadata, $options);
 	}
 
