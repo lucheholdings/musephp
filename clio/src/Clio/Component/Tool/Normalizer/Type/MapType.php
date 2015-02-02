@@ -1,8 +1,9 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
+use Clio\Component\Tool\Normalizer\Types;
 /**
- * ArrayType 
+ * MapType 
  * 
  * @uses AbstractType
  * @package { PACKAGE }
@@ -10,7 +11,7 @@ namespace Clio\Component\Tool\Normalizer\Type;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ArrayType extends AbstractType
+class MapType extends AbstractType
 {
 	/**
 	 * getName 
@@ -20,7 +21,7 @@ class ArrayType extends AbstractType
 	 */
 	public function getName()
 	{
-		return 'array';
+		return Types::TYPE_MAP;
 	}
 
 	public function isValidData($data)

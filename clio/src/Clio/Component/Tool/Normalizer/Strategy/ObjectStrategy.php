@@ -76,6 +76,14 @@ abstract class ObjectStrategy extends AbstractStrategy
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
+		// Convert Scalar value to indentifier array if possible
+		if(is_scalar($data) && $type->canReference()) {
+			$ids = $type->getIdentifierFields();
+			if(1 == count($ids)) {
+				$data = array(reset($ids) => $data);
+			}
+		}
+
 		// Convert data before denormalize
 		if(is_array($data)) {
 			array_walk($data, function(&$value, $key, $data) {
@@ -99,20 +107,14 @@ abstract class ObjectStrategy extends AbstractStrategy
 		// after all denormalize child fields, denormalize the data. 
 		// But first check the pool if the data exists
 		$object = null;
-		if(($type instanceof ObjectType) && is_array($data)) {
-			$identifiers = array();
-			foreach($type->getIdentifierFields() as $field) {
-				if(isset($data[$field])) {
-					$identifiers[$field] = $data[$field];
-				}
-			}
-
-			if(!empty($identifiers)) {
-				// use this as object
+		// Fixme: cause ArrayAccessStrategy extends this class, instance type validation is required. 
+		if(($type instanceof ObjectType) && $type->canReference()) {
+			if($identifiers = $this->validateIdentifiers($type, $data)) {
 				$object = $type->getDataPool()->getByIdentifiers($identifiers);
 			}
 		}
 
+		$denormalized = null;
 		// check if the data is already denormalized
 		if(is_object($data) && $type->isValidData($data)) {
 			$denormalized = $data; 
@@ -141,5 +143,28 @@ abstract class ObjectStrategy extends AbstractStrategy
 	public function canDenormalize($data, $type, Context $context)
 	{
 		return ($type instanceof ObjectType);
+	}
+
+	protected function validateIdentifiers($type, $data)
+	{
+		$idFields = $type->getIdentifierFields();
+		$ids = array();
+
+		if(is_array($data)) {
+			foreach($idFields as $field) {
+				if(!isset($data[$field])) {
+					$ids = false;
+					break;
+				}
+
+				$ids[$field] = $data[$field];
+			}
+
+			if(count($idFields) == count($ids)) {
+				return $ids;
+			}
+		}
+
+		return false;
 	}
 }

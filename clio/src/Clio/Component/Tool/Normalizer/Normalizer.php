@@ -75,6 +75,7 @@ class Normalizer implements
 		}
 
 		if(!$type) {
+			//$context->guessType($data);
 			$type = $context->getTypeRegistry()->guessType($data);
 		} else if(!$type instanceof Type) {
 			$type = $context->getTypeRegistry()->getType($type);
@@ -87,7 +88,7 @@ class Normalizer implements
 
 		// Original Scope
 		if($context->isEmptyScope()) {
-			$context->enterScope($data, $type, '_source');
+			$context->enterScope($data, $type, '_');
 		}
 
 		$strategy = $this->getStrategy();
@@ -141,7 +142,7 @@ class Normalizer implements
 
 			// Original Scope
 			if($context->isEmptyScope()) {
-				$context->enterScope($data, $type, '_source');
+				$context->enterScope($data, $type, '_');
 			}
 
 			$strategy = $this->getStrategy();

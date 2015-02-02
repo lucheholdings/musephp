@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
-use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Tool\Normalizer\Types;
 use Clio\Component\Tool\Normalizer\Context;
 
 /**
@@ -28,13 +28,13 @@ class ScalarType extends NamedType
 		switch($this->getName()) {
 		case self::TYPE_INT:
 		case self::TYPE_INTEGER:
-		case Type::TYPE_FLOAT:
-		case Type::TYPE_DOUBLE:
+		case Types::TYPE_FLOAT:
+		case Types::TYPE_DOUBLE:
 			return is_numeric($data);
-		case Type::TYPE_STRING:
+		case Types::TYPE_STRING:
 			return is_string($data);
-		case Type::TYPE_BOOL:
-		case Type::TYPE_BOOLEAN:
+		case Types::TYPE_BOOL:
+		case Types::TYPE_BOOLEAN:
 			return is_bool($data);
 		}
 

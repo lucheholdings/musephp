@@ -46,6 +46,14 @@ class Context
 	private $typeRegistry;
 
 	/**
+	 * pathTypes
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $pathTypes;
+
+	/**
 	 * __construct 
 	 * 
 	 * @param TypeFactory $typeFactory 
@@ -171,7 +179,7 @@ class Context
 	 * @access public
 	 * @return void
 	 */
-	public function enterScope($data, Type $type, $field = '_source')
+	public function enterScope($data, Type $type, $field = '_')
 	{
 		if($type instanceof Type\MixedType) {
 			$type->resolve($this, $data);
@@ -247,12 +255,32 @@ class Context
 
 	public function hasPathType($path)
 	{
-		return false;
+		return isset($this->pathTypes[$path]);
 	}
 
 	public function getPathType($path)
 	{
-		return null;
+		return $this->pathTypes[$path];
 	}
+    
+	public function setPathType($path, $type)
+	{
+		$path = '_.' . $path;
+		$this->pathTypes[$path] = $type;
+		return $this;
+	}
+    
+    public function getPathTypes()
+    {
+        return $this->pathTypes;
+    }
+    
+    public function setPathTypes($pathTypes)
+    {
+        foreach($pathTypes as $path => $type) {
+			$this->setPathType($path, $type);	
+		}
+        return $this;
+    }
 }
 

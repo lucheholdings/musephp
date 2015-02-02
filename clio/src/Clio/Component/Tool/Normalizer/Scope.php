@@ -29,7 +29,7 @@ class Scope
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($data, Type $type, $path = '_source')
+	public function __construct($data, Type $type, $path = '_')
 	{
 		$this->data = $data;
 		$this->type = $type;

@@ -50,7 +50,7 @@ class TypeRegistry
 		if(is_object($data)) {
 			$type = get_class($data);
 		} else if(is_array($data)) {
-			$type = 'array';
+			$type = Types::TYPE_ARRAY;
 		} else if(is_null($data)){
 			$type = 'null';
 		} else {
@@ -86,7 +86,7 @@ class TypeRegistry
 		if(is_scalar($data)) {
 			$type = $factory->createType(gettype($data), $mixed->getOptions());
 		} else if(is_array($data)) {
-			$type = $factory->createType('array', $mixed->getOptions());
+			$type = $factory->createType(Types::TYPE_ARRAY, $mixed->getOptions());
 		} else if(is_object($data)) {
 			$type = $factory->createType(get_class($data), $mixed->getOptions());
 		} else {

@@ -17,10 +17,14 @@ class DataPool extends Map
 
 	public function add($data)
 	{
-		$ids = $this->getType()->getIdentifierValues($data);
+		if($data instanceof ReferencedValue) {
+			$ids = $data->getIdentifierValues();
+		} else {
+			$ids = $this->getType()->getIdentifierValues($data);
+		}
 		
+		ksort($ids);
 		$key = implode('-', $ids);
-
 
 		$this->set($key, $data);
 		return $this;
@@ -28,9 +32,15 @@ class DataPool extends Map
 
 	public function getByIdentifiers(array $ids)
 	{
+		ksort($ids);
 		$key = implode('-', $ids);
 
-		return $this->has($key) ? $this->get($key) : null;
+		return $this->has($key) 
+			? $this->get($key) 
+			: ($this->type->canReference() 
+				? $this->type->createReferencedValue($ids)
+				: null
+			);
 	}
     
     public function getType()

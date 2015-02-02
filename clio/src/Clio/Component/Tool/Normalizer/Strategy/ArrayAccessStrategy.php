@@ -30,13 +30,20 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 			throw new \Exception('ArrayAccess also required Traversable to normalize data.');
 		}
 
+		if($type instanceof Type\SetType) {
+			$arrayData = array_values($arrayData);
+		}
+
 		return $arrayData;
 	}
 
 	protected function doDenormalize($data, Type $type, Context $context, $object = null)
 	{
-		if($type instanceof Type\ArrayType)
+		if($type instanceof Type\MapType) {
 			return $data;
+		} else if($type instanceof Type\SetType) {
+			return array_values($data);
+		}
 
 		// Construct Object
 		if(!$object) {
@@ -60,11 +67,11 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof Type\ArrayType) || (parent::canNormalize($data, $type, $context) && ($type->getClassReflector()->isSubclassof('Traversable')));
+		return ($type instanceof Type\MapType) || ($type instanceof Type\SetType) || (parent::canNormalize($data, $type, $context) && ($type->getClassReflector()->isSubclassof('Traversable')));
 	}
 
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof Type\ArrayType) || parent::canDenormalize($data, $type, $context);
+		return ($type instanceof Type\MapType) || ($type instanceof Type\SetType) || parent::canDenormalize($data, $type, $context);
 	}
 }
