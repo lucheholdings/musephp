@@ -15,7 +15,7 @@ class ClassType extends AbstractType
 		$type = (string)$type;
 
 		switch($type) {
-		case 'class':
+		case PrimitiveTypes::TYPE_OBJECT:
 			return true;
 		default:
 			return ($type == $this->getName()) || $this->isExtends($type) || $this->isImplements($type);

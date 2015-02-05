@@ -21,7 +21,7 @@ class ArrayType extends AbstractType
 			break;
 		}
 
-		return parent::isType($type);
+		return false;
 	}
 
 	public function isValidData($value)

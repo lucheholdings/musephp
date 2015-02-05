@@ -70,6 +70,25 @@ class FieldType extends LazyBindProxyType implements \Serializable
 		parent::__construct($type);
 	}
 
+	public function resolve(Registry $registry, $data)
+	{
+		if($this->getType()->isType('mixed')) {
+			$this->setType($this->getType()->resolve($registry, $data));
+		}
+		return $this;
+	}
+
+    public function setTypeRegistry(Registry $typeRegistry)
+    {
+		parent::setTypeRegistry($typeRegistry);
+
+		foreach($this->options->get('internal_types', array()) as $type) {
+			$type->setTypeRegistry($typeRegistry);
+		}
+
+        return $this;
+    }
+
 	public function __get($name)
 	{
 		if('options' == $name) {

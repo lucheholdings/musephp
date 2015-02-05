@@ -17,5 +17,10 @@ class MixedType extends AbstractType
 	{
 		return true;
 	}
+
+	public function resolve(Registry $registry, $data)
+	{
+		return $registry->guessType($data);	
+	}
 }
 
