@@ -31,7 +31,7 @@ class BaseRegistry extends Registry
 		$loaded = parent::load($key);
 
 		// Set SchemaRegistry to load relative Schema from type
-		if($loaded instanceof SchemaReferneceType) {
+		if($loaded instanceof SchemaReferenceType) {
 			$loaded->setSchemaRegistry($this->getSchemaRegistry());
 		}
 

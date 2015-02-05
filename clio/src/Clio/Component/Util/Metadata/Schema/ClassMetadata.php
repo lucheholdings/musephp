@@ -126,6 +126,17 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 	{
 		return $this->getReflectionClass()->getParentClass()->getName();
 	}
+
+	public function isInherited($name)
+	{
+		if(class_exists($name)) {
+			return ($name == $this->getReflectionClass()->getName())
+				|| $this->getReflectionClass()->implementsInterface($name)
+				|| $this->getReflectionClass()->isSubclassOf($name)
+			;
+		}
+		return false;
+	}
 	
 	public function serialize(array $extra = array())
 	{

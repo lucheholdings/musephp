@@ -2,6 +2,10 @@
 namespace Clio\Component\Util\Metadata\Type;
 
 use Clio\Component\Util\Type\AbstractType;
+use Clio\Component\Util\Type\PrimitiveTypes;
+use Clio\Component\Util\Type\FieldContainable;
+use Clio\Component\Util\Metadata\SchemaRegistry;
+use Clio\Component\Util\Metadata\Schema;
 
 /**
  * SchemaReferenceType 
@@ -12,7 +16,7 @@ use Clio\Component\Util\Type\AbstractType;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class SchemaReferenceType extends AbstractType
+class SchemaReferenceType extends AbstractType implements FieldContainable
 {
 	/**
 	 * schemaRegistry 
@@ -21,6 +25,14 @@ class SchemaReferenceType extends AbstractType
 	 * @access private
 	 */
 	private $schemaRegistry;
+
+	/**
+	 * schema 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $schema;
     
     /**
      * getSchemaRegistry 
@@ -57,11 +69,15 @@ class SchemaReferenceType extends AbstractType
 	 */
 	public function getSchema()
 	{
-		if($this->schema) {
-			$this->schema = $this->getSchemaRegistry()->get($this->name);
+		if(!$this->schema) {
+			$this->schema = $this->getSchemaRegistry()->get($this->getName());
+
+			if(!$this->schema) {
+				throw new \RuntimeException('Failed to resolve schema "%s"', $this->getName());
+			}
 		}
 
-		return $schema;
+		return $this->schema;
 	}
 
 	public function isType($type)
@@ -69,17 +85,18 @@ class SchemaReferenceType extends AbstractType
 		$schema = $this->getSchema();
 
 		switch($type) {
-		case 'class':
-			return ($schema instanceof ClassSchema);
-		case 'array':
-			return ($schema instanceof ArraySchema);
+		case 'schema':
+			return true;
+		case PrimitiveTypes::TYPE_OBJECT:
+			return ($schema instanceof Schema\ClassMetadata);
+		case PrimitiveTypes::TYPE_ARRAY:
+			return ($schema instanceof Schema\ArraySchemaMetadata);
 		default:
 			if($type == $schema->getName()) {
 				// same name
 				return true;
-			} else if($schema instanceof ClassSchema) {
-				return $schema->isImplemented($type) 
-					|| $schema->isExtended($type);
+			} else if($schema instanceof Schema\ClassMetadata) {
+				return $schema->isInherited($type);
 			}
 		}
 		return false;
@@ -88,6 +105,16 @@ class SchemaReferenceType extends AbstractType
 	public function isValidData($data)
 	{
 		return $this->getSchema()->isValidData($data);
+	}
+
+	public function getFieldType($field)
+	{
+		return $this->getSchema()->getField($field)->getType();
+	}
+
+	public function construct()
+	{
+		return $this->getSchema()->newInstance();
 	}
 }
 
