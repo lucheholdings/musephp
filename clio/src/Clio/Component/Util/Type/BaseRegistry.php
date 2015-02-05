@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Type;
 
 use Clio\Component\Pattern\Registry\RegistryMap,
+	Clio\Component\Pattern\Registry\LoadableRegistry,
 	Clio\Component\Pattern\Registry\EntryLoader
 ;
 use Clio\Component\Util\Validator\SubclassValidator;
@@ -22,7 +23,8 @@ class BaseRegistry extends LoadableRegistry implements Registry
 	{
 		$map = new RegistryMap();
 		$map
-			->setValueValidator(new SubclassValidator('Clio\Component\Util\Type\Type');
+			->setValueValidator(new SubclassValidator('Clio\Component\Util\Type\Type'))
+		;
 
 		parent::__construct($loader, $map);
 	}
