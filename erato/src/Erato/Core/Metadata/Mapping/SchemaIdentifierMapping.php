@@ -82,5 +82,10 @@ class SchemaIdentifierMapping extends AbstractMapping
 
 		return $ids;
 	}
+
+	public function hasFields()
+	{
+		return 0 < count($this->getFields());
+	}
 }
 

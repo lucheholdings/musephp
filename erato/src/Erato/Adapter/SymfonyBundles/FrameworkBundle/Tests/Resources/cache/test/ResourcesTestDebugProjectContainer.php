@@ -675,11 +675,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Extra\Metadata\SchemaMetadataRegistry A Clio\Extra\Metadata\SchemaMetadataRegistry instance.
+     * @return \Clio\Extra\Metadata\SchemaRegistry A Clio\Extra\Metadata\SchemaRegistry instance.
      */
     protected function getEratoFramework_Metadata_RegistryService()
     {
-        return $this->services['erato_framework.metadata.registry'] = new \Clio\Extra\Metadata\SchemaMetadataRegistry($this->get('erato_framework.metadata.registry.cache_loader'));
+        return $this->services['erato_framework.metadata.registry'] = new \Clio\Extra\Metadata\SchemaRegistry($this->get('erato_framework.metadata.registry.cache_loader'));
     }
 
     /**
@@ -1698,7 +1698,7 @@ class ResourcesTestDebugProjectContainer extends Container
             'erato_framework.factory_map.class' => 'Clio\\Component\\Pattern\\Factory\\NamedCollection',
             'erato_framework.component_factory.class' => 'Clio\\Component\\Pattern\\Factory\\ComponentFactory',
             'erato_framework.doctrine_cache_factory.class' => 'Erato\\Adapter\\SymfonyBundles\\FrameworkBundle\\Cache\\DoctrineCacheFactory',
-            'erato_framework.metadata.registry.class' => 'Clio\\Extra\\Metadata\\SchemaMetadataRegistry',
+            'erato_framework.metadata.registry.class' => 'Clio\\Extra\\Metadata\\SchemaRegistry',
             'erato_framework.metadata.registry.cache_loader.class' => 'Clio\\Extra\\Registry\\Loader\\CachedLoader',
             'erato_framework.metadata.registry.factory_loader.class' => 'Clio\\Component\\Pattern\\Registry\\Loader\\MappedFactoryLoader',
             'erato_framework.metadata.class_metadata_factory.class' => 'Clio\\Component\\Util\\Metadata\\Schema\\Factory\\ClassMetadataFactory',

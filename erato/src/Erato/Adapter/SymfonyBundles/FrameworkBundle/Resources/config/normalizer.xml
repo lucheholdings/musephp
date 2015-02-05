@@ -6,8 +6,6 @@
 
     <parameters>
         <parameter key="erato_framework.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
-        <parameter key="erato_framework.normalizer.type_registry.class">Clio\Component\Tool\Normalizer\TypeRegistry</parameter>
-        <parameter key="erato_framework.normalizer.type_factory.class">Erato\Core\Normalizer\Type\Factory\MetadataTypeFactory</parameter>
 
         <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
 		<!-- Strategy Classes -->
@@ -27,21 +25,13 @@
 		<!--  -->
         <service id="erato_framework.normalizer" class="%erato_framework.normalizer.class%">
 			<argument type="service" id="erato_framework.normalizer.strategy"/>
-			<argument type="service" id="erato_framework.normalizer.type_registry"/>
+			<argument type="service" id="erato_framework.type_registry"/>
 
 			<call method="setLogger">
 				<argument type="service" id="logger"/>
 			</call>
         </service>
 
-		<service id="erato_framework.normalizer.type_registry" class="%erato_framework.normalizer.type_registry.class%">
-			<argument type="service" id="erato_framework.normalizer.type_factory"/>
-		</service>
-
-		<service id="erato_framework.normalizer.type_factory" class="%erato_framework.normalizer.type_factory.class%">
-			<argument type="service" id="erato_framework.metadata.registry"/>
-		</service>
-		
 		<!-- Alias the root strategy -->
 		<service id="erato_framework.normalizer.strategy" alias="erato_framework.normalizer.strategy_collection"/>
 		

@@ -7,7 +7,7 @@ Muse Erato Project
 Muse Erato is a framework library focused on "SCHEMA."
 Erato provides Schema-Based Metadata, such as SchemaAccessor, definition of Serializer, Normalizer and Schemifier.
 
-The main component of the Erato is SchemaMetadataRegistry, which is a Registry of Schema-Based Metadata.
+The main component of the Erato is SchemaRegistry, which is a Registry of Schema-Based Metadata.
 Each class or array has different schema, and so, Erato create the Metadata of it, and decorate the Metadata with component Mappings.
 
 You can add any "Schema-Based" information into the Metadata as Mapping.

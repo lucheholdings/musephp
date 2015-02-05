@@ -118,7 +118,7 @@
     <parameter key="erato_framework.factory_map.class">Clio\Component\Pattern\Factory\NamedCollection</parameter>
     <parameter key="erato_framework.component_factory.class">Clio\Component\Pattern\Factory\ComponentFactory</parameter>
     <parameter key="erato_framework.doctrine_cache_factory.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\DoctrineCacheFactory</parameter>
-    <parameter key="erato_framework.metadata.registry.class">Clio\Extra\Metadata\SchemaMetadataRegistry</parameter>
+    <parameter key="erato_framework.metadata.registry.class">Clio\Extra\Metadata\SchemaRegistry</parameter>
     <parameter key="erato_framework.metadata.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
     <parameter key="erato_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
     <parameter key="erato_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
@@ -616,7 +616,7 @@
     <service id="erato_framework.doctrine_cache_factory" class="Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\DoctrineCacheFactory">
       <argument type="service" id="service_container"/>
     </service>
-    <service id="erato_framework.metadata.registry" class="Clio\Extra\Metadata\SchemaMetadataRegistry">
+    <service id="erato_framework.metadata.registry" class="Clio\Extra\Metadata\SchemaRegistry">
       <argument type="service" id="erato_framework.metadata.registry.cache_loader"/>
     </service>
     <service id="erato_framework.metadata.registry.cache_loader" class="Clio\Extra\Registry\Loader\CachedLoader">

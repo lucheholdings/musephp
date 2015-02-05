@@ -5,9 +5,10 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
+	    <parameter key="erato_framework.type_registry.class">Erato\Core\Type\BasicRegistry</parameter>
 		<!-- Registry -->
-	    <parameter key="erato_framework.metadata.registry.class">Clio\Extra\Metadata\SchemaMetadataRegistry</parameter>
-	    <parameter key="erato_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaMetadataRegistry</parameter>
+	    <parameter key="erato_framework.metadata.registry.class">Clio\Extra\Metadata\SchemaRegistry</parameter>
+	    <parameter key="erato_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaRegistry</parameter>
 		<!--  -->
 	    <parameter key="erato_framework.metadata.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
 	    <parameter key="erato_framework.metadata.registry.cache_loader.ttl">10</parameter>
@@ -28,13 +29,22 @@
     </parameters>
 
 	<services>
-			
+
+		<service
+			id="erato_framework.type_registry"
+			class="%erato_framework.type_registry.class%"
+		>
+			<call method="setSchemaRegistry">
+				<argument type="service" id="erato_framework.metadata.registry"/>
+			</call>
+		</service>
 		<!-- Metadata Registry with Loader -->
 		<service
 			id="erato_framework.metadata.registry"
 			class="%erato_framework.metadata.registry.class%"
 		>
 			<argument type="service" id="erato_framework.metadata.registry.loader"/>
+			<argument type="service" id="erato_framework.type_registry"/>
 			<tag name="clio_component.reference" class="%erato_framework.metadata.reference_registry.class%"/>
 		</service>
 		<!-- Registry Loader -->

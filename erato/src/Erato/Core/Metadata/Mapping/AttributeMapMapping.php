@@ -106,8 +106,9 @@ class AttributeMapMapping extends AbstractMapping
 		}
 		$type = $field->getType();
 
-		if($type->hasInternalType()) {
-			$type = $type->getInternalType();
+		if($type->options->has('internal_types')) {
+			$types = $type->options->get('internal_types');
+			$type = $types[0];
 		}
 
 		if(!class_exists($type->getName())) {

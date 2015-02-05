@@ -1,9 +1,9 @@
 <?php
 namespace Erato\Core;
 
-use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
+use Clio\Component\Util\Metadata\SchemaRegistry as BaseSchemaRegistry;
 
-interface SchemaRegistry extends SchemaMetadataRegistry
+interface SchemaRegistry extends BaseSchemaRegistry
 {
 }
 

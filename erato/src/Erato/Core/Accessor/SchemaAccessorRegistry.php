@@ -2,7 +2,7 @@
 namespace Erato\Core\Accessor;
 
 use Clio\Component\Pattern\Registry\ReferenceRegistry;
-use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
+use Clio\Component\Util\Metadata\SchemaRegistry;
 
 use Clio\Component\Util\Accessor\Schema\Registry;
 /**
@@ -18,7 +18,7 @@ class SchemaAccessorRegistry extends ReferenceRegistry implements Registry
 {
 	private $metadataRegistry;
 
-	public function __construct(SchemaMetadataRegistry $metadataRegistry)
+	public function __construct(SchemaRegistry $metadataRegistry)
 	{
 		$this->metadataRegistry = $metadataRegistry;
 	}

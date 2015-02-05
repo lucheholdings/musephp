@@ -2,7 +2,7 @@
 namespace Erato\Core\Metadata\Config;
 
 use Clio\Component\Util\Metadata\SchemaMetadata;
-use Clio\Component\Util\Metadata\Field\Type;
+use Clio\Component\Util\Type\FieldType;
 
 class Configuration 
 {
@@ -30,7 +30,7 @@ class Configuration
 					foreach($fieldConfigs as $key => $value) {
 						switch($key) {
 						case 'type':
-							$field->setType(new Type($value));
+							$field->setType(new FieldType($value));
 							break;
 						case 'name':
 							$field->setName($value);

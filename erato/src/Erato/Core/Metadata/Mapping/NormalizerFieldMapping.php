@@ -7,6 +7,8 @@ use Clio\Component\Tool\Normalizer\Context;
 
 class NormalizerFieldMapping extends AbstractMapping
 {
+	private $normalizationType;
+
 	/**
 	 * __construct 
 	 * 
@@ -29,10 +31,19 @@ class NormalizerFieldMapping extends AbstractMapping
 	 */
 	public function getType(Context $context)
 	{
-		if($this->hasOption('type')) {
-			return $this->getOption('type');
+		if(!$this->normalizationType) {
+			if($this->hasOption('type')) {
+				$normalizationType = $this->getOption('type');
+			} else {
+				// 
+				$normalizationType = $this->getMetadata()->getType();
+			}
+
+			// build type object.
+			$this->normalizationType = $context->getTypeRegistry()->getType($normalizationType);
 		}
-		return $context->getTypeRegistry()->getType($this->getMetadata()->getType());
+
+		return $this->normalizationType;
 	}
 
 	/**
