@@ -39,5 +39,10 @@ class ScalarType extends AbstractType
 			return $type == $this->getName();
 		}
 	}
+
+	public function isValidData($value)
+	{
+		return is_scalar($value) && ($this->getName() == gettype($value));
+	}
 }
 

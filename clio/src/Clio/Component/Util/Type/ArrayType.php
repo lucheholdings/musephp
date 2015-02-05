@@ -23,4 +23,9 @@ class ArrayType extends AbstractType
 
 		return parent::isType($type);
 	}
+
+	public function isValidData($value)
+	{
+		return is_array($value);
+	}
 }

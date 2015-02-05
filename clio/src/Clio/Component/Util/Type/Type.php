@@ -18,4 +18,22 @@ interface Type
 	 * @return void
 	 */
 	function getName();
+
+	/**
+	 * isValidData 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
+	 */
+	function isValidData($data);
+
+	/**
+	 * isType 
+	 * 
+	 * @param mixed $type 
+	 * @access public
+	 * @return bool 
+	 */
+	function isType($type);
 }

@@ -12,5 +12,10 @@ class MixedType extends AbstractType
 	{
 		return 'mixed' == $type;
 	}
+
+	public function isValidData($value)
+	{
+		return true;
+	}
 }
 
