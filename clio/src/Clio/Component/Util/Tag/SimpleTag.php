@@ -17,6 +17,8 @@ class SimpleTag implements Tag
 	 */
 	private $name;
 
+	private $owner;
+
 	/**
 	 * {@inheritdoc}
 	 */
@@ -39,6 +41,17 @@ class SimpleTag implements Tag
     public function setName($name)
     {
         $this->name = (string)$name;
+        return $this;
+    }
+    
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+    
+    public function setOwner($owner)
+    {
+        $this->owner = $owner;
         return $this;
     }
 }

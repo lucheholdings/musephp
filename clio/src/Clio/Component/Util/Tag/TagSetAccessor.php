@@ -81,8 +81,8 @@ class TagSetAccessor
 				// already exists.
 				// unset from the deleteScheduleTags
 				unset($deleteScheduleTags[$key]);
-			} else {
-				$addScheduleTags[$name] = $name;
+			} else if(!empty($name)) {
+				$addScheduleTags[(string)$name] = $name;
 			}
 		}
 
