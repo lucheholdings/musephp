@@ -36,10 +36,10 @@ class Collection extends NamedCollection implements Factory
 	private $options;
 
 	/**
-	 * createTypeMapping 
+	 * createMapping 
 	 * 
 	 * @param Metadata $metadata 
-	 * @param mixed $type 
+	 * @param array $options 
 	 * @access public
 	 * @return void
 	 */

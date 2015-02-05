@@ -5,6 +5,10 @@ use Clio\Component\Util\Metadata\AbstractMetadata;
 use Clio\Component\Util\Metadata\FieldMetadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
+use Clio\Component\Util\Type\Type,
+	Clio\Component\Util\Type\FieldType,
+	Clio\Component\Util\Type\PrimitiveTypes
+;
 
 /**
  * AbstractFieldMetadata 
@@ -35,15 +39,15 @@ abstract class AbstractFieldMetadata extends AbstractMetadata implements FieldMe
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(SchemaMetadata $schema = null, $name, $type = Type::TYPE_MIXED)
+	public function __construct(SchemaMetadata $schema = null, $name, $type = PrimitiveTypes::TYPE_MIXED)
 	{
 		$this->schemaMetadata = $schema;
 		$this->name = $name;
 
-		if($type instanceof Type) {
+		if($type instanceof FieldType) {
 			$this->type = $type;
 		} else {
-			$this->type = new Type($type);
+			$this->type = new FieldType($type);
 		}
 	}
     
@@ -69,7 +73,7 @@ abstract class AbstractFieldMetadata extends AbstractMetadata implements FieldMe
         return $this->type;
     }
     
-    public function setType(Type $type)
+    public function setType(FieldType $type)
     {
         $this->type = $type;
         return $this;

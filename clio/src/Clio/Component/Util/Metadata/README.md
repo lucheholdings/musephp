@@ -1,5 +1,8 @@
-Metadata
+Clio.Component.Util.Metadata
 ========
+
+(日本語)[./]
+Please see Clio docs
 
 Metadata is known as "Schema", or "Architect" Definition.
 

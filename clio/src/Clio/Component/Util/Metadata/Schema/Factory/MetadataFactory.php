@@ -5,6 +5,7 @@ use Clio\Component\Util\Metadata\Mapping\Factory\Collection as MappingFactoryCol
 use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
 use Clio\Component\Pattern\Factory\MappedFactory;
 use Clio\Component\Util\Metadata\SchemaMetadata;
+use Clio\Component\Util\Metadata\Type\Registry as TypeRegistry;
 /**
  * MetadataFactory 
  * 

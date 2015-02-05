@@ -23,11 +23,15 @@ class InheritedFieldMetadata extends AbstractFieldMetadata implements InheritedM
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(FieldMetadata $parent, SchemaMetadata $schema = null)
+	public function __construct(FieldMetadata $parent, SchemaMetadata $schema = null, $type = null)
 	{
 		$this->parent = $parent;
 
-		parent::__construct($schema, $this->parent->getName(), $this->parent->getType());
+		if(!$type) {
+			$type = $this->parent->getType();
+		}
+
+		parent::__construct($schema, $this->parent->getName(), $type);
 	}
     
     /**
