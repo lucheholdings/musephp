@@ -2,7 +2,7 @@
 namespace Calliope\Framework\Core\Factory;
 
 use Clio\Component\Pattern\Factory\ClassFactory;
-use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
+use Clio\Component\Util\Metadata\SchemaRegistry;
 use Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory;
 use Calliope\Framework\Core\Filter\Factory\FilterDelegatorFactory;
 
@@ -48,12 +48,12 @@ class SchemaManagerComponentFactory extends ClassFactory
 	/**
 	 * __construct 
 	 * 
-	 * @param SchemaMetadataRegistry $registry 
+	 * @param SchemaRegistry $registry 
 	 * @param TypeConnectionFactory $typeConnectionFactory 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(SchemaMetadataRegistry $registry, TypeConnectionFactory $typeConnectionFactory, FilterDelegatorFactory $filterFactory)
+	public function __construct(SchemaRegistry $registry, TypeConnectionFactory $typeConnectionFactory, FilterDelegatorFactory $filterFactory)
 	{
 		$this->schemaMetadataRegistry = $registry;
 		$this->typeConnectionFactory = $typeConnectionFactory;
@@ -68,7 +68,7 @@ class SchemaManagerComponentFactory extends ClassFactory
      * @access public
      * @return schemaMetadataRegistry
      */
-    public function getSchemaMetadataRegistry()
+    public function getSchemaRegistry()
     {
         return $this->schemaMetadataRegistry;
     }
@@ -80,7 +80,7 @@ class SchemaManagerComponentFactory extends ClassFactory
      * @param schemaMetadataRegistry the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setSchemaMetadataRegistry($schemaMetadataRegistry)
+    public function setSchemaRegistry($schemaMetadataRegistry)
     {
         $this->schemaMetadataRegistry = $schemaMetadataRegistry;
         return $this;
@@ -175,7 +175,7 @@ class SchemaManagerComponentFactory extends ClassFactory
 	 */
 	public function getClassMetadata($schemeClass)
 	{
-		return $this->getSchemaMetadataRegistry()->get($schemeClass);
+		return $this->getSchemaRegistry()->get($schemeClass);
 	}
     
     /**

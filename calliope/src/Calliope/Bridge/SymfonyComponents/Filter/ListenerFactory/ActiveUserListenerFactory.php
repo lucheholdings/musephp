@@ -3,7 +3,7 @@ namespace Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory;
 
 use Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory;
 use Symfony\Component\Security\Core\SecurityContext;
-use Clio\Component\Util\Metadata\SchemaMetadataRegistry as SchemaRegistry;
+use Clio\Component\Util\Metadata\SchemaRegistry as SchemaRegistry;
 use Calliope\Bridge\SymfonyComponents\Filter\Listener\ActiveUserListener;
 
 /**

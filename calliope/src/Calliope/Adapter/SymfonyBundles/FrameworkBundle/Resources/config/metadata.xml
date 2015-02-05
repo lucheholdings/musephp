@@ -8,7 +8,7 @@
 	<parameters>
 		<!-- Registry -->
 	    <parameter key="calliope_framework.metadata.registry.class">Calliope\Core\Metadata\MetadataRegistry</parameter>
-	    <parameter key="calliope_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaMetadataRegistry</parameter>
+	    <parameter key="calliope_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaRegistry</parameter>
 
 	    <parameter key="calliope_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
 		

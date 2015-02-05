@@ -2,7 +2,7 @@
 namespace Calliope\Bridge\Symfony\Factory;
 
 use Calliope\Framework\Core\Factory\SchemaManagerComponentFactory;
-use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
+use Clio\Component\Util\Metadata\SchemaRegistry;
 use Clio\Component\Pattern\Registry\Registry;
 use Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory;
 
@@ -31,13 +31,13 @@ class ContainerAwareSchemaManagerFactory extends SchemaManagerComponentFactory i
 	/**
 	 * __construct 
 	 * 
-	 * @param SchemaMetadataRegistry $registry 
+	 * @param SchemaRegistry $registry 
 	 * @param TypeConnectionFactory $typeConnectionFactory 
 	 * @param ContainerInterface $container 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(SchemaMetadataRegistry $registry, TypeConnectionFactory $typeConnectionFactory, $filterFactory, ContainerInterface $container = null)
+	public function __construct(SchemaRegistry $registry, TypeConnectionFactory $typeConnectionFactory, $filterFactory, ContainerInterface $container = null)
 	{
 		parent::__construct($registry, $typeConnectionFactory, $filterFactory);
 		$this->container = $container;

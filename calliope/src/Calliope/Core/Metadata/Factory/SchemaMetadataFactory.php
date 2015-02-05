@@ -6,7 +6,7 @@ use Calliope\Core\Metadata\UsecaseSchema;
 use Clio\Component\Util\Metadata\Mapping\Factory\Collection as MappingFactoryCollection;
 
 use Erato\Core\Metadata\MetadataRegistry;
-use Clio\Component\Util\Metadata\SchemaMetadataRegistry;
+use Clio\Component\Util\Metadata\SchemaRegistry;
 
 class SchemaMetadataFactory 
 {
@@ -14,7 +14,7 @@ class SchemaMetadataFactory
 
 	private $mappingFactory;
 
-	public function __construct(SchemaMetadataRegistry $registry, MappingFactoryCollection $mappingFactory = null)
+	public function __construct(SchemaRegistry $registry, MappingFactoryCollection $mappingFactory = null)
 	{
 		$this->registry = $registry;
 
