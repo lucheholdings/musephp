@@ -84,5 +84,10 @@ class SchemaReferenceType extends AbstractType
 		}
 		return false;
 	}
+
+	public function isValidData($data)
+	{
+		return $this->getSchema()->isValidData($data);
+	}
 }
 
