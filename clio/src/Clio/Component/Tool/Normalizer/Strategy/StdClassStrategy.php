@@ -2,8 +2,8 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\ObjectType;
-use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type as Types,
+	Clio\Component\Util\Type\Type;
 
 /**
  * StdClassStrategy
@@ -36,7 +36,7 @@ class StdClassStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType) && ('stdClass' == $type->getClassReflector()->getName());
+		return ($type instanceof Types\ObjectType) && ('stdClass' == $type->getClassReflector()->getName());
 	}
 
 	/**
@@ -44,6 +44,6 @@ class StdClassStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType) && ('stdClass' == $type->getClassReflector()->getName());
+		return ($type instanceof Types\ObjectType) && ('stdClass' == $type->getClassReflector()->getName());
 	}
 }

@@ -2,12 +2,15 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Strategy;
-use Clio\Component\Tool\Normalizer\Type,
-	Clio\Component\Tool\Normalizer\Type\ObjectType,
-	Clio\Component\Tool\Normalizer\Type\ReferenceType
+use Clio\Component\Util\Type as Types,
+	Clio\Component\Util\Type\Type
 ;
 use Clio\Component\Tool\Normalizer\Context;
 use Clio\Component\Tool\Normalizer\CircularException;
+
+use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes,
+	Clio\Component\Tool\Normalizer\Type\ReferenceType
+;
 
 abstract class AbstractStrategy implements Strategy
 {
@@ -41,7 +44,7 @@ abstract class AbstractStrategy implements Strategy
 				}
 				list($context, $type) = $data;
 
-				$fieldType = $type->getFieldType($key, $context);
+				$fieldType = $context->getFieldType($type, $key);
 
 				try {
 					$this->enterScope($context, $value, $fieldType, $key);
@@ -51,11 +54,11 @@ abstract class AbstractStrategy implements Strategy
 					$this->leaveScope($context);
 				} catch(CircularException $ex) {
 					// if data type can refer then avoid circularException.
-					if(!$type->canReference()) {
+					if(!$type->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
 						throw $ex;
 					}
 
-					$value = $context->getNormalizer()->normalize($data, $type->reference(), $context);
+					$value = $context->getNormalizer()->normalize($data, new ReferenceType($type), $context);
 				}
 			}, array($context, $type));
 		}
@@ -81,13 +84,13 @@ abstract class AbstractStrategy implements Strategy
 			array_walk($data, function(&$value, $key, $data) {
 				list($type, $context) = $data;
 				// Field Type
-				if($fieldType = $type->getFieldType($key, $context)) {
+				if($fieldType = $context->getFieldType($type, $key)) {
 					$fieldType = $context->getTypeRegistry()->getType($fieldType);
 				} else {
 					$fieldType = $context->getTypeRegistry()->guessType($value);
 				}
 
-				if($fieldType instanceof Type\NullType) {
+				if($fieldType instanceof Types\NullType) {
 					return;
 				}
 
@@ -148,7 +151,6 @@ abstract class AbstractStrategy implements Strategy
 	{
 		$this->options[$name] = $value;
 	}
-
 
 	protected function enterScope($context, $value, $type, $field)
 	{

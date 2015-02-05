@@ -2,6 +2,9 @@
 namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Exception\UnsupportedException;
+use Clio\Component\Util\Type,
+	Clio\Component\Util\Type\Registry as TypeRegistry
+;
 
 use Psr\Log as PsrLog;
 
@@ -82,8 +85,7 @@ class Normalizer implements
 		}
 
 		if($type instanceof Type\MixedType) {
-			$mixed= $context->getTypeRegistry()->resolveMixed($type, $data);
-			$type = $mixed;
+			$type = $type->resolve($context->getTypeRegistry(), $data);
 		}
 
 		// Original Scope
@@ -135,9 +137,7 @@ class Normalizer implements
 			}
 
 			if($type instanceof Type\MixedType) {
-				$mixed = $context->getTypeRegistry()->resolveMixed($type, $data);
-
-				$type = $mixed;
+				$type = $type->resolve($context->getTypeRegistry(), $data);
 			}
 
 			// Original Scope
@@ -191,7 +191,7 @@ class Normalizer implements
         return $this->typeRegistry;
     }
     
-    public function setTypeRegistry($typeRegistry)
+    public function setTypeRegistry(TypeRegistry $typeRegistry)
     {
         $this->typeRegistry = $typeRegistry;
         return $this;

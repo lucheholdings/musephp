@@ -1,8 +1,9 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
-use Clio\Component\Tool\Normalizer\Type;
-use Clio\Component\Tool\Normalizer\Type\ScalarType;
+use Clio\Component\Util\Type\Type,
+	Clio\Component\Util\Type as Types
+;
 use Clio\Component\Tool\Normalizer\Context;
 
 class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, DenormalizationStrategy
@@ -12,7 +13,7 @@ class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, 
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ScalarType);
+		return $type->isType(Types\PrimitiveTypes::TYPE_SCALAR);
 	}
 
 	/**
@@ -28,7 +29,7 @@ class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, 
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ScalarType);
+		return $type->isType(Types\PrimitiveTypes::TYPE_SCALAR);
 	}
 
 	/**

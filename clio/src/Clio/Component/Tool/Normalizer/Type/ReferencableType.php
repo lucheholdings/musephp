@@ -12,14 +12,6 @@ namespace Clio\Component\Tool\Normalizer\Type;
 interface ReferencableType
 {
 	/**
-	 * canReference 
-	 *   Validate this type can referred or not. 
-	 * @access public
-	 * @return bool
-	 */
-	function canReference();
-
-	/**
 	 * reference 
 	 *   Create ReferenceType for this type 
 	 * @access public
@@ -27,5 +19,21 @@ interface ReferencableType
 	 */
 	function reference();
 
+	/**
+	 * getIdentifierFields 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getIdentifierFields();
+
+	/**
+	 * getIdentifierValues 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
+	 */
+	function getIdentifierValues($data);
 }
 

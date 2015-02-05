@@ -2,8 +2,14 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\ObjectType;
-use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type\Type,
+	Clio\Component\Util\Type as Types
+;
+
+use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes,
+	Clio\Component\Tool\Normalizer\Type\ReferenceType
+;
+
 use Clio\Component\Tool\Normalizer\CircularException;
 
 /**
@@ -41,17 +47,17 @@ abstract class ObjectStrategy extends AbstractStrategy
 				}
 				list($context, $type) = $data;
 
-				$fieldType = $type->getFieldType($key, $context);
+				$fieldType = $context->getFieldType($type, $key);
 
 				try {
 					$this->enterScope($context, $value, $fieldType, $key);
 				} catch(CircularException $ex) {
 					// if data type can refer then avoid circularException.
-					if(!$fieldType->canReference()) {
+					if(!$fieldType->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
 						throw new \RuntimeException(sprintf('Circular reference cannot be solved. Please specify identifier(s) of "%s" on Path("%s")', $fieldType->getName(), $context->getPathInCurrentScope($key)), 0, $ex);
 					}
 
-					$fieldType = $fieldType->reference();
+					$fieldType = new ReferenceType($fieldType);
 					$this->enterScope($context, null, $fieldType, $key);
 				}
 				$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
@@ -77,7 +83,7 @@ abstract class ObjectStrategy extends AbstractStrategy
 		}
 
 		// Convert Scalar value to indentifier array if possible
-		if(is_scalar($data) && $type->canReference()) {
+		if(is_scalar($data) && $type->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
 			$ids = $type->getIdentifierFields();
 			if(1 == count($ids)) {
 				$data = array(reset($ids) => $data);
@@ -89,11 +95,12 @@ abstract class ObjectStrategy extends AbstractStrategy
 			array_walk($data, function(&$value, $key, $data) {
 				list($type, $context) = $data;
 				// Field Type
-				if($fieldType = $type->getFieldType($key, $context)) {
-					$fieldType = $context->getTypeRegistry()->getType($fieldType);
-				} else {
-					$fieldType = $context->getTypeRegistry()->guessType($value);
-				}
+				$fieldType = $context->getFieldType($type, $key);
+				//if($fieldType = $context->getFieldType($type, $key)) {
+				//	$fieldType = $context->getTypeRegistry()->getType($fieldType);
+				//} else {
+				//	$fieldType = $context->getTypeRegistry()->guessType($value);
+				//}
 				
 				$context->enterScope($value, $fieldType, $key);
 				// 
@@ -108,9 +115,15 @@ abstract class ObjectStrategy extends AbstractStrategy
 		// But first check the pool if the data exists
 		$object = null;
 		// Fixme: cause ArrayAccessStrategy extends this class, instance type validation is required. 
-		if(($type instanceof ObjectType) && $type->canReference()) {
-			if($identifiers = $this->validateIdentifiers($type, $data)) {
-				$object = $type->getDataPool()->getByIdentifiers($identifiers);
+		$reference = null;
+		if($type->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
+			$reference = new ReferenceType($type);
+			
+			$fields = $reference->getIdentifierFields();
+			$identifiers = array_intersect_key($data, array_flip($fields));
+
+			if(count($identifiers) == count($fields)) {
+				$object = $context->getDataPool()->get($type, $identifiers);
 			}
 		}
 
@@ -122,8 +135,8 @@ abstract class ObjectStrategy extends AbstractStrategy
 			$denormalized = $this->doDenormalize($data, $type, $context, $object);
 		}
 
-		if(($type instanceof ObjectType) && $type->canReference()) { 
-			$type->getDataPool()->add($denormalized);
+		if($reference) {
+			$context->getDataPool()->add($type, $denormalized);
 		}
 
 		return $denormalized;
@@ -134,7 +147,7 @@ abstract class ObjectStrategy extends AbstractStrategy
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType);
+		return $type->isType(Types\PrimitiveTypes::TYPE_OBJECT);
 	}
 
 	/**
@@ -142,29 +155,6 @@ abstract class ObjectStrategy extends AbstractStrategy
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType);
-	}
-
-	protected function validateIdentifiers($type, $data)
-	{
-		$idFields = $type->getIdentifierFields();
-		$ids = array();
-
-		if(is_array($data)) {
-			foreach($idFields as $field) {
-				if(!isset($data[$field])) {
-					$ids = false;
-					break;
-				}
-
-				$ids[$field] = $data[$field];
-			}
-
-			if(count($idFields) == count($ids)) {
-				return $ids;
-			}
-		}
-
-		return false;
+		return $type->isType(Types\PrimitiveTypes::TYPE_OBJECT);
 	}
 }

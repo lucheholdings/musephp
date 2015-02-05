@@ -2,7 +2,9 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type\Type,
+	Clio\Component\Util\Type as Types
+;
 /**
  * ClassStrategy 
  *   ClassStrategy is a type of ObjectStrategy
@@ -24,7 +26,7 @@ abstract class ClassStrategy extends ObjectStrategy
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof Type\ObjectType) && ($this->getClassName() === $type->getName());
+		return ($type->isType('class') && ($this->getClassName() === $type->getName()));
 	}
 
 	/**
@@ -32,7 +34,7 @@ abstract class ClassStrategy extends ObjectStrategy
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof Type\ObjectType) && ($this->getClassName() === $type->getName());
+		return ($type->isType('class') && ($this->getClassName() === $type->getName()));
 	}
 
 	protected function doNormalize($data, Type $type, Context $context)

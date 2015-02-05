@@ -2,8 +2,9 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\ObjectType;
-use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type as Types,
+	Clio\Component\Util\Type\Type
+;
 use Clio\Component\Tool\Normalizer\Normalizable;
 
 class NormalizableStrategy extends InterfaceStrategy implements NormalizationStrategy, DenormalizationStrategy 
@@ -18,8 +19,9 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 
 		array_walk($normalized, function(&$value, $key, $data) {
 			list($type, $context) = $data;
+
 			// Field Type
-			if($fieldType = $type->getFieldType($key, $context)) {
+			if($fieldType = $context->getFieldType($type, $key)) {
 				$fieldType = $context->getTypeRegistry()->getType($fieldType);
 			} else {
 				$fieldType = $context->getTypeRegistry()->guessType($value);
@@ -43,7 +45,7 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 		array_walk($data, function(&$value, $key, $data) {
 			list($type, $context) = $data;
 			// Field Type
-			if($fieldType = $type->getFieldType($key, $context)) {
+			if($fieldType = $context->getFieldType($type, $key)) {
 				$fieldType = $context->getTypeRegistry()->getType($fieldType);
 			} else {
 				$fieldType = $context->getTypeRegistry()->guessType($value);

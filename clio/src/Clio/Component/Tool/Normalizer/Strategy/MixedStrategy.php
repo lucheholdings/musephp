@@ -2,38 +2,38 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\MixedType;
+use Clio\Component\Util\Type as Types;
 
 class MixedStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof MixedType);
+		return ($type instanceof Type\MixedType);
 	}
 
 	public function normalize($data, $type = null, Context $context = null)
 	{
-		if(!$type instanceof MixedType) {
-			throw new \InvalidArgumentException(sprintf('MixedStrategy requires an instanceof of ReferenceType to doNormalize, but "%s" is given.', get_class($type)));
+		if(!$type->isType(Types\PrimitiveTypes::TYPE_MIXED)) {
+			throw new \InvalidArgumentException(sprintf('MixedStrategy only accept type "mixed", but "%s[%s]" is given.', get_class($type), $type->getName()));
 		}
 
-		$newType = $context->getTypeRegistry()->resolveMixed($type);
+		$newType = $type->resolve($context->getTypeRegistry(), $data);
 
 		return $context->getNormalizer()->normalize($data, $newType, $context);
 	}
 
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof MixedType);
+		return ($type->isType(Types\PrimitiveTypes::TYPE_MIXED));
 	}
 
 	public function denormalize($data, $type, Context $context = null)
 	{
-		if(!$type instanceof MixedType) {
-			throw new \InvalidArgumentException(sprintf('MixedStrategy requires an instanceof of ReferenceType to doNormalize, but "%s" is given.', get_class($type)));
+		if(!$type->isType(Types\PrimitiveTypes::TYPE_MIXED)) {
+			throw new \InvalidArgumentException(sprintf('MixedStrategy only accept type "mixed", but "%s[%s]" is given.', get_class($type), $type->getName()));
 		}
 
-		$newType = $context->getTypeRegistry()->resolveMixed($type);
+		$newType = $type->resolve($context->getTypeRegistry(), $data);
 
 		return $context->getNormalizer()->denormalize($data, $newType, $context);
 	}

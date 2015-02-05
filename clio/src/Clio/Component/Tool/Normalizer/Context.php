@@ -1,6 +1,10 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
 
+use Clio\Component\Util\Type as Types,
+	Clio\Component\Util\Type\Type,
+	Clio\Component\Util\Type\Registry as TypeRegistry;
+
 /**
  * Context 
  * 
@@ -53,6 +57,8 @@ class Context
 	 */
 	private $pathTypes;
 
+	private $dataPool;
+
 	/**
 	 * __construct 
 	 * 
@@ -68,6 +74,7 @@ class Context
 			$typeRegistry = new TypeRegistry();
 
 		$this->typeRegistry = $typeRegistry;
+		$this->dataPool = new Tool\DataPool();
 	}
     
     /**
@@ -181,8 +188,8 @@ class Context
 	 */
 	public function enterScope($data, Type $type, $field = '_')
 	{
-		if($type instanceof Type\MixedType) {
-			$type->resolve($this, $data);
+		if($type instanceof Types\MixedType) {
+			$type->resolve($this->getTypeRegistry(), $data);
 		}
 
 		if(is_object($data)) {
@@ -281,6 +288,35 @@ class Context
 			$this->setPathType($path, $type);	
 		}
         return $this;
+    }
+
+	/**
+	 * getFieldType 
+	 * 
+	 * @param mixed $type 
+	 * @param mixed $field 
+	 * @access public
+	 * @return FieldType|Type
+	 */
+	public function getFieldType($type, $field)
+	{
+		$fieldPath = $this->getPathInCurrentScope($field);
+
+		if($this->hasPathType($fieldPath)) {
+			return $this->getPathType($fieldPath);
+		} else if($type instanceof Types\FieldContainable) {
+			$fieldType = $type->getFieldType($field);
+			$fieldType->setTypeRegistry($this->getTypeRegistry());
+
+			return $fieldType;
+		}
+		
+		return new Types\MixedType();
+	}
+    
+    public function getDataPool()
+    {
+        return $this->dataPool;
     }
 }
 

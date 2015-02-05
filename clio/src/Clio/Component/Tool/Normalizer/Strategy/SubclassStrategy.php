@@ -2,7 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\ObjectType;
+use Clio\Component\Util\Type as Types;
 
 /**
  * SubclassStrategy 
@@ -25,7 +25,7 @@ abstract class SubclassStrategy extends ObjectStrategy
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType) && ($type->getClassReflector()->isSubclassOf($this->getClassName()));
+		return ($type instanceof Types\ObjectType) && ($type->getClassReflector()->isSubclassOf($this->getClassName()));
 	}
 
 	/**
@@ -33,7 +33,7 @@ abstract class SubclassStrategy extends ObjectStrategy
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof ObjectType) && ($type->getClassReflector()->isSubclassOf($this->getClassName()));
+		return ($type instanceof Types\ObjectType) && ($type->getClassReflector()->isSubclassOf($this->getClassName()));
 	}
 
 }

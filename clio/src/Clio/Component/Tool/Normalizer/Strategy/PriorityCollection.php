@@ -4,7 +4,7 @@ namespace Clio\Component\Tool\Normalizer\Strategy;
 use Clio\Component\Util\Container\Set\PrioritySet;
 use Clio\Component\Tool\Normalizer\Strategy;
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type;
 use Clio\Component\Exception\UnsupportedException;
 use Clio\Component\Util\Validator\SubclassValidator;
 

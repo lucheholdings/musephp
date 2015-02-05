@@ -2,7 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\NullType;
+use Clio\Component\Util\Type\NullType;
 
 class NullStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
