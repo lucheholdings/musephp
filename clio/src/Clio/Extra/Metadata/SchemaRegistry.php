@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Extra\Metadata;
 
-use Clio\Component\Pattern\Registry\LoadableRegistry;
+use Clio\Component\Util\Metadata\BasicSchemaRegistry;
 /**
- * SchemaMetadataRegistry 
+ * SchemaRegistry 
  * 
  * @uses LoadableRegistry
  * @package { PACKAGE }
@@ -11,7 +11,7 @@ use Clio\Component\Pattern\Registry\LoadableRegistry;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class SchemaMetadataRegistry extends LoadableRegistry 
+class SchemaRegistry extends BasicSchemaRegistry 
 {
 }
 

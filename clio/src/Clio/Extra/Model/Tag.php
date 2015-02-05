@@ -38,7 +38,7 @@ class Tag implements TagInterface
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($name, $owner = null)
+	public function __construct($name = null, $owner = null)
 	{
 		$this->name = $name;
 		$this->owner = $owner;

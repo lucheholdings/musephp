@@ -10,7 +10,8 @@ use Clio\Component\Util\Accessor\Factory\DataAccessorFactory;
 use Clio\Component\Util\Accessor\SchemaAccessorFactory;
 use Clio\Component\Util\Accessor\Factory\BasicClassAccessorFactory;
 use Clio\Component\Tool\Normalizer\Context,
-	Clio\Component\Tool\Normalizer\Type
+	Clio\Component\Util\Type\Type,
+	Clio\Component\Util\Type as Types
 ;
 
 use Clio\Component\Util\Accessor\Schema\Registry as SchemaAccessorRegistry;
@@ -59,17 +60,24 @@ class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	{
 		if(!$object) {
 			// create new Object
+			if($type instanceof Types\ProxyType) {
+				$type = $type->getRawType();
+			}
 			$object = $type->construct();
 		}
 
 		$accessor = $this->createDataAccessor($type, $object); 
-		
+
 		// Set Field Values
-		foreach($data as $key => $value) {
-			//if($accessor->existsField($key)) {
-			if($accessor->isSupportMethod($key, Accessor::ACCESS_SET)) {
-				$accessor->set($key, $value);
+		if(is_array($data)) {
+			foreach($data as $key => $value) {
+				//if($accessor->existsField($key)) {
+				if($accessor->isSupportMethod($key, Accessor::ACCESS_SET)) {
+					$accessor->set($key, $value);
+				}
 			}
+		} else {
+			return $data;
 		}
 
 		return $accessor->getData();
