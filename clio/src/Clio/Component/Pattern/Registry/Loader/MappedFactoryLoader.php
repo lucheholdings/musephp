@@ -2,6 +2,7 @@
 namespace Clio\Component\Pattern\Registry\Loader;
 
 use Clio\Component\Pattern\Factory\MappedFactory;
+use Clio\Component\Pattern\Factory\UnsupportedException;
 
 /**
  * MappedFactoryLoader 
@@ -39,7 +40,11 @@ class MappedFactoryLoader extends AbstractLoader
 	 */
 	public function loadEntry($key)
 	{
-		return $this->factory->createByKey($key);
+		try {
+			return $this->factory->createByKey($key);
+		} catch(UnsupportedException $ex) {
+			return null;
+		}
 	}
 
 	/**

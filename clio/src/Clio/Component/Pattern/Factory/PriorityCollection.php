@@ -1,8 +1,6 @@
 <?php
 namespace Clio\Component\Pattern\Factory;
 
-use Clio\Component\Exception\UnsupportedException;
-
 use Clio\Component\Util\Container\Set\PrioritySet;
 use Clio\Component\Util\Container\Storage\ValidatableStorage;
 use Clio\Component\Util\Validator\SubclassValidator;

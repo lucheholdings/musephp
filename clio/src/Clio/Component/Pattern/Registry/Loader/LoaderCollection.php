@@ -23,9 +23,11 @@ class LoaderCollection extends PrioritySet implements EntryLoader
 	 * @access protected
 	 * @return void
 	 */
-	protected function initContainer()
+	protected function initContainer(array $values)
 	{
-		$this->setValueValidator(new SubclassValidator('Clio\Component\Pattern\Registry\EntryLoader'));
+		parent::initContainer($values);
+
+		$this->getStorage()->setValueValidator(new SubclassValidator('Clio\Component\Pattern\Registry\EntryLoader'));
 	}
 
 	/**

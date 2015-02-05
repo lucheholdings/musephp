@@ -57,6 +57,7 @@ class LoadableRegistry extends ProxyRegistry
 	{
 		if(!$this->getRegistry()->has($key)) {
 			$entry = $this->load($key);
+
 			if($entry) {
 				$this->getRegistry()->set($key, $entry);
 			}
