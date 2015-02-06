@@ -69,6 +69,6 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return parent::canNormalize($data, $type, $context) && ($type->getClassReflector()->isSubclassof('Clio\Component\Tool\Normalizer\Normalizable'));
+		return parent::canNormalize($data, $type, $context);
 	}
 }

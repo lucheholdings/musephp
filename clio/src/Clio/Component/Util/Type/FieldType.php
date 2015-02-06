@@ -14,14 +14,6 @@ use Clio\Component\Util\Container\Bag;
 class FieldType extends LazyBindProxyType implements \Serializable
 {
 	/**
-	 * options 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $options;
-
-	/**
 	 * parseTypeString 
 	 * 
 	 * @param mixed $str 
@@ -58,9 +50,19 @@ class FieldType extends LazyBindProxyType implements \Serializable
 		return array($matches['name'], $options);
 	}
 
-	public function __construct($type, array $options = array())
+	/**
+	 * options 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $options;
+
+	public function __construct($type = null, array $options = array())
 	{
-		if(is_string($type)) {
+		if(null == $type) {
+			$type = new MixedType();
+		} else if(is_string($type)) {
 			list($type, $extra)  = self::parseTypeString($type);
 			$options = array_replace($options, $extra);
 		}

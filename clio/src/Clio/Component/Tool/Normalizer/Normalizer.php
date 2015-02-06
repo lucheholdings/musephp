@@ -126,6 +126,9 @@ class Normalizer implements
 	 */
 	public function denormalize($data, $type, Context $context = null)
 	{
+		if(is_object($data)) {
+			return $data;
+		}
 		try {
 			if(!$context) {
 				$context = new Context($this->getTypeRegistry());

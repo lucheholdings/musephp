@@ -60,4 +60,9 @@ class ProxyType implements Type
 		}
 		return $type;
 	}
+
+	public function __call($method, array $args = array())
+	{
+		return call_user_func_array(array($this->getType(), $method), $args);
+	}
 }

@@ -2,6 +2,7 @@
 namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Exception\CircularException as BaseException;
+use Clio\Component\Util\Type\Type;
 
 /**
  * CircularException 

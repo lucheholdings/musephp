@@ -112,6 +112,11 @@ class SchemaReferenceType extends AbstractType implements FieldContainable
 		return $this->getSchema()->getField($field)->getType();
 	}
 
+	public function hasFieldType($field)
+	{
+		return $this->getSchema()->hasField($field);
+	}
+
 	public function construct()
 	{
 		return $this->getSchema()->newInstance();

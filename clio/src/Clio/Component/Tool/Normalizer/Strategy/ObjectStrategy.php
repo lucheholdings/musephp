@@ -52,6 +52,8 @@ abstract class ObjectStrategy extends AbstractStrategy
 				try {
 					$this->enterScope($context, $value, $fieldType, $key);
 				} catch(CircularException $ex) {
+
+					$fieldType = $fieldType->resolve($context->getTypeRegistry(), $value);
 					// if data type can refer then avoid circularException.
 					if(!$fieldType->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
 						throw new \RuntimeException(sprintf('Circular reference cannot be solved. Please specify identifier(s) of "%s" on Path("%s")', $fieldType->getName(), $context->getPathInCurrentScope($key)), 0, $ex);

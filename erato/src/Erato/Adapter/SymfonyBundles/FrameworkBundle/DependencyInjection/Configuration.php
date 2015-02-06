@@ -442,10 +442,10 @@ class Configuration implements ConfigurationInterface
 		;
 
 		$defaultStrategies = array(
-			'reference'     => array('enabled' => true,  'priority' => 1000),
-			'null'          => array('enabled' => true,  'priority' => 1000),
-			'mixed'         => array('enabled' => true,  'priority' => 1000),
 			'normalizable'  => array('enabled' => true,  'priority' => 1000),
+			'reference'     => array('enabled' => true,  'priority' => 900),
+			'null'          => array('enabled' => true,  'priority' => 900),
+			'mixed'         => array('enabled' => true,  'priority' => 800),
 			'datetime'      => array('enabled' => true,  'priority' => 600),
 			'std_class'     => array('enabled' => true,  'priority' => 500),
 			'array_access'  => array('enabled' => false, 'priority' => 500),
@@ -511,7 +511,6 @@ class Configuration implements ConfigurationInterface
 			->arrayNode($name)
 				->addDefaultsIfNotSet()
 				->treatFalseLike(array('enabled' => false))
-				->treatTrueLike(array('enabled' => true))
 				->treatTrueLike(array('enabled' => true))
 				->treatNullLike(array('enabled' => $isEnabled))
 				->beforeNormalization()

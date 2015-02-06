@@ -129,9 +129,8 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 
 	public function isInherited($name)
 	{
-		if(class_exists($name)) {
+		if(class_exists($name) || interface_exists($name)) {
 			return ($name == $this->getReflectionClass()->getName())
-				|| $this->getReflectionClass()->implementsInterface($name)
 				|| $this->getReflectionClass()->isSubclassOf($name)
 			;
 		}

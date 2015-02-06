@@ -78,7 +78,7 @@ class PriorityCollection extends PrioritySet implements
 			if( ($strategy instanceof NormalizationStrategy) && 
 				$strategy->canNormalize($object, $type, $context)) 
 			{
-				$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Strategy Handle normalize.', array('strategy' => get_class($strategy)));
+				$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Strategy Handle normalize.', array('strategy' => get_class($strategy), 'data'=> $object));
 				return $strategy->normalize($object, $type, $context);
 			}
 		}

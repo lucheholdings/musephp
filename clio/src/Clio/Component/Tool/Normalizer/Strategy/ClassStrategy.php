@@ -26,7 +26,8 @@ abstract class ClassStrategy extends ObjectStrategy
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type->isType('class') && ($this->getClassName() === $type->getName()));
+		return $type->isType(Types\PrimitiveTypes::TYPE_OBJECT) 
+			&& ($type->getName() == $this->getClassName());
 	}
 
 	/**
@@ -34,7 +35,8 @@ abstract class ClassStrategy extends ObjectStrategy
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type->isType('class') && ($this->getClassName() === $type->getName()));
+		return $type->isType(Types\PrimitiveTypes::TYPE_OBJECT) 
+			&& ($type->getName() == $this->getClassName());
 	}
 
 	protected function doNormalize($data, Type $type, Context $context)

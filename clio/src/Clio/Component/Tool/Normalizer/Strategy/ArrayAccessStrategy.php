@@ -96,7 +96,7 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return $type->isType('array') || $type->isType('set') || $type->isType('set') || (parent::canNormalize($data, $type, $context) && ($type->getClassReflector()->isSubclassof('Traversable')));
+		return $type->isType('array') || $type->isType('set') || $type->isType('set') || (parent::canNormalize($data, $type, $context) && ($type->isType('Traversable')));
 	}
 
 	public function canDenormalize($data, $type, Context $context)

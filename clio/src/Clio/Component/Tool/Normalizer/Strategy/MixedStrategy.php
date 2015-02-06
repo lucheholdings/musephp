@@ -8,7 +8,7 @@ class MixedStrategy implements NormalizationStrategy, DenormalizationStrategy
 {
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof Type\MixedType);
+		return $type->isType(Types\PrimitiveTypes::TYPE_MIXED);
 	}
 
 	public function normalize($data, $type = null, Context $context = null)

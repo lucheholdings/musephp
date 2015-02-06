@@ -28,8 +28,8 @@ class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, 
 
 	protected function doNormalize($data, Type $type, Context $context)
 	{
-		if($type->hasOption('format')) {
-			$format = $type->getOption('format');
+		if($type->options->has('format')) {
+			$format = $type->options->get('format');
 		} else {
 			$format = $this->getFormat();
 		}
@@ -39,8 +39,8 @@ class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, 
 
 	protected function doDenormalize($data, Type $type, Context $context, $object = null)
 	{
-		if($type->hasOption('format')) {
-			$format = $type->getOption('format');
+		if($type->options->has('format')) {
+			$format = $type->options->get('format');
 		} else {
 			$format = $this->getFormat();
 		}
@@ -53,7 +53,7 @@ class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof Types\ObjectType) && ('DateTime' == $type->getClassReflector()->getName());
+		return ($type->isType(Types\PrimitiveTypes::TYPE_OBJECT) && ('DateTime' == $type->getName()));
 	}
 
 	/**
@@ -61,7 +61,7 @@ class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof Types\ObjectType) && ('DateTime' == $type->getClassReflector()->getName());
+		return ($type->isType(Types\PrimitiveTypes::TYPE_OBJECT) && ('DateTime' == $type->getName()));
 	}
 
     

@@ -188,8 +188,8 @@ class Context
 	 */
 	public function enterScope($data, Type $type, $field = '_')
 	{
-		if($type instanceof Types\MixedType) {
-			$type->resolve($this->getTypeRegistry(), $data);
+		if($type->isType(Types\PrimitiveTypes::TYPE_MIXED)) {
+			$type = $type->resolve($this->getTypeRegistry(), $data);
 		}
 
 		if(is_object($data)) {
@@ -304,14 +304,14 @@ class Context
 
 		if($this->hasPathType($fieldPath)) {
 			return $this->getPathType($fieldPath);
-		} else if($type instanceof Types\FieldContainable) {
+		} else if(($type instanceof Types\FieldContainable) && $type->hasFieldType($field)) {
 			$fieldType = $type->getFieldType($field);
 			$fieldType->setTypeRegistry($this->getTypeRegistry());
 
 			return $fieldType;
 		}
 		
-		return new Types\MixedType();
+		return new Types\FieldType();
 	}
     
     public function getDataPool()
