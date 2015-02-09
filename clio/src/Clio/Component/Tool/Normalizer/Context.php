@@ -307,8 +307,6 @@ class Context
 			return $this->getPathType($fieldPath);
 		} else if(($type instanceof Types\FieldContainable) && $type->hasFieldType($field)) {
 			$fieldType = $type->getFieldType($field);
-
-			var_dump($fieldType);
 			$fieldType->setTypeRegistry($this->getTypeRegistry());
 
 			return $fieldType;
