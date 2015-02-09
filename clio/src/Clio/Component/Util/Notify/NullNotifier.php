@@ -9,7 +9,7 @@ namespace Clio\Component\Util\Notify;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class NulllNotifier implements Notifier
+class NullNotifier implements Notifier
 {
 	/**
 	 * notify 

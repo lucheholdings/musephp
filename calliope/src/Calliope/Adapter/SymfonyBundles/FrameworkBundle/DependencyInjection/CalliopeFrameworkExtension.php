@@ -175,6 +175,7 @@ class CalliopeFrameworkExtension extends Extension
 					}
 				}
 
+				// initialize manager setting
 				$configs['mappings']['schema_manager'] = array(
 					'manager_class'   => $params['manager_class'],
 					'connection'      => $connectionId,

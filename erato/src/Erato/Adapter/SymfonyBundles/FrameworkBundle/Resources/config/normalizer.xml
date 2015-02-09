@@ -6,6 +6,7 @@
 
     <parameters>
         <parameter key="erato_framework.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
+        <parameter key="erato_framework.normalizer_type_registry.class">Clio\Extra\Normalizer\Type\Registry</parameter>
 
         <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
 		<!-- Strategy Classes -->
@@ -22,10 +23,13 @@
     </parameters>
 
     <services>
+        <service id="erato_framework.normalizer_type_registry" class="%erato_framework.normalizer_type_registry.class%">
+			<argument type="service" id="erato_framework.type_registry"/>
+		</service>
 		<!--  -->
         <service id="erato_framework.normalizer" class="%erato_framework.normalizer.class%">
 			<argument type="service" id="erato_framework.normalizer.strategy"/>
-			<argument type="service" id="erato_framework.type_registry"/>
+			<argument type="service" id="erato_framework.normalizer_type_registry"/>
 
 			<call method="setLogger">
 				<argument type="service" id="logger"/>

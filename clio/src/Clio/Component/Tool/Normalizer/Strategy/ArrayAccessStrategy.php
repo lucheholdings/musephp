@@ -33,6 +33,8 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 		}
 
 		if($type->isType('set')) {
+			var_dump('set');
+			exit;
 			$arrayData = array_values($arrayData);
 		}
 

@@ -87,5 +87,16 @@ class SchemaIdentifierMapping extends AbstractMapping
 	{
 		return 0 < count($this->getFields());
 	}
+
+	public function validateValues(array $values)
+	{
+		$keys = array_keys($values);
+		foreach($this->getFieldNames() as $field) {
+			if(!in_array($keys, $field)) {
+				return false;
+			}
+		}
+		return true;
+	}
 }
 

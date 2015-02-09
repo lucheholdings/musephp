@@ -2,7 +2,8 @@
 namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Exception\UnsupportedException;
-use Clio\Component\Util\Type,
+use Clio\Component\Util\Type as Types,
+	Clio\Component\Util\Type\Type as TypeInterface,
 	Clio\Component\Util\Type\Registry as TypeRegistry
 ;
 
@@ -80,11 +81,11 @@ class Normalizer implements
 		if(!$type) {
 			//$context->guessType($data);
 			$type = $context->getTypeRegistry()->guessType($data);
-		} else if(!$type instanceof Type) {
+		} else if(!$type instanceof TypeInterface) {
 			$type = $context->getTypeRegistry()->getType($type);
 		}
 
-		if($type instanceof Type\MixedType) {
+		if($type->isType(Types\PrimitiveTypes::TYPE_MIXED)) {
 			$type = $type->resolve($context->getTypeRegistry(), $data);
 		}
 

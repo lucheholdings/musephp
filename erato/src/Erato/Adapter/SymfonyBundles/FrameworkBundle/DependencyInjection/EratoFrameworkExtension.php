@@ -31,6 +31,7 @@ class EratoFrameworkExtension extends Extension
         $this->loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $this->loader->load('services.xml');
 
+		$this->loader->load('type.xml');
 		$this->loader->load('metadata.xml');
 		$this->loader->load('mapping.xml');
 

@@ -451,6 +451,7 @@ class Configuration implements ConfigurationInterface
 			'array_access'  => array('enabled' => false, 'priority' => 500),
 			'accessor'      => array('enabled' => true,  'priority' => 100),
 			'scalar'        => array('enabled' => true,  'priority' => 0),
+			//'doctrine_collection' => array('enabled' => true,  'priority' => 0),
 		);
 
 

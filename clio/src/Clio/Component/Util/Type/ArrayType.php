@@ -3,13 +3,9 @@ namespace Clio\Component\Util\Type;
 
 class ArrayType extends AbstractType 
 {
-	public function __construct($name)
+	public function __construct()
 	{
-		if($name != PrimitiveTypes::TYPE_ARRAY) {
-			throw new \InvalidArgumentException(sprintf('Type "%s" is not Scalar value', $name));
-		}
-
-		parent::__construct($name);
+		parent::__construct(PrimitiveTypes::TYPE_ARRAY);
 	}
 
 	public function isType($type)

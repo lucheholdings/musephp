@@ -2,7 +2,8 @@
 namespace Clio\Component\Util\Metadata;
 
 use Clio\Component\Pattern\Registry\LoadableRegistry,
-	Clio\Component\Pattern\Registry\EntryLoader
+	Clio\Component\Pattern\Registry\EntryLoader,
+	Clio\Component\Pattern\Registry\UnsupportedResourceException
 ;
 use Clio\Component\Util\Metadata\Type\BaseRegistry as TypeRegistry;
 use Clio\Component\Util\Type\FieldType;
@@ -53,6 +54,9 @@ class BasicSchemaRegistry extends LoadableRegistry implements SchemaRegistry
 	{
 		$loaded = parent::load($key);
 
+		if(!$loaded) {
+			throw new UnsupportedResourceException(sprintf('Key "%s" is not loadable.', $key)); 
+		}
 		// Warmup Field Types
 		foreach($loaded->getFields(false) as $field) {
 			$this->loadType($field->getType());

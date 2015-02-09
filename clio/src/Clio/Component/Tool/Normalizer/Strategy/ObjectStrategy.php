@@ -52,7 +52,6 @@ abstract class ObjectStrategy extends AbstractStrategy
 				try {
 					$this->enterScope($context, $value, $fieldType, $key);
 				} catch(CircularException $ex) {
-
 					$fieldType = $fieldType->resolve($context->getTypeRegistry(), $value);
 					// if data type can refer then avoid circularException.
 					if(!$fieldType->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
@@ -60,6 +59,7 @@ abstract class ObjectStrategy extends AbstractStrategy
 					}
 
 					$fieldType = new ReferenceType($fieldType);
+
 					$this->enterScope($context, null, $fieldType, $key);
 				}
 				$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
