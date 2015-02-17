@@ -6,7 +6,7 @@ use Clio\Extra\Log\Notifies;
 
 use Psr\Log\LoggerInterface,
 	Psr\Log\NullLogger,
-	Psr\Log\LogLevel,
+	Psr\Log\LogLevel
 ;
 
 /**
@@ -18,7 +18,7 @@ use Psr\Log\LoggerInterface,
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class LogNotifiedSubscriber extends NotifiedEventSubscriber 
+class LogNotifiedEventSubscriber extends NotifiedEventSubscriber 
 {
 	/**
 	 * getSubscribedNotifies 
@@ -175,7 +175,8 @@ class LogNotifiedSubscriber extends NotifiedEventSubscriber
 	 */
 	public function log(NotifiedEvent $event)
 	{
-		$this->getLogger()->log($event->get(Notifies::OPTION_LOG_LEVEL), $event->getOption(Notifies::OPTION_MESSAGE), $event->getOption(Notifies::OPTION_CONTEXT));
+		$this->getLogger()->log(
+			$event->getOption(Notifies::OPTION_LOG_LEVEL), $event->getOption(Notifies::OPTION_MESSAGE), $event->getOption(Notifies::OPTION_CONTEXT, array()));
 	}
 
     /**

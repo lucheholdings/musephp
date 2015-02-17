@@ -2,6 +2,7 @@
 namespace Clio\Bridge\SymfonyComponents\Notify\Event;
 
 use Symfony\Component\EventDispatcher\Event;
+use Clio\Component\Util\Notify\Notifier;
 
 /**
  * NotifiedEvent 
@@ -14,6 +15,14 @@ use Symfony\Component\EventDispatcher\Event;
  */
 class NotifiedEvent extends Event 
 {
+	/**
+	 * notifier 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $notifier;
+
 	/**
 	 * options 
 	 * 
@@ -37,8 +46,9 @@ class NotifiedEvent extends Event
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(array $options = array())
+	public function __construct(Notifier $notifier, array $options = array())
 	{
+		$this->notifier = $notifier;
 		$this->options = $options;
 		$this->response = null;
 	}
@@ -128,6 +138,17 @@ class NotifiedEvent extends Event
     public function setResponse($response)
     {
         $this->response = $response;
+        return $this;
+    }
+    
+    public function getNotifier()
+    {
+        return $this->notifier;
+    }
+    
+    public function setNotifier($notifier)
+    {
+        $this->notifier = $notifier;
         return $this;
     }
 }

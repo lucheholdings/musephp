@@ -46,7 +46,7 @@ class EventDispatchNotifier implements Notifier
 	 */
 	public function notify($notify, array $args = array())
 	{
-		$event = new Event\NotifiedEvent($args);
+		$event = new Event\NotifiedEvent($this, $args);
 		$this->getEventDispatcher()->dispatch($notify, $event);
 
 		return $event->getResponse();
