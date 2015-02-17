@@ -20,6 +20,7 @@ final class Notifies
     const Notice          = 'logger.log_notice';
     const Info            = 'logger.log_info';
     const Debug           = 'logger.log_debug';
+    const Log             = 'logger.log';
 
 	// Notify options 
 	const OPTION_LOG_LEVEL = 'log_level';
