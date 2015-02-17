@@ -1,7 +1,5 @@
 <?php
-namespace Clio\Bridge\SymfonyComponents\Log\Event\Listener;
-
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+namespace Clio\Bridge\SymfonyComponents\Notify\Event\Listener;
 
 use Clio\Bridge\SymfonyComponents\Notify\Event\NotifiedEvent;
 use Clio\Extra\Log\Notifies;
@@ -20,7 +18,7 @@ use Psr\Log\LoggerInterface,
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class LogNotifiedSubscriber implements EventSubscriberInterface 
+class LogNotifiedSubscriber extends NotifiedEventSubscriber 
 {
 	/**
 	 * getSubscribedNotifies 

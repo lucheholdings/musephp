@@ -1,30 +1,30 @@
 <?php
-namespace Clio\Bridge\SymfonyComponents\Debug\Event\Listener;
+namespace Clio\Bridge\SymfonyComponents\Notify\Event\Listener;
 
 use Clio\Bridge\SymfonyComponents\Debug\Event\IntervalEvent;
 use Clio\Extra\Debug\Notifies;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 use Symfony\Component\Stopwatch\StopwatchInterface;
 
 /**
  * TimelineNotifiedSubscriber 
  * 
- * @uses EventSubscriberInterafce
+ * @uses NotifiedEventSubscribere
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class TimelineNotifiedSubscriber implements EventSubscriberInterafce
+class TimelineNotifiedSubscriber extends NotifiedEventSubscriber 
 {
 	/**
-	 * getSubscribedEvents 
+	 * getSubscribedNotifies 
 	 * 
 	 * @static
 	 * @access public
 	 * @return void
 	 */
-	static public function getSubscribedEvents()
+	static public function getSubscribedNotifies()
 	{
 		return array(
 			Notifies::IntervalBegin   => 'onIntervalBegin',

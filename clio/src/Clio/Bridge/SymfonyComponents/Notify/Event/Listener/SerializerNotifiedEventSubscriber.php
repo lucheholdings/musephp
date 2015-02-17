@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Bridge\SymfonyComponents\Serializer\Event\Listener;
+namespace Clio\Bridge\SymfonyComponents\Notify\Event\Listener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
@@ -18,8 +18,18 @@ use Clio\Extra\Debug\Notifies as DebugNotifies;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class SerializerNotifiedSubscriber implements EventSubscriberInterface 
+class SerializerNotifiedSubscriber extends NotifiedEventSubscriber
 {
+	static public function getSubscribedNotifies()
+	{
+		return array(
+				Notifies::SerializationBegin => 'onSerializationBegin',
+				Notifies::SerializationEnd   => 'onSerializationEnd',
+				Notifies::DeserializationBegin => 'onDeserializationBegin',
+				Notifies::DeserializationEnd   => 'onDeserializationEnd',
+			);
+	}
+
 	/**
 	 * onSerializationBegin 
 	 *

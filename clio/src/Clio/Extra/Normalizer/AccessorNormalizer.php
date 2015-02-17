@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Extra\Normalizer;
 
-use Clio\Component\Tool\Normalizer\Normalizer;
+use Clio\Component\Tool\Normalizer\Normalizer as BaseNormalizer;
 use Clio\Component\Tool\Normalizer\Strategy\PriorityCollection,
 	Clio\Component\Tool\Normalizer\Strategy,
 	Clio\Extra\Normalizer\Strategy\AccessorStrategy
@@ -19,7 +19,7 @@ use Clio\Component\Util\Accessor\Schema\Factory\FieldSchemaAccessorFactory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AccessorNormalizer extends Normalizer 
+class AccessorNormalizer extends BaseNormalizer 
 {	
 	/**
 	 * createDefault 
