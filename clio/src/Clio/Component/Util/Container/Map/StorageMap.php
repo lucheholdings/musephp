@@ -1,7 +1,9 @@
 <?php
 namespace Clio\Component\Util\Container\Map;
 
+use Clio\Component\Util\Container\Map as MapInterface;
 use Clio\Component\Util\Container\Storage;
+use Clio\Component\Util\Container\Storage\StorageContainer;
 
 /**
  * Map
@@ -11,7 +13,7 @@ use Clio\Component\Util\Container\Storage;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license MIT
  */
-class Map extends AbstractMap 
+class StorageMap extends StorageContainer implements MapInterface 
 {
 	/**
 	 * {@inheritdoc}
@@ -98,6 +100,38 @@ class Map extends AbstractMap
 			throw new \InvalidArgumentException('Map Storage has to be an RandomAccessable');
 		}
 		parent::setStorage($storage);
+	}
+
+	public function offsetGet($key)
+	{
+		$this->get($key);
+	}
+
+	public function offsetSet($key, $value)
+	{
+		$this->set($key, $value);
+	}
+
+	public function offsetUnset($key)
+	{
+		$this->remove($key);
+	}
+
+	public function offsetExists($key)
+	{
+		$this->hasKey($key);
+	}
+
+	public function serialize()
+	{
+		return serialize($this->getKeyValues());
+	}
+
+	public function unserialize($data)
+	{
+		$data = unserialize($data);
+
+		$this->setKeyValues($data);
 	}
 }
 

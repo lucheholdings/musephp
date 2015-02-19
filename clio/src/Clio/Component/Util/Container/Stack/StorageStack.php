@@ -1,17 +1,18 @@
 <?php
 namespace Clio\Component\Util\Container\Stack;
 
+use Clio\Component\Util\Container\Storge\StorageContainer;
 /**
  * Stack 
  *   LIFO implementation 
  *
- * @uses AbstractContainer
+ * @uses StorageContainer
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Stack extends AbstractContainer 
+class StoragedStack extends StorageContainer 
 {
 	public function push($value)
 	{

@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Container\Set;
 
 use Clio\Component\Util\Container\Set;
-use Clio\Component\Util\Container\AbstractContainer;
+use Clio\Component\Util\Container\Storage\StorageContainer;
 use Clio\Component\Util\Container\Storage;
 use Clio\Component\Util\Container\Storage\ValidatableStorage;
 use Clio\Component\Util\Validator\Validator,
@@ -12,14 +12,14 @@ use Clio\Component\Util\Validator\Validator,
 /**
  * PrioritySet 
  * 
- * @uses AbstractContainer
+ * @uses StorageContainer
  * @uses Set
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PrioritySet extends AbstractContainer implements Set 
+class PrioritySet extends StorageContainer implements Set 
 {
 	const DEFAULT_PRIORITY = 0;
 

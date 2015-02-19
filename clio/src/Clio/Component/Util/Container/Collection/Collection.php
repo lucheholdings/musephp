@@ -2,19 +2,19 @@
 namespace Clio\Component\Util\Container\Collection;
 
 use Clio\Component\Util\Container\Collection as CollectionInterface;
-use Clio\Component\Util\Container\AbstractContainer;
+use Clio\Component\Util\Container\Storage\StorageContainer;
 
 /**
  * Collection 
  * 
- * @uses AbstractContainer
+ * @uses StorageContainer
  * @uses CollectionInterface
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Collection extends AbstractContainer implements CollectionInterface
+class Collection extends StorageContainer implements CollectionInterface
 {
 	protected function initContainer(array $values)
 	{

@@ -2,19 +2,19 @@
 namespace Clio\Component\Util\Container\Set;
 
 use Clio\Component\Util\Container\Set as SetInterface;
-use Clio\Component\Util\Container\AbstractContainer;
+use Clio\Component\Util\Container\Storage\StorageContainer;
 
 /**
  * Set 
  * 
- * @uses AbstractContainer
+ * @uses StorageContainer
  * @uses Set
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Set extends AbstractContainer implements SetInterface 
+class Set extends StorageContainer implements SetInterface 
 {
 	/**
 	 * {@inheritdoc}

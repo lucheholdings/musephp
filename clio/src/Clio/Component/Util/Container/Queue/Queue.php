@@ -1,7 +1,9 @@
 <?php
 namespace Clio\Component\Util\Container\Queue;
 
-class Queue extends AbstractContainer
+use Clio\Component\Util\Container\Storage\StorageContainer;
+
+class StorageQueue extends StorageContainer 
 {
 	public function enqueue($value)
 	{
