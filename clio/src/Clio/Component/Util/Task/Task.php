@@ -11,6 +11,13 @@ namespace Clio\Component\Util\Task;
  */
 interface Task
 {
+	const STATUS_INIT      = 0b00000000;
+	const STATUS_SCHEDULED = 0b00000001;
+	const STATUS_STARTED   = 0b00000010;
+	const STATUS_FINISHED  = 0b00000100;
+	const STATUS_SUCCESS   = 0b00001000;
+	const STATUS_FAILED    = 0b00010000;
+
 	/**
 	 * getName 
 	 *   Get TaskName 
@@ -28,20 +35,51 @@ interface Task
 	function getArguments();
 
 	/**
-	 * wait 
-	 *   Wait until task done
+	 * isStarted 
+	 * 
 	 * @access public
 	 * @return void
 	 */
-	function wait();
+	function isStarted();
 
 	/**
-	 * getResponse 
-	 *   Get the task response. If task is not done yet, wait until it is done.
-	 *   
+	 * isFinished 
+	 * 
 	 * @access public
 	 * @return void
 	 */
-	function getResponse();
+	function isFinished();
+
+	/**
+	 * isSuccessed 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function isSuccessed();
+
+	/**
+	 * isFailed 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function isFailed();
+
+	/**
+	 * getResult 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getResult();
+
+	/**
+	 * getError 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function getError();
 }
 
