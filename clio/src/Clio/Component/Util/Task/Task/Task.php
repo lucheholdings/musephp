@@ -177,7 +177,7 @@ class Task implements TaskInterface
 		if(!($this->status & self::STATUS_FINISHED)) {
 			throw new \RuntimeException('Task is not finished yet.');
 		}
-		return (bool)!($this->status & self::STATUS_FAILED);
+		return (bool)!($this->status & self::STATUS_FAILURE);
 	}
 
 	/**
@@ -191,7 +191,7 @@ class Task implements TaskInterface
 		if(!($this->status & self::STATUS_FINISHED)) {
 			throw new \RuntimeException('Task is not finished yet.');
 		}
-		return (bool)($this->status & self::STATUS_FAILED);
+		return (bool)($this->status & self::STATUS_FAILURE);
 	}
 
 	/**
@@ -237,7 +237,7 @@ class Task implements TaskInterface
 			throw new \RuntimeException('Task already finished.');
 		}
 		$this->result = $result;
-		$this->status |= self::STATUS_FINISHED | self::STATUS_FAILED;
+		$this->status |= self::STATUS_FINISHED | self::STATUS_FAILURE;
 	}
 
 	/**
@@ -248,7 +248,7 @@ class Task implements TaskInterface
 	 */
 	public function getResult()
 	{
-		if(0  == ($this->status & self::STATUS_SUCCESSED)) {
+		if($this->status & self::STATUS_FAILURE) {
 			throw new \RuntimeException('Task is not successed.');
 		}
 		return $this->result;
@@ -262,7 +262,7 @@ class Task implements TaskInterface
 	 */
 	public function getError()
 	{
-		if(0 == ($this->result & self::STATUS_FAILED)) {
+		if(0 == ($this->result & self::STATUS_FAILURE)) {
 			throw new \RuntimeException('Task is not failed.');
 		}
 		return $this->result;

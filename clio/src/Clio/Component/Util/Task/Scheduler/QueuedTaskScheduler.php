@@ -26,7 +26,7 @@ class QueuedTaskScheduler implements Scheduler
 
 	public function scheduleTask(Task $task)
 	{
-		$scheduledTask = new ScheduledTask($task);
+		$scheduledTask = new ScheduledTask($this, $task);
 		$scheduledTask->setId(uniqid());
 
 		$this->getQueue()->enqueue($scheduledTask);
@@ -41,23 +41,6 @@ class QueuedTaskScheduler implements Scheduler
 
 	public function waitFor(ScheduledTask $task)
 	{
-		if($task instanceof ScheduledTask) {
-			//$taskId = $task->getId();
-		} else if(is_scalar($task)) {
-			// get task from manager
-			try {
-				$task = $this->getScheduledTasks()->getTask($task);
-			} catch(\InvalidArgumentException $ex) {
-				throw new \RuntimeException(sprintf('Task "%s" is not found.', (string)$task));
-			}
-		} else {
-			throw new \InvalidArgumentException('$task has to be ScheduledTask or taskId.');
-		}
-
-		if(!$task->isScheduled()) {
-			throw new \RuntimeException('Task is not scheduled, so you cannot wait the task to done.');
-		}
-
 		while($task->isPending()) {
 			$this->wait();
 		}
@@ -67,6 +50,9 @@ class QueuedTaskScheduler implements Scheduler
 
 	protected function wait()
 	{
+		if(0 == count($this->getQueue())) {
+			throw new \RuntimeException('No more task to wait.');
+		}
 		$nextTask = $this->getQueue()->dequeue();
 
 		// use executor to execute task

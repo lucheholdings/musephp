@@ -8,6 +8,8 @@ use Clio\Component\Util\Task\Task\Task,
 	Clio\Component\Util\Task\TaskManager
 ;
 
+use Clio\Component\Util\Task\Executor\ClosureExecutor;
+
 use Clio\Component\Util\Container\Queue\SimpleQueue;
 use Clio\Component\Util\Container\Map\SimpleMap;
 
@@ -17,10 +19,18 @@ class TaskManagerTest extends TestCase
 	{
 		$task = new Task('task');
 		$taskManager = new TaskManager(new QueuedTaskScheduler(new SimpleQueue(), new SimpleMap()));
+		$taskManager->addExecutor(new ClosureExecutor('task', function($task) {
+				return 'success';
+			}));
 
 		$scheduled = $taskManager->scheduleTask($task);
 
 		$this->assertInstanceof('Clio\Component\Util\Task\Task\ScheduledTask', $scheduled);
+
+		$scheduled->wait();
+
+		$this->assertTrue($scheduled->isSuccessed());
+		$this->assertEquals('success', $scheduled->getResult());
 	}
 }
 

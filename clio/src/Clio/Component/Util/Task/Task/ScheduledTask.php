@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Task\Task;
 
 use Clio\Component\Util\Task\Scheduler;
+use Clio\Component\Util\Task\Task as TaskInterface;
 
 /**
  * ScheduledTask 
@@ -12,7 +13,7 @@ use Clio\Component\Util\Task\Scheduler;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ScheduledTask extends Task 
+class ScheduledTask implements TaskInterface 
 {
 	/**
 	 * id 
@@ -39,20 +40,20 @@ class ScheduledTask extends Task
 	private $task;
 
 	/**
-	 * setScheduler 
-	 *   PEND when scheduler is initialized. 
+	 * __construct 
+	 * 
 	 * @param Scheduler $scheduler 
+	 * @param Task $task 
 	 * @access public
 	 * @return void
 	 */
-	public function setScheduler(Scheduler $scheduler, Task $task)
+	public function __construct(Scheduler $scheduler, Task $task)
 	{
 		if($task instanceof ScheduledTask) {
 			throw new \InvalidArgumentException(sprintf('The task "%s" is already scheduled on scheduler.', $task->getId()));
 		}
 		$this->task = $task;
 		$this->scheduler = $scheduler;
-		$this->status = self::STATUS_PENDING; 
 	}
 
 	/**
@@ -61,8 +62,11 @@ class ScheduledTask extends Task
 	 * @access public
 	 * @return void
 	 */
-	public function getSheduler()
+	public function getScheduler()
 	{
+		if(!$this->scheduler) {
+			throw new \RuntimeException('ScheduledTask is not scheduled yet.');
+		}
 		return $this->scheduler;
 	}
     
@@ -98,8 +102,189 @@ class ScheduledTask extends Task
 	 */
 	public function isPending()
 	{
-		return ($this->status & self::STATUS_SCHEDULED) && 
-			!($this->status | self::STATUS_STARTED);
+		return !$this->task->isStarted();
+	}
+
+	public function wait()
+	{
+		$this->getScheduler()->waitFor($this);
+	}
+
+	/**
+	 * getName 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getName()
+	{
+		return $this->task->getName();
+	}
+
+	public function setName($name)
+	{
+		throw new \RuntimeException('ScheduledTask cannot modify name.');
+	}
+
+	/**
+	 * setArguments 
+	 * 
+	 * @param array $args 
+	 * @access public
+	 * @return void
+	 */
+	public function setArguments(array $args)
+	{
+		throw new \RuntimeException('ScheduledTask cannot modify arguments.');
+	}
+
+	/**
+	 * getArguments 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getArguments()
+	{
+		return $this->task->getArguments();
+	}
+
+	/**
+	 * setArgument 
+	 * 
+	 * @param mixed $key 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
+	 */
+	public function setArgument($key, $value)
+	{
+		throw new \RuntimeException('ScheduledTask cannot modify arguments.');
+	}
+
+	/**
+	 * addArgument 
+	 * 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
+	 */
+	public function addArgument($value)
+	{
+		throw new \RuntimeException('ScheduledTask cannot modify arguments.');
+	}
+
+	/**
+	 * getArgument 
+	 * 
+	 * @param mixed $key 
+	 * @access public
+	 * @return void
+	 */
+	public function getArgument($key)
+	{
+		return $this->task->getArgument($key);
+	}
+
+	/**
+	 * isStarted 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function isStarted()
+	{
+		return $this->task->isStarted;
+	}
+
+	/**
+	 * isFinished 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function isFinished()
+	{
+		return $this->task->isFinished;
+	}
+
+	/**
+	 * isSuccessed 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function isSuccessed()
+	{
+		return $this->task->isSuccessed();
+	}
+
+	/**
+	 * isFailed 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function isFailed()
+	{
+		return $this->task->isFailed();
+	}
+
+	/**
+	 * start 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function start()
+	{
+		$this->task->start();
+	}
+
+	/**
+	 * setResult 
+	 * 
+	 * @param mixed $result 
+	 * @access public
+	 * @return void
+	 */
+	public function setResult($result)
+	{
+		$this->task->setResult($result);
+	}
+
+	/**
+	 * setError 
+	 * 
+	 * @param mixed $error 
+	 * @access public
+	 * @return void
+	 */
+	public function setError($error)
+	{
+		$this->task->setError($error);
+	}
+
+	/**
+	 * getResult 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getResult()
+	{
+		return $this->task->getResult();
+	}
+
+	/**
+	 * getError 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getError()
+	{
+		return $this->task->getError();
 	}
 }
 

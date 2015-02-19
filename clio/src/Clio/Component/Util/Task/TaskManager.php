@@ -31,9 +31,7 @@ class TaskManager
 	{
 		$executor = $this->getExecutor($task->getName());
 
-		$result = $executor->run($task);
-
-		$task->setResult($result);
+		$executor->run($task);
 	}
     
     public function getExecutors()
@@ -50,7 +48,7 @@ class TaskManager
         return $this;
     }
 
-	public function addExecutor(Exector $executor) 
+	public function addExecutor(Executor $executor) 
 	{
 		$this->executors[$executor->getTaskName()] = $executor;
 	}

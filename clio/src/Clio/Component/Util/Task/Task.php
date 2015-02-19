@@ -15,8 +15,7 @@ interface Task
 	const STATUS_SCHEDULED = 0b00000001;
 	const STATUS_STARTED   = 0b00000010;
 	const STATUS_FINISHED  = 0b00000100;
-	const STATUS_SUCCESS   = 0b00001000;
-	const STATUS_FAILED    = 0b00010000;
+	const STATUS_FAILURE   = 0b10000000;
 
 	/**
 	 * getName 
