@@ -3,7 +3,7 @@ namespace Clio\Component\Pattern\Factory;
 
 use Clio\Component\Exception\UnsupportedException;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 use Clio\Component\Util\Container\Storage as ContainerStorage;
 use Clio\Component\Util\Validator\SubclassValidator;
 
@@ -21,7 +21,7 @@ use Clio\Component\Util\Validator\SubclassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class NamedCollection extends Map implements MappedFactory, Factory 
+class NamedCollection extends StorageMap implements MappedFactory, Factory 
 {
 	/**
 	 * __construct 

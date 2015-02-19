@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Injection;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 
 /**
  * InjectorMap 
@@ -12,7 +12,7 @@ use Clio\Component\Util\Container\Map\Map;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class InjectorMap extends Map 
+class InjectorMap extends StorageMap 
 {
 	/**
 	 * inject 

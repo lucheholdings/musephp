@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Framework\Core\Container;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 use Clio\Component\Util\Attribute\AttributeMap;
 
 use Clio\Component\Util\Attribute\Attribute;
@@ -20,7 +20,7 @@ use Clio\Component\Util\Validator\PrimitiveTypeValidator,
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class AttributeMap extends Map implements AttributeMap
+class AttributeMap extends StorageMap implements AttributeMap
 {
 	/**
 	 * owner 

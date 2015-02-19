@@ -1,10 +1,10 @@
 <?php
 namespace Clio\Component\Util\Attribute;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 use Clio\Component\Util\Validator\SubclassValidator;
 
-class SimpleAttributeMap extends Map implements AttributeMap
+class SimpleAttributeMap extends StorageMap implements AttributeMap
 {
 	protected function initContainer(array $values)
 	{

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Adapter\DoctrineExtensions\Query\Condition;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 use Clio\Component\Util\Hash\HashUtil;
 
 /**
@@ -13,7 +13,7 @@ use Clio\Component\Util\Hash\HashUtil;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class DoctrineQueryParamBag extends Map
+class DoctrineQueryParamBag extends StorageMap
 {
 	public function add($value)
 	{

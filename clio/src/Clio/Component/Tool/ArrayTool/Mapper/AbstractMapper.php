@@ -1,19 +1,19 @@
 <?php
 namespace Clio\Component\Tool\ArrayTool\Mapper;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 
 /**
  * AbstractMapper 
  * 
- * @uses Map
+ * @uses StorageMap
  * @abstract
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractMapper extends Map
+abstract class AbstractMapper extends StorageMap
 {
 	/**
 	 * strict 

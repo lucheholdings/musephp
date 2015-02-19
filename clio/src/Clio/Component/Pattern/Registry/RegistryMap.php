@@ -1,9 +1,19 @@
 <?php
 namespace Clio\Component\Pattern\Registry;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 
-class RegistryMap extends Map implements Registry 
+/**
+ * RegistryMap 
+ * 
+ * @uses StorageMap 
+ * @uses Registry
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
+class RegistryMap extends StorageMap implements Registry 
 {
 	/**
 	 * initContainer 

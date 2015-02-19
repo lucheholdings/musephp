@@ -1,8 +1,6 @@
 <?php
 namespace Clio\Component\Tool\ArrayTool\Mapper;
 
-use Clio\Component\Util\Container\Map\Map as BaseMap;
-
 /**
  * DummyMapper 
  * 

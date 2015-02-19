@@ -4,7 +4,7 @@ namespace Calliope\Framework\Core\Builder;
 use Clio\Component\Pattern\Builder\ComponentBuilder;
 
 use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\SimpleMap;
 
 /**
  * SchemaModelBuilder 
@@ -46,7 +46,7 @@ class SchemaModelBuilder extends ComponentBuilder
 
 		$this->classMetadata = $classMetadata;
 
-		$this->attributes = new Map();
+		$this->attributes = new SimpleMap();
 	}
 
 	/**

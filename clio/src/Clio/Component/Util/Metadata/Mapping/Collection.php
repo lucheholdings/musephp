@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Metadata\Mapping;
 
 use Clio\Component\Util\Metadata\Mapping;
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 use Clio\Component\Util\Container\Storage\ValidatableStorage;
 use Clio\Component\Util\Validator\SubclassValidator;
 
@@ -15,7 +15,7 @@ use Clio\Component\Util\Validator\SubclassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Collection extends Map 
+class Collection extends StorageMap 
 {
 	/**
 	 * initContainer 

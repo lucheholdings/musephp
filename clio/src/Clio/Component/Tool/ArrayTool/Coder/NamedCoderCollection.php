@@ -1,20 +1,20 @@
 <?php
 namespace Clio\Component\Tool\ArrayTool\Coder;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\StorageMap;
 use Clio\Component\Util\Validator\SubclassValidator;
 use Clio\Component\Exception as CoreException;
 
 /**
  * NamedCoderCollection 
  * 
- * @uses Map
+ * @uses StorageMap
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class NamedCoderCollection extends Map implements Encoder, Decoder
+class NamedCoderCollection extends StorageMap implements Encoder, Decoder
 {
 	/**
 	 * {@inheritdoc}

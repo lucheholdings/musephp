@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Client\Auth;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\SimpleMap;
 
 /**
  * User 
@@ -35,7 +35,7 @@ class User
 	public function __construct($id, array $attrs = array())
 	{
 		$this->id = $id;
-		$this->attributes = new Map($attrs);
+		$this->attributes = new SimpleMap($attrs);
 	}
     
     /**

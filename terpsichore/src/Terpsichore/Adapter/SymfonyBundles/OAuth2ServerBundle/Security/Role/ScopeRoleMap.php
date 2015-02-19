@@ -1,9 +1,9 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Role;
 
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\SimpleMap;
 
-class ScopeRoleMap extends Map 
+class ScopeRoleMap extends SimpleMap 
 {
 	public function hasScope($scope)
 	{

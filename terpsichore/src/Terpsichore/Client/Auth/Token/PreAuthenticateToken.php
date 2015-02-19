@@ -9,7 +9,7 @@
 namespace Terpsichore\Client\Auth\Token;
 
 use Terpsichore\Client\Auth\Token;
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map\SimpleMap;
 
 /**
  * PreAuthenticateToken
@@ -50,7 +50,7 @@ class PreAuthenticateToken implements Token
 	public function __construct($provider, array $attributes = array())
 	{
 		$this->provider = $provider;
-		$this->attributes = new Map($attributes);
+		$this->attributes = new SimpleMap($attributes);
 	}
     
     /**

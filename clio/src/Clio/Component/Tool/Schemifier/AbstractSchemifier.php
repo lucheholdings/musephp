@@ -2,7 +2,8 @@
 namespace Clio\Component\Tool\Schemifier;
 
 use Clio\Component\Tool\ArrayTool\Mapper;
-use Clio\Component\Util\Container\Map\Map;
+use Clio\Component\Util\Container\Map;
+use Clio\Component\Util\Container\Map\SimpleMap;
 
 /**
  * AbstractSchemifier 
@@ -113,12 +114,12 @@ abstract class AbstractSchemifier implements Schemifier
     public function getFieldKeyMappers()
     {
 		if(!$this->fieldKeyMappers) {
-			$this->fieldKeyMappers = new Map();
+			$this->fieldKeyMappers = new SimpleMap();
 		}
         return $this->fieldKeyMappers;
     }
     
-    public function setFieldKeyMappers($fieldKeyMappers)
+    public function setFieldKeyMappers(Map $fieldKeyMappers)
     {
         $this->fieldKeyMappers = $fieldKeyMappers;
         return $this;

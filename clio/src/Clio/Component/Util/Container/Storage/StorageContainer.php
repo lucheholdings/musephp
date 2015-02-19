@@ -3,6 +3,7 @@ namespace Clio\Component\Util\Container\Storage;
 
 use Clio\Component\Util\Container\Storage;
 use Clio\Component\Util\Container\AbstractContainer;
+use Clio\Component\Util\Validator\Validator;
 
 abstract class StorageContainer extends AbstractContainer
 {
