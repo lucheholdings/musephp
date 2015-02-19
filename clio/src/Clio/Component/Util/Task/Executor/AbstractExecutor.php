@@ -28,11 +28,11 @@ abstract class AbstractExecutor implements Executor
 		try {
 			$task->start();
 			$result = $this->doRun($task);
+		
+			$task->setResult($result);
 		} catch(\Exception $ex) {
 			$task->setError($ex);
 		}
-
-		$task->setResult($result);
 
 		return $task;
 	}

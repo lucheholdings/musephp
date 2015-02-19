@@ -15,6 +15,7 @@ class ClioComponentBundle extends Bundle
 		parent::build($container);
 
 		$container->addCompilerPass(new Compiler\ReferenceCompilerPass());
+		$container->addCompilerPass(new Compiler\TaskCompilerPass());
 	}
 
     public function registerCommands(Application $application)

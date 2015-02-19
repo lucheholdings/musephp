@@ -15,6 +15,7 @@ use Symfony\Component\DependencyInjection\DefinitionDecorator;
  */
 class ClioComponentExtension extends Extension
 {
+	private $loader;
     /**
      * {@inheritdoc}
      */
@@ -23,14 +24,15 @@ class ClioComponentExtension extends Extension
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
-        $loader->load('services.xml');
+        $this->loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $this->loader->load('services.xml');
 
-		$loader->load('cache.xml');
-		$loader->load('normalizer.xml');
+		$this->loader->load('cache.xml');
+		$this->loader->load('normalizer.xml');
 
 		$this->configureCache($container, $config['cache']);
 		$this->configureNormalizer($container, $config['normalizer']);
+		$this->configureTask($container, $config['task']);
     }
 
 	protected function configureCache($container, array $configs = array())
@@ -54,6 +56,24 @@ class ClioComponentExtension extends Extension
 
 					$container->setDefinition('clio_component.normalizer.strategy.' . $name, $definition);
 				}
+			}
+		}
+	}
+
+	protected function configureTask($container, array $configs = array())
+	{
+		if($configs['enabled']) {
+			$this->loader->load('task.xml');
+
+			$manager = $container->getDefinition('clio_component.task_manager');
+			$manager->addMethodCall('setDefaultScheduleType', array($configs['default_scheduler']));
+
+			foreach($configs['executors'] as $name => $executorConfig) {
+				$container->getDefinition($executorConfig['id'])->addTag('clio_component.task_executor', array('alias' => $name));
+			}
+
+			foreach($configs['schedulers'] as $name => $schedulerConfig) {
+				$container->getDefinition($schedulerConfig['id'])->addTag('clio_component.task_scheduler', array('alias' => $name));
 			}
 		}
 	}

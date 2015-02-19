@@ -29,6 +29,7 @@ class Configuration implements ConfigurationInterface
 			->children()
 				->append($this->buildNormalizerSection())
 				->append($this->buildCacheSection())
+				->append($this->buildTaskSection())
 			->end()
 		;
 
@@ -57,7 +58,7 @@ class Configuration implements ConfigurationInterface
 		$node = $treeBuilder->root('normalizer');
 
 		$node
-			->canBeDisabled()
+			->canBeEnabled()
 			->addDefaultsIfNotSet()
 		;
 
@@ -107,5 +108,49 @@ class Configuration implements ConfigurationInterface
 					->scalarNode('priority')->defaultValue($priority)->end()
 				->end()
 		;
+	}
+
+	protected function buildTaskSection()
+	{
+		$treeBuilder = new TreeBuilder();
+
+		$node = $treeBuilder->root('task');
+
+		$node
+			->canBeEnabled()
+			->children()
+				->scalarNode('default_scheduler')->defaultValue('default')->end()
+				->arrayNode('executors')
+					->useAttributeAsKey('name')
+					->prototype('array')
+						->beforeNormalization()
+							->ifString()
+							->then(function($v) {
+									return array('id' => $v);
+								})
+						->end()
+						->children()
+							->scalarNode('id')->end()
+						->end()
+					->end()
+				->end()
+				->arrayNode('schedulers')
+					->useAttributeAsKey('name')
+					->prototype('array')
+						->beforeNormalization()
+							->ifString()
+							->then(function($v) {
+									return array('id' => $v);
+								})
+						->end()
+						->children()
+							->scalarNode('id')->end()
+						->end()
+					->end()
+				->end()
+			->end()
+		;
+
+		return $node;
 	}
 }

@@ -12,7 +12,7 @@ use Clio\Component\Util\Task\Task;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ClosureExecutor extends NamedExecutor 
+class ClosureExecutor extends AbstractExecutor 
 {
 	/**
 	 * closure 
@@ -25,14 +25,12 @@ class ClosureExecutor extends NamedExecutor
 	/**
 	 * __construct 
 	 * 
-	 * @param mixed $name 
 	 * @param \Closure $closure 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($name, \Closure $closure)
+	public function __construct(\Closure $closure)
 	{
-		parent::__construct($name);
 		$this->closure = $closure;
 	}
 

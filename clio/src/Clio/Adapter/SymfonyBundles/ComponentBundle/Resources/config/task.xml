@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="clio_component.task_manager.class">Clio\Component\Util\Task\TaskManager</parameter>
+
+        <parameter key="clio_component.task_scheduler.queued_task.class">Clio\Component\Util\Task\Scheduler\QueuedTaskScheduler</parameter>
+        <parameter key="clio_component.task_executor.command.class">Clio\Bridge\SymfonyComponents\Task\Executor\CommandExecutor</parameter>
+        <parameter key="clio_component.task_executor.process.class">Clio\Bridge\SymfonyComponents\Task\Executor\ProcessExecutor</parameter>
+    </parameters>
+
+    <services>
+		<service 
+			id="clio_component.task_manager" 
+			class="%clio_component.task_manager.class%"
+		>
+		</service>
+
+		<!-- Sample Scheduler -->
+		<!-- add this id on config.yml to enable the Sample Scheduler -->
+		<service
+			id="clio_component.task_scheduler.on_memory_queue"
+			class="%clio_component.task_scheduler.queued_task.class%"
+		>
+			<argument type="service" id="clio_component.task_scheduler.on_memory_queue.queue"/>
+			<argument type="service" id="clio_component.task_scheduler.on_memory_queue.map"/>
+		</service>
+
+		<service
+			id="clio_component.task_scheduler.on_memory_queue.queue"
+			class="Clio\Component\Util\Container\Queue\SimpleQueue"
+		>
+		</service>
+		<service
+			id="clio_component.task_scheduler.on_memory_queue.map"
+			class="Clio\Component\Util\Container\Map\SimpleMap"
+		>
+		</service>
+
+		<!-- Sample Executor -->
+		<!-- add this id on config.yml to enable the Sample Executor -->
+		<service
+			id="clio_component.task_executor.command"
+			class="%clio_component.task_executor.command.class%"
+		>
+		</service>
+
+		<service
+			id="clio_component.task_executor.process"
+			class="%clio_component.task_executor.process.class%"
+		>
+		</service>
+    </services>
+</container>
+
+
+

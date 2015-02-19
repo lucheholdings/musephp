@@ -7,7 +7,8 @@ use Clio\Component\Util\Task\Task,
 ;
 use Clio\Component\Util\Task\Scheduler;
 use Clio\Component\Util\Container\Queue,
-	Clio\Component\Util\Container\Map
+	Clio\Component\Util\Container\Map,
+	Clio\Component\Util\Container\SimpleMap
 ;
 
 class QueuedTaskScheduler implements Scheduler
@@ -18,9 +19,12 @@ class QueuedTaskScheduler implements Scheduler
 
 	protected $manager;
 
-	public function __construct(Queue $queue, Map $map)
+	public function __construct(Queue $queue, Map $map = null)
 	{
 		$this->queue = $queue;
+		if(!$map) {
+			$map = new SimpleMap();
+		}
 		$this->scheduledTasks = $map;
 	}
 

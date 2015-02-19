@@ -236,7 +236,7 @@ class Task implements TaskInterface
 		if($this->status & self::STATUS_FINISHED) {
 			throw new \RuntimeException('Task already finished.');
 		}
-		$this->result = $result;
+		$this->result = $error;
 		$this->status |= self::STATUS_FINISHED | self::STATUS_FAILURE;
 	}
 
@@ -262,7 +262,7 @@ class Task implements TaskInterface
 	 */
 	public function getError()
 	{
-		if(0 == ($this->result & self::STATUS_FAILURE)) {
+		if(0 == ($this->status & self::STATUS_FAILURE)) {
 			throw new \RuntimeException('Task is not failed.');
 		}
 		return $this->result;

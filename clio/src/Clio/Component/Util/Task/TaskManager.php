@@ -51,15 +51,15 @@ class TaskManager
     public function setExecutors(array $executors)
     {
 		$this->executors = array();
-		foreach($executors as $executor) {
-			$this->addExecutor($executor);
+		foreach($executors as $name => $executor) {
+			$this->setExecutor($name, $executor);
 		}
         return $this;
     }
 
-	public function addExecutor(Executor $executor) 
+	public function setExecutor($name, Executor $executor) 
 	{
-		$this->executors[$executor->getTaskName()] = $executor;
+		$this->executors[$name] = $executor;
 	}
 
 	public function getExecutor($name)
@@ -88,4 +88,15 @@ class TaskManager
 		$this->schedulers[$scheduleType] = $scheduler;
 		return $this;
 	}
+    
+    public function getDefaultScheduleType()
+    {
+        return $this->defaultScheduleType;
+    }
+    
+    public function setDefaultScheduleType($defaultScheduleType)
+    {
+        $this->defaultScheduleType = $defaultScheduleType;
+        return $this;
+    }
 }
