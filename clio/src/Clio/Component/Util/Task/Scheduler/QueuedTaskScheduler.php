@@ -5,6 +5,7 @@ use Clio\Component\Util\Task\Task,
 	Clio\Component\Util\Task\TaskManager,
 	Clio\Component\Util\Task\Task\ScheduledTask
 ;
+use Clio\Component\Util\Task\Exception as TaskExceptions;
 use Clio\Component\Util\Task\Scheduler;
 use Clio\Component\Util\Container\Queue,
 	Clio\Component\Util\Container\Map,
@@ -56,7 +57,7 @@ class QueuedTaskScheduler implements Scheduler
 	protected function wait()
 	{
 		if(0 == count($this->getQueue())) {
-			throw new \RuntimeException('No more task to wait.');
+			throw new TaskExceptions\NoMoreTaskException('No more task to wait.');
 		}
 		$nextTask = $this->getQueue()->dequeue();
 
