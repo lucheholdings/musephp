@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Container\Queue;
 
 use Clio\Component\Util\Container\Queue as QueueInterface;
+use Clio\Component\Util\Container\Exception as ContainerExceptions;
 
 /**
  * SimpleQueue 
@@ -45,6 +46,9 @@ class SimpleQueue implements QueueInterface
 	 */
 	public function dequeue()
 	{
+		if(0 == count($this->storage)) {
+			throw new ContainerExceptions\EmptyException('Empty Queue');
+		}
 		return $this->storage->dequeue();
 	}
 
@@ -79,6 +83,16 @@ class SimpleQueue implements QueueInterface
 	public function getIterator()
 	{
 		return $this->storage->getIterator();
+	}
+
+	public function serialize()
+	{
+		return serialize($this->storage);
+	}
+
+	public function unserialize($data)
+	{
+		$this->storage  = unserialize($data);
 	}
 }
 

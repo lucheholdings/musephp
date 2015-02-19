@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Container;
 
-interface Queue
+interface Queue extends \Countable, \Serializable, \IteratorAggregate
 {
 	function enqueue($value);
 

@@ -41,6 +41,7 @@ class TaskQueueExecuteCommand extends ContainerAwareCommand
 		} catch(\Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException $ex) {
 			throw new \RuntimeException('Please enable "task" on "clio_component" at config.yml.', 0, $ex);
 		}
+
 		if(!$taskManager) {
 			throw new \RuntimeException('TaskManager is not exists.');
 		}
@@ -48,22 +49,27 @@ class TaskQueueExecuteCommand extends ContainerAwareCommand
 		$scheduler = $taskManager->getScheduler($input->getArgument('name'));
 
 		$max = $input->getOption('max');
+		if($max <= 0) 
+			$max = -1;
 
 		$countExecuted = 0;
 		try {
-			for(; $max == 0;) {
+			for($i = $max; $i != 0; $i) {
 				$scheduler->run();
 				$countExecuted++;
 
-				if($max >= 0) {
-					$max--;
+				if($i>= 0) {
+					$i--;
 				}
 			}
-		} catch(EmptyException $ex) {
-			break;
+		} catch(\Clio\Component\Util\Task\Exception\NoMoreTaskException $ex) {
+			// Ended
 		}
 
 		$output->writeln(sprintf('Executed Tasks : %d', $countExecuted));
+		if($scheduler instanceof \Countable) {
+			$output->writeln(sprintf('Remained Tasks : %d', count($scheduler)));
+		}
 	}
 }
 

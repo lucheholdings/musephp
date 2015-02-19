@@ -12,7 +12,7 @@ use Clio\Component\Util\Container\Queue,
 	Clio\Component\Util\Container\SimpleMap
 ;
 
-class QueuedTaskScheduler implements Scheduler
+class QueuedTaskScheduler implements Scheduler, \Countable
 {
 	private $queue;
 
@@ -56,6 +56,17 @@ class QueuedTaskScheduler implements Scheduler
 
 	protected function wait()
 	{
+		return $this->run();
+	}
+
+	/**
+	 * run 
+	 *   Run the first task 
+	 * @access public
+	 * @return void
+	 */
+	public function run()
+	{
 		if(0 == count($this->getQueue())) {
 			throw new TaskExceptions\NoMoreTaskException('No more task to wait.');
 		}
@@ -87,5 +98,10 @@ class QueuedTaskScheduler implements Scheduler
     {
         return $this->scheduledTasks;
     }
+
+	public function count()
+	{
+		return count($this->getQueue());
+	}
 }
 
