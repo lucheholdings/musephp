@@ -26,6 +26,7 @@ class QueuedTaskScheduler implements Scheduler
 
 	public function scheduleTask(Task $task)
 	{
+		$task = clone $task;
 		$scheduledTask = new ScheduledTask($this, $task);
 		$scheduledTask->setId(uniqid());
 
