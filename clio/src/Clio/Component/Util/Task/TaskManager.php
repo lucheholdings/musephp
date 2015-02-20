@@ -67,8 +67,11 @@ class TaskManager
 		return $this->executors[$name];
 	}
     
-	public function getScheduler($scheduleType)
+	public function getScheduler($scheduleType = null)
 	{
+		if(!$scheduleType) {
+			$scheduleType = $this->defaultScheduleType;
+		}
 		if(!isset($this->schedulers[$scheduleType])) {
 			throw new \InvalidArgumentException(sprintf('ScheduleType "%s" is not defined.', $scheduleType));
 		}
