@@ -11,7 +11,7 @@ use Symfony\Component\Yaml\Yaml;
 use Clio\Component\Util\Task\Task\Task;
 
 /**
- * TaskQueueExecuteCommand 
+ * TaskSchedulerAddCommand 
  * 
  * @uses ContainerAwareCommand
  * @package { PACKAGE }
@@ -19,16 +19,17 @@ use Clio\Component\Util\Task\Task\Task;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class TaskQueueExecuteCommand extends ContainerAwareCommand 
+class TaskSchedulerAddCommand extends ContainerAwareCommand 
 {
 	protected function configure()
 	{
 		$this
-			->setName('clio:task:scheduler:execute')
-			->setDescription('Execute task in Scheduler.')
+			->setName('clio:task:scheduler:add')
+			->setDescription('Add task into the Scheduler.')
 			->setDefinition(array(
-				new InputArgument('name', InputArgument::REQUIRED, 'Scheduler name'),
-				new InputOption('max', null, InputOption::VALUE_REQUIRED, 'Max number to execute task. 0 for all.', 1),
+				new InputArgument('name', InputArgument::REQUIRED, 'Task name'),
+				new InputArgument('args', InputArgument::OPTIONAL, 'Arguments in json', array()),
+				new InputOption('scheduler', null, InputOption::VALUE_REQUIRED, 'Target scheduler', null),
 			))
 			;
 	}
@@ -46,27 +47,19 @@ class TaskQueueExecuteCommand extends ContainerAwareCommand
 			throw new \RuntimeException('TaskManager is not exists.');
 		}
 
-		$scheduler = $taskManager->getScheduler($input->getArgument('name'));
+		$type = $input->getOption('scheduler');
 
-		$max = $input->getOption('max');
-		if($max <= 0) 
-			$max = -1;
+		$scheduler = $taskManager->getScheduler($type);
 
-		$countExecuted = 0;
-		try {
-			for($i = $max; $i != 0; $i) {
-				$scheduler->run();
-				$countExecuted++;
-
-				if($i>= 0) {
-					$i--;
-				}
-			}
-		} catch(\Clio\Component\Util\Task\Exception\NoMoreTaskException $ex) {
-			// Ended
+	
+		$args = $input->getArgument('args');
+		if(is_string($args)) {
+			$args = json_decode($args, true);
 		}
 
-		$output->writeln(sprintf('Executed Tasks : %d', $countExecuted));
+		$task = new Task($input->getArgument('name'), $args);
+		$scheduler->scheduleTask($task);
+
 		if($scheduler instanceof \Countable) {
 			$output->writeln(sprintf('Remained Tasks : %d', count($scheduler)));
 		}
