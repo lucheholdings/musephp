@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Util\Type;
 
+use Clio\Component\Exception\NotImplementedException;
+
 /**
  * AbstractType 
  * 
