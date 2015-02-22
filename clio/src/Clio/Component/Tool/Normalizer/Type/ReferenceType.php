@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
-use Clio\Component\Util\Type\ProxyType;
+use Clio\Component\Util\Type\FieldType;
 
 /**
  * ReferenceType 
@@ -12,16 +12,46 @@ use Clio\Component\Util\Type\ProxyType;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ReferenceType extends ProxyType 
+class ReferenceType extends FieldType 
 {
-	public function getIdentifierFields()
+	/**
+	 * isType 
+	 * 
+	 * @param mixed $type 
+	 * @access public
+	 * @return void
+	 */
+	public function isType($type)
 	{
-		return $this->getRawType()->getIdentifierFields();
+		switch($type) {
+		case Types::TYPE_REFERENCE:
+			return true;
+		default:
+			return $this->getType()->isType($type);
+		}
 	}
 
+	/**
+	 * getIdentifierFields 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getIdentifierFields()
+	{
+		return $this->getType()->getIdentifierFields();
+	}
+
+	/**
+	 * getIdentifierValues 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
+	 */
 	public function getIdentifierValues($data)
 	{
-		return $this->getRawType()->getIdentifierValues($data);
+		return $this->getType()->getIdentifierValues($data);
 	}
 }
 

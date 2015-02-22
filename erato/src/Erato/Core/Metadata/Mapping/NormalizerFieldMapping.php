@@ -23,13 +23,12 @@ class NormalizerFieldMapping extends AbstractMapping
 	}
 
 	/**
-	 * getType 
+	 * getType
 	 * 
-	 * @param Context $context 
 	 * @access public
 	 * @return void
 	 */
-	public function getType(Context $context)
+	public function getType()
 	{
 		if(!$this->normalizationType) {
 			if($this->hasOption('type')) {
@@ -40,7 +39,8 @@ class NormalizerFieldMapping extends AbstractMapping
 			}
 
 			// build type object.
-			$this->normalizationType = $context->getTypeRegistry()->getType($normalizationType);
+			//$this->normalizationType = $context->getTypeRegistry()->getType($normalizationType);
+			$this->normalizationType = $normalizationType; 
 		}
 
 		return $this->normalizationType;

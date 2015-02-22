@@ -292,7 +292,7 @@ class Context
 
 	/**
 	 * getFieldType 
-	 * 
+	 *   Get FieldType in Current Scope 
 	 * @param mixed $type 
 	 * @param mixed $field 
 	 * @access public
@@ -305,13 +305,14 @@ class Context
 
 		if($this->hasPathType($fieldPath)) {
 			return $this->getPathType($fieldPath);
-		} else if(($type instanceof Types\FieldContainable) && $type->hasFieldType($field)) {
+		} else if((($type instanceof Types\FieldContainable) || $type->isType(Types\PrimitiveTypes::TYPE_OBJECT)) && $type->hasFieldType($field)) {
 			$fieldType = $type->getFieldType($field);
 			$fieldType->setTypeRegistry($this->getTypeRegistry());
 
 			return $fieldType;
 		}
 		
+		// Return mixed field type.
 		return new Types\FieldType();
 	}
     

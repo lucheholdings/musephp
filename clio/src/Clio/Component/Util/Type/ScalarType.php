@@ -7,13 +7,12 @@ use Clio\Component\Pattern\Factory\UnsupportedException;
  * ScalarType 
  * 
  * @uses AbstractType
- * @uses Convertable
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ScalarType extends AbstractType implements Convertable 
+class ScalarType extends AbstractType 
 {
 	/**
 	 * __construct 
@@ -109,7 +108,7 @@ class ScalarType extends AbstractType implements Convertable
 			case PrimitiveTypes::TYPE_REAL:
 				return (real)$data;
 			case PrimitiveTypes::TYPE_NULL:
-				return (unset)$data;
+				return null;
 			case PrimitiveTypes::TYPE_BINARY:
 				return (binary)$data;
 			case PrimitiveTypes::TYPE_ARRAY;
@@ -117,11 +116,8 @@ class ScalarType extends AbstractType implements Convertable
 			default:
 				throw new UnsupportedException(sprintf('Conversion from Type "%s" to Type "%s" is ambiguous.', $this->getName(), $type->getName()));
 			}
-		} else if($type->isType(PrimitiveTypes::BASETYPE_OBJECT)) {
-			throw new UnsupportedException('Please use Normalizer to denormalize Object from data.');
 		} else {
-			// 
-			throw new UnsupportedException('Please use Normalizer to denormalize Data from scalar data.');
+			return parent::convertData($data, $type);
 		}
 	}
 }

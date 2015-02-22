@@ -2,42 +2,71 @@
 namespace Erato\Core\Type;
 
 use Clio\Component\Util\Type\FieldType;
+use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes;
 
-class IdentifierType extends FieldType implements ReferenableType 
+/**
+ * IdentifierType 
+ * 
+ * @uses FieldType
+ * @uses ReferenableType
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
+class IdentifierType extends FieldType  
 {
+	/**
+	 * isType 
+	 * 
+	 * @param mixed $type 
+	 * @access public
+	 * @return void
+	 */
 	public function isType($type)
 	{
 		switch($type) {
 		case Types::TYPE_IDENTIFIER:
+		case NormalizerTypes::TYPE_REFERENCE:
 			return true;
 		default:
+			return $this->getType()->isType($type);
 			break;
 		}
-		return false;
 	}
 
-	public function isValidData($value)
-	{
-		return is_array($value) && $this->getIdentifierMapping()->validateValues($value); 
-	}
+	///**
+	// * isValidData 
+	// * 
+	// * @param mixed $value 
+	// * @access public
+	// * @return void
+	// */
+	//public function isValidData($value)
+	//{
+	//	return is_array($value) && $this->getIdentifierMapping()->validateValues($value); 
+	//}
 
-	public function reference()
-	{
-		return new ReferenceType($this);
-	}
-
+	/**
+	 * getIdentifierFields 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getIdentifierFields()
 	{
-		return $this->getIdentifierMapping()->getFieldNames();
+		return $this->getType()->getIdentifierFields();
 	}
 
+	/**
+	 * getIdentifierValues 
+	 * 
+	 * @param mixed $data 
+	 * @access public
+	 * @return void
+	 */
 	public function getIdentifierValues($data)
 	{
-		return $data;
-	}
-
-	protected function getIdentifierMapping()
-	{
-		return $this->getSchema()->getMapping('identifier');
+		return $this->getType()->getIdentifierValues($data);
 	}
 }

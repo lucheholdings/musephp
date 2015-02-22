@@ -108,9 +108,10 @@ class NormalizerMapping extends AbstractRegistryServiceMapping
 	 * @access public
 	 * @return void
 	 */
-	public function getType(Context $context)
+	public function getType()
 	{
-		return $context->getTypeRegistry()->getType($this->getMetadata()->getName());
+		//return $context->getTypeRegistry()->getType($this->getMetadata()->getName());
+		return $this->getMetadata()->getType();
 	}
 
 	/**

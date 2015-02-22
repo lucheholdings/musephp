@@ -12,7 +12,7 @@ use Clio\Component\Exception\NotImplementedException;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractType implements Type 
+abstract class AbstractType implements Type, Convertable 
 {
 	/**
 	 * name 
@@ -48,6 +48,26 @@ abstract class AbstractType implements Type
 	public function __toString()
 	{
 		return $this->name;
+	}
+
+	/**
+	 * convertData 
+	 * 
+	 * @param mixed $data 
+	 * @param Type $type 
+	 * @access public
+	 * @return void
+	 */
+	public function convertData($data, Type $type)
+	{
+		if($this->getName() == $type->getName()) {
+			// no conversion
+			return $data;
+		} else if($type->isType(PrimitiveTypes::TYPE_NULL)) {
+			return null;
+		} 
+
+		throw new UnsupportedException(sprintf('Convert data from "%s" to "%s" is not supported', (string)$this, (string)$type));
 	}
 }
 

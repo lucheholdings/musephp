@@ -8,6 +8,7 @@ use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory
 
 use Clio\Component\Util\Accessor\SchemaDataAccessor;
 use Clio\Component\Util\Grammer\Grammer;
+use Clio\Component\Util\Metadata\Exception as MetadataException;
 
 /**
  * SchemaAccessorMapping 
@@ -100,6 +101,16 @@ class SchemaAccessorMapping extends AccessorMapping implements Schema, Reflectio
 		}
 
 		return $this->fields;
+	}
+	
+	public function getField($field)
+	{
+		$fields = $this->getFields();
+		if(!isset($fields[$field])) {
+			throw new MetadataException\UnknownFieldException(sprintf('Field "%s" is not defined on Accessor Mapping.', $field));
+		}
+
+		return $fields[$field];
 	}
 
 	public function isSchemaData($data)

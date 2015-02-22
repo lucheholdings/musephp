@@ -28,6 +28,12 @@ class Field extends BaseAnnotation implements FieldMappingAnnotation
 		return $this->getValue();
 	}
 
+	/**
+	 * getConfigs 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getConfigs()
 	{
 		return array(
@@ -35,6 +41,12 @@ class Field extends BaseAnnotation implements FieldMappingAnnotation
 		);
 	}
 
+	/**
+	 * getTargetMappings 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function getTargetMappings()
 	{
 		return array(

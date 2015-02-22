@@ -73,6 +73,7 @@ class Normalizer implements
 		if(null === $data) {
 			return $data;
 		}
+
 		if(!$context) {
 			$context = new Context($this->getTypeRegistry());
 			$context->setNormalizer($this);

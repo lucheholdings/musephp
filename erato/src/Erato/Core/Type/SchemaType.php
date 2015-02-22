@@ -7,6 +7,7 @@ use Clio\Component\Util\Metadata\Type\SchemaReferenceType as BaseType;
 use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes;
 use Clio\Component\Tool\Normalizer\Type\ReferencableType;
 use Clio\Component\Tool\Normalizer\Type\ReferenceType;
+use Clio\Component\Util\Type\Type;
 
 /**
  * SchemaType 
@@ -48,6 +49,23 @@ class SchemaType extends BaseType implements ReferencableType
 	protected function getIdentifierMapping()
 	{
 		return $this->getSchema()->getMapping('identifier');
+	}
+
+	/**
+	 * convertData 
+	 *   
+	 * @param mixed $data 
+	 * @param Type $type 
+	 * @access public
+	 * @return void
+	 */
+	public function convertData($data, Type $type)
+	{
+		if($type->isType(Types::TYPE_IDENTIFIER)) {
+			return $this->getIdentifierValues($data);
+		}
+
+		return parent::convertData($data, $type);
 	}
 }
 

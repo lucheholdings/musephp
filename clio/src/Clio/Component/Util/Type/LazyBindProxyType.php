@@ -37,7 +37,7 @@ class LazyBindProxyType extends ProxyType
 	public function getType()
 	{
 		if(!$this->type instanceof Type) {
-			$this->type = $this->getTypeRegistry()->get($this->type);
+			$this->type = $this->getTypeRegistry()->getType($this->type);
 		}
 
 		return $this->type;

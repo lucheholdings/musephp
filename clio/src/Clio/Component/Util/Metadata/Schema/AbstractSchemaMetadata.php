@@ -5,6 +5,7 @@ use Clio\Component\Util\Metadata\AbstractMetadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Clio\Component\Util\Metadata\FieldMetadata;
 use Clio\Component\Util\Metadata\Mapping\MappingCollection;
+use Clio\Component\Util\Metadata\Exception as MetadataException;
 
 /**
  * AbstractSchemaMetadata 
@@ -106,6 +107,9 @@ abstract class AbstractSchemaMetadata extends AbstractMetadata implements Schema
 	 */
 	public function getField($name)
 	{
+		if(!isset($this->fields[$name])) {
+			throw new MetadataException\UnknownFieldException(sprintf('Field "%s" is not defined on Schema "%s"', $name, $this->getName()), $this, $name);
+		}
 		return $this->fields[$name];
 	}
 

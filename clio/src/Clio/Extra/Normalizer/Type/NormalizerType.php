@@ -34,13 +34,13 @@ class NormalizerType extends Types\ProxyType implements Types\FieldContainable
 			$type = $type->getRawType();
 		}
 
-		if($type instanceof FieldContainable) {
+		if($type instanceof Types\FieldContainable) {
 			return $type->hasFieldType($field);
 		}
 		return false;
 	}
 
-	public function getFieldType($field) 
+	public function getFieldType($fieldName) 
 	{
 		$type = $this->getType();
 
@@ -48,7 +48,24 @@ class NormalizerType extends Types\ProxyType implements Types\FieldContainable
 			$type = $type->getRawType();
 		}
 
-		return $type->getFieldType($field);
+		// Get type from field normalizer mapping
+		if($type->isType('schema')) {
+			$schema = $type->getSchema();
+			$field = $schema->getField($fieldName);
+
+			if($field->hasMapping('normalizer')) {
+				$fieldType = $field->getMapping('normalizer')->getType();
+			} else {
+				$fieldType = $field->getType();
+			}
+		} else {
+			$fieldType = $type->getFieldType($fieldName);
+		}
+	
+		if(!$fieldType instanceof Types\FieldType) {
+			$fieldType = new Types\FieldType($fieldType);
+		}
+		return $fieldType;
 	}
 
 	public function __call($method, array $args = array())

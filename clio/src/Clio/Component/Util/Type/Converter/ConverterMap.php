@@ -37,9 +37,14 @@ class ConevrterMap implements Converter
 	 */
 	public function addConverter(Converter $converter)
 	{
-		$src  = (string)$converter->getSourceType();
-		$dest = (string)$converter->getDestinationType();
+		$src  = $converter->getSourceType();
+		$dest = $converter->getDestinationType();
 
+		$this->validateSourceType($src);
+		$this->validateDestinationType($dest);
+
+		$src = (string)$src;
+		$dest = (string)$dest;
 		if(!$this->converters->hasKey($src)) {
 			$this->converters->set($src, new SimpleMap());
 		}
@@ -75,7 +80,15 @@ class ConevrterMap implements Converter
 	 */
 	public function convert(Type $from, Type $to, $data)
 	{
-		if(!$from->isValidData($data)) {
+		if($from->getName() == $to->getName()) {
+			return $data;
+		} else if($to->isType(PrimitiveTypes::TYPE_MIXED)) {
+			return $data;
+		}
+
+		if($from->isType(PrimitiveTypes::TYPE_MIXED)) {
+			$from = $this->guessType($data);
+		} else if(!$from->isValidData($data)) {
 			throw new \InvalidArgumentException('Data is not a valid data for source type.');
 		}
 
@@ -100,6 +113,20 @@ class ConevrterMap implements Converter
 		}
 
 		throw new UnsupportedException(sprintf('Converter dose not support conversion from Type "%s" to Type "%s".', $from->getName(), $to->getName()));
+	}
+
+	protected function validateSourceType(Type $src)
+	{
+		if($type->isType(PrimitiveTypes::TYPE_MIXED)) {
+			throw new \InvalidArgumentException('MixedType is not supported.');
+		}
+	}
+
+	protected function validateDestinationType(Type $src)
+	{
+		if($type->isType(PrimitiveTypes::TYPE_MIXED)) {
+			throw new \InvalidArgumentException('MixedType is not supported.');
+		}
 	}
 }
 
