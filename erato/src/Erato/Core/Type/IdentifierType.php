@@ -35,17 +35,32 @@ class IdentifierType extends ProxyType
 		}
 	}
 
-	///**
-	// * isValidData 
-	// * 
-	// * @param mixed $value 
-	// * @access public
-	// * @return void
-	// */
-	//public function isValidData($value)
-	//{
-	//	return is_array($value) && $this->getIdentifierMapping()->validateValues($value); 
-	//}
+	/**
+	 * isValidData 
+	 * 
+	 * @param mixed $value 
+	 * @access public
+	 * @return void
+	 */
+	public function isValidData($value)
+	{
+		if(is_scalar($value)) {
+			return 1 == count($this->getIdentifierFields());
+		} else if(is_array($value)) {
+			$ids = $this->getIdentifierFields();
+			if(count($ids) == count($value)) {
+				foreach($ids as $id) {
+					if(!isset($value[$id])) {
+						return false;
+					}
+				}
+				return true;
+			}
+			return false;
+		} else {
+			return $this->getType()->isValidData($value);
+		}
+	}
 
 	/**
 	 * getIdentifierFields 

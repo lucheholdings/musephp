@@ -33,6 +33,6 @@ class SetType extends ArrayType
 
 	public function isValidData($value)
 	{
-		return is_array($value);
+		return is_array($value) || (($value instanceof \ArrayAccess) && ($value instanceof \Traversable));
 	}
 }

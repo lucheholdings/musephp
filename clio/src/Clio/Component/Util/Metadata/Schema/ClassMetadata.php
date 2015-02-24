@@ -159,7 +159,11 @@ class ClassMetadata extends AbstractSchemaMetadata implements InheritedMetadata
 	 */
 	public function isSchemaData($data)
 	{
-		return $this->getReflectionClass()->isInstance($data);
+		if(is_object($data)) {
+			return $this->getReflectionClass()->isInstance($data);
+		} 
+
+		return false;
 	}
 }
 

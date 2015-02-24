@@ -20,7 +20,7 @@ class Ignore extends BaseAnnotation implements FieldMappingAnnotation
 	public function getConfigs()
 	{
 		return array(
-			'ignore'  => (bool)$this->getValue(),
+			'ignore'  => true,
 		);
 	}
 

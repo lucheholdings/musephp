@@ -31,7 +31,9 @@ class NormalizerFieldMapping extends AbstractMapping
 	public function getType()
 	{
 		if(!$this->normalizationType) {
-			if($this->hasOption('type')) {
+			if($this->hasOption('ignore')) {
+				$normalizationType = 'null';
+			} else if($this->hasOption('type')) {
 				$normalizationType = $this->getOption('type');
 			} else {
 				// 

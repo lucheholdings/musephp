@@ -87,6 +87,14 @@ class Normalizer implements
 		// Convert FieldType to NormalizerType 
 		$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
 
+		if(!$type->isValidData($data)) {
+			if($context->getScopeConfiguration('prefer_data', true)) {
+				$type = $context->getTypeResolver()->resolve(new Types\FieldType(), array('data' => $data));
+			} else {
+				throw new \InvalidArgumentException('Given type and data is not matched.');
+			}
+		}
+
 		// Original Scope
 		if($context->isEmptyScope()) {
 			$context->enterScope($data, $type, '_');
@@ -106,7 +114,7 @@ class Normalizer implements
 
 		if(is_array($normalized)) {
 			if($context->getScopeConfiguration('compact', true)) {
-				$normalized= array_filter($normalized, function($v) {
+				$normalized = array_filter($normalized, function($v) {
 						return !empty($v);
 					});
 			}

@@ -66,36 +66,6 @@ class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy,
 
 		$fieldValues = $accessor->getFieldValues();
 
-
-		//// fixme
-		//$typeConverter = $this->getTypeConverter();
-		//$schemaMapping = $accessor->getSchemaAccessor()->getSchema();
-
-		//foreach($fieldValues as $field => &$value) {
-		//	try {
-		//		$fieldMapping = $schemaMapping->getField($field);
-		//		$srcType = $fieldMapping->getMetadata()->getType();
-		//	} catch (MetadataException\UnknownFieldException $ex) {
-		//		// field is not defined on schema, thus we do not convert the value
-		//		$srcType = new Types\MixedType(); 
-		//	}
-
-
-		//	// 
-		//	try {
-		//		$dstType = $type->getFieldType($field);
-		//	} catch(MetadataException\UnknownFieldException $ex) {
-		//		// desitination field is ambiguous, thus we do now convert the value
-		//		continue;
-		//	}
-
-		//	if($typeConverter) {
-		//		$value = $typeConverter->convert($srcType, $dstType, getType(), $value);
-		//	} else {
-		//		$value = $srcType->convertData($value, $dstType);
-		//	}
-		//}
-
 		return $fieldValues;
 	}
 

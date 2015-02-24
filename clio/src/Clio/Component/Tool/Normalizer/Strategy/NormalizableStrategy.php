@@ -15,18 +15,8 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 			throw new \Exception(sprintf('NormalizableStrategy is only able to normalize Normalizable instnace, but "%s" is given.', is_object($data) ? get_class($data) : gettype($data)));
 		}
 
+		// return normalized data.
 		$normalized = $data->normalize();
-
-		array_walk($normalized, function(&$value, $key, $data) {
-			list($type, $context) = $data;
-
-			// Field Type
-			$fieldType = $context->getFieldType($type, $key);
-			// convert to normalizerType
-			$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value)); 
-
-			$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
-		}, array($type, $context));
 
 		return $normalized;
 	}

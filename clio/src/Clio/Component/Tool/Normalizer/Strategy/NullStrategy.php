@@ -8,7 +8,7 @@ class NullStrategy implements NormalizationStrategy, DenormalizationStrategy
 {
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type instanceof NullType);
+		return ($type->isType('null'));
 	}
 
 	public function normalize($data, $type = null, Context $context = null)
@@ -18,7 +18,7 @@ class NullStrategy implements NormalizationStrategy, DenormalizationStrategy
 
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type instanceof NullType);
+		return ($type->isType('null'));
 	}
 
 	public function denormalize($data, $type, Context $context = null)

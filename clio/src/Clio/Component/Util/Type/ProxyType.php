@@ -46,7 +46,7 @@ class ProxyType implements Type
 
 	public function isValidData($data)
 	{
-		return $this->getType()->isValidData($type);
+		return $this->getType()->isValidData($data);
 	}
 
 	public function __toString()

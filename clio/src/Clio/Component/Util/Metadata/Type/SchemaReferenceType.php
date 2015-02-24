@@ -104,7 +104,7 @@ class SchemaReferenceType extends AbstractType implements FieldContainable
 
 	public function isValidData($data)
 	{
-		return $this->getSchema()->isValidData($data);
+		return $this->getSchema()->isSchemaData($data);
 	}
 
 	public function getFieldType($field)

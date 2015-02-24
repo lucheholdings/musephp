@@ -56,7 +56,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 						$this->enterScope($context, $value, $fieldType, $key);
 					} catch(CircularException $ex) {
 						if(!$fieldType->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
-							throw $ex;
+							throw new CircularException($value, $fieldType, 'Cannot resolve reference.', 0, $ex);
 						}
 						// try enterScope with reference	
 						$fieldType = new ReferenceType($fieldType);
