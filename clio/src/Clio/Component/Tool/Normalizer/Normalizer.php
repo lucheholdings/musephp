@@ -104,6 +104,18 @@ class Normalizer implements
 
 		$normalized = $strategy->normalize($data, $type, $context);
 
+		if(is_array($normalized)) {
+			if($context->getScopeConfiguration('compact', true)) {
+				$normalized= array_filter($normalized, function($v) {
+						return !empty($v);
+					});
+			}
+
+			if((1 == count($normalized)) && $context->getScopeConfiguration('prefer_scalar', true)) {
+				$normalized = array_pop($normalized);
+			}
+		}
+
 		if($type)
 			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Normalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
 		else 

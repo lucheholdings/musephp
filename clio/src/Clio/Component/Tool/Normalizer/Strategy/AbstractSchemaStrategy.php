@@ -69,16 +69,6 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 					$this->leaveScope($context);
 				});
 			
-			if($context->getScopeConfiguration('compact', true)) {
-				$fields = array_filter($fields, function($v) {
-						return !empty($v);
-					});
-			}
-
-			if((1 == count($fields)) && $context->getScopeConfiguration('prefer_scalar', true)) {
-				$fields = array_pop($fields);
-			}
-
 			return $fields;
 		} else if(is_scalar($fields) || is_null($fields)) {
 			return $fields;
