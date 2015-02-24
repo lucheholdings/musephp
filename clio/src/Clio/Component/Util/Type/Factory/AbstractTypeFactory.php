@@ -2,6 +2,8 @@
 namespace Clio\Component\Util\Type\Factory;
 
 use Clio\Component\Util\Type\Factory;
+use Clio\Component\Pattern\Factory\AbstractMappedFactory;
+use Clio\Component\Pattern\Factory\Tool\FactoryTool;
 
 /**
  * AbstractTypeFactory 
@@ -13,26 +15,21 @@ use Clio\Component\Util\Type\Factory;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractTypeFactory implements Factory
+abstract class AbstractTypeFactory extends AbstractMappedFactory implements Factory
 {
-
-	public function createByKey()
+	public function doCreate(array $args = array())
 	{
-		$args = func_get_args();
-		$key = array_shift($args);
+		$key = $this->shiftArg($args, 'key');
+		$options = $this->shiftArg($args, 'options');
 
-		return $this->createByKeyArgs($key, $args); 
+		return $this->createType($key, $options);
 	}
 
-	public function createByKeyArgs($key, array $args = array())
+	public function isSupportedArgs(array $args = array())
 	{
-		return $this->createType($key);
-	}
+		$key = FactoryTool::shiftArg($args, 'key');
 
-	public function isSupportedKeyArgs($key, array $args = array())
-	{
-		return true;
-		throw new \RuntimeException('not supported');
+		return $this->isSupportedType($key);
 	}
 }
 

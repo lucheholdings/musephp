@@ -11,6 +11,12 @@ class ProxyType implements Type
 		$this->type = $type;
 	}
 
+	public function resolve(Resolver $resolver, $data = null)
+	{
+		$this->type = $resolver->resolve($this->type, array('data' => $data));
+		return $this;
+	}
+
     public function getType()
     {
 		if(!$this->type) {
@@ -30,7 +36,7 @@ class ProxyType implements Type
 
 	public function getName()
 	{
-		return (string)$this->type;
+		return (string)($this->type);
 	}
 
 	public function isType($type)
@@ -59,6 +65,16 @@ class ProxyType implements Type
 			return $this->doGetRawType($type->getType());
 		}
 		return $type;
+	}
+
+	public function isResolved()
+	{
+		if($this->getType() instanceof ProxyType) {
+			return $this->getType()->isResolved();
+		} else if($this->getType() instanceof MixedType) {
+			return false;
+		}
+		return true;
 	}
 
 	public function __call($method, array $args = array())

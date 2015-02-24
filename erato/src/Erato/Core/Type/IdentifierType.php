@@ -1,20 +1,20 @@
 <?php
 namespace Erato\Core\Type;
 
-use Clio\Component\Util\Type\FieldType;
+use Clio\Component\Util\Type\ProxyType;
 use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes;
 
 /**
  * IdentifierType 
  * 
- * @uses FieldType
+ * @uses ProxyType 
  * @uses ReferenableType
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class IdentifierType extends FieldType  
+class IdentifierType extends ProxyType 
 {
 	/**
 	 * isType 

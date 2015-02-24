@@ -36,9 +36,9 @@ class ProxyLoader implements EntryLoader
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loadEntry($key)
+	public function loadEntry($key, array $options = array())
 	{
-		return $this->getLoader()->loadEntry($key);
+		return $this->getLoader()->loadEntry($key, $options);
 	}
 
 	/**

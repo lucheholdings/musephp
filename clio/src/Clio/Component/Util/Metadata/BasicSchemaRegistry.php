@@ -50,7 +50,7 @@ class BasicSchemaRegistry extends LoadableRegistry implements SchemaRegistry
 	 * @access protected
 	 * @return void
 	 */
-	protected function load($key)
+	public function load($key, array $options = array())
 	{
 		$loaded = parent::load($key);
 

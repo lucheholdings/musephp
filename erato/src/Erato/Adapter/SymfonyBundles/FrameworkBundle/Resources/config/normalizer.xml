@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="erato_framework.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
-        <parameter key="erato_framework.normalizer_type_registry.class">Clio\Extra\Normalizer\Type\Registry</parameter>
+        <parameter key="erato_framework.normalizer_type_resolver.class">Clio\Extra\Normalizer\Type\Resolver</parameter>
 
         <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
 		<!-- Strategy Classes -->
@@ -17,19 +17,20 @@
         <parameter key="erato_framework.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
         <parameter key="erato_framework.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
         <parameter key="erato_framework.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
+        <parameter key="erato_framework.normalizer.array_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayStrategy</parameter>
         <parameter key="erato_framework.normalizer.array_access_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy</parameter>
         <parameter key="erato_framework.normalizer.normalizable_strategy.class">Clio\Component\Tool\Normalizer\Strategy\NormalizableStrategy</parameter>
         <parameter key="erato_framework.normalizer.std_class_strategy.class">Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy</parameter>
     </parameters>
 
     <services>
-        <service id="erato_framework.normalizer_type_registry" class="%erato_framework.normalizer_type_registry.class%">
-			<argument type="service" id="erato_framework.type_registry"/>
+        <service id="erato_framework.normalizer_type_resolver" class="%erato_framework.normalizer_type_resolver.class%">
+			<argument type="service" id="erato_framework.type_resolver"/>
 		</service>
 		<!--  -->
         <service id="erato_framework.normalizer" class="%erato_framework.normalizer.class%">
 			<argument type="service" id="erato_framework.normalizer.strategy"/>
-			<argument type="service" id="erato_framework.normalizer_type_registry"/>
+			<argument type="service" id="erato_framework.normalizer_type_resolver"/>
 
 			<call method="setLogger">
 				<argument type="service" id="logger"/>
@@ -89,6 +90,12 @@
 		<service 
 			id="erato_framework.normalizer.default_strategy.std_class" 
 			class="%erato_framework.normalizer.std_class_strategy.class%"
+			public="false"
+		>
+		</service>
+		<service 
+			id="erato_framework.normalizer.default_strategy.array" 
+			class="%erato_framework.normalizer.array_strategy.class%"
 			public="false"
 		>
 		</service>

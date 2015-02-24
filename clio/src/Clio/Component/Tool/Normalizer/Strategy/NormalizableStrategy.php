@@ -21,11 +21,10 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 			list($type, $context) = $data;
 
 			// Field Type
-			if($fieldType = $context->getFieldType($type, $key)) {
-				$fieldType = $context->getTypeRegistry()->getType($fieldType);
-			} else {
-				$fieldType = $context->getTypeRegistry()->guessType($value);
-			}
+			$fieldType = $context->getFieldType($type, $key);
+			// convert to normalizerType
+			$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value)); 
+
 			$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
 		}, array($type, $context));
 
@@ -45,11 +44,8 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 		array_walk($data, function(&$value, $key, $data) {
 			list($type, $context) = $data;
 			// Field Type
-			if($fieldType = $context->getFieldType($type, $key)) {
-				$fieldType = $context->getTypeRegistry()->getType($fieldType);
-			} else {
-				$fieldType = $context->getTypeRegistry()->guessType($value);
-			}
+			$fieldType = $context->getFieldType($type, $key);
+			$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value));
 			$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
 		}, array($type, $context));
 

@@ -97,12 +97,14 @@ class BaseRegistry extends LoadableRegistry implements Registry
 	 */
 	public function getType($type)
 	{
-		if($type instanceof FieldtType) {
-			// switch field type
-			$type->setType($this->get($type->getTypeName()));
-
-			return $type;
-		}
+		//if($type instanceof FieldtType) {
+		//	// switch field type
+		//	if(!$this->getRegistry()->has($type->getTypeName())) {
+		//		$this->load($type->getTypeName());
+		//	}
+		//	$type->setType($this->get($type->getTypeName()));
+		//	return $type;
+		//}
 
 		if($type instanceof Type) {
 			return $type;
@@ -134,6 +136,5 @@ class BaseRegistry extends LoadableRegistry implements Registry
 	{
 		return $this->remove((string)$type);
 	}
-    
 }
 

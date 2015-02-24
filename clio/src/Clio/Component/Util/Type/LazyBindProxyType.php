@@ -12,40 +12,52 @@ namespace Clio\Component\Util\Type;
  */
 class LazyBindProxyType extends ProxyType 
 {
-	private $typeRegistry;
-
-	public function __construct($type, Registry $typeRegistry = null)
+	public function __construct($type)
 	{
 		$this->type = $type;
-		$this->typeRegistry = $typeRegistry;
 	}
-    
-    public function getTypeRegistry()
-    {
-		if(!$this->typeRegistry) {
-			throw new \RuntimeException('TypeRegistry is not initialized to resolve bound type.');
-		}
-        return $this->typeRegistry;
-    }
-    
-    public function setTypeRegistry(Registry $typeRegistry)
-    {
-        $this->typeRegistry = $typeRegistry;
-        return $this;
-    }
-	
+
 	public function getType()
 	{
 		if(!$this->type instanceof Type) {
-			$this->type = $this->getTypeRegistry()->getType($this->type);
+			throw new \RuntimeException('Internal type is not resolved');
 		}
 
 		return $this->type;
 	}
 
+	public function resolve(Resolver $resolver, $data = null)
+	{
+		if(!$this->type instanceof Type) {
+			$this->type = $resolver->resolve($this->type, array('data' => $data));
+		}
+
+		if(!$this->isResolved()) {
+			// resolve internal types 
+			$this->type = $this->type->resolve($resolver, $data);
+		}
+
+		return $this;
+	}
+
+
 	public function setType($type)
 	{
 		$this->type = $type;
+	}
+
+	public function isBound()
+	{
+		return ($this->type instanceof Type);
+	}
+
+	public function isResolved()
+	{
+		if(!$this->isBound()) {
+			return false;
+		}
+		
+		return parent::isResolved();
 	}
 }
 

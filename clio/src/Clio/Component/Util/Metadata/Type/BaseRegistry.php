@@ -26,7 +26,7 @@ class BaseRegistry extends Registry
 		$this->schemaRegistry = $schemaRegistry;
 	}
 
-	protected function load($key)
+	public function load($key, array $options = array())
 	{
 		$loaded = parent::load($key);
 

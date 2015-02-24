@@ -23,5 +23,31 @@ $fieldType = new FieldType('array{key1: string, key2: integer}')
 
 FieldTypeの内部タイプを解決するために、FieldType::setTypeRegistry(TypeRegistry)を用いて、TypeRegistryを登録する必要があります。
 
+
+## フォーマット
+
+```
+type<internal_type>{options}
+```
+
+| ポジション                | フォーマット              | 説明                                                 |
+|:------------------------- |:------------------------- |:---------------------------------------------------- |
+| type                      | 文字列                    | 型の名称                                             |
+| internal_type             | 文字列                    | 内部型　例えば、identifierという型は、データの装飾型であるため、その実内部クラスの名称 |
+| options                   | json                      | FieldTypeのオプション                                |
+
+例）
+
+````
+// DateTimeクラスを"Y-m-d"フォーマットで表す
+DateTime{format: "Y-m-d"}
+
+// ArrayCollectionをset（値の集合）とし、かつ、ArrayCollectionの内部オブジェクトをObjectクラスとして表す
+set<ArrayCollection>{value_type: Object}
+
+// ArrayCollectionをmap（keyで一意性をとった値）とし、かつ、ArrayCollectionの内部オブジェクトが、key=hooの場合、Fooクラス型とし、それ以外を、Objectクラス型として表す
+map<ArrayCollection>{value_type: "Object", fields : {foo: "Foo"}}
+````
+
 ----
 [戻る](./index.md)

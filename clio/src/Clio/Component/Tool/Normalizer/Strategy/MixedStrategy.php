@@ -17,9 +17,9 @@ class MixedStrategy implements NormalizationStrategy, DenormalizationStrategy
 			throw new \InvalidArgumentException(sprintf('MixedStrategy only accept type "mixed", but "%s[%s]" is given.', get_class($type), $type->getName()));
 		}
 
-		$newType = $type->resolve($context->getTypeRegistry(), $data);
+		$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
 
-		return $context->getNormalizer()->normalize($data, $newType, $context);
+		return $context->getNormalizer()->normalize($data, $type, $context);
 	}
 
 	public function canDenormalize($data, $type, Context $context)
@@ -33,9 +33,9 @@ class MixedStrategy implements NormalizationStrategy, DenormalizationStrategy
 			throw new \InvalidArgumentException(sprintf('MixedStrategy only accept type "mixed", but "%s[%s]" is given.', get_class($type), $type->getName()));
 		}
 
-		$newType = $type->resolve($context->getTypeRegistry(), $data);
+		$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
 
-		return $context->getNormalizer()->denormalize($data, $newType, $context);
+		return $context->getNormalizer()->denormalize($data, $type, $context);
 	}
 }
 

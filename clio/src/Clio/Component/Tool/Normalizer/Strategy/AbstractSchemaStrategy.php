@@ -2,7 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Util\Type\Type,
+use Clio\Component\Util\Type\Type as TypeInterface,
 	Clio\Component\Util\Type as Types
 ;
 
@@ -33,20 +33,25 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 		
 		if(!$type) {
 			throw new \InvalidArgumentException('Strategy requires Type is not null.');
-		} else if(!$type instanceof Type) {
+		} else if(!$type instanceof TypeInterface) {
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
 		$fields = $this->doNormalize($data, $type, $context);
 
-		if(is_array($fields)) {
+		if($type->isType('field') && $type->options->has('decorated_type')) {
+			// normalize internal value with decoratedType
+			$decorated  = $type->options->get('decorated_type');
+
+			return $context->getNormalizer()->normalize($fields, $decorated, $context);
+		} else if(is_array($fields)) {
 			// Normalize each field
-			array_walk($fields, function(&$value, $key) use ($context, $type as $schemaType) {
+			array_walk($fields, function(&$value, $key) use ($context, $type) {
 					if(!$value) {
 						return $value;
 					}
 					
-					$fieldType = $context->getFieldType($schemaType, $key);
+					$fieldType = $context->getFieldType($type, $key);
 					try {
 						$this->enterScope($context, $value, $fieldType, $key);
 					} catch(CircularException $ex) {
@@ -59,10 +64,20 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 					}
 						
 					// Normalize Field value
-					$value = $context->getNormalizer()->normalize($valeu, $fieldType, $context);
+					$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
 
 					$this->leaveScope($context);
 				});
+			
+			if($context->getScopeConfiguration('compact', true)) {
+				$fields = array_filter($fields, function($v) {
+						return !empty($v);
+					});
+			}
+
+			if((1 == count($fields)) && $context->getScopeConfiguration('prefer_scalar', true)) {
+				$fields = array_pop($fields);
+			}
 
 			return $fields;
 		} else if(is_scalar($fields) || is_null($fields)) {
@@ -83,7 +98,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 	 * @access protected
 	 * @return void
 	 */
-	abstract protected function doNormalize($data, $type, $context);
+	//abstract protected function doNormalize($data, TypeInterface $type, Context $context);
 
 	/**
 	 * denormalize 
@@ -100,7 +115,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 			throw new \InvalidArgumentException('Strategy requires Context is not null.');
 		}
 
-		if(!$type instanceof Type) {
+		if(!$type instanceof TypeInterface) {
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
@@ -114,9 +129,9 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 
 		// Denormalize fields before denormalize data.
 		if(is_array($data)) {
-			array_walk($data, function(&$value, $key) use ($context, $type as $schemaType) {
+			array_walk($data, function(&$value, $key) use ($context, $type) {
 
-				$fieldType = $context->getFieldType($schemaType, $key);
+				$fieldType = $context->getFieldType($type, $key);
 				$context->enterScope($value, $fieldType, $key);
 				// Denormalize the field value 
 				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
@@ -179,6 +194,6 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 	 * @access protected
 	 * @return void
 	 */
-	abstract protected function doDenormalize($data, $type, $context, $object = null);
+	//abstract protected function doDenormalize($data, Type $type, Context $context, $object = null);
 }
 

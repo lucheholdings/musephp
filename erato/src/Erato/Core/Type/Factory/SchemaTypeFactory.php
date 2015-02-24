@@ -26,5 +26,17 @@ class SchemaTypeFactory extends AbstractTypeFactory
 	{
 		return new SchemaType($name);
 	}
+
+	/**
+	 * isSupportedType 
+	 * 
+	 * @param mixed $name 
+	 * @access public
+	 * @return void
+	 */
+	public function isSupportedType($name)
+	{
+		return true;
+	}
 }
 

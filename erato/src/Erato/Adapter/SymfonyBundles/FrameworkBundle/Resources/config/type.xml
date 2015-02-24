@@ -6,10 +6,90 @@
 
     <parameters>
 	    <parameter key="erato_framework.type_registry.class">Erato\Core\Type\BasicRegistry</parameter>
+	    <parameter key="erato_framework.type_resolver.recursive.class">Clio\Component\Util\Type\Resolver\RecursiveResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.sequence.class">Clio\Component\Util\Type\Resolver\PrioritySequentialResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.registry.class">Clio\Component\Util\Type\Resolver\RegistryResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.factory.class">Clio\Component\Util\Type\Resolver\TypeFactoryResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.field_type.class">Clio\Component\Util\Type\Resolver\FieldTypeResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.mixed.class">Clio\Component\Util\Type\Resolver\MixedTypeResolver</parameter>
+	    <parameter key="erato_framework.type_factory.sequential.class">Clio\Component\Util\Type\Factory\SequentialFactory</parameter>
     </parameters>
 
 	<services>
 
+		<service
+			id="erato_framework.type_resolver"
+			class="%erato_framework.type_resolver.recursive.class%"
+		>
+			<argument type="service" id="erato_framework.type_resolver.base"/>
+		</service>
+
+		<service
+			id="erato_framework.type_resolver.base"
+			class="%erato_framework.type_resolver.sequence.class%"
+		>
+			<call method="addResolver">
+				<argument type="service" id="erato_framework.type_resolver.field_type"/>
+				<argument>200</argument>
+			</call>
+			<call method="addResolver">
+				<argument type="service" id="erato_framework.type_resolver.actual"/>
+				<argument>100</argument>
+			</call>
+		</service>
+
+		<service
+			id="erato_framework.type_resolver.field_type"
+			class="%erato_framework.type_resolver.field_type.class%"
+		>
+			<argument type="service" id="erato_framework.type_resolver.field_type.actual"/>
+		</service>
+		
+		<service
+			id="erato_framework.type_resolver.field_type.actual"
+			class="%erato_framework.type_resolver.sequence.class%"
+		>
+			<call method="addResolver">
+				<argument type="service" id="erato_framework.type_resolver.decorate"/>
+				<argument>200</argument>
+			</call>
+			<call method="addResolver">
+				<argument type="service" id="erato_framework.type_resolver.actual"/>
+				<argument>100</argument>
+			</call>
+		</service>
+		<service
+			id="erato_framework.type_resolver.decorate"
+			class="%erato_framework.type_resolver.factory.class%"
+		>
+			<argument type="service" id="erato_framework.type_factory.decorate"/>
+		</service>
+
+		<service
+			id="erato_framework.type_resolver.actual"
+			class="%erato_framework.type_resolver.sequence.class%"
+		>
+			<call method="addResolver">
+				<argument type="service" id="erato_framework.type_resolver.mixed"/>
+				<argument>200</argument>
+			</call>
+			<call method="addResolver">
+				<argument type="service" id="erato_framework.type_resolver.registry"/>
+				<argument>100</argument>
+			</call>
+		</service>
+		<service
+			id="erato_framework.type_resolver.mixed"
+			class="%erato_framework.type_resolver.mixed.class%"
+		>
+			<argument type="service" id="erato_framework.type_resolver.actual"/>
+		</service>
+		<service
+			id="erato_framework.type_resolver.registry"
+			class="%erato_framework.type_resolver.registry.class%"
+		>
+			<argument type="service" id="erato_framework.type_registry"/>
+		</service>
 		<service
 			id="erato_framework.type_registry"
 			class="%erato_framework.type_registry.class%"
@@ -17,6 +97,19 @@
 			<call method="setSchemaRegistry">
 				<argument type="service" id="erato_framework.metadata.registry"/>
 			</call>
+		</service>
+
+		<service
+			id="erato_framework.type_factory.decorate"
+			class="%erato_framework.type_factory.sequential.class%"
+		>
+		</service>
+
+		<service
+			id="erato_framework.type_factory.decorates"
+			class="Erato\Core\Type\Factory\DecorateTypeFactory"
+		>
+			<tag name="erato_framework.type_factory.decorate" />
 		</service>
 	</services>
 </container>

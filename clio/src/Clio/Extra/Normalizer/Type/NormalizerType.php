@@ -8,24 +8,23 @@ class NormalizerType extends Types\ProxyType implements Types\FieldContainable
 {
 	private $_type;
 
-	public function getType()
-	{
-		if(!$this->_type) {
-			$baseType = parent::getType();
+	//public function getType()
+	//{
+	//	//return parent::getType();
+	//	//if(!$this->_type) {
+	//	//	$baseType = parent::getType();
+	//	//	//if($baseType->isType('schema')) {
+	//	//	//	$schema = $baseType->getSchema();
+	//	//	//	if($schema && $schema->hasMapping('normalizer')) {
+	//	//	//		$this->_type = $schema->getMapping('normalizer')->getType();
+	//	//	//	}
+	//	//	//}
 
-			if($baseType->isType('shema')) {
-				$schema = $baseType->getSchema();
-				if($schema && $schema->hasMapping('normalizer')) {
-					$this->_type = $schema->getMapping('normalizer')->getType();
-				}
-			}
-
-			if(!$this->_type) 
-				$this->_type = $baseType;
-		}
-
-		return $this->_type;
-	}
+	//	//	if(!$this->_type) 
+	//	//		$this->_type = $baseType;
+	//	//}
+	//	//return $this->_type;
+	//}
 
 	public function hasFieldType($field) 
 	{
@@ -36,6 +35,8 @@ class NormalizerType extends Types\ProxyType implements Types\FieldContainable
 
 		if($type instanceof Types\FieldContainable) {
 			return $type->hasFieldType($field);
+		} else if($type->isType('array')) {
+			return true;
 		}
 		return false;
 	}
@@ -44,10 +45,6 @@ class NormalizerType extends Types\ProxyType implements Types\FieldContainable
 	{
 		$type = $this->getType();
 
-		if($type instanceof Types\ProxyType) {
-			$type = $type->getRawType();
-		}
-
 		// Get type from field normalizer mapping
 		if($type->isType('schema')) {
 			$schema = $type->getSchema();
@@ -55,11 +52,20 @@ class NormalizerType extends Types\ProxyType implements Types\FieldContainable
 
 			if($field->hasMapping('normalizer')) {
 				$fieldType = $field->getMapping('normalizer')->getType();
+
 			} else {
 				$fieldType = $field->getType();
 			}
-		} else {
+		} else if($type instanceof Types\FieldContainable){
 			$fieldType = $type->getFieldType($fieldName);
+		} else {
+			// first type to get from "fields" option
+			$fields = $type->options->get('fields', array());
+			if(isset($fields[$fieldName])) {
+				$fieldType = $fields[$fieldName];
+			} else {
+				$fieldType = $type->options->get('field_type', 'mixed');
+			}
 		}
 	
 		if(!$fieldType instanceof Types\FieldType) {
@@ -75,6 +81,7 @@ class NormalizerType extends Types\ProxyType implements Types\FieldContainable
 
 	public function __get($name)
 	{
+		//return parent::getType()->$name;
 		return $this->getType()->$name;
 	}
 }

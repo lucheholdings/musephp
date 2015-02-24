@@ -3,7 +3,7 @@ namespace Clio\Extra\Type\Factory;
 
 use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
 use Clio\Extra\Type;
-use Clio\Component\Pattern\Factory\UnsupportedException;
+use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
 class TypeFactory extends AbstractTypeFactory
 {

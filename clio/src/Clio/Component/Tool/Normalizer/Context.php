@@ -3,7 +3,7 @@ namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Util\Type as Types,
 	Clio\Component\Util\Type\Type,
-	Clio\Component\Util\Type\Registry as TypeRegistry;
+	Clio\Component\Util\Type\Resolver as TypeResolver;
 
 /**
  * Context 
@@ -42,12 +42,12 @@ class Context
 	private $options;
 
 	/**
-	 * typeRegistry 
+	 * typeResolver 
 	 * 
 	 * @var mixed
 	 * @access private
 	 */
-	private $typeRegistry;
+	private $typeResolver;
 
 	/**
 	 * pathTypes
@@ -66,14 +66,14 @@ class Context
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(TypeRegistry $typeRegistry = null)
+	public function __construct(TypeResolver $typeResolver = null)
 	{
 		$this->scopeStack = new \SplStack();
 
-		if(!$typeRegistry) 
-			$typeRegistry = new TypeRegistry();
+		if(!$typeResolver) 
+			$typeResolver = new TypeResolver();
 
-		$this->typeRegistry = $typeRegistry;
+		$this->typeResolver = $typeResolver;
 		$this->dataPool = new Tool\DataPool();
 	}
     
@@ -188,8 +188,8 @@ class Context
 	 */
 	public function enterScope($data, Type $type, $field = '_')
 	{
-		if($type->isType(Types\PrimitiveTypes::TYPE_MIXED)) {
-			$type = $type->resolve($this->getTypeRegistry(), $data);
+		if($type instanceof ProxyType) {
+			$type->resolve($this->getTypeResolver(), $data);
 		}
 
 		if(is_object($data)) {
@@ -215,14 +215,14 @@ class Context
 	}
 
 	/**
-	 * getTypeRegistry 
+	 * getTypeResolver 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function getTypeRegistry()
+	public function getTypeResolver()
 	{
-		return $this->typeRegistry;
+		return $this->typeResolver;
 	}
     
     public function getNormalizer()
@@ -300,14 +300,12 @@ class Context
 	 */
 	public function getFieldType($type, $field)
 	{
-
 		$fieldPath = $this->getPathInCurrentScope($field);
 
 		if($this->hasPathType($fieldPath)) {
 			return $this->getPathType($fieldPath);
 		} else if((($type instanceof Types\FieldContainable) || $type->isType(Types\PrimitiveTypes::TYPE_OBJECT)) && $type->hasFieldType($field)) {
 			$fieldType = $type->getFieldType($field);
-			$fieldType->setTypeRegistry($this->getTypeRegistry());
 
 			return $fieldType;
 		}
@@ -320,5 +318,10 @@ class Context
     {
         return $this->dataPool;
     }
+
+	public function getScopeConfiguration($key, $default = null)
+	{
+		return $default;
+	}
 }
 

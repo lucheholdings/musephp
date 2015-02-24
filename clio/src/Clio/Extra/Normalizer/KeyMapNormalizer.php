@@ -40,10 +40,9 @@ class KeyMapNormalizer extends Normalizer
 		}
 
 		if(!$type) {
-			$type = $context->getTypeRegistry()->guessType($data);
-		} else if(!$type instanceof Type) {
-			$type = $context->getTypeRegistry()->getType($type);
+			$type = 'mixed';
 		}
+		$type = $context->getTypeResolver()->resovle($type, $data);
 
 		$normalized = parent::normalize($data, $type, $context);
 
@@ -62,9 +61,10 @@ class KeyMapNormalizer extends Normalizer
 			$context->setNormalizer($this);
 		}
 
-		if(!$type instanceof Type) {
-			$type = $context->getTypeRegistry()->getType($type);
-		}
+		if(!$type) 
+			$type = 'mixed';
+
+		$type = $context->getTypeResolver()->resolve($type, $data);
 
 		if(is_array($data) && ($type instanceof ObjectType)) {
 			$data = $this->getKeyMapper()->inverseMap($data);

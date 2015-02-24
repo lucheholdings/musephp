@@ -75,6 +75,9 @@ class MethodFieldAccessor extends AbstractSingleFieldAccessor
 	 */
 	public function get($object)
 	{
+		if(!$object || !is_object($object)) {
+			throw new \InvalidArgumentException(sprintf('Argument 1 has to be a valid object to call get(). [%s]', gettype($object)));
+		}
 		$method = $this->getGetterReflector();
 
 		if(!$method) {

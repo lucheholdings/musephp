@@ -29,8 +29,6 @@ class SetType extends ArrayType
 			return parent::isType($type);
 			break;
 		}
-
-		return false;
 	}
 
 	public function isValidData($value)

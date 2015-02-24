@@ -4,6 +4,7 @@ namespace Clio\Component\Util\Type;
 use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader,
 	Clio\Component\Pattern\Registry\Loader\LoaderCollection
 ;
+use Clio\Component\Util\Type\Loader\MappedTypeFactoryLoader;
 
 /**
  * BasicRegistry 
@@ -20,7 +21,7 @@ class BasicRegistry extends BaseRegistry
 	{
 		parent::__construct(
 				new LoaderCollection(array(
-					new MappedFactoryLoader(new Factory\PrimitiveTypeFactory()),
+					new MappedTypeFactoryLoader(new Factory\PrimitiveTypeFactory()),
 				))
 			);
 	}

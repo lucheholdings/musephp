@@ -39,7 +39,6 @@ class NormalizerFieldMapping extends AbstractMapping
 			}
 
 			// build type object.
-			//$this->normalizationType = $context->getTypeRegistry()->getType($normalizationType);
 			$this->normalizationType = $normalizationType; 
 		}
 

@@ -81,16 +81,13 @@ abstract class AbstractStrategy implements Strategy
 
 		// Convert data before denormalize
 		if(is_array($data)) {
-			array_walk($data, function(&$value, $key, $data) {
-				list($type, $context) = $data;
+			array_walk($data, function(&$value, $key) use ($context, $type) {
 				// Field Type
-				if($fieldType = $context->getFieldType($type, $key)) {
-					$fieldType = $context->getTypeRegistry()->getType($fieldType);
-				} else {
-					$fieldType = $context->getTypeRegistry()->guessType($value);
-				}
+				$fieldType = $context->getFieldType($type, $key);
 
-				if($fieldType instanceof Types\NullType) {
+				$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value));
+
+				if($fieldType->isType('null')) {
 					return;
 				}
 
@@ -99,8 +96,7 @@ abstract class AbstractStrategy implements Strategy
 				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
 
 				$this->leaveScope($context);
-
-			}, array($type, $context));
+			});
 		}
 		
 		$denormalized = $this->doDenormalize($data, $type, $context);
@@ -155,9 +151,8 @@ abstract class AbstractStrategy implements Strategy
 	protected function enterScope($context, $value, $type, $field)
 	{
 		if(!$type instanceof Type) {
-			$type = $context->getTypeRegistry()->getType($type);
+			$type = $context->getTypeResolver()->resolve($type, array('data' => $value));
 		}
-
 		$context->enterScope($value, $type, $field);
 	}
 

@@ -3,15 +3,18 @@ namespace Erato\Core\Type\Factory;
 
 use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
 use Erato\Core\Type;
-use Clio\Component\Pattern\Factory\UnsupportedException;
+use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
+use Clio\Component\Util\Type\NullType;
 
 class ExtraTypeFactory extends AbstractTypeFactory
 {
-	public function createType($name)
+	public function createType($name, array $options = array())
 	{
 		switch($name) {
 		case Type\Types::TYPE_IDENTIFIER:
-			return new Type\IdentifierType();
+			return new Type\IdentifierType($options['decorated_type']);
+//		case Type\Types::TYPE_IGNORE:
+//			return new NullType();
 		default:
 			break;
 		}
@@ -23,6 +26,7 @@ class ExtraTypeFactory extends AbstractTypeFactory
 	{
 		switch($name) {
 		case Type\Types::TYPE_IDENTIFIER:
+//		case Type\Types::TYPE_IGNORE:
 			return true;
 		default:
 			return false;

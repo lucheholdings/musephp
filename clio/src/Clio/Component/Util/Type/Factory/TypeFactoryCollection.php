@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Type\Factory;
 
-use Clio\Component\Pattern\Factory\UnsupportedException;
+use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
 class TypeFactoryCollection 
 {

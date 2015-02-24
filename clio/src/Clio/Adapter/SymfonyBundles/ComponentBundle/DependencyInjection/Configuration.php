@@ -73,6 +73,7 @@ class Configuration implements ConfigurationInterface
 			'datetime'      => array('enabled' => true, 'priority' => 0),
 			'reference'     => array('enabled' => true, 'priority' => 0),
 			'std_class'     => array('enabled' => true, 'priority' => 0),
+			'array'         => array('enabled' => false, 'priority' => 0),
 			'array_access'  => array('enabled' => false, 'priority' => 0),
 			'scalar'        => array('enabled' => true, 'priority' => 0),
 			'jms'           => array('enabled' => true, 'priority' => 0),

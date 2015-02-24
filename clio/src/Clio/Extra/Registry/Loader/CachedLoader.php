@@ -61,7 +61,7 @@ class CachedLoader extends ProxyLoader
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loadEntry($key)
+	public function loadEntry($key, array $options = array())
 	{
 		try {
 			if($this->cacheProvider->contains($key)) {
@@ -72,7 +72,7 @@ class CachedLoader extends ProxyLoader
 					$entry = $this->getCacheWarmer()->warmup($entry);
 				}
 			} else {
-				$entry = $this->getLoader()->loadEntry($key);
+				$entry = $this->getLoader()->loadEntry($key, $options);
 				// Save
 				$this->cacheProvider->save($key, $entry, $this->getTtl());
 			}

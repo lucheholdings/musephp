@@ -19,7 +19,7 @@ interface EntryLoader
 	 * @access public
 	 * @return void
 	 */
-	function loadEntry($key);
+	function loadEntry($key, array $options = array());
 
 	/**
 	 * canLoad 

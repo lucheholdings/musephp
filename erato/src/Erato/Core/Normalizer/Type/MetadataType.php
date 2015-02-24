@@ -134,7 +134,7 @@ class MetadataType extends AbstractType implements ObjectType
 		else 
 			$type = 'mixed';
 
-		return $context->getTypeRegistry()->getType($type);
+		return $context->getTypeResolver()->resolve($type);
 	}
 
 	/**

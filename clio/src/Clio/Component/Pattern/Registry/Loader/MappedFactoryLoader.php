@@ -2,7 +2,7 @@
 namespace Clio\Component\Pattern\Registry\Loader;
 
 use Clio\Component\Pattern\Factory\MappedFactory;
-use Clio\Component\Pattern\Factory\UnsupportedException;
+use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
 /**
  * MappedFactoryLoader 
@@ -38,7 +38,7 @@ class MappedFactoryLoader extends AbstractLoader
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loadEntry($key)
+	public function loadEntry($key, array $options = array())
 	{
 		try {
 			return $this->factory->createByKey($key);

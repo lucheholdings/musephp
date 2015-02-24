@@ -4,7 +4,7 @@ namespace Clio\Component\Tool\Normalizer;
 use Clio\Component\Exception\UnsupportedException;
 use Clio\Component\Util\Type as Types,
 	Clio\Component\Util\Type\Type as TypeInterface,
-	Clio\Component\Util\Type\Registry as TypeRegistry
+	Clio\Component\Util\Type\Resolver as TypeResolver
 ;
 
 use Psr\Log as PsrLog;
@@ -31,7 +31,7 @@ class Normalizer implements
 	 */
 	private $strategy;
 
-	private $typeRegistry;
+	private $typeResolver;
 
 	private $logger;
 
@@ -42,10 +42,10 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Strategy $strategy, TypeRegistry $typeRegistry = null)
+	public function __construct(Strategy $strategy, TypeResolver $typeResolver = null)
 	{
 		$this->strategy = $strategy;
-		$this->typeRegistry = $typeRegistry;
+		$this->typeResolver = $typeResolver;
 	}
 
 	/**
@@ -75,20 +75,17 @@ class Normalizer implements
 		}
 
 		if(!$context) {
-			$context = new Context($this->getTypeRegistry());
+			$context = new Context($this->getTypeResolver());
 			$context->setNormalizer($this);
 		}
 
-		if(!$type) {
-			//$context->guessType($data);
-			$type = $context->getTypeRegistry()->guessType($data);
-		} else if(!$type instanceof TypeInterface) {
-			$type = $context->getTypeRegistry()->getType($type);
+		// if type is not specified, then 
+		if(!$type instanceof TypeInterface) {
+			$type = new Types\FieldType($type);
 		}
 
-		if($type->isType(Types\PrimitiveTypes::TYPE_MIXED)) {
-			$type = $type->resolve($context->getTypeRegistry(), $data);
-		}
+		// Convert FieldType to NormalizerType 
+		$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
 
 		// Original Scope
 		if($context->isEmptyScope()) {
@@ -133,17 +130,11 @@ class Normalizer implements
 		}
 		try {
 			if(!$context) {
-				$context = new Context($this->getTypeRegistry());
+				$context = new Context($this->getTypeResolver());
 				$context->setNormalizer($this);
 			}
 
-			if(!$type instanceof Type) {
-				$type = $context->getTypeRegistry()->getType($type);
-			}
-
-			if($type instanceof Type\MixedType) {
-				$type = $type->resolve($context->getTypeRegistry(), $data);
-			}
+			$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
 
 			// Original Scope
 			if($context->isEmptyScope()) {
@@ -191,14 +182,14 @@ class Normalizer implements
         return $this;
     }
     
-    public function getTypeRegistry()
+    public function getTypeResolver()
     {
-        return $this->typeRegistry;
+        return $this->typeResolver;
     }
     
-    public function setTypeRegistry(TypeRegistry $typeRegistry)
+    public function setTypeResolver(TypeResolver $typeResolver)
     {
-        $this->typeRegistry = $typeRegistry;
+        $this->typeResolver = $typeResolver;
         return $this;
     }
     

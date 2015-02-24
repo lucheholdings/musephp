@@ -21,5 +21,13 @@ interface Factory extends MappedFactory
 	 * @return void
 	 */
 	function createType($name);
+
+	/**
+	 * isSupportedType 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	function isSupportedType($type);
 }
 

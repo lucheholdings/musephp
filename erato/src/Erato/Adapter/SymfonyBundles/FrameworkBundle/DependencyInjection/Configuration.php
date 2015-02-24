@@ -449,6 +449,7 @@ class Configuration implements ConfigurationInterface
 			'datetime'      => array('enabled' => true,  'priority' => 600),
 			'std_class'     => array('enabled' => true,  'priority' => 500),
 			'array_access'  => array('enabled' => false, 'priority' => 500),
+			'array'         => array('enabled' => false, 'priority' => 500),
 			'accessor'      => array('enabled' => true,  'priority' => 100),
 			'scalar'        => array('enabled' => true,  'priority' => 0),
 			//'doctrine_collection' => array('enabled' => true,  'priority' => 0),

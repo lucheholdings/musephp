@@ -15,23 +15,23 @@ use Clio\Component\Util\Type\Type,
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStrategy, DenormalizationStrategy 
+class ArrayAccessStrategy extends ArrayStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
 	protected function doNormalize($data, Type $type, Context $context)
 	{
 		// 
 		$arrayData = array();
 
-		if($data instanceof \Traversable) {
-			foreach($data as $key => $value) {
-				$arrayData[$key] = $value;
-			}
-		} else if(is_array($data)) {
-			$arrayData = $data;
-		} else {
-			throw new \Exception('ArrayAccess also required Traversable to normalize data.');
+		if(!is_array($data) && !($data instanceof \Traversable)) {
+			throw new \Exception('ArrayAccessStrategy requires data is an array or Traversable.');
 		}
 
+		// Convert to array
+		foreach($data as $key => $value) {
+			$arrayData[$key] = $value;
+		}
+
+		// if "set" then replace keys 
 		if($type->isType('set')) {
 			$arrayData = array_values($arrayData);
 		}
@@ -51,44 +51,28 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 	 */
 	protected function doDenormalize($data, Type $type, Context $context, $object = null)
 	{
-		$denormalized = array();
-		// first denormalize internal values.
-		if(is_array($data)) {
-			foreach($data as $key => $value) {
-				$internalType = $context->getFieldType($type, $key);
-				if($internalType->isType('mixed')) {
-					// get internal type
-					if(($type instanceof Types\FieldType) && ($type->options->has('internal_types'))) {
-						$types = $type->options->get('internal_types', array());
+		if(!is_array($data) && !$type->isValidData($data)) {
+			throw new \InvalidArgumentException('ArrayAccess requires data is an array or valid object.');
+		}
 
-						$internalType = $types[0];
-					}
+		if(is_array($data)) {
+			if($type->isType('ArraAccess')) {
+				// convert Array::$data to object 
+				if(!$object) {
+					$object = $type->construct();
 				}
-				$denormalized[$key] = $context->getNormalizer()->denormalize($value, $internalType, $context); 
+				// set key value
+				foreach($data as $key => $value) {
+					$object[$key] = $value;
+				}
+				return $object;
+			} else if($type->isType('set')){
+				return array_values($data);
+			} else if($type->isType('array')) {
+				return $data;
 			}
 		}
-		
-		if($type->isType('map')) {
-			return $denormalized;
-		} else if($type->isType('set')) {
-			return array_values($denormalized);
-		}
 
-		// Construct Object
-		if($type->isType(Types\PrimitiveTypes::TYPE_OBJECT) && !$object) {
-			$object = $type->construct();
-		}
-
-		foreach($denormalized as $key => $value) {
-			$object[$key] = $value;
-		}
-
-		return $object;
-	}
-
-	public function getInterfaceName()
-	{
-		return 'ArrayAccess';
 	}
 
 	/**
@@ -96,11 +80,11 @@ class ArrayAccessStrategy extends InterfaceStrategy implements NormalizationStra
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return $type->isType('array') || $type->isType('set') || $type->isType('set') || (parent::canNormalize($data, $type, $context) && ($type->isType('Traversable')));
+		return ($type->isType('array') || $type->isType('map') || $type->isType('set') || $type->isType('Traversable'));
 	}
 
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return $type->isType('array') || $type->isType('map') || $type->isType('set') || parent::canDenormalize($data, $type, $context);
+		return ($type->isType('array') || $type->isType('map') || $type->isType('set') || $type->isType('ArrayAccess'));
 	}
 }

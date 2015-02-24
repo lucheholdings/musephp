@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Type;
 
-use Clio\Component\Util\Type\FieldType;
+use Clio\Component\Util\Type\ProxyType;
 
 /**
  * ReferenceType 
@@ -12,7 +12,7 @@ use Clio\Component\Util\Type\FieldType;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ReferenceType extends FieldType 
+class ReferenceType extends ProxyType 
 {
 	/**
 	 * isType 
@@ -27,7 +27,7 @@ class ReferenceType extends FieldType
 		case Types::TYPE_REFERENCE:
 			return true;
 		default:
-			return $this->getType()->isType($type);
+			return parent::isType($type);
 		}
 	}
 

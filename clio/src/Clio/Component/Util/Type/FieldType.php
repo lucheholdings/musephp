@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Type;
 
 use Clio\Component\Util\Container\Bag;
+use Clio\Component\Pattern\Registry\LoadableRegistry;
 
 /**
  * FieldType 
@@ -27,24 +28,30 @@ class FieldType extends LazyBindProxyType implements \Serializable
 			throw new \InvalidArgumentException(sprintf('Type must to be a string, but %s is given.', gettype($str)));
 		}
 		$matches = array();
-		if(!preg_match('/^(?<name>[a-zA-Z\/\\\]+)(\<(?P<internalTypes>.*?)\>)?(?P<options>\{.*?\})?$/', $str, $matches)) {
+		if(!preg_match('/^(?P<name>[a-zA-Z\/\\\]+)(\<(?P<decoratedType>.*)\>)?(\{(?P<options>.*)\})?$/', $str, $matches)) {
 			throw new \InvalidArgumentException(sprintf('Invalid format of type "%s"', $str));
 		}
 
-		$internalTypes = array();
 		$options = array();
 		if(isset($matches['options'])) {
-			$options = json_decode($matches['options']);
+
+			//$options = json_decode($matches['options']);
+			$kvs = explode(',', $matches['options']);
+
+			foreach($kvs as $kv) {
+				// Simple parsing
+				try {
+					list($key, $value) = explode('=', $kv);
+					$options[trim($key)] = trim($value);
+				} catch(\Symfony\Component\Debug\Exception\ContextErrorException $ex) {
+					throw new \InvalidArgumentException(sprintf('FieldType for "%s" is invalid format.', $str));
+				}
+			}
 		}
 
-		if(isset($matches['internalTypes'])) {
-			$internalTypes = explode(',', $matches['internalTypes']);
-
-			foreach($internalTypes as $k => $v) {
-				$internalTypes[$k] = new self($v);
-			}
-
-			$options['internal_types'] = $internalTypes;
+		if(isset($matches['decoratedType']) && !empty($matches['decoratedType'])) {
+			$options['decorated_type'] = new self($matches['decoratedType']);
+			//var_dump($options);
 		}
 
 		return array($matches['name'], $options);
@@ -72,24 +79,38 @@ class FieldType extends LazyBindProxyType implements \Serializable
 		parent::__construct($type);
 	}
 
-	public function resolve(Registry $registry, $data)
+	public function isType($type)
 	{
-		if($this->getType()->isType('mixed')) {
-			$this->setType($this->getType()->resolve($registry, $data));
+		switch($type) {
+		case 'field':
+			return true;
+		default:
+			return $this->getType()->isType($type);
 		}
+	}
+
+	public function resolve(Resolver $resolver, $data = null)
+	{
+		if(!$this->type instanceof Type) {
+			$this->type = $resolver->resolve($this->type, $this->options->toArray());
+		}
+
+		if(!$this->isResolved()) {
+			// resolve mixed tyep
+			$this->type = $this->type->resolve($resolver, $data);
+		}
+
 		return $this;
 	}
 
-    public function setTypeRegistry(Registry $typeRegistry)
-    {
-		parent::setTypeRegistry($typeRegistry);
-
-		foreach($this->options->get('internal_types', array()) as $type) {
-			$type->setTypeRegistry($typeRegistry);
+	public function getTypeName()
+	{
+		if(!$this->type instanceof Type) {
+			return $this->type;
+		} else {
+			return $this->type->getName();
 		}
-
-        return $this;
-    }
+	}
 
 	public function __get($name)
 	{

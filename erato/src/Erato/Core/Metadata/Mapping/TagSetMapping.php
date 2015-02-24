@@ -7,6 +7,7 @@ use Clio\Component\Util\Accessor\SchemaAccessor;
 
 use Clio\Component\Util\Tag\TagAccessor;
 use Clio\Component\Util\Tag\TagComponentFactory;
+use Clio\Component\Util\Type\Type as TypeInterface;
 
 /**
  * TagSetMapping 
@@ -112,12 +113,11 @@ class TagSetMapping extends AbstractMapping
 		}
 		$type = $field->getType();
 
-		if($type->options->has('internal_types')) {
-			$types = $type->options->get('internal_types', array());
-			$type = $types[0];
+		if($type->options->has('field_type')) {
+			$type = $type->options->get('field_type');
 		}
-
-		if(!class_exists($type->getName())) {
+		
+		if(($type instanceof TypeInterface) && !class_exists($type->getName())) {
 			$type = $this->defaultClass;
 		}
 

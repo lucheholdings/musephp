@@ -7,6 +7,7 @@ use Clio\Component\Util\Metadata\Mapping\AbstractMapping,
 
 use Clio\Component\Util\Attribute\AttributeAccessor;
 use Clio\Component\Util\Attribute\AttributeComponentFactory;
+use Clio\Component\Util\Type\Type as TypeInterface;
 
 /**
  * AttributeMapMapping 
@@ -106,12 +107,11 @@ class AttributeMapMapping extends AbstractMapping
 		}
 		$type = $field->getType();
 
-		if($type->options->has('internal_types')) {
-			$types = $type->options->get('internal_types');
-			$type = $types[0];
+		if($type->options->has('field_type')) {
+			$type = $type->options->get('field_type');
 		}
 
-		if(!class_exists($type->getName())) {
+		if(($type instanceof TypeInterface) && !class_exists($type->getName())) {
 			$type = $this->defaultClass;
 		}
 

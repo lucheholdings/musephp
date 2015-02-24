@@ -2,13 +2,13 @@
 namespace Clio\Component\Util\Type\Factory;
 
 use Clio\Component\Util\Type;
-use Clio\Component\Pattern\Factory\UnsupportedException;
+use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
 class PrimitiveTypeFactory extends AbstractTypeFactory
 {
-	public function createType($name)
+	public function createType($name, array $options = array())
 	{
-		switch($name) {
+		switch(strtolower($name)) {
 		case Type\PrimitiveTypes::TYPE_NULL:
 			return new Type\NullType();
 		case Type\PrimitiveTypes::TYPE_MIXED:
@@ -43,7 +43,7 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 
 	public function isSupportedType($name)
 	{
-		switch($name) {
+		switch(strtolower($name)) {
 		case Type\PrimitiveTypes::TYPE_NULL:
 		case Type\PrimitiveTypes::TYPE_MIXED:
 		case Type\PrimitiveTypes::TYPE_ALIAS_INT:

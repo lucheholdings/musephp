@@ -41,18 +41,16 @@ abstract class ObjectStrategy extends AbstractStrategy
 		
 		if(is_array($normalized)) {
 			// recursively call normalize
-			array_walk($normalized, function(&$value, $key, $data) {
+			array_walk($normalized, function(&$value, $key) use ($context, $type) {
 				if(null === $value) {
 					return;
 				}
-				list($context, $type) = $data;
-
 				$fieldType = $context->getFieldType($type, $key);
 
 				try {
 					$this->enterScope($context, $value, $fieldType, $key);
 				} catch(CircularException $ex) {
-					$fieldType = $fieldType->resolve($context->getTypeRegistry(), $value);
+					$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value));
 					// if data type can refer then avoid circularException.
 					if(!$fieldType->isType(NormalizerTypes::TYPE_REFERENCABLE)) {
 						throw new \RuntimeException(sprintf('Circular reference cannot be solved. Please specify identifier(s) of "%s" on Path("%s")', $fieldType->getName(), $context->getPathInCurrentScope($key)), 0, $ex);
@@ -65,7 +63,7 @@ abstract class ObjectStrategy extends AbstractStrategy
 				$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
 
 				$this->leaveScope($context);
-			}, array($context, $type));
+			});
 		}
 
 		return $normalized;
@@ -98,11 +96,7 @@ abstract class ObjectStrategy extends AbstractStrategy
 				list($type, $context) = $data;
 				// Field Type
 				$fieldType = $context->getFieldType($type, $key);
-				//if($fieldType = $context->getFieldType($type, $key)) {
-				//	$fieldType = $context->getTypeRegistry()->getType($fieldType);
-				//} else {
-				//	$fieldType = $context->getTypeRegistry()->guessType($value);
-				//}
+				$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value));
 				
 				$context->enterScope($value, $fieldType, $key);
 				// 

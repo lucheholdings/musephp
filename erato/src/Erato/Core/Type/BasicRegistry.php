@@ -4,6 +4,7 @@ namespace Erato\Core\Type;
 use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader,
 	Clio\Component\Pattern\Registry\Loader\LoaderCollection
 ;
+use Clio\Component\Util\Type\Loader\MappedTypeFactoryLoader;
 
 use Clio\Component\Util\Type\Factory\PrimitiveTypeFactory;
 use Clio\Extra\Type\Factory\TypeFactory as ExtensionalTypeFactory;
@@ -26,10 +27,10 @@ class BasicRegistry extends BaseRegistry
 	{
 		parent::__construct(
 				new LoaderCollection(array(
-					new MappedFactoryLoader(new PrimitiveTypeFactory()),
-					new MappedFactoryLoader(new ExtensionalTypeFactory()),
-					new MappedFactoryLoader(new Factory\ExtraTypeFactory()),
-					new MappedFactoryLoader(new SchemaTypeFactory())
+					new MappedTypeFactoryLoader(new PrimitiveTypeFactory()),
+					new MappedTypeFactoryLoader(new ExtensionalTypeFactory()),
+					//new MappedTypeFactoryLoader(new Factory\ExtraTypeFactory()),
+					new MappedTypeFactoryLoader(new SchemaTypeFactory())
 				)),
 				$schemaRegistry
 			);
