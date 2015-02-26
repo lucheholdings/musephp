@@ -84,7 +84,7 @@ class AccessorMerger
 				} else if(null !== $value) {
 					// Get FieldMerger
 					$baseValue = null;
-					if (!$accessor->isNull($origin, $field)) {
+					if ($accessor->existsField($origin, $field) && !$accessor->isNull($origin, $field)) {
 						$baseValue = $accessor->get($origin, $field);
 						$value = $this->mergeField($baseValue, $value);
 					} 
