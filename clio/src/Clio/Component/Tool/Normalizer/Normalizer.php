@@ -115,7 +115,7 @@ class Normalizer implements
 		if(is_array($normalized)) {
 			if($context->getScopeConfiguration('compact', true)) {
 				$normalized = array_filter($normalized, function($v) {
-						return !empty($v);
+						return null !== $v;
 					});
 			}
 
