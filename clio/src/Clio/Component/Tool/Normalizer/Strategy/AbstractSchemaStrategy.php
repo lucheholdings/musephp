@@ -52,6 +52,9 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 					}
 					
 					$fieldType = $context->getFieldType($type, $key);
+					if(!$fieldType->isResolved()) {
+						$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value));
+					}
 					try {
 						$this->enterScope($context, $value, $fieldType, $key);
 					} catch(CircularException $ex) {

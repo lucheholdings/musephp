@@ -16,6 +16,7 @@ use Clio\Component\Util\Validator\Validator;
  */
 abstract class AbstractContainer implements Container
 {
+	protected $values;
 
 	/**
 	 * {@inheritdoc}
@@ -30,6 +31,7 @@ abstract class AbstractContainer implements Container
 	 */
 	protected function initContainer(array $defaults)
 	{
+		$this->values = $defaults;
 	}
 
 

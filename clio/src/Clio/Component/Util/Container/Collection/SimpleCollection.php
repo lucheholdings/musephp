@@ -6,8 +6,6 @@ use Clio\Component\Util\Container\AbstractContainer;
 
 class SimpleCollection extends AbstractContainer implements CollectionInterface 
 {
-	private $values;
-
 	protected function initContainer(array $defaults)
 	{
 		$this->values = $defaults;
