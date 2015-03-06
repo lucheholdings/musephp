@@ -76,6 +76,7 @@ class OAuth2AuthenticationProvider implements AuthenticationProviderInterface
 					// Convert Scope to Role
                 	if (!empty($scopes)) {
 						$scopeRoleMap = $this->getScopeRoleMap();
+
 						if($scopeRoleMap) {
                 	    	foreach ($scopes as $scope) {
 								if($scopeRoleMap->hasScope($scope)) {
