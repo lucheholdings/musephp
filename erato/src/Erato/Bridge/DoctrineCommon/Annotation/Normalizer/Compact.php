@@ -5,7 +5,7 @@ use Erato\Bridge\DoctrineCommon\Annotation\BaseAnnotation;
 use Erato\Bridge\DoctrineCommon\Annotation\Metadata\FieldMappingAnnotation;
 
 /**
- * Field 
+ * Compact 
  * 
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
@@ -13,32 +13,31 @@ use Erato\Bridge\DoctrineCommon\Annotation\Metadata\FieldMappingAnnotation;
  * @license { LICENSE }
  *
  * @Annotation
- * @Target({"PROPERTY", "METHOD"})
+ * @Target({"ALL"})
+ * @Attributes({
+ *   @Attribute("value", type = "bool"),
+ * })
  */
-class Field extends BaseAnnotation implements FieldMappingAnnotation 
+class Compact extends BaseAnnotation implements FieldMappingAnnotation 
 {
-	private $compact;
-
-    public function getCompact()
-    {
-        return $this->compact;
-    }
-    
-    public function setCompact($compact)
-    {
-        $this->compact = (bool)$compact;
-        return $this;
-    }
+	/**
+	 * value 
+	 * 
+	 * @var bool 
+	 * @access protected
+	 */
+	protected $value = true;
 
 	/**
-	 * getType 
+	 * setValue 
 	 * 
+	 * @param bool $value 
 	 * @access public
 	 * @return void
 	 */
-	public function getType()
+	public function setValue($value)
 	{
-		return $this->getValue();
+		$this->value = (bool)$value;
 	}
 
 	/**
@@ -50,8 +49,7 @@ class Field extends BaseAnnotation implements FieldMappingAnnotation
 	public function getConfigs()
 	{
 		return array(
-			'type'    => $this->getType(),
-			'compact' => $this->getCompact(),
+			'compact' => $this->getValue(),
 		);
 	}
 

@@ -82,6 +82,11 @@ class IdentifierType extends ProxyType
 	 */
 	public function getIdentifierValues($data)
 	{
-		return $this->getType()->getIdentifierValues($data);
+		$identifiers = $this->getType()->getIdentifierValues($data);
+		if(is_array($identifiers) && count($identifiers)) {
+			$identifiers = array_shift($identifiers);
+		}
+
+		return $identifiers;
 	}
 }

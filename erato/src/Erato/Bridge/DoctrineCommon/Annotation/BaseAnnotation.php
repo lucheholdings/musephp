@@ -17,6 +17,12 @@ use Clio\Component\Util\Grammer\Grammer;
  */
 abstract class BaseAnnotation 
 {
+	/**
+	 * value 
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
 	protected $value;
 
 	public function __construct(array $values = array())

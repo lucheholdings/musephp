@@ -119,7 +119,7 @@ class Normalizer implements
 					});
 			}
 
-			if((1 == count($normalized)) && $context->getScopeConfiguration('prefer_scalar', true)) {
+			if((1 == count($normalized)) && $context->getScopeConfiguration('prefer_scalar', false)) {
 				$normalized = array_pop($normalized);
 			}
 		}

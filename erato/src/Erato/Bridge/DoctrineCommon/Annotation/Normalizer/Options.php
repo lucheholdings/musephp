@@ -5,7 +5,9 @@ use Erato\Bridge\DoctrineCommon\Annotation\BaseAnnotation;
 use Erato\Bridge\DoctrineCommon\Annotation\Metadata\FieldMappingAnnotation;
 
 /**
- * Field 
+ * Options 
+ * 
+ *   Normalizer\Options(key=value, key={idx:value})
  * 
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
@@ -13,32 +15,32 @@ use Erato\Bridge\DoctrineCommon\Annotation\Metadata\FieldMappingAnnotation;
  * @license { LICENSE }
  *
  * @Annotation
- * @Target({"PROPERTY", "METHOD"})
+ * @Target({"ALL"})
  */
-class Field extends BaseAnnotation implements FieldMappingAnnotation 
+class Options implements FieldMappingAnnotation 
 {
-	private $compact;
+	/**
+	 * values 
+	 * 
+	 * @var array
+	 * @access protected
+	 */
+	public $values;
 
-    public function getCompact()
-    {
-        return $this->compact;
-    }
-    
-    public function setCompact($compact)
-    {
-        $this->compact = (bool)$compact;
-        return $this;
-    }
+	public function __construct(array $values = array())
+	{
+		$this->values = $values;
+	}
 
 	/**
-	 * getType 
+	 * getValues 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function getType()
+	public function getValues()
 	{
-		return $this->getValue();
+		return $this->values;
 	}
 
 	/**
@@ -50,8 +52,7 @@ class Field extends BaseAnnotation implements FieldMappingAnnotation
 	public function getConfigs()
 	{
 		return array(
-			'type'    => $this->getType(),
-			'compact' => $this->getCompact(),
+			'options' => $this->getValues(),
 		);
 	}
 
