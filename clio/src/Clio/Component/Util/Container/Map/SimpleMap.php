@@ -15,17 +15,6 @@ use Clio\Component\Util\Container\AbstractContainer;
 class SimpleMap extends AbstractContainer implements MapInterface 
 {
 	/**
-	 * __construct 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct()
-	{
-		$this->values = array();
-	}
-
-	/**
 	 * getKeys 
 	 * 
 	 * @access public
@@ -76,7 +65,7 @@ class SimpleMap extends AbstractContainer implements MapInterface
 	 */
 	public function has($key)
 	{
-		return isset($this->value[$key]);
+		return isset($this->values[$key]);
 	}
 
 	/**
