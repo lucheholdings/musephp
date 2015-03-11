@@ -112,5 +112,13 @@ class LazyLoadCollection extends Collection implements Loadable
 
 		return parent::map($closure);
 	}
+
+	public function toArray()
+	{
+		if(!$this->isLoaded()) {
+			$this->load();
+		}
+		return $this->storage->toArray();
+	}
 }
 
