@@ -70,6 +70,48 @@ final class Grammer
 			return ucfirst($matches[1]);
 		}, $word)), '_');
 	}
+
+    /**
+     * isSnakeCase 
+     * 
+     * @param mixed $value 
+     * @static
+     * @access public
+     * @return void
+     */
+    static public function isSnakeCase($value)
+    {
+        // Start with lower case and followed by lower case alphanumeric or underbar 
+        return preg_match('/[a-z][a-z0-9_]*/', $value);
+    }
+
+    /**
+     * isCamelCase 
+     * 
+     * @param mixed $value 
+     * @static
+     * @access public
+     * @return void
+     */
+    static public function isCamelCase($value)
+    {
+        // Start with lower case and followed by any alphanumeric
+        return preg_match('/[a-z][a-zA-Z0-9]*/', $value);
+    }
+
+    /**
+     * isPascalCase 
+     * 
+     * @param mixed $value 
+     * @static
+     * @access public
+     * @return void
+     */
+    static public function isPascalCase($value)
+    {
+        // Start with upper case and followed by any alphanumeric
+        return preg_match('/[A-Z][a-zA-Z0-9]*/', $value);
+    }
 }
 
 
