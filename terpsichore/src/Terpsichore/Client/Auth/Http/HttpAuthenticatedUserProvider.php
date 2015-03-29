@@ -4,7 +4,7 @@ namespace Terpsichore\Client\Auth\Http;
 use Terpsichore\Client\Auth\User,
 	Terpsichore\Client\Auth\UserProvider;
 use Terpsichore\Client\Service\Http\HttpSimpleClientService;
-use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\Tool\ArrayTool\Mapper as ArrayMapper;
 
 class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements UserProvider 
 {
@@ -49,7 +49,7 @@ class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements U
 	{
 		$response = $this->get();
 		if(is_array($response) && $this->responseMap) {
-			$mapper = new Mapper\InverseKeyMapper($this->responseMap);
+			$mapper = new ArrayMapper\InverseKeyMapper($this->responseMap);
 
 			$response = $mapper->map($response);
 		}

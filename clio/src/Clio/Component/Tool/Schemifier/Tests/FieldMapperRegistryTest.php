@@ -4,7 +4,7 @@ namespace Clio\Component\Tool\Schemifier\Tests;
 use Clio\Component\Tool\Schemifier\FieldMapperRegistry;
 use Clio\Component\Tool\Schemifier\FieldMapperRegister;
 
-use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\Tool\ArrayTool\Mapper as ArrayMapper;
 
 class FieldMapperRegistryTest extends \PHPUnit_Framework_TestCase 
 {
@@ -14,7 +14,7 @@ class FieldMapperRegistryTest extends \PHPUnit_Framework_TestCase
 
 		
 		$this->assertFalse($registry->has('Foo', 'Bar'));
-		$mapper = new Mapper\KeyMapper(array('id' => 'code'));
+		$mapper = new ArrayMapper\MappedKeyMapper(array('id' => 'code'));
 
 		$registry->set(
 			'Foo', 
