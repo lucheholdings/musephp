@@ -14,6 +14,13 @@ class RecursiveKeyMapper implements Mapper
 {
 	private $innerMapper;
 
+    /**
+     * __construct 
+     * 
+     * @param Mapper $innerMapper 
+     * @access public
+     * @return void
+     */
 	public function __construct(Mapper $innerMapper)
 	{
 		$this->innerMapper = $innerMapper;

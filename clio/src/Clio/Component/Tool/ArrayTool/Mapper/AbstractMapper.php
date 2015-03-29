@@ -1,8 +1,6 @@
 <?php
 namespace Clio\Component\Tool\ArrayTool\Mapper;
 
-use Clio\Component\Util\Container\Map\StorageMap;
-
 /**
  * AbstractMapper 
  * 
@@ -13,7 +11,7 @@ use Clio\Component\Util\Container\Map\StorageMap;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractMapper extends StorageMap
+abstract class AbstractMapper implements Mapper 
 {
 	/**
 	 * strict 
@@ -21,7 +19,7 @@ abstract class AbstractMapper extends StorageMap
 	 * @var mixed
 	 * @access private
 	 */
-	private $strict;
+	private $strict = false;
 
 	/**
 	 * __construct 
@@ -31,9 +29,8 @@ abstract class AbstractMapper extends StorageMap
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(array $maps = array(), $strict = true)
+	public function __construct($strict = true)
 	{
-		parent::__construct($maps);
 		$this->strict = $strict;
 	}
 
@@ -68,36 +65,6 @@ abstract class AbstractMapper extends StorageMap
 	public function enableStrict()
 	{
 		$this->strict = true;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function serialize()
-	{
-		if(!$this->getStorage() instanceof \Serializable) {
-			throw new \RuntimeException('Container storage is not serializable.');
-		}
-
-		return serialize(array(
-			$this->getStorage(),
-			$this->strict
-		));
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function unserialize($serialized)
-	{
-		$data = unserialize($serialized);
-
-		list(
-			$storage,
-			$this->strict
-		) = $data;
-
-		$this->setStorage($storage);
 	}
 }
 
