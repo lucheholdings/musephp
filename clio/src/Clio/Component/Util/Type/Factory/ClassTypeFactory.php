@@ -1,15 +1,17 @@
 <?php
 namespace Clio\Component\Util\Type\Factory;
 
-class PrimitiveTypeFactory extends AbstractTypeFactory
+class ClassTypeFactory extends AbstractTypeFactory
 {
 	public function createType($name)
 	{
-		if(!class_exists($name)) {
-			throw new \InvalidArgumentException(sprintf('Class "%s" is not exists.', $name));
+		if(class_exists($name)) { 
+		    return new ClassType($name);
+        } else if (interface_exists($name)) {
+		    return new InterfaceType($name);
 		}
 
-		return new ClassType($name);
+		throw new \InvalidArgumentException(sprintf('Class or Interface "%s" is not exists.', $name));
 	}
 
 	public function createTypeForValue($value)
@@ -23,7 +25,7 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 
 	public function isSupportedType($name)
 	{
-		return class_exists($name);
+		return class_exists($name) || interface_exits($name);
 	}
 }
 

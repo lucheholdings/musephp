@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Type;
 
 /**
- * ClassType 
+ * InterfaceType 
  * 
  * @uses AbstractType
  * @package { PACKAGE }
@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Type;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ClassType extends AbstractType 
+class InterfaceType extends AbstractType 
 {
 	/**
 	 * __construct 
@@ -23,7 +23,7 @@ class ClassType extends AbstractType
 	{
 		$this->reflector = new \ReflectionClass($name);
 
-        if($this->reflector->isInterface()) {
+        if(!$this->reflector->isInterface()) {
             throw new \RuntimeException(sprintf('"%s" is a class, but not an interface.'));
         }
 
@@ -42,23 +42,11 @@ class ClassType extends AbstractType
 		$type = (string)$type;
 
 		switch($type) {
-		case PrimitiveTypes::TYPE_OBJECT:
+		case PrimitiveTypes::TYPE_INTERFACE:
 			return true;
 		default:
-			return ($type == $this->getName()) || $this->isExtends($type) || $this->isImplements($type);
+			return ($type == $this->getName()) || $this->isExtends($type);
 		}
-	}
-
-	/**
-	 * isImplements 
-	 * 
-	 * @param mixed $type 
-	 * @access public
-	 * @return void
-	 */
-	public function isImplements($type)
-	{
-		return $this->getReflector()->isImplement($type);
 	}
 
 	/**

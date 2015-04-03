@@ -7,6 +7,7 @@ final class PrimitiveTypes
 	const BASETYPE_OBJECT   = 'object';
 	const BASETYPE_MIXED    = 'mixed';
 
+    const TYPE_INTERFACE    = 'interface';
 	const TYPE_NULL			= 'null';
 	const TYPE_MIXED		= 'mixed';
 	const TYPE_OBJECT       = 'object';
