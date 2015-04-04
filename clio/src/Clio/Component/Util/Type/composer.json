@@ -1,0 +1,37 @@
+{
+    "name": "museclio/clio-util-type",
+    "type": "library",
+    "description": "Clio Type Component",
+    "keywords": [
+        "muse",
+        "clio"
+    ],
+    "license": "MIT",
+    "homepage": "http://musephp.org",
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@44services.jp"
+        }
+    ],
+    "support": {
+        "email": "muse@ml.44services.jp",
+        "source": "https://github.com/phpmuse/clio"
+    },
+    "require": {
+        "php": ">=5.3.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clio\\Component\\Util\\Type\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}
+
+

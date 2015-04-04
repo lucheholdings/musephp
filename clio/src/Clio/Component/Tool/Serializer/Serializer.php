@@ -65,8 +65,7 @@ class Serializer implements
 		if(!$context) {
 			$context = $this->getContextFactory()->createContext();
 		} else if(!$context instanceof Context) {
-			// fixme: Try to create Context from the given data.
-			$context = $this->getContextFactory()->createContext();
+			$context = $this->getContextFactory()->createContext($context);
 		} 
 
 		try {
