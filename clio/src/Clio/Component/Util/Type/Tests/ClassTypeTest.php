@@ -7,7 +7,7 @@ use Clio\Component\Util\Type\PrimitiveTypes;
 /**
  * ClassTypeTest 
  * 
- * @uses TypeTestCase
+ * @uses \Clio\Component\Util\Type\Tests\TypeTestCase
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
@@ -79,11 +79,23 @@ class ClassTypeTest extends TypeTestCase
         $this->assertFalse($type->isImplements('Clio\Component\Util\Type\Tests\Models\Bar'));
     }
 
+    /**
+     * createType 
+     * 
+     * @access protected
+     * @return void
+     */
     protected function createType()
     {
         return new ClassType('Clio\Component\Util\Type\Tests\Models\Foo');
     }
 
+    /**
+     * getValidTypes 
+     * 
+     * @access protected
+     * @return void
+     */
     protected function getValidTypes()
     {
         return array(
@@ -94,6 +106,12 @@ class ClassTypeTest extends TypeTestCase
             );
     }
 
+    /**
+     * getValidDatas 
+     * 
+     * @access protected
+     * @return void
+     */
     protected function getValidDatas()
     {
         return array(
@@ -101,6 +119,12 @@ class ClassTypeTest extends TypeTestCase
             );
     }
 
+    /**
+     * getInvalidDatas 
+     * 
+     * @access protected
+     * @return void
+     */
     protected function getInvalidDatas()
     {
         return array(

@@ -3,9 +3,23 @@ namespace Clio\Component\Util\Type\Tests;
 
 use Clio\Component\Util\Type\PrimitiveTypes;
 
-
+/**
+ * TypeTestCase 
+ * 
+ * @abstract
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
 abstract class TypeTestCase extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * testBasic 
+     * 
+     * @access public
+     * @return void
+     */
     public function testBasic()
     {
         $type = $this->createType();
@@ -30,19 +44,59 @@ abstract class TypeTestCase extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * createType 
+     * 
+     * @abstract
+     * @access protected
+     * @return void
+     */
     abstract protected function createType();
 
+    /**
+     * getValidTypes 
+     * 
+     * @abstract
+     * @access protected
+     * @return void
+     */
     abstract protected function getValidTypes();
 
+    /**
+     * getValidDatas 
+     * 
+     * @abstract
+     * @access protected
+     * @return void
+     */
     abstract protected function getValidDatas();
 
+    /**
+     * getInvalidDatas 
+     * 
+     * @abstract
+     * @access protected
+     * @return void
+     */
     abstract protected function getInvalidDatas();
 
+    /**
+     * getInvalidTypes 
+     * 
+     * @access protected
+     * @return void
+     */
     protected function getInvalidTypes()
     {
         return array_diff($this->getPrimitiveTypes(), $this->getValidTypes());
     }
 
+    /**
+     * getPrimitiveTypes 
+     * 
+     * @access public
+     * @return void
+     */
     public function getPrimitiveTypes()
     {
         return array(

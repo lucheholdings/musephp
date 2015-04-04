@@ -12,6 +12,14 @@ namespace Clio\Component\Util\Type;
  */
 class ClassType extends AbstractType 
 {
+    /**
+     * reflector 
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $reflector;
+
 	/**
 	 * __construct 
 	 * 
@@ -24,7 +32,7 @@ class ClassType extends AbstractType
 		$this->reflector = new \ReflectionClass($name);
 
         if($this->reflector->isInterface()) {
-            throw new \RuntimeException(sprintf('"%s" is a class, but not an interface.'));
+            throw new \InvalidArgumentException(sprintf('"%s" is an interface.', $name));
         }
 
 		parent::__construct($name);
@@ -45,9 +53,25 @@ class ClassType extends AbstractType
 		case PrimitiveTypes::TYPE_OBJECT:
 			return true;
 		default:
-			return ($type == $this->getName()) || $this->isExtends($type) || $this->isImplements($type);
+            try {
+			    return ($this->isInstanceOf($type) || $this->isExtends($type) || $this->getReflector()->implementsInterface($type));
+            } catch(\ReflectionException $ex) {
+                return false;
+            }
 		}
 	}
+
+    /**
+     * isInstanceOf 
+     * 
+     * @param mixed $type 
+     * @access public
+     * @return void
+     */
+    public function isInstanceof($type)
+    {
+        return ($this->getReflector()->getName() == ltrim($type, '\\'));
+    }
 
 	/**
 	 * isImplements 
@@ -58,7 +82,14 @@ class ClassType extends AbstractType
 	 */
 	public function isImplements($type)
 	{
-		return $this->getReflector()->isImplement($type);
+        try {
+		    return $this->getReflector()->implementsInterface($type);
+        } catch(\RuntimeException $ex) {
+        } catch(\InvalidArgumentException $ex) {
+        } catch(\ReflectionException $ex) {
+        }
+
+        return false;
 	}
 
 	/**
@@ -70,7 +101,34 @@ class ClassType extends AbstractType
 	 */
 	public function isExtends($type)
 	{
-		return $this->getReflector()->isExtends($type);
+        try {
+	    	return $this->getReflector()->isSubclassOf($type);
+        } catch(\RuntimeException $ex) {
+        } catch(\InvalidArgumentException $ex) {
+        } catch(\ReflectionException $ex) {
+        }
 	}
+
+    public function isValidData($data)
+    {
+        try {
+            return $this->getReflector()->isInstance($data);
+        } catch(\RuntimeException $ex) {
+        } catch(\InvalidArgumentException $ex) {
+        } catch(\ReflectionException $ex) {
+        }
+        return false;
+    }
+    
+    public function getReflector()
+    {
+        return $this->reflector;
+    }
+    
+    public function setReflector(\Reflector $reflector)
+    {
+        $this->reflector = $reflector;
+        return $this;
+    }
 }
 
