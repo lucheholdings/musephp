@@ -11,6 +11,15 @@ namespace Clio\Component\Pattern\Registry;
  */
 interface Registry 
 {
+    /**
+     * has 
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
+    function has($key);
+
 	/**
 	 * get 
 	 * 
