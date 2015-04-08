@@ -3,7 +3,9 @@ namespace Clio\Component\Util\Type;
 
 /**
  * Registry 
- * 
+ *   Interface of Registry to manage Type object. 
+ *   Use ActualTypeRegistry to manage actual type. 
+ *    
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
@@ -12,29 +14,29 @@ namespace Clio\Component\Util\Type;
 interface Registry
 {
 	/**
-	 * getType 
-	 * 
-	 * @param mixed $type 
-	 * @access public
-	 * @return void
-	 */
-	function getType($type);
-
-	/**
 	 * guessType 
 	 * 
 	 * @param mixed $value 
 	 * @access public
-	 * @return void
+	 * @return Type 
 	 */
 	function guessType($value);
+
+	/**
+	 * getType 
+	 * 
+	 * @param mixed $type 
+	 * @access public
+	 * @return Type 
+	 */
+	function getType($type);
 
 	/**
 	 * hasType 
 	 * 
 	 * @param mixed $type 
 	 * @access public
-	 * @return void
+	 * @return boolean 
 	 */
 	function hasType($type);
 
@@ -52,7 +54,7 @@ interface Registry
 	 * 
 	 * @param mixed $type 
 	 * @access public
-	 * @return void
+	 * @return void 
 	 */
 	function removeType($type);
 

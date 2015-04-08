@@ -1,6 +1,8 @@
 <?php
-namespace Clio\Component\Util\Type;
+namespace Clio\Component\Util\Type\Actual;
 
+use Clio\Component\Util\Type\Type;
+use Clio\Component\Util\Type\Convertable;
 use Clio\Component\Exception\NotImplementedException;
 
 /**

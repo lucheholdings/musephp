@@ -1,11 +1,13 @@
 <?php
 namespace Clio\Component\Util\Type\Tests;
 
-use Clio\Component\Util\Type\ClassType;
-use Clio\Component\Util\Type\PrimitiveTypes;
+use Clio\Component\Util\Type\Tests\TypeTestCase;
+use Clio\Component\Util\Type\Actual\InterfaceType;
+use Clio\Component\Util\Type\Actual\PrimitiveTypes;
 
+use Clio\Component\Util\Type\Tests\Models;
 /**
- * ClassTypeTest 
+ * InterfaceTypeTest 
  * 
  * @uses \Clio\Component\Util\Type\Tests\TypeTestCase
  * @package { PACKAGE }
@@ -13,7 +15,7 @@ use Clio\Component\Util\Type\PrimitiveTypes;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ClassTypeTest extends TypeTestCase 
+class InterfaceTypeTest extends TypeTestCase 
 {
     /**
      * testConstruct 
@@ -23,21 +25,21 @@ class ClassTypeTest extends TypeTestCase
      */
     public function testConstruct()
     {
-        $type = new ClassType('Clio\Component\Util\Type\Tests\Models\Foo');
+        $type = new InterfaceType('Clio\Component\Util\Type\Tests\Models\FooInterface');
         
-        $this->assertInstanceof('Clio\Component\Util\Type\ClassType', $type);
+        $this->assertInstanceof('Clio\Component\Util\Type\Actual\InterfaceType', $type);
 
 
         try {
-            $type = new ClassType('int');
+            $type = new InterfaceType('int');
 
             $this->fail('Expected ReflectionException is thrown.');
-        } catch(\ReflectionException $ex) {
+        } catch(\InvalidArgumentException $ex) {
             $this->assertTrue(true);
         }
 
         try {
-            $type = new ClassType('Serializable');
+            $type = new InterfaceType('Foo');
 
             $this->fail('Expected InvalidArgumentException is thrown.');
         } catch(\InvalidArgumentException $ex) {
@@ -56,27 +58,22 @@ class ClassTypeTest extends TypeTestCase
         $type = $this->createType();
 
         // isInstanceOf only accept the actual class
-        $this->assertTrue($type->isInstanceof('Clio\Component\Util\Type\Tests\Models\Foo'));
-        $this->assertTrue($type->isInstanceof('\Clio\Component\Util\Type\Tests\Models\Foo'));
-        $this->assertFalse($type->isInstanceof('Clio\Component\Util\Type\Tests\Models\FooInterface'));
-        $this->assertFalse($type->isInstanceof('Clio\Component\Util\Type\Tests\Models\BaseModel'));
-        $this->assertFalse($type->isInstanceof('Serializable'));
+        $this->assertTrue($type->isName('Clio\Component\Util\Type\Tests\Models\FooInterface'));
+        $this->assertTrue($type->isName('\Clio\Component\Util\Type\Tests\Models\FooInterface'));
+        $this->assertFalse($type->isName('Countable'));
 
         // isImplements only accept interface
-        $this->assertTrue($type->isImplements('Clio\Component\Util\Type\Tests\Models\FooInterface'));
+        $this->assertTrue($type->isImplements('Countable'));
         $this->assertFalse($type->isImplements('Serializable'));
         // class 
         $this->assertFalse($type->isImplements('Clio\Component\Util\Type\Tests\Models\Foo'));
 
 
-        // isExtends accept both class and interface, but not the actual 
+        // isExtends 
+        $this->assertFalse($type->isExtends('Countable'));
+        $this->assertFalse($type->isExtends('Serializable'));
+        // class 
         $this->assertFalse($type->isExtends('Clio\Component\Util\Type\Tests\Models\Foo'));
-        $this->assertTrue($type->isExtends('Clio\Component\Util\Type\Tests\Models\FooInterface'));
-        $this->assertTrue($type->isExtends('Clio\Component\Util\Type\Tests\Models\BaseModel'));
-
-        // 
-        $this->assertFalse($type->isImplements('Serializable'));
-        $this->assertFalse($type->isImplements('Clio\Component\Util\Type\Tests\Models\Bar'));
     }
 
     /**
@@ -87,7 +84,7 @@ class ClassTypeTest extends TypeTestCase
      */
     protected function createType()
     {
-        return new ClassType('Clio\Component\Util\Type\Tests\Models\Foo');
+        return new InterfaceType('Clio\Component\Util\Type\Tests\Models\FooInterface');
     }
 
     /**
@@ -99,10 +96,9 @@ class ClassTypeTest extends TypeTestCase
     protected function getValidTypes()
     {
         return array(
-                PrimitiveTypes::TYPE_OBJECT, 
-                'Clio\Component\Util\Type\Tests\Models\Foo',
+                PrimitiveTypes::TYPE_INTERFACE, 
                 'Clio\Component\Util\Type\Tests\Models\FooInterface',
-                'Clio\Component\Util\Type\Tests\Models\BaseModel',
+                'Countable'
             );
     }
 

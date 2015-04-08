@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Type;
+namespace Clio\Component\Util\Type\Actual;
 
 /**
  * InterfaceType 
@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Type;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class InterfaceType extends AbstractType 
+class InterfaceType extends ClassType 
 {
 	/**
 	 * __construct 
@@ -21,13 +21,13 @@ class InterfaceType extends AbstractType
 	 */
 	public function __construct($name)
 	{
-		$this->reflector = new \ReflectionClass($name);
-
-        if(!$this->reflector->isInterface()) {
-            throw new \RuntimeException(sprintf('"%s" is a class, but not an interface.'));
+        if(!interface_exists($name)) {
+            throw new \InvalidArgumentException(sprintf('Interface "%s" is not exists.', $name));
         }
 
-		parent::__construct($name);
+        $this->reflector = new \ReflectionClass($name);
+
+		AbstractType::__construct($name);
 	}
 
 	/**
@@ -45,20 +45,8 @@ class InterfaceType extends AbstractType
 		case PrimitiveTypes::TYPE_INTERFACE:
 			return true;
 		default:
-			return ($type == $this->getName()) || $this->isExtends($type);
+			return ($this->isName($type) || $this->isImplements($type));
 		}
-	}
-
-	/**
-	 * isExtends 
-	 * 
-	 * @param mixed $type 
-	 * @access public
-	 * @return void
-	 */
-	public function isExtends($type)
-	{
-		return $this->getReflector()->isExtends($type);
 	}
 }
 
