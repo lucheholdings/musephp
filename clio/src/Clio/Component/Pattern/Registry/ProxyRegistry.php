@@ -23,6 +23,14 @@ class ProxyRegistry implements Registry
 		$this->registry = $registry;
 	}
 
+    /**
+     * {@inheritdoc}
+     */
+    public function has($key)
+    {
+        return $this->registry->has($key);
+    }
+
 	/**
 	 * {@inheritdoc}
 	 */

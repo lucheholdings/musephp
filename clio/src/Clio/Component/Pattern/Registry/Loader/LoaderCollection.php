@@ -36,11 +36,9 @@ class LoaderCollection extends PrioritySet implements EntryLoader
 	public function loadEntry($key, array $options = array())
 	{
 		foreach($this as $loader) {
-			$entry = $loader->loadEntry($key, $options);
-
-			if(null !== $entry) {
-				break;
-			}
+            if($loader->canLoad($key)) {
+    			return $loader->loadEntry($key, $options);
+            }
 		}
 
 		return $entry;

@@ -40,11 +40,11 @@ class MappedFactoryLoader extends AbstractLoader
 	 */
 	public function loadEntry($key, array $options = array())
 	{
-		try {
-			return $this->factory->createByKey($key);
-		} catch(UnsupportedException $ex) {
-			return null;
-		}
+        if($this->canLoad($key)) {
+            return $this->factory->createByKey($key, $options);   
+        }
+
+        throw new UnsupportedException(sprintf('Entry "%s" is not supported.', $key));
 	}
 
 	/**
