@@ -1,6 +1,7 @@
 <?php
-namespace Clio\Component\Util\Type;
+namespace Clio\Component\Util\Type\Actual;
 
+use Clio\Component\Util\Type\Type;
 use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
 /**

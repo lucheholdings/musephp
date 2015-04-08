@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Type\Tests\Models;
 
-interface FooInterface
+interface FooInterface extends \Countable
 {
 }
 

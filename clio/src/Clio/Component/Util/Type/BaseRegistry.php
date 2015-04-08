@@ -9,7 +9,8 @@ use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
  * BaseRegistry 
- * 
+ *    BaseRegistry is an empty registry which only configure 
+ *    the rule of Type Registry. 
  * @uses LoadableRegistry
  * @uses Registry
  * @package { PACKAGE }
@@ -19,6 +20,13 @@ use Clio\Component\Util\Validator\SubclassValidator;
  */
 class BaseRegistry extends LoadableRegistry implements Registry
 {
+    /**
+     * __construct 
+     * 
+     * @param EntryLoader $loader 
+     * @access public
+     * @return void
+     */
 	public function __construct(EntryLoader $loader)
 	{
 		$map = new RegistryMap();

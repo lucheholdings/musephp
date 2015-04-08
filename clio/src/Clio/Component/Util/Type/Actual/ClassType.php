@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Type;
+namespace Clio\Component\Util\Type\Actual;
 
 /**
  * ClassType 
@@ -16,9 +16,9 @@ class ClassType extends AbstractType
      * reflector 
      * 
      * @var mixed
-     * @access private
+     * @access protected 
      */
-    private $reflector;
+    protected $reflector;
 
 	/**
 	 * __construct 
@@ -29,11 +29,10 @@ class ClassType extends AbstractType
 	 */
 	public function __construct($name)
 	{
-		$this->reflector = new \ReflectionClass($name);
-
-        if($this->reflector->isInterface()) {
-            throw new \InvalidArgumentException(sprintf('"%s" is an interface.', $name));
+        if(!class_exists($name)) {
+            throw new \InvalidArgumentException(sprintf('Class "%s" is not exists.', $name));
         }
+        $this->reflector = new \ReflectionClass($name);
 
 		parent::__construct($name);
 	}
@@ -53,22 +52,18 @@ class ClassType extends AbstractType
 		case PrimitiveTypes::TYPE_OBJECT:
 			return true;
 		default:
-            try {
-			    return ($this->isInstanceOf($type) || $this->isExtends($type) || $this->getReflector()->implementsInterface($type));
-            } catch(\ReflectionException $ex) {
-                return false;
-            }
+			return ($this->isName($type) || $this->isExtends($type) || $this->isImplements($type));
 		}
 	}
 
     /**
-     * isInstanceOf 
+     * isName 
      * 
      * @param mixed $type 
      * @access public
      * @return void
      */
-    public function isInstanceof($type)
+    public function isName($type)
     {
         return ($this->getReflector()->getName() == ltrim($type, '\\'));
     }
@@ -82,11 +77,8 @@ class ClassType extends AbstractType
 	 */
 	public function isImplements($type)
 	{
-        try {
-		    return $this->getReflector()->implementsInterface($type);
-        } catch(\RuntimeException $ex) {
-        } catch(\InvalidArgumentException $ex) {
-        } catch(\ReflectionException $ex) {
+        if(interface_exists($type)) {
+            return $this->getReflector()->implementsInterface($type);
         }
 
         return false;
@@ -101,34 +93,37 @@ class ClassType extends AbstractType
 	 */
 	public function isExtends($type)
 	{
-        try {
-	    	return $this->getReflector()->isSubclassOf($type);
-        } catch(\RuntimeException $ex) {
-        } catch(\InvalidArgumentException $ex) {
-        } catch(\ReflectionException $ex) {
+        if(class_exists($type)) {
+            return $this->getReflector()->isSubclassOf($type);
         }
+        return false;
 	}
 
+    /**
+     * isValidData 
+     * 
+     * @param mixed $data 
+     * @access public
+     * @return void
+     */
     public function isValidData($data)
     {
-        try {
+        if(is_object($data)) {
             return $this->getReflector()->isInstance($data);
-        } catch(\RuntimeException $ex) {
-        } catch(\InvalidArgumentException $ex) {
-        } catch(\ReflectionException $ex) {
         }
+
         return false;
     }
     
+    /**
+     * getReflector 
+     * 
+     * @access public
+     * @return void
+     */
     public function getReflector()
     {
         return $this->reflector;
-    }
-    
-    public function setReflector(\Reflector $reflector)
-    {
-        $this->reflector = $reflector;
-        return $this;
     }
 }
 

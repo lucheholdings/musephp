@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Type\Tests;
 
-use Clio\Component\Util\Type\PrimitiveTypes;
+use Clio\Component\Util\Type\Actual\PrimitiveTypes;
 
 /**
  * TypeTestCase 

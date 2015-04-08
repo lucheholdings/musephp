@@ -8,7 +8,7 @@ use Clio\Component\Util\Type\Loader\MappedTypeFactoryLoader;
 
 /**
  * BasicRegistry 
- * 
+ *    BasicRegistry is an ActualTypeRegistry which only  
  * @uses BaseRegistry
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
@@ -17,6 +17,12 @@ use Clio\Component\Util\Type\Loader\MappedTypeFactoryLoader;
  */
 class BasicRegistry extends BaseRegistry 
 {
+    /**
+     * __construct 
+     * 
+     * @access public
+     * @return void
+     */
 	public function __construct()
 	{
 		parent::__construct(

@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Type;
+namespace Clio\Component\Util\Type\Actual;
 
 class MixedType extends AbstractType 
 {

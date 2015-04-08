@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Type;
+namespace Clio\Component\Util\Type\Actual;
 
 
 class ProxyType implements Type
