@@ -15,8 +15,8 @@ interface Factory
 	 * createMetadata 
 	 * 
 	 * @access public
-	 * @return void
+	 * @return Metadata 
 	 */
-	function createMetadata();
+	function createMetadata($type);
 }
 

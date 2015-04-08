@@ -15,18 +15,29 @@ use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
  */
 abstract class AbstractMetadata implements Metadata
 {
+    /**
+     * name 
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $name;
+
+    /**
+     * parent 
+     *   If inherited metadata, parent will be setted.
+     *   Otherwise null.
+     *   When serialize parent, its only store the name of metaedata.
+     *   When unserialize, parent is still the name of metadata, so please warmup parent from its name..
+     * @var mixed
+     * @access private
+     */
+    private $parent;
+
 	/**
 	 * {@inheritdoc}
 	 */
 	private $mappings; 
-
-	/**
-	 * cleaned 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $cleaned = false;
 
 	/**
 	 * options 
@@ -36,47 +47,58 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	private $options = array();
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function clean()
-	{
-		if(!$this->cleaned) {
-			$this->cleaned = true;
-			foreach($this->getMappings() as $mapping) {
-				$mapping->clean();
-			}
-		}
-	}
+    /**
+     * __construct 
+     * 
+     * @param mixed $name 
+     * @param array $mappings 
+     * @access public
+     * @return void
+     */
+    public function __construct($name, array $mappings = array(), array $options = array(), Metadata $parent =  null)
+    {
+        $this->name = $name;
+        $this->mappings = $mappings;
+        $this->options = $options;
+        $this->parent = $parent; 
+    }
 
-	public function dirty()
-	{
-		$this->cleaned = false;
-	}
-
-	public function isDirty()
-	{
-		return !$this->cleaned;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function __toString()
-	{
-		return $this->getName();
-	}
+    /**
+     * getName 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+    
+    /**
+     * setName 
+     * 
+     * @param mixed $name 
+     * @access public
+     * @return void
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+        return $this;
+    }
     
     /**
      * {@inheritdoc}
      */
-    public function getMappings()
+    public function getMappings($includeParent = true)
     {
 		if(!$this->mappings) {
 			$this->mappings = new MappingCollection();
 		}
 
-		$this->clean();
+        if($includeParent) {
+            return $this->getMappings()->merge($this->getParent()->getMappings());
+        }
 
         return $this->mappings;
     }
@@ -88,8 +110,6 @@ abstract class AbstractMetadata implements Metadata
     {
 		$this->mappings = $mappings;
 
-		$this->dirty();
-
 		foreach($mappings as $mapping) {
 			$mapping->setMetadata($this);
 		}
@@ -100,18 +120,25 @@ abstract class AbstractMetadata implements Metadata
 	/**
 	 * {@inheritdoc}
 	 */
-	public function hasMapping($name)
+	public function hasMapping($name, $includeParent = true)
 	{
-		return $this->getMappings()->hasMapping($name);
+		if($includeParent && $this->hasParent()) 
+            return $this->getMappings()->hasMapping($name) || $this->getParent()->hasMapping($name);
+        return $this->getMappings()->hasMapping($name);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function getMapping($name)
+	public function getMapping($name, $includeParent = true)
 	{
-		$this->clean();
-		return $this->getMappings()->getMapping($name);
+        if($this->hasMapping($name, false)) {
+            return $this->getMappings()->getMapping($name);
+        } else if($includeParent && $this->hasParent()) {
+            return $this->getParent()->getMapping($name);
+        } else {
+            throw new \RuntimeException(sprintf('Mapping "%s" is not exists', $name));
+        }
 	}
 
 	/**
@@ -119,23 +146,98 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function setMapping($name, Mapping $mapping)
 	{
-		$this->dirty();
 		$this->getMappings()->setMapping($name, $mapping);
 		$mapping->setMetadata($this);
 		return $this;
 	}
+    
+    /**
+     * getOptions 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getOptions()
+    {
+        return $this->options;
+    }
+    
+    /**
+     * setOptions 
+     * 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+    public function setOptions(array $options)
+    {
+        $this->options = $options;
+        return $this;
+    }
 
+    /**
+     * hasOption 
+     * 
+     * @param mixed $name 
+     * @access public
+     * @return void
+     */
+	public function hasOption($name)
+	{
+		return array_key_exists($this->optnions, $name);
+	}
+
+    /**
+     * getOption 
+     * 
+     * @param mixed $name 
+     * @param mixed $default 
+     * @access public
+     * @return void
+     */
+	public function getOption($name, $default = null)
+	{
+		return array_key_exists($this->options, $name) ? $this->options[$name] : $default;
+	}
+
+    /**
+     * setOption 
+     * 
+     * @param mixed $name 
+     * @param mixed $value 
+     * @access public
+     * @return void
+     */
+	public function setOption($name, $value)
+	{
+		$this->options[$name] = $value;
+		return $this;
+	}
+
+    /**
+     * serialize 
+     * 
+     * @param array $extra 
+     * @access public
+     * @return void
+     */
 	public function serialize(array $extra = array())
 	{
-		$this->clean();
-
 		return serialize(array(
+            (string)$this->parent,
 			$this->options,
 			$this->mappings->toArray(),
 			$extra
 		));
 	}
 
+    /**
+     * unserialize 
+     * 
+     * @param mixed $serialized 
+     * @access public
+     * @return void
+     */
 	public function unserialize($serialized)
 	{
 		$data = unserialize($serialized);
@@ -144,6 +246,7 @@ abstract class AbstractMetadata implements Metadata
 		}
 
 		list(
+            $this->parent,
 			$this->options,
 			$mappings,
 			$extra
@@ -155,32 +258,37 @@ abstract class AbstractMetadata implements Metadata
 		}
 		return $extra;
 	}
-    
-    public function getOptions()
+
+    public function hasParent()
     {
-        return $this->options;
+        return (bool)$this->parent;
     }
     
-    public function setOptions(array $options)
+    public function getParent()
     {
-        $this->options = $options;
+        if($this->parent && (!$this->parent instanceof Schema)) {
+            throw new \RuntimeException('Parent is not initialized yet');
+        }
+        return $this->parent;
+    }
+    
+    public function setParent($parent)
+    {
+        $this->parent = $parent;
         return $this;
     }
 
-	public function hasOption($name)
-	{
-		return isset($this->options[$name]);
-	}
+    public function getParentName()
+    {
+        return (string)$this->parent;
+    }
 
-	public function getOption($name)
+	/**
+	 * {@inheritdoc}
+	 */
+	public function __toString()
 	{
-		return $this->options[$name];
-	}
-
-	public function setOption($name, $value)
-	{
-		$this->options[$name] = $value;
-		return $this;
+		return $this->getName();
 	}
 }
 
