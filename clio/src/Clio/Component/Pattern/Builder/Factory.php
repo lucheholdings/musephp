@@ -1,15 +1,15 @@
 <?php
-namespace Clio\Component\Pattern\Factory;
+namespace Clio\Component\Pattern\Builder;
 
 /**
- * BuilderFactory 
+ * Factory 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface BuilderFactory
+interface Factory
 {
 	/**
 	 * createBuilder 

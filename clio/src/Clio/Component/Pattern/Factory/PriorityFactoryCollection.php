@@ -6,12 +6,10 @@ use Clio\Component\Util\Container\Storage\ValidatableStorage;
 use Clio\Component\Util\Validator\SubclassValidator;
 
 /**
- * PriorityCollection 
- *   FactoryCollection supports two type of creation.
+ * PriorityFactoryCollection 
+ *   PrioirtyFactoryCollection is a factory collection which create with highest priority factory of argument supported
+ *   PriorityFactoryCollection create with "create" or "createArgs" factory method.
  * 
- *   - Create with "isSupportedArgs" guessing.
- *   - Create by Key as MappedFactory
- *
  * @uses Collection
  * @uses Factory
  * @package { PACKAGE }
@@ -19,7 +17,7 @@ use Clio\Component\Util\Validator\SubclassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PriorityCollection extends PrioritySet implements Factory 
+class PriorityFactoryCollection extends PrioritySet implements Factory 
 {
 	/**
 	 * initContainer 
@@ -35,7 +33,7 @@ class PriorityCollection extends PrioritySet implements Factory
 		if(!$this->getStorage() instanceof ValidatableStorage) {
 			$this->setStorage(new ValidatableStorage($this->getStorage()));
 		}
-		$this->setValueValidator(new SubclassValidator('Clio\Component\Pattern\Factory\Factory'));
+		$this->setValueValidator(new SubclassValidator($this->getFactoryClass()));
 	}
 
 	/**
@@ -62,7 +60,7 @@ class PriorityCollection extends PrioritySet implements Factory
 
 		// Traverse each factory to create an instance
 		foreach($this as $factory) {
-			if($factory->isSupportedArgs($args)) {
+			if($factory->canCreate($args)) {
 				return $factory->createArgs($args);
 			}
 		}
@@ -70,44 +68,24 @@ class PriorityCollection extends PrioritySet implements Factory
 		throw new UnsupportedException('Failed to create an instance. There are no supported factory to create.');
 	}
 
-	public function isSupportedArgs(array $args = array())
+    public function canCreate()
+    {
+        return $this->canCreateArgs(func_get_args());
+    }
+
+	public function canCreateArgs(array $args = array())
 	{
 		foreach($this as $factory) {
-			if($factory->isSupportedArgs($args)) {
+			if($factory->canCreateArgs($args)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	public function isSupported()
-	{
-		return true;
-	}
-
-	/**
-	 * shiftArg 
-	 * 
-	 * @param array $args 
-	 * @param mixed $aliasKey 
-	 * @param mixed $default 
-	 * @access public
-	 * @return void
-	 */
-	public function shiftArg(array &$args, $aliasKey = null, $default = null) 
-	{
-		// we try to use the aliasKey to grab the arg, iff aliasKey is specified
-		if($aliasKey && array_key_exists($aliasKey, $args)) {
-			$arg = $args[$aliasKey];
-			unset($args[$aliasKey]);
-		} else if(0 < count($args)) {
-			// just shift arg
-			$arg = array_shift($args);
-		} else {
-			$arg = $default;
-		}
-
-		return $arg;
-	}
+    protected function getFactoryClass()
+    {
+        return 'Clio\Component\Pattern\Factory\Factory';
+    }
 }
 

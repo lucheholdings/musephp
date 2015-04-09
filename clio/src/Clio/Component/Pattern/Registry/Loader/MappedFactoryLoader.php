@@ -52,7 +52,7 @@ class MappedFactoryLoader extends AbstractLoader
 	 */
 	public function canLoad($key)
 	{
-		return $this->factory->isSupportedKeyArgs($key);
+		return $this->factory->canCreateByKey($key);
 	}
     
     /**

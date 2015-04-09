@@ -10,20 +10,39 @@ namespace Clio\Component\Pattern\Factory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ClassFactory extends AbstractFactory 
+class ClassFactory extends AbstractMappedFactory 
 {
-	/**
-	 * doCreate 
-	 * 
-	 * @param array $args 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doCreate(array $args = array())
+    /**
+     * doCreateByKey 
+     * 
+     * @param array $args 
+     * @access protected
+     * @return void
+     */
+	protected function doCreateByKey($key, array $args = array())
 	{
-		$class = $this->shiftArg($args, 'class');
-		return $this->createClassArgs($class, $args);
+		return $this->doCreateClass($key, $args);
 	}
+
+    protected function doCreateClass($class, array $args)
+    {
+		if(!$class instanceof \ReflectionClass) {
+			if(!is_string($class)) {
+				throw new \InvalidArgumentException(sprintf('Invalid argument type "%s"', gettype($class)));
+			}
+
+			$class = new \ReflectionClass($class);
+		}
+
+		$constructorArgs = $this->resolveConstructorArgs($args);
+
+		$newInstance = $this->getConstructor()->construct($class, $constructorArgs);
+
+		if($this->hasValidator()) {
+			$this->getValidator()->validate($newInstance);
+		}
+		return $newInstance;
+    }
 
 	/**
 	 * createClass 
@@ -35,9 +54,9 @@ class ClassFactory extends AbstractFactory
 	public function createClass($class)
 	{
 		$args = func_get_args();
-		$class = $this->shiftArg($args, 'class');
+        array_shift($args);
 
-		return $this->createClassArgs($class, $args);
+		return $this->doCreateClass($class, $args);
 	}
 
 	/**
@@ -50,40 +69,45 @@ class ClassFactory extends AbstractFactory
 	 */
 	public function createClassArgs($class, array $args = array())
 	{
-		if(!$class instanceof \ReflectionClass) {
-			if(!is_string($class)) {
-				throw new \InvalidArgumentException(sprintf('Invalid argument type "%s"', gettype($class)));
-			}
-			$class = new \ReflectionClass($class);
-		}
-		$args = $this->resolveArgs($args);
-
-		$newInstance = $this->getConstructor()->construct($class, $args);
-
-		if($this->hasValidator()) {
-			$this->getValidator()->validate($newInstance);
-		}
-		return $newInstance;
+        return $this->doCreateClass($clas, $args);
 	}
 
-	/**
-	 * resolveArgs 
-	 * 
-	 * @param array $args 
-	 * @access protected
-	 * @return void
-	 */
-	protected function resolveArgs(array $args)
+    /**
+     * resolveConstructorArgs 
+     * 
+     * @param array $args 
+     * @access protected
+     * @return void
+     */
+	protected function resolveConstructorArgs(array $args)
 	{
 		return $args;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isSupportedArgs(array $args = array())
+    /**
+     * canCreateClass 
+     * 
+     * @param mixed $class 
+     * @param array $args 
+     * @access public
+     * @return void
+     */
+	public function canCreateClass($class)
 	{
-		return class_exists(array_shift($args));
+		return class_exists($class);
 	}
+
+    /**
+     * canCreateByKey 
+     * 
+     * @param mixed $key 
+     * @param array $args 
+     * @access public
+     * @return void
+     */
+    public function canCreateByKey($key, array $args)
+    {
+        return $this->canCreateClass($key);
+    }
 }
 
