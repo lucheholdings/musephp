@@ -1,10 +1,8 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
 
-use Clio\Component\Util\Type as Types,
-	Clio\Component\Util\Type\Type,
-	Clio\Component\Util\Type\Resolver as TypeResolver;
-
+use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Tool\Normalizer\Type\TypeResolver;
 /**
  * Context 
  * 
@@ -15,6 +13,12 @@ use Clio\Component\Util\Type as Types,
  */
 class Context 
 {
+    /**
+     * normalizer 
+     * 
+     * @var mixed
+     * @access private
+     */
 	private $normalizer;
 
 	/**
@@ -49,6 +53,14 @@ class Context
 	 */
 	private $typeResolver;
 
+    /**
+     * _typeGuesser 
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $_typeGuesser;
+
 	/**
 	 * pathTypes
 	 * 
@@ -71,14 +83,14 @@ class Context
 		$this->scopeStack = new \SplStack();
 
 		if(!$typeResolver) 
-			$typeResolver = new TypeResolver();
+            $typeResolver = TypeResolver::createDefault();
 
 		$this->typeResolver = $typeResolver;
 		$this->dataPool = new Tool\DataPool();
 	}
     
     /**
-     * getStack 
+     * getScopeStack 
      * 
      * @access public
      * @return void
@@ -186,12 +198,11 @@ class Context
 	 * @access public
 	 * @return void
 	 */
-	public function enterScope($data, Type $type, $field = '_')
+	public function enterScope($data, $type, $field = '_')
 	{
-		if($type instanceof ProxyType) {
-			$type->resolve($this->getTypeResolver(), $data);
-		}
-
+        if(!$type instanceof Type) {
+            $type = $this->getTypeResolver()->resolve($type, array('data' => $data));
+        }
 		if(is_object($data)) {
 			foreach($this->scopeStack as $scope) {
 				if($data === $scope->getData()) {
@@ -225,6 +236,12 @@ class Context
 		return $this->typeResolver;
 	}
     
+    /**
+     * getNormalizer 
+     * 
+     * @access public
+     * @return void
+     */
     public function getNormalizer()
     {
         return $this->normalizer;
@@ -292,26 +309,24 @@ class Context
 
 	/**
 	 * getFieldType 
-	 *   Get FieldType in Current Scope 
+	 *   Get type for field in Current Scope 
 	 * @param mixed $type 
 	 * @param mixed $field 
 	 * @access public
-	 * @return FieldType|Type
+	 * @return Type
 	 */
-	public function getFieldType($type, $field)
+	public function getFieldType(Type $containerType, $field)
 	{
 		$fieldPath = $this->getPathInCurrentScope($field);
 
 		if($this->hasPathType($fieldPath)) {
 			return $this->getPathType($fieldPath);
-		} else if((($type instanceof Types\FieldContainable) || $type->isType(Types\PrimitiveTypes::TYPE_OBJECT)) && $type->hasFieldType($field)) {
-			$fieldType = $type->getFieldType($field);
-
-			return $fieldType;
+		} else if($containerType->hasField($field)) {
+			return $containerType->getFieldType($field);
 		}
 		
 		// Return mixed field type.
-		return new Types\FieldType();
+		return new NormalizerType();
 	}
     
     public function getDataPool()
@@ -323,5 +338,13 @@ class Context
 	{
 		return $default;
 	}
+
+    public function getTypeGuesser()
+    {
+        if(!$this->_typeGuesser) {
+            $this->_typeGuesser = Types\Guesser\SimpleGuesser::create($this->getTypeResolver());
+        }
+        return $this->_typeGuesser;
+    }
 }
 

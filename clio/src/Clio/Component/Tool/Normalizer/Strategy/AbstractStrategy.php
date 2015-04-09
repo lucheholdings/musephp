@@ -2,9 +2,8 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Strategy;
-use Clio\Component\Util\Type as Types,
-	Clio\Component\Util\Type\Type
-;
+use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type as Types;
 use Clio\Component\Tool\Normalizer\Context;
 use Clio\Component\Tool\Normalizer\CircularException;
 
@@ -30,7 +29,7 @@ abstract class AbstractStrategy implements Strategy
 		if(!$type) {
 			throw new \InvalidArgumentException('Strategy requires Type is not null.');
 		} else if(!$type instanceof Type) {
-			throw new \InvalidArgumentException('Strategy requires $type is an instanceof of Type.');
+			throw new \InvalidArgumentException('Strategy requires $type is an instanceof of Clio\Component\Tool\Normalizer\Type.');
 		}
 
 		// normalize the data to array
@@ -76,7 +75,7 @@ abstract class AbstractStrategy implements Strategy
 		}
 
 		if(!$type instanceof Type) {
-			throw new \InvalidArgumentException('Strategy required $type as an instanceof of Type.');
+			throw new \InvalidArgumentException('Strategy required $type as an instanceof of Clio\Component\Tool\Normalizer\Type.');
 		}
 
 		// Convert data before denormalize
@@ -87,7 +86,7 @@ abstract class AbstractStrategy implements Strategy
 
 				$fieldType = $context->getTypeResolver()->resolve($fieldType, array('data' => $value));
 
-				if($fieldType->isType('null')) {
+				if($fieldType->isType(Types\PrimitiveTypes::TYPE_NULL)) {
 					return;
 				}
 

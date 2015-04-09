@@ -1,6 +1,5 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
-use Clio\Component\Util\Type\Type;
 
 class Scope 
 {

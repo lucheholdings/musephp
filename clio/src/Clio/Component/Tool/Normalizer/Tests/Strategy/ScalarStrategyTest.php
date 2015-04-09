@@ -2,7 +2,8 @@
 namespace Clio\Component\Tool\Normalizer\Tests\Strategy;
 
 use Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy;
-use Clio\Component\Tool\Normalizer\Type\PrimitiveType;
+use Clio\Component\Tool\Normalizer\Type\NormalizerType;
+use Clio\Component\Util\Type\Actual as ActualTypes;
 
 class ScalarStrategyTest extends StrategyTestCase 
 {
@@ -29,6 +30,11 @@ class ScalarStrategyTest extends StrategyTestCase
 		parent::testNormalize();
 	}
 
+    public function testDenormalize()
+    {
+        return ;
+    }
+
 	protected function createStrategy()
 	{
 		return new ScalarStrategy();
@@ -46,7 +52,7 @@ class ScalarStrategyTest extends StrategyTestCase
 
 	protected function createType($data)
 	{
-		return new PrimitiveType(gettype($data));
+		return new NormalizerType(new ActualTypes\ScalarType(gettype($data)));
 	}
 
 	protected function getTestTypeName()

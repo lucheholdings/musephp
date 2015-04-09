@@ -3,7 +3,6 @@ namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Exception\UnsupportedException;
 use Clio\Component\Util\Type as Types,
-	Clio\Component\Util\Type\Type as TypeInterface,
 	Clio\Component\Util\Type\Resolver as TypeResolver
 ;
 
@@ -75,21 +74,15 @@ class Normalizer implements
 		}
 
 		if(!$context) {
-			$context = new Context($this->getTypeResolver());
-			$context->setNormalizer($this);
+            $context = $this->createContext();
 		}
 
-		// if type is not specified, then 
-		if(!$type instanceof TypeInterface) {
-			$type = new Types\FieldType($type);
-		}
-
-		// Convert FieldType to NormalizerType 
+		// Clean type 
 		$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
 
 		if(!$type->isValidData($data)) {
-			if($context->getScopeConfiguration('prefer_data', true)) {
-				$type = $context->getTypeResolver()->resolve(new Types\FieldType(), array('data' => $data));
+			if($context->getScopeConfiguration(NormalizerOptions::OPT_PREFER_DATA, true)) {
+				$type = $context->getTypeResolver()->resolve('mixed', array('data' => $data));
 			} else {
 				throw new \InvalidArgumentException('Given type and data is not matched.');
 			}
@@ -113,13 +106,14 @@ class Normalizer implements
 		$normalized = $strategy->normalize($data, $type, $context);
 
 		if(is_array($normalized)) {
-			if($context->getScopeConfiguration('compact', true)) {
+            // if NormalizerOptions::OPT_COMPACT, then replace null value 
+			if($context->getScopeConfiguration(NormalizerOptions::OPT_COMPACT, true)) {
 				$normalized = array_filter($normalized, function($v) {
 						return null !== $v;
 					});
 			}
 
-			if((1 == count($normalized)) && $context->getScopeConfiguration('prefer_scalar', false)) {
+			if((1 == count($normalized)) && $context->getScopeConfiguration(NormalizerOptions::PREFER_SCALAR, false)) {
 				$normalized = array_pop($normalized);
 			}
 		}
@@ -225,6 +219,17 @@ class Normalizer implements
     {
         $this->logger = $logger;
         return $this;
+    }
+
+    /**
+     * createContext 
+     *   Create default Normalizer Context 
+     * @access public
+     * @return void
+     */
+    public function createContext()
+    {
+        return new Context($this->typeResolver);
     }
 }
 

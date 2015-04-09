@@ -1,11 +1,21 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
-use Clio\Component\Util\Type\Type,
-	Clio\Component\Util\Type as Types
-;
+use Clio\Component\Tool\Normalizer\Type as NormalizerTypeInterface;
+use Clio\Component\Util\Type as Types;
 use Clio\Component\Tool\Normalizer\Context;
 
+/**
+ * ScalarStrategy 
+ * 
+ * @uses AbstractStrategy
+ * @uses NormalizationStrategy
+ * @uses DenormalizationStrategy
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
 class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, DenormalizationStrategy
 {
 	/**
@@ -19,7 +29,7 @@ class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, 
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function doNormalize($data, Type $type, Context $context)
+	protected function doNormalize($data, NormalizerTypeInterface $type, Context $context)
 	{
 		return $data;
 	}
@@ -35,7 +45,7 @@ class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, 
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function doDenormalize($data, Type $type, Context $context, $object = null)
+	protected function doDenormalize($data, NormalizerTypeInterface $type, Context $context, $object = null)
 	{
 		return $data;
 	}

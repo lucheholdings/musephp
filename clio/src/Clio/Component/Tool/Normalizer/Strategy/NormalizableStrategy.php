@@ -2,9 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Util\Type as Types,
-	Clio\Component\Util\Type\Type
-;
+use Clio\Component\Util\Type as Types;
 use Clio\Component\Tool\Normalizer\Normalizable;
 
 class NormalizableStrategy extends InterfaceStrategy implements NormalizationStrategy, DenormalizationStrategy 
