@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Type\Tests\Actual;
 
 use Clio\Component\Util\Type\Tests\TypeTestCase;
 use Clio\Component\Util\Type\Actual\ClassType;
-use Clio\Component\Util\Type\Actual\PrimitiveTypes;
+use Clio\Component\Util\Type\PrimitiveTypes;
 
 use Clio\Component\Util\Type\Tests\Models;
 /**

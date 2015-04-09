@@ -20,14 +20,15 @@ interface Factory extends MappedFactory
 	 * @access public
 	 * @return void
 	 */
-	function createType($name);
+	function createType($type, array $options = array());
 
-	/**
-	 * isSupportedType 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function isSupportedType($type);
+    /**
+     * canCreateByType 
+     * 
+     * @param mixed $type 
+     * @access public
+     * @return void
+     */
+	function canCreateByType($type);
 }
 

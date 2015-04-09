@@ -17,19 +17,54 @@ use Clio\Component\Pattern\Factory\Tool\FactoryTool;
  */
 abstract class AbstractTypeFactory extends AbstractMappedFactory implements Factory
 {
-	public function doCreate(array $args = array())
+    /**
+     * doCreateByKey 
+     * 
+     * @param mixed $key 
+     * @param array $args 
+     * @access protected
+     * @return void
+     */
+	protected function doCreateByKey($key, array $args)
 	{
-		$key = $this->shiftArg($args, 'key');
-		$options = $this->shiftArg($args, 'options');
+		$options = FactoryTool::shiftArg($args, 'options');
 
 		return $this->createType($key, $options);
 	}
 
-	public function isSupportedArgs(array $args = array())
-	{
-		$key = FactoryTool::shiftArg($args, 'key');
+    /**
+     * canCreateByKey 
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
+    public function canCreateByKey($key)
+    {
+        return $this->canCreateByType($key);
+    }
 
-		return $this->isSupportedType($key);
+    /**
+     * canCreateByType 
+     * 
+     * @param mixed $type 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+	public function canCreateByType($type, array $options = array())
+	{
+		return $this->isSupportedType($type);
 	}
+
+    /**
+     * isSupportedType 
+     * 
+     * @param mixed $type 
+     * @abstract
+     * @access protected
+     * @return void
+     */
+    abstract protected function isSupportedType($type);
 }
 

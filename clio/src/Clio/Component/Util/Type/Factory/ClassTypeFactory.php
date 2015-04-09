@@ -21,7 +21,7 @@ class ClassTypeFactory extends AbstractTypeFactory
      * @access public
      * @return void
      */
-	public function createType($name)
+	public function createType($name, array $options = array())
 	{
 		if(class_exists($name)) { 
 		    return new ActualTypes\ClassType($name);
@@ -33,22 +33,6 @@ class ClassTypeFactory extends AbstractTypeFactory
 	}
 
     /**
-     * createTypeForValue 
-     * 
-     * @param mixed $value 
-     * @access public
-     * @return void
-     */
-	public function createTypeForValue($value)
-	{
-		if(is_object($value)) {
-			return $this->createType(get_class($value));
-		}
-
-		throw new \InvalidArgumentException('Value is not an object.');
-	}
-
-    /**
      * isSupportedType 
      * 
      * @param mixed $name 
@@ -57,14 +41,6 @@ class ClassTypeFactory extends AbstractTypeFactory
      */
 	public function isSupportedType($name)
 	{
-        /**
-         * _exists($name) 
-         * 
-         * @package { PACKAGE }
-         * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
-         * @author Yoshi<yoshi@1o1.co.jp> 
-         * @license { LICENSE }
-         */
 		return class_exists($name) || interface_exists($name);
 	}
 }

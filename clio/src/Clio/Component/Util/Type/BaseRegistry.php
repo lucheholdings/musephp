@@ -1,9 +1,8 @@
 <?php
 namespace Clio\Component\Util\Type;
 
-use Clio\Component\Pattern\Registry\RegistryMap,
-	Clio\Component\Pattern\Registry\LoadableRegistry,
-	Clio\Component\Pattern\Registry\EntryLoader
+use Clio\Component\Pattern\Registry\LoadableRegistry,
+    Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader
 ;
 use Clio\Component\Util\Validator\SubclassValidator;
 
@@ -23,18 +22,13 @@ class BaseRegistry extends LoadableRegistry implements Registry
     /**
      * __construct 
      * 
-     * @param EntryLoader $loader 
+     * @param Factory $typeFacotry 
      * @access public
      * @return void
      */
-	public function __construct(EntryLoader $loader)
+	public function __construct(Factory $typeFactory)
 	{
-		$map = new RegistryMap();
-		$map
-			->setValueValidator(new SubclassValidator('Clio\Component\Util\Type\Type'))
-		;
-
-		parent::__construct($loader, $map);
+		parent::__construct(new MappedFactoryLoader($typeFactory));
 	}
 
     /**
@@ -105,15 +99,6 @@ class BaseRegistry extends LoadableRegistry implements Registry
 	 */
 	public function getType($type)
 	{
-		//if($type instanceof FieldtType) {
-		//	// switch field type
-		//	if(!$this->getRegistry()->has($type->getTypeName())) {
-		//		$this->load($type->getTypeName());
-		//	}
-		//	$type->setType($this->get($type->getTypeName()));
-		//	return $type;
-		//}
-
 		if($type instanceof Type) {
 			return $type;
 		}

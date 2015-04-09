@@ -1,10 +1,6 @@
 <?php
 namespace Clio\Component\Util\Type;
 
-use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader,
-	Clio\Component\Pattern\Registry\Loader\LoaderCollection
-;
-
 /**
  * BasicRegistry 
  *    BasicRegistry is an ActualTypeRegistry which only  
@@ -24,12 +20,10 @@ class BasicRegistry extends BaseRegistry
      */
 	public function __construct()
 	{
-		parent::__construct(
-				new LoaderCollection(array(
-					new MappedFactoryLoader(new Factory\ClassTypeFactory()),
-					new MappedFactoryLoader(new Factory\PrimitiveTypeFactory()),
-				))
-			);
+        parent::__construct(new Factory\TypeFactoryCollection(array(
+                new Factory\ClassTypeFactory(),
+                new Factory\PrimitiveTypeFactory(),
+            )));
 	}
 }
 
