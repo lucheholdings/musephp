@@ -1,0 +1,25 @@
+{
+	"name": "museclio/normalizer",
+	"type": "library",
+	"description": "Clio Normalizer Component",
+	"keywords": [
+		"php",
+		"normalizer"
+	],
+	"license": "MIT",
+	"require" : {
+		"php" : ">=5.4.0",
+        "museclio/type": "~2.0.0"
+	},
+    "suggest": {
+		"museclio/extra-normalizer" : "To normalize Schema data"
+    },
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
+		}
+	}
+}
+
+

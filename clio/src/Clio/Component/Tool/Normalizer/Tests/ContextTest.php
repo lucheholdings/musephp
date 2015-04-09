@@ -2,7 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Tests;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\PrimitiveType;
+use Clio\Component\Util\Type as Types;
 
 class ContextTest extends \PHPUnit_Framework_TestCase 
 {
@@ -10,8 +10,8 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 	{
 		$context = new Context();
 
-		$this->assertInstanceof('SplStack', $context->getStack());
-		$this->assertEmpty($context->getStack());
+		$this->assertInstanceof('SplStack', $context->getScopeStack());
+		$this->assertEmpty($context->getScopeStack());
 	
 	}
 
@@ -29,10 +29,10 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 		$this->assertEquals('Foo', $context->getOption('foo'));
 	}
 
-	public function testTypeRegistry()
+	public function testTypeResolver()
 	{
 		$context = new Context();
-		$this->assertInstanceof('Clio\Component\Tool\Normalizer\TypeRegistry', $context->getTypeRegistry());
+		$this->assertInstanceof('Clio\Component\Tool\Normalizer\Type\TypeResolver', $context->getTypeResolver());
 	}
 
 	public function testScope()
@@ -40,17 +40,17 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 		$context = new Context();
 		
 		// pre-condition
-		$this->assertEmpty($context->getStack());
+		$this->assertEmpty($context->getScopeStack());
 
-		$context->enterScope('data', new PrimitiveType('int'));
+		$context->enterScope('data', new Types\Actual\ScalarType('int'));
 		// check post entered condition
-		$this->assertNotEmpty($context->getStack());
-		$this->assertCount(1, $context->getStack());
-		$this->assertEquals('data', $context->getStack()->top()->getData()); 
+		$this->assertNotEmpty($context->getScopeStack());
+		$this->assertCount(1, $context->getScopeStack());
+		$this->assertEquals('data', $context->getScopeStack()->top()->getData()); 
 
 		$context->leaveScope();
 		// check post leave condition
-		$this->assertEmpty($context->getStack());
+		$this->assertEmpty($context->getScopeStack());
 	}
 }
 

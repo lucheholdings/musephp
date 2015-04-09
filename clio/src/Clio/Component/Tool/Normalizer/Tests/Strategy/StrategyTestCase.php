@@ -74,7 +74,7 @@ abstract class StrategyTestCase extends \PHPUnit_Framework_TestCase
 
 	protected function createType($data)
 	{
-		return $this->getContext()->getTypeRegistry()->guessType($data);
+		return $this->getContext()->getTypeGuesser()->guess($data);
 	}
 	
 	abstract protected function getTestData();

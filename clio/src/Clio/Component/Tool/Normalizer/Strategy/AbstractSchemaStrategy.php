@@ -2,6 +2,7 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Tool\Normalizer\Type as NormalizerTypeInterface;
 use Clio\Component\Util\Type\Type as TypeInterface,
 	Clio\Component\Util\Type as Types
 ;
@@ -25,6 +26,15 @@ use Clio\Component\Tool\Normalizer\CircularException;
  */
 abstract class AbstractSchemaStrategy extends AbstractStrategy 
 {
+    /**
+     * normalize 
+     *    
+     * @param mixed $data 
+     * @param mixed $type 
+     * @param Context $context 
+     * @access public
+     * @return void
+     */
 	public function normalize($data, $type = null, Context $context = null)
 	{
 		if(!$context) {
@@ -33,7 +43,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 		
 		if(!$type) {
 			throw new \InvalidArgumentException('Strategy requires Type is not null.');
-		} else if(!$type instanceof TypeInterface) {
+		} else if(!$type instanceof NormalizerTypeInterface) {
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
@@ -82,16 +92,16 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 
 	/**
 	 * doNormalize 
-	 *   Normalize $data. 
-	 *   Please note, doNormalize DO NOT normalize field values commonly.
-	 * 
+	 *   Normalize the data itself. 
+     *   Subfield should not be normalized on this method.
+     * 
 	 * @param mixed $data 
 	 * @param mixed $type 
 	 * @param mixed $context 
 	 * @access protected
 	 * @return void
 	 */
-	//abstract protected function doNormalize($data, TypeInterface $type, Context $context);
+	abstract protected function doNormalize($data, NormalizerTypeInterface $type, Context $context);
 
 	/**
 	 * denormalize 
@@ -108,7 +118,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 			throw new \InvalidArgumentException('Strategy requires Context is not null.');
 		}
 
-		if(!$type instanceof TypeInterface) {
+		if(!$type instanceof NormalizerTypeInterface) {
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
@@ -187,6 +197,6 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 	 * @access protected
 	 * @return void
 	 */
-	//abstract protected function doDenormalize($data, Type $type, Context $context, $object = null);
+    abstract protected function doDenormalize($data, NormalizerTypeInterface $type, Context $context, $object = null);
 }
 
