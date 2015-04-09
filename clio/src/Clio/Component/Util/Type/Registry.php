@@ -14,15 +14,6 @@ namespace Clio\Component\Util\Type;
 interface Registry
 {
 	/**
-	 * guessType 
-	 * 
-	 * @param mixed $value 
-	 * @access public
-	 * @return Type 
-	 */
-	function guessType($value);
-
-	/**
 	 * getType 
 	 * 
 	 * @param mixed $type 
