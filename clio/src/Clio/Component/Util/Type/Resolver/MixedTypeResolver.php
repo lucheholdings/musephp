@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Type\Resolver;
 
 use Clio\Component\Util\Type\Resolver;
+use Clio\Component\Util\Type\Guesser;
 use Clio\Component\Util\Type\MixedType;
 use Clio\Component\Exception\UnsupportedException;
 
@@ -16,6 +17,12 @@ use Clio\Component\Exception\UnsupportedException;
  */
 class MixedTypeResolver extends TypeResolverChain 
 {
+    private $guesser;
+
+    public function __construct(Guesser $guesser = null)
+    {
+        $this->guesser = $guesser;
+    }
     /**
      * canResolve 
      * 
@@ -34,7 +41,7 @@ class MixedTypeResolver extends TypeResolverChain
 		if(('mixed' == (string)$type) && array_key_exists('data', $options)) {
 			$data = $options['data'];
 		
-            $guessed = is_object($data) ? get_class($data) : gettype($data);
+            $guessed = $this->getGuesser()->guess($data);
             if(!$this->getRootResolver()->canResolve($guessed, $options)) {
                 throw new UnsupportedException('MixedTypeResolver cannot guess the type from data. ActualType cannot be found.');
             }
@@ -44,5 +51,19 @@ class MixedTypeResolver extends TypeResolverChain
 
 		throw new UnsupportedException('MixedTypeResolver only support with MixedType and "data" in options.');
 	}
+    
+    public function getGuesser()
+    {
+        if(!$this->guesser) {
+            $this->guesser = SimpleGuesser::create($this->getRootResolver());
+        }
+        return $this->guesser;
+    }
+    
+    public function setGuesser(Guesser $guesser)
+    {
+        $this->guesser = $guesser;
+        return $this;
+    }
 }
 

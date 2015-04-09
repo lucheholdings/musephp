@@ -25,7 +25,7 @@ class ScalarType extends AbstractType
 	 */
 	public function __construct($name)
 	{
-		switch($name) {
+		switch(strtolower($name)) {
 		case PrimitiveTypes::TYPE_ALIAS_INT:
 			$name = PrimitiveTypes::TYPE_INTEGER;
 			break;
@@ -48,7 +48,7 @@ class ScalarType extends AbstractType
 		default:
 			throw new UnsupportedException(sprintf('Type "%s" is not Scalar value', $name));
 		}
-		parent::__construct($name);
+		parent::__construct(strtolower($name));
 	}
 
 	/**

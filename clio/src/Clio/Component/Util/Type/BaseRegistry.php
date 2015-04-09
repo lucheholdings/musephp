@@ -20,6 +20,25 @@ use Clio\Component\Util\Validator\SubclassValidator;
 class BaseRegistry extends LoadableRegistry implements Registry
 {
     /**
+     * _resolver 
+     *   Resolver with Registered type 
+     * @var mixed
+     * @access private
+     * @temporary
+     */
+    private $_resolver;
+
+    /**
+     * _guesser 
+     *   Guesser with registered type.
+     * 
+     * @var mixed
+     * @access private
+     * @temporary
+     */
+    private $_guesser;
+
+    /**
      * __construct 
      * 
      * @param Factory $typeFacotry 
@@ -67,30 +86,6 @@ class BaseRegistry extends LoadableRegistry implements Registry
 	}
 
 	/**
-	 * guessType 
-	 * 
-	 * @param mixed $value 
-	 * @access public
-	 * @return void
-	 */
-	public function guessType($value)
-	{
-		if(null === $value) {
-			$type = PrimitiveTypes::TYPE_NULL;
-		} elseif(is_scalar($value)) {
-			$type = gettype($value);
-		} elseif(is_array($value)) {
-			$type = PrimitiveTypes::TYPE_ARRAY;
-		} elseif(is_object($value)) {
-			$type = get_class($value);
-		} else {
-			throw new \InvalidArgumentException('Unknown data to guess type.');
-		}
-
-		return $this->getType($type);
-	}
-
-	/**
 	 * getType 
 	 * 
 	 * @param mixed $type 
@@ -129,5 +124,32 @@ class BaseRegistry extends LoadableRegistry implements Registry
 	{
 		return $this->remove((string)$type);
 	}
+
+    /**
+     * getResolver 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getResolver()
+    {
+        if($this->_resolver) {
+            $this->_resolver = Resolver\Factory::createWithRegistry($this);
+        }
+        return $this->_resolver;
+    }
+
+    /**
+     * getGuesser 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getGuesser()
+    {
+        if(!$this->_guesser)
+            $this->_guesser = Guesser\SimpleGuesser::create($this->getResolver());
+        return $this->_guessor;
+    }
 }
 
