@@ -119,19 +119,19 @@ abstract class AbstractFactory implements Factory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupported()
+	public function canCreate()
 	{
-		return $this->isSupportedArgs(func_get_args());
+		return $this->canCreateArgs(func_get_args());
 	}
 
 	/**
-	 * isSupportedArgs 
+	 * canCreateArgs 
 	 * 
 	 * @param array $args 
 	 * @access public
 	 * @return void
 	 */
-	public function isSupportedArgs(array $args = array())
+	public function canCreateArgs(array $args = array())
 	{
 		return true;
 	}

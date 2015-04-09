@@ -31,20 +31,19 @@ interface Factory
 	function createArgs(array $args = array());
 
 	/**
-	 * isSupported 
+	 * canCreate 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	function isSupported();
+	function canCreate();
 
-	/**
-	 * isSupportedArgs 
-	 * 
-	 * @param array $args 
-	 * @access public
-	 * @return bool support to create with the args or not.
-	 */
-	function isSupportedArgs(array $args = array());
+    /**
+     * canCreateArgs 
+     * 
+     * @access public
+     * @return void
+     */
+    function canCreateArgs(array $args = array());
 }
 

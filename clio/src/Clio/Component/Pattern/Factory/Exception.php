@@ -3,7 +3,7 @@ namespace Clio\Component\Pattern\Factory;
 
 /**
  * Exception 
- * 
+ *   Factory Exception
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 

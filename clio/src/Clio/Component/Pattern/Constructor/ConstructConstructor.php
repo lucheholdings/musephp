@@ -41,7 +41,11 @@ class ConstructConstructor implements Constructor
 	 */
 	public function construct(\ReflectionClass $class, array $args = array())
 	{
-		return $class->newInstanceArgs($args);
+        if($class->getConstructor()) {
+    		return $class->newInstanceArgs($args);
+        } else {
+            return $class->newInstanceWithoutConstructor();
+        }
 	}
 }
 
