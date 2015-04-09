@@ -60,11 +60,12 @@ class MetadataFactory implements Factory, MappedFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createByKey()
+	public function createByKey($key)
 	{
 		$args = func_get_args();
+        array_shift($args);
 
-		return $this->createMetadata(array_shift($args));
+		return $this->createMetadata($key, $args);
 	}
 
 	/**
@@ -129,20 +130,20 @@ class MetadataFactory implements Factory, MappedFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedArgs(array $args = array())
+	public function canCreateArgs(array $args = array())
 	{
-		return $this->isSupportedKeyArgs(array_shift($args), $args);
+		return $this->canCreateByKey(array_shift($args), $args);
 	}
 
 	/**
-	 * isSupportedKeyArgs 
+	 * canCreateByKey
 	 * 
 	 * @param mixed $key 
 	 * @param array $args 
 	 * @access public
 	 * @return void
 	 */
-	public function isSupportedKeyArgs($key, array $args = array())
+	public function canCreateByKey($key, array $args = array())
 	{
 		return $this->isSupportedSchema($key);
 	}
