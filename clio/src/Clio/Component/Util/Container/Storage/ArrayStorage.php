@@ -135,6 +135,7 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 	 */
 	public function existsAt($key)
     {
+        $key = (string)$key;
 		if(!is_string($key) && !is_numeric($key)) {
 			throw new \Exception(sprintf('Invalid key type "%s" is given', is_object($key) ? get_class($key) : gettype($key)));
 		}
@@ -146,6 +147,7 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 	 */
 	public function getAt($key)
 	{
+        $key = (string)$key;
 		return $this->values[$key];
 	}
 
@@ -154,6 +156,7 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 	 */
 	public function insertAt($key, $value)
 	{
+        $key = (string)$key;
 		$this->values[$key] = $value;
 	}
 
@@ -162,6 +165,7 @@ class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, S
 	 */
 	public function removeAt($key)
 	{
+        $key = (string)$key;
 		unset($this->values[$key]);
 	}
 
