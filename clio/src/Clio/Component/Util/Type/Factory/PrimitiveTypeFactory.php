@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Type\Factory;
 
 use Clio\Component\Util\Type\Actual as ActualTypes;
+use Clio\Component\Util\Type\PrimitiveTypes;
 use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
 /**
@@ -26,43 +27,27 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 	public function createType($name, array $options = array())
 	{
 		switch(strtolower($name)) {
-		case ActualTypes\PrimitiveTypes::TYPE_NULL:
+		case PrimitiveTypes::TYPE_NULL:
 			return new ActualTypes\NullType();
-		case ActualTypes\PrimitiveTypes::TYPE_MIXED:
+		case PrimitiveTypes::TYPE_MIXED:
 			return new ActualTypes\MixedType();
-		case ActualTypes\PrimitiveTypes::TYPE_ALIAS_INT:
-		case ActualTypes\PrimitiveTypes::TYPE_INTEGER:
-		case ActualTypes\PrimitiveTypes::TYPE_DOUBLE:
-		case ActualTypes\PrimitiveTypes::TYPE_FLOAT:
-		case ActualTypes\PrimitiveTypes::TYPE_CHAR:
-		case ActualTypes\PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
-		case ActualTypes\PrimitiveTypes::TYPE_STRING:
-		case ActualTypes\PrimitiveTypes::TYPE_ALIAS_BOOL:
-		case ActualTypes\PrimitiveTypes::TYPE_BOOLEAN:
+		case PrimitiveTypes::TYPE_ALIAS_INT:
+		case PrimitiveTypes::TYPE_INTEGER:
+		case PrimitiveTypes::TYPE_DOUBLE:
+		case PrimitiveTypes::TYPE_FLOAT:
+		case PrimitiveTypes::TYPE_CHAR:
+		case PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
+		case PrimitiveTypes::TYPE_STRING:
+		case PrimitiveTypes::TYPE_ALIAS_BOOL:
+		case PrimitiveTypes::TYPE_BOOLEAN:
 			return new ActualTypes\ScalarType($name);
-		case ActualTypes\PrimitiveTypes::TYPE_ARRAY:
+		case PrimitiveTypes::TYPE_ARRAY:
 			return new ActualTypes\ArrayType($name);
 		default:
 			break;
 		}
 
 		throw new UnsupportedException(sprintf('Unknown type "%s" to create.', $name));
-	}
-
-    /**
-     * createTypeForValue 
-     * 
-     * @param mixed $value 
-     * @access public
-     * @return void
-     */
-	public function createTypeForValue($value)
-	{
-		if(is_scalar($value)) {
-
-		} else if(is_array($value)) {
-			return $this->doCreateType(ActualTypes\PrimitiveTypes::TYPE_ARRAY);
-		}
 	}
 
     /**
@@ -75,18 +60,18 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 	public function isSupportedType($name)
 	{
 		switch(strtolower($name)) {
-		case ActualTypes\PrimitiveTypes::TYPE_NULL:
-		case ActualTypes\PrimitiveTypes::TYPE_MIXED:
-		case ActualTypes\PrimitiveTypes::TYPE_ALIAS_INT:
-		case ActualTypes\PrimitiveTypes::TYPE_INTEGER:
-		case ActualTypes\PrimitiveTypes::TYPE_DOUBLE:
-		case ActualTypes\PrimitiveTypes::TYPE_FLOAT:
-		case ActualTypes\PrimitiveTypes::TYPE_CHAR:
-		case ActualTypes\PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
-		case ActualTypes\PrimitiveTypes::TYPE_STRING:
-		case ActualTypes\PrimitiveTypes::TYPE_ALIAS_BOOL:
-		case ActualTypes\PrimitiveTypes::TYPE_BOOLEAN:
-		case ActualTypes\PrimitiveTypes::TYPE_ARRAY:
+		case PrimitiveTypes::TYPE_NULL:
+		case PrimitiveTypes::TYPE_MIXED:
+		case PrimitiveTypes::TYPE_ALIAS_INT:
+		case PrimitiveTypes::TYPE_INTEGER:
+		case PrimitiveTypes::TYPE_DOUBLE:
+		case PrimitiveTypes::TYPE_FLOAT:
+		case PrimitiveTypes::TYPE_CHAR:
+		case PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
+		case PrimitiveTypes::TYPE_STRING:
+		case PrimitiveTypes::TYPE_ALIAS_BOOL:
+		case PrimitiveTypes::TYPE_BOOLEAN:
+		case PrimitiveTypes::TYPE_ARRAY:
 			return true;
 		default:
 			return false;

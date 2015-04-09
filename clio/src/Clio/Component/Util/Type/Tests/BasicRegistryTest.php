@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Type\Tests;
 
-use Clio\Component\Util\Type\Actual as ActualTypes;
+use Clio\Component\Util\Type\PrimitiveTypes;
 use Clio\Component\Util\Type\BasicRegistry;
 
 class BasicRegistryTest extends \PHPUnit_Framework_TestCase 
@@ -22,7 +22,7 @@ class BasicRegistryTest extends \PHPUnit_Framework_TestCase
 
         $type = $registry->getType('int');
 
-        $this->assertEquals(ActualTypes\PrimitiveTypes::TYPE_INTEGER, $type->getName());
+        $this->assertEquals(PrimitiveTypes::TYPE_INTEGER, $type->getName());
         $this->assertInstanceof('Clio\Component\Util\Type\Actual\ScalarType', $type);
     }
 }
