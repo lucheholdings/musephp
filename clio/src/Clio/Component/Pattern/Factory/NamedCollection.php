@@ -87,7 +87,7 @@ class NamedCollection extends StorageMap implements MappedFactory, Factory
 		return $this->createByKeyArgs($this->shiftArg($args), $args);
 	}
 
-	public function createByKey()
+	public function createByKey($key)
 	{
 		$args = func_get_args();
 		$key = $this->shiftArg($args);
@@ -115,37 +115,32 @@ class NamedCollection extends StorageMap implements MappedFactory, Factory
 		return $factory->createArgs($args);
 	}
 
-	public function isSupported()
+	public function canCreate()
 	{
 		return $this->isSupportedArgs(func_get_args());
 	}
 
-	/**
-	 * isSupportedArgs 
-	 * 
-	 * @param array $args 
-	 * @access public
-	 * @return void
-	 */
-	public function isSupportedArgs(array $args = array())
+	public function canCreateArgs(array $args = array())
 	{
-		return $this->isSupportedKeyArgs($this->shiftArg($args), $args);
+		return $this->canCreateByKey($this->shiftArg($args), $args);
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedKeyArgs($key, array $args = array())
+	public function canCreateByKey($key)
 	{
 		if(!$this->hasFactory($key)) {
 			return false;
 		}
-		
+        
+        $args = func_get_args();
+        
 		$factory = $this->getFactory($key);
 		if($factory instanceof MappedFactory) {
-			return $factory->isSupportedKeyArgs($key, $args);
+			return call_user_func_array(array($factory, 'canCreateByKey'), $args);
 		} else {
-			return $factory->isSupportedArgs($args);
+			return $factory->canCreateArgs($args);
 		}
 	}
 
