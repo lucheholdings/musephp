@@ -22,6 +22,12 @@ class LoadableRegistry extends ProxyRegistry
 	 */
 	private $loader = array();
 
+    /**
+     * loadings 
+     * 
+     * @var array
+     * @access private
+     */
     private $loadings = array();
 
 	/**
@@ -33,50 +39,51 @@ class LoadableRegistry extends ProxyRegistry
 	public function __construct(Loader $loader = null, Registry $registry = null)
 	{
 		if(!$registry) {
-			$registry = new RegistryMap();
+			$registry = new MapRegistry();
 		}
 		parent::__construct($registry);
 
 		$this->loader = $loader;
-        $this->loader->setRegistry($this);
 	}
 
+    /**
+     * isLoaded 
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
 	public function isLoaded($key)
 	{
 		return $this->getRegistry()->has($key);
 	}
 
-	public function load($key, array $options = array(), $canIncomplete = true)
+    /**
+     * load 
+     * 
+     * @param mixed $key 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+	public function load($key, array $options = array())
 	{
 		$loaded = null;
 		// Load for the key
-        if(array_key_exists($this->loadings, $key)) {
-            if($canIncomplete) {
-                return $this->loadings[$key];
-            }
+        if(isset($this->loadings[$key])) {
             throw new CircularException(sprintf('CircularException is occured. "%s" is on loading process.', (string)$key));
         } else if($this->loader && $this->loader->canLoad($key)) {
-            // first set loadings false, cause loaded is not yet instantiated 
-            $this->loadings[$key] = false;
+
+            $this->loadings[$key] = true;
             //
 			$loaded = $this->loader->load($key, $options);
 
-            $this->loadings[$key] = $loaded;
-
-            if($warmer = $this->getWarmer()) {
-                $loaded = $warmer->warm($loaded);
-            }
-
+            $this->set($key, $loaded);
+            unset($this->loadings[$key]);
 		} else {
             throw new \InvalidArgumentException(sprintf('"%s" cannot load.', $key));
         }
 
-        // register all loading loaded into the registry.
-        foreach($this->loadings as $loading) {
-            $this->set($key, $loaded);
-        }
-        $this->loadings = array();
-		
 		return $loaded;
 	}
 
@@ -92,6 +99,13 @@ class LoadableRegistry extends ProxyRegistry
 		return $this->getRegistry()->get($key);
 	}
 
+    /**
+     * has 
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
 	public function has($key)
 	{
 		if($this->getRegistry()->has($key)) {
@@ -105,6 +119,12 @@ class LoadableRegistry extends ProxyRegistry
 		return false;
 	}
 
+    /**
+     * getLoader 
+     * 
+     * @access public
+     * @return void
+     */
 	public function getLoader()
 	{
 		return $this->loader;

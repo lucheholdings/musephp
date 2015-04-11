@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Component\Pattern\Tests\Registry;
 
-use Clio\Component\Pattern\Registry\RegistryMap;
+use Clio\Component\Pattern\Registry\MapRegistry;
 use Clio\Component\Pattern\Registry\LoadableRegistry;
-use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader;
+use Clio\Component\Pattern\Loader\FactoryLoader;
 use Clio\Component\Pattern\Factory\MappedComponentFactory;
 
  class LoadableRegistryTest extends \PHPUnit_Framework_TestCase 
@@ -14,7 +14,7 @@ use Clio\Component\Pattern\Factory\MappedComponentFactory;
 	{
 		$registry = $this->getRegistry();
 
-		$this->assertInstanceOf('Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader', $registry->getLoader());
+		$this->assertInstanceOf('Clio\Component\Pattern\Loader\FactoryLoader', $registry->getLoader());
 
 		$entry = $this->registry->get('std');
 
@@ -24,7 +24,7 @@ use Clio\Component\Pattern\Factory\MappedComponentFactory;
 	public function getRegistry()
 	{
 		if(!$this->registry) {
-			$this->registry = new LoadableRegistry(new MappedFactoryLoader(new MappedComponentFactory(array('std' => 'StdClass'))));
+			$this->registry = new LoadableRegistry(new FactoryLoader(new MappedComponentFactory(array('std' => 'StdClass'))));
 		}
 
 		return $this->registry;
