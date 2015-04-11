@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Type;
 
 use Clio\Component\Pattern\Registry\LoadableRegistry,
-    Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader
+    Clio\Component\Pattern\Loader\FactoryLoader
 ;
 use Clio\Component\Util\Validator\SubclassValidator;
 
@@ -47,7 +47,7 @@ class BaseRegistry extends LoadableRegistry implements Registry
      */
 	public function __construct(Factory $typeFactory)
 	{
-		parent::__construct(new MappedFactoryLoader($typeFactory));
+		parent::__construct(new FactoryLoader($typeFactory));
 	}
 
     /**

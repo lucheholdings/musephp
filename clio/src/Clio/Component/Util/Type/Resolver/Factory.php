@@ -3,6 +3,7 @@ namespace Clio\Component\Util\Type\Resolver;
 
 use Clio\Component\Util\Type\Registry as TypeRegistry;
 use Clio\Component\Util\Type\Factory as TypeFactory;
+use Clio\Component\Util\Type\Guesser\SimpleGuesser;
 
 /**
  * Factory 
@@ -47,7 +48,7 @@ class Factory
 
         return new TypeChainResolver(array(
                 new ProxyTypeResolver($actualTypeResolver),
-                new MixedTypeResolver($actualTypeResolver),
+                new MixedTypeResolver(SimpleGuesser::create($actualTypeResolver)),
                 $actualTypeResolver
             ));
     }

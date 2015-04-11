@@ -13,13 +13,12 @@ namespace Clio\Component\Util\Type;
 final class PrimitiveTypes
 {
 	const BASETYPE_SCALAR   = 'scalar';
-	const BASETYPE_OBJECT   = 'object';
 	const BASETYPE_MIXED    = 'mixed';
 
+    const TYPE_CLASS        = 'class';
     const TYPE_INTERFACE    = 'interface';
 	const TYPE_NULL			= 'null';
 	const TYPE_MIXED		= 'mixed';
-	const TYPE_OBJECT       = 'object';
 	const TYPE_SCALAR       = 'scalar';
 
 	const TYPE_INTEGER		= 'integer';
@@ -35,6 +34,7 @@ final class PrimitiveTypes
 
 	const TYPE_ALIAS_INT	= 'int';
 	const TYPE_ALIAS_BOOL	= 'bool';
-	const TYPE_ALIAS_CHARACTOR		= 'charactor';
+	const TYPE_ALIAS_CHARACTOR    = 'charactor';
+	const TYPE_ALIAS_OBJECT       = 'object';
 }
 

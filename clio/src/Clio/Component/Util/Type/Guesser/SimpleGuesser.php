@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Type\Guesser;
 
+use Clio\Component\Util\Type\Guesser;
 use Clio\Component\Util\Type\Resolver;
 
 /**
