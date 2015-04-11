@@ -55,7 +55,7 @@ class FactoryLoader implements Loader
      */
     public function canLoad($resource)
     {
-        return $this->factory->canCreateByKey($resoruce);
+        return $this->factory->canCreateByKey($resource);
     }
     
     /**
