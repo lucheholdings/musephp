@@ -15,11 +15,10 @@ interface Loader
      * load 
      * 
      * @param mixed $resource 
-     * @param array $options 
      * @access public
      * @return void
      */
-	function load($resource, array $options = array());
+	function load($resource);
 
 	/**
 	 * canLoad 
