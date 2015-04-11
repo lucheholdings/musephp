@@ -60,7 +60,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	 * @access public
 	 * @return void
 	 */
-	public function createByKey()
+	public function createByKey($key)
 	{
 		$args = func_get_args();
 		$key = $this->shiftArg($args, self::ARG_KEY);
@@ -120,7 +120,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedArgs(array $args = array())
+	public function canCreateArgs(array $args = array())
 	{
 		return $this->isSupportedKeyArgs($this->shiftArg($args, self::ARG_KEY), $args);
 	}
@@ -128,7 +128,7 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportedKeyArgs($key, array $args = array())
+	public function canCreateByKey($key, array $args = array())
 	{
 		return array_key_exists($key, $this->classes);
 	}

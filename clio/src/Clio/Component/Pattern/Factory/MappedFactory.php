@@ -23,11 +23,10 @@ interface MappedFactory
 	 * createByKeyArgs 
 	 * 
 	 * @param mixed $key 
-	 * @param array $args 
 	 * @access public
 	 * @return void
 	 */
-	function createByKeyArgs($key, array $args = array());
+	function createByKeyArgs($key);
 
     /**
      * canCreateByKey 
