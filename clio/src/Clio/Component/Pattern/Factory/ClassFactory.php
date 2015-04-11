@@ -69,7 +69,7 @@ class ClassFactory extends AbstractMappedFactory
 	 */
 	public function createClassArgs($class, array $args = array())
 	{
-        return $this->doCreateClass($clas, $args);
+        return $this->doCreateClass($class, $args);
 	}
 
     /**
@@ -105,7 +105,7 @@ class ClassFactory extends AbstractMappedFactory
      * @access public
      * @return void
      */
-    public function canCreateByKey($key, array $args)
+    public function canCreateByKey($key, array $args = array())
     {
         return $this->canCreateClass($key);
     }
