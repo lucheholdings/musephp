@@ -1,8 +1,7 @@
 <?php
 namespace Clio\Component\Pattern\Loader;
 
-use Clio\Component\Util\Locator\Locator;
-use Clio\Component\Exception\ResourceNotFoundException;
+use Clio\Component\Pattern\Tools;
 
 /**
  * FileLoader 
@@ -26,11 +25,11 @@ class FileLoader implements Loader
 	/**
 	 * __construct 
 	 * 
-	 * @param Locator $locator 
+	 * @param Tools\Locator $locator 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Locator $locator)
+	public function __construct(Tools\Locator $locator)
 	{
 		$this->locator = $locator;
 	}
@@ -94,7 +93,7 @@ class FileLoader implements Loader
      * @access public
      * @return void
      */
-    public function setLocator(Locator $locator)
+    public function setLocator(Tools\Locator $locator)
     {
         $this->locator = $locator;
         return $this;
