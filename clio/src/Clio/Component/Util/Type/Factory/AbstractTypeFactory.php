@@ -27,7 +27,7 @@ abstract class AbstractTypeFactory extends AbstractMappedFactory implements Fact
      */
 	protected function doCreateByKey($key, array $args)
 	{
-		$options = FactoryTool::shiftArg($args, 'options');
+		$options = FactoryTool::shiftArg($args, 'options', array());
 
 		return $this->createType($key, $options);
 	}

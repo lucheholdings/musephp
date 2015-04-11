@@ -101,7 +101,8 @@ class ClassTypeTest extends TypeTestCase
     protected function getValidTypes()
     {
         return array(
-                PrimitiveTypes::TYPE_OBJECT, 
+                PrimitiveTypes::TYPE_CLASS, 
+                PrimitiveTypes::TYPE_ALIAS_OBJECT, 
                 'Clio\Component\Util\Type\Tests\Models\Foo',
                 'Clio\Component\Util\Type\Tests\Models\FooInterface',
                 'Clio\Component\Util\Type\Tests\Models\BaseModel',

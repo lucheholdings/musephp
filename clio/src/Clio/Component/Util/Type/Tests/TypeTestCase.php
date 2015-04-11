@@ -30,7 +30,7 @@ abstract class TypeTestCase extends \PHPUnit_Framework_TestCase
         }
 
         foreach($this->getInvalidTypes() as $invalidType) {
-            $this->assertFalse($type->isType($invalidType));
+            $this->assertFalse($type->isType($invalidType), sprintf('Failed asserting that true is false with type "%s"', $invalidType));
         }
 
 
@@ -101,12 +101,11 @@ abstract class TypeTestCase extends \PHPUnit_Framework_TestCase
     {
         return array(
                 PrimitiveTypes::BASETYPE_SCALAR,
-                PrimitiveTypes::BASETYPE_OBJECT,
                 PrimitiveTypes::BASETYPE_MIXED,
                 PrimitiveTypes::TYPE_INTERFACE,
                 PrimitiveTypes::TYPE_NULL,
                 PrimitiveTypes::TYPE_MIXED,
-                PrimitiveTypes::TYPE_OBJECT,
+                PrimitiveTypes::TYPE_CLASS,
                 PrimitiveTypes::TYPE_SCALAR,
                 PrimitiveTypes::TYPE_INTEGER,
                 PrimitiveTypes::TYPE_DOUBLE,
@@ -120,6 +119,7 @@ abstract class TypeTestCase extends \PHPUnit_Framework_TestCase
                 PrimitiveTypes::TYPE_ALIAS_INT,
                 PrimitiveTypes::TYPE_ALIAS_BOOL,
                 PrimitiveTypes::TYPE_ALIAS_CHARACTOR,
+                PrimitiveTypes::TYPE_ALIAS_OBJECT,
             );
     }
 }

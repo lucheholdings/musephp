@@ -51,7 +51,8 @@ class ClassType extends AbstractType
 		$type = (string)$type;
 
 		switch($type) {
-		case PrimitiveTypes::TYPE_OBJECT:
+		case PrimitiveTypes::TYPE_CLASS:
+		case PrimitiveTypes::TYPE_ALIAS_OBJECT:
 			return true;
 		default:
 			return ($this->isName($type) || $this->isExtends($type) || $this->isImplements($type));
