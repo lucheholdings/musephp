@@ -41,14 +41,14 @@ class TypeFactoryCollection extends PriorityMappedFactoryCollection implements F
     }
 
     /**
-     * canCreateByType 
+     * canCreateType 
      * 
      * @param mixed $type 
      * @param array $options 
      * @access public
      * @return void
      */
-    public function canCreateByType($type, array $options = array())
+    public function canCreateType($type, array $options = array())
     {
         return $this->canCreateByKey($type, array('options' => $options));
     }

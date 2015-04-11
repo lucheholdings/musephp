@@ -12,29 +12,34 @@ namespace Clio\Component\Util\Type;
  */
 final class PrimitiveTypes
 {
-	const BASETYPE_SCALAR   = 'scalar';
-	const BASETYPE_MIXED    = 'mixed';
+    // BaseType 
+    const BASE_TYPE_SCALAR   = 'scalar';
+    // Special types
+    const TYPE_MIXED        = 'mixed';
+    const TYPE_NULL         = 'null';
 
+    // Actual Types
     const TYPE_CLASS        = 'class';
     const TYPE_INTERFACE    = 'interface';
-	const TYPE_NULL			= 'null';
-	const TYPE_MIXED		= 'mixed';
-	const TYPE_SCALAR       = 'scalar';
+    // Actual Scalar Types
+    const TYPE_INT          = 'int';
+    const TYPE_FLOAT        = 'float';
+    const TYPE_STRING       = 'string';
+    const TYPE_BOOL         = 'bool';
+    // Actual Array Type
+    const TYPE_ARRAY        = 'array';
 
-	const TYPE_INTEGER		= 'integer';
-	const TYPE_DOUBLE		= 'double';
-	const TYPE_FLOAT		= 'float';
-	const TYPE_CHAR			= 'char';
-	const TYPE_STRING		= 'string';
-	const TYPE_BOOLEAN		= 'boolean';
-	const TYPE_ARRAY		= 'array';
-
-	const TYPE_REAL         = 'real';
-	const TYPE_BINARY       = 'binary';
-
-	const TYPE_ALIAS_INT	= 'int';
-	const TYPE_ALIAS_BOOL	= 'bool';
-	const TYPE_ALIAS_CHARACTOR    = 'charactor';
-	const TYPE_ALIAS_OBJECT       = 'object';
+    // alias of string
+    const TYPE_ALIAS_CHAR         = 'char';
+    const TYPE_ALIAS_CHARACTOR    = 'charactor';
+    // alias of int
+    const TYPE_ALIAS_INTEGER      = 'integer';
+    // alias of bool 
+    const TYPE_ALIAS_BOOLEAN      = 'boolean';
+    // alias of class
+    const TYPE_ALIAS_OBJECT       = 'object';
+    // alias of float
+    const TYPE_ALIAS_DOUBLE       = 'double';
+    const TYPE_ALIAS_REAL         = 'real';
 }
 

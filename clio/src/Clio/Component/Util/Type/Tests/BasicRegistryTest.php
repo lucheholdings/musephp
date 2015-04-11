@@ -22,7 +22,7 @@ class BasicRegistryTest extends \PHPUnit_Framework_TestCase
 
         $type = $registry->getType('int');
 
-        $this->assertEquals(PrimitiveTypes::TYPE_INTEGER, $type->getName());
+        $this->assertEquals(PrimitiveTypes::TYPE_INT, $type->getName());
         $this->assertInstanceof('Clio\Component\Util\Type\Actual\ScalarType', $type);
     }
 }
