@@ -26,24 +26,25 @@ class ScalarType extends AbstractType
 	public function __construct($name)
 	{
 		switch(strtolower($name)) {
-		case PrimitiveTypes::TYPE_ALIAS_INT:
-			$name = PrimitiveTypes::TYPE_INTEGER;
+		case PrimitiveTypes::TYPE_ALIAS_INTEGER:
+			$name = PrimitiveTypes::TYPE_INT;
 			break;
+		case PrimitiveTypes::TYPE_ALIAS_CHAR:
 		case PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
-			$name = PrimitiveTypes::TYPE_CHAR;
+			$name = PrimitiveTypes::TYPE_STRING;
 			break;
-		case PrimitiveTypes::TYPE_ALIAS_BOOL:
-			$name = PrimitiveTypes::TYPE_BOOLEAN;
+		case PrimitiveTypes::TYPE_ALIAS_BOOLEAN:
+			$name = PrimitiveTypes::TYPE_BOOL;
+			break;
+		case PrimitiveTypes::TYPE_ALIAS_REAL:
+		case PrimitiveTypes::TYPE_ALIAS_DOUBLE:
+			$name = PrimitiveTypes::TYPE_FLOAT;
 			break;
 		// Supported types
-		case PrimitiveTypes::TYPE_INTEGER:
-		case PrimitiveTypes::TYPE_DOUBLE:
+		case PrimitiveTypes::TYPE_INT:
 		case PrimitiveTypes::TYPE_FLOAT:
-		case PrimitiveTypes::TYPE_CHAR:
 		case PrimitiveTypes::TYPE_STRING:
-		case PrimitiveTypes::TYPE_BOOLEAN:
-		case PrimitiveTypes::TYPE_REAL:
-		case PrimitiveTypes::TYPE_BINARY:
+		case PrimitiveTypes::TYPE_BOOL:
 			break;
 		default:
 			throw new UnsupportedException(sprintf('Type "%s" is not Scalar value', $name));
@@ -99,20 +100,14 @@ class ScalarType extends AbstractType
 			switch($type->getName()) {
 			case PrimitiveTypes::TYPE_STRING:
 				return (string)$data;
-			case PrimitiveTypes::TYPE_BOOLEAN:
+			case PrimitiveTypes::TYPE_BOOL:
 				return (bool)$data;
-			case PrimitiveTypes::TYPE_INTEGER:
+			case PrimitiveTypes::TYPE_INT:
 				return (int)$data;
 			case PrimitiveTypes::TYPE_FLOAT:
 				return (float)$data;
-			case PrimitiveTypes::TYPE_DOUBLE:
-				return (double)$data;
-			case PrimitiveTypes::TYPE_REAL:
-				return (real)$data;
 			case PrimitiveTypes::TYPE_NULL:
 				return null;
-			case PrimitiveTypes::TYPE_BINARY:
-				return (binary)$data;
 			case PrimitiveTypes::TYPE_ARRAY;
 				return (array)$data;
 			default:

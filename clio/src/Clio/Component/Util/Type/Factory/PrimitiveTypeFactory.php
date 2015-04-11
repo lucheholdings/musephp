@@ -31,15 +31,16 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 			return new ActualTypes\NullType();
 		case PrimitiveTypes::TYPE_MIXED:
 			return new ActualTypes\MixedType();
-		case PrimitiveTypes::TYPE_ALIAS_INT:
-		case PrimitiveTypes::TYPE_INTEGER:
-		case PrimitiveTypes::TYPE_DOUBLE:
+		case PrimitiveTypes::TYPE_INT:
 		case PrimitiveTypes::TYPE_FLOAT:
-		case PrimitiveTypes::TYPE_CHAR:
-		case PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
 		case PrimitiveTypes::TYPE_STRING:
-		case PrimitiveTypes::TYPE_ALIAS_BOOL:
-		case PrimitiveTypes::TYPE_BOOLEAN:
+		case PrimitiveTypes::TYPE_BOOL:
+		case PrimitiveTypes::TYPE_ALIAS_CHAR:
+		case PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
+		case PrimitiveTypes::TYPE_ALIAS_INTEGER:
+		case PrimitiveTypes::TYPE_ALIAS_BOOLEAN:
+		case PrimitiveTypes::TYPE_ALIAS_DOUBLE:
+		case PrimitiveTypes::TYPE_ALIAS_REAL:
 			return new ActualTypes\ScalarType($name);
 		case PrimitiveTypes::TYPE_ARRAY:
 			return new ActualTypes\ArrayType($name);
@@ -62,16 +63,17 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 		switch(strtolower($name)) {
 		case PrimitiveTypes::TYPE_NULL:
 		case PrimitiveTypes::TYPE_MIXED:
-		case PrimitiveTypes::TYPE_ALIAS_INT:
-		case PrimitiveTypes::TYPE_INTEGER:
-		case PrimitiveTypes::TYPE_DOUBLE:
+		case PrimitiveTypes::TYPE_INT:
 		case PrimitiveTypes::TYPE_FLOAT:
-		case PrimitiveTypes::TYPE_CHAR:
-		case PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
 		case PrimitiveTypes::TYPE_STRING:
-		case PrimitiveTypes::TYPE_ALIAS_BOOL:
-		case PrimitiveTypes::TYPE_BOOLEAN:
+		case PrimitiveTypes::TYPE_BOOL:
 		case PrimitiveTypes::TYPE_ARRAY:
+		case PrimitiveTypes::TYPE_ALIAS_CHAR:
+		case PrimitiveTypes::TYPE_ALIAS_CHARACTOR:
+		case PrimitiveTypes::TYPE_ALIAS_INTEGER:
+		case PrimitiveTypes::TYPE_ALIAS_BOOLEAN:
+		case PrimitiveTypes::TYPE_ALIAS_DOUBLE:
+		case PrimitiveTypes::TYPE_ALIAS_REAL:
 			return true;
 		default:
 			return false;

@@ -58,7 +58,7 @@ class TypeFactoryResolver implements Resolver
 	 */
 	public function resolve($type, array $options = array())
 	{
-		if(!$this->getTypeFactory()->isSupportedType($type)) {
+		if(!$this->getTypeFactory()->canCreateType($type)) {
 			throw new UnsupportedException(sprintf('Type "%s" is not supported.', (string)$type));	
 		}
 

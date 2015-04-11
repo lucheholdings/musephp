@@ -100,26 +100,25 @@ abstract class TypeTestCase extends \PHPUnit_Framework_TestCase
     public function getPrimitiveTypes()
     {
         return array(
-                PrimitiveTypes::BASETYPE_SCALAR,
-                PrimitiveTypes::BASETYPE_MIXED,
-                PrimitiveTypes::TYPE_INTERFACE,
+                PrimitiveTypes::BASE_TYPE_SCALAR,
                 PrimitiveTypes::TYPE_NULL,
                 PrimitiveTypes::TYPE_MIXED,
                 PrimitiveTypes::TYPE_CLASS,
-                PrimitiveTypes::TYPE_SCALAR,
-                PrimitiveTypes::TYPE_INTEGER,
-                PrimitiveTypes::TYPE_DOUBLE,
+                PrimitiveTypes::TYPE_INTERFACE,
+
+                PrimitiveTypes::TYPE_INT,
                 PrimitiveTypes::TYPE_FLOAT,
-                PrimitiveTypes::TYPE_CHAR,
                 PrimitiveTypes::TYPE_STRING,
-                PrimitiveTypes::TYPE_BOOLEAN,
+                PrimitiveTypes::TYPE_BOOL,
                 PrimitiveTypes::TYPE_ARRAY,
-                PrimitiveTypes::TYPE_REAL,
-                PrimitiveTypes::TYPE_BINARY,
-                PrimitiveTypes::TYPE_ALIAS_INT,
-                PrimitiveTypes::TYPE_ALIAS_BOOL,
+
+                PrimitiveTypes::TYPE_ALIAS_CHAR,
                 PrimitiveTypes::TYPE_ALIAS_CHARACTOR,
+                PrimitiveTypes::TYPE_ALIAS_INTEGER,
+                PrimitiveTypes::TYPE_ALIAS_BOOLEAN,
                 PrimitiveTypes::TYPE_ALIAS_OBJECT,
+                PrimitiveTypes::TYPE_ALIAS_DOUBLE,
+                PrimitiveTypes::TYPE_ALIAS_REAL,
             );
     }
 }

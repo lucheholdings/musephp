@@ -41,18 +41,18 @@ abstract class AbstractTypeFactory extends AbstractMappedFactory implements Fact
      */
     public function canCreateByKey($key)
     {
-        return $this->canCreateByType($key);
+        return $this->canCreateType($key);
     }
 
     /**
-     * canCreateByType 
+     * canCreateType 
      * 
      * @param mixed $type 
      * @param array $options 
      * @access public
      * @return void
      */
-	public function canCreateByType($type, array $options = array())
+	public function canCreateType($type, array $options = array())
 	{
 		return $this->isSupportedType($type);
 	}
