@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Bridge\Symfony\Filter;
 
-use Calliope\Framework\Core\Filter\FilterDelegator;
+use Calliope\Core\Filter\FilterDelegator;
 
 class FilterFactory 
 {

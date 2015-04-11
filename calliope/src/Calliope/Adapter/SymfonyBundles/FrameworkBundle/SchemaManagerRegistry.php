@@ -1,7 +1,8 @@
 <?php
 namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle;
 
-use Calliope\Framework\Core\SchemaRegistryInterface;
+use Calliope\Core\SchemaRegistry;
+// todo: SchemaManagerInterface is not defined.
 use Calliope\Framework\Core\SchemaManagerInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
