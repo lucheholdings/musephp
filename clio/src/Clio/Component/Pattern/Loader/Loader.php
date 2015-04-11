@@ -11,14 +11,15 @@ namespace Clio\Component\Pattern\Loader;
  */
 interface Loader
 {
-	/**
-	 * load 
-	 * 
-	 * @param mixed $resource 
-	 * @access public
-	 * @return void
-	 */
-	function load($resource);
+    /**
+     * load 
+     * 
+     * @param mixed $resource 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+	function load($resource, array $options = array());
 
 	/**
 	 * canLoad 
@@ -29,4 +30,3 @@ interface Loader
 	 */
 	function canLoad($resource);
 }
-
