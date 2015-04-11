@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Component\Pattern\Tests\Registry;
 
-use Clio\Component\Pattern\Registry\RegistryMap;
+use Clio\Component\Pattern\Registry\MapRegistry;
 
- class RegistryMapTest extends \PHPUnit_Framework_TestCase 
+ class MapRegistryTest extends \PHPUnit_Framework_TestCase 
 {
 	private $registry;
 
@@ -40,7 +40,7 @@ use Clio\Component\Pattern\Registry\RegistryMap;
 	public function getRegistry()
 	{
 		if(!$this->registry) {
-			$this->registry = new RegistryMap();
+			$this->registry = new MapRegistry();
 		}
 
 		return $this->registry;
