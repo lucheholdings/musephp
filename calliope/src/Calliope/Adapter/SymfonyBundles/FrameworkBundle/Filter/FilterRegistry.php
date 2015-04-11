@@ -9,8 +9,9 @@
 namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter;
 
 use Erato\Core\Registry\AliasServiceRegistry;
+// todo: below FilterRegistryInterface is not defined.
 use Calliope\Framework\Core\FilterRegistryInterface;
-use Calliope\Framework\Core\Filter\Filter;
+use Calliope\Core\Filter\Filter;
 
 class FilterRegistry extends AliasServiceRegistry implements FilterRegistryInterface 
 {

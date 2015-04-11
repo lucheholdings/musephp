@@ -3,6 +3,7 @@ namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter;
 
 use Symfony\Component\Security\Core\SecurityContext;
 
+// todo: condition namespaces are not defined.
 use Calliope\Framework\Core\Filter\Condition\PreFetchCondition,
 	Calliope\Framework\Core\Filter\Condition\ModelCondition
 ;

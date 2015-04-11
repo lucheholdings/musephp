@@ -3,6 +3,7 @@ namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Calliope\Framework\Core\SchemaManagerInterface;
+// todo: SchemaManagerInteface is not difined.
 
 class AliasedSchemaManagerRegistry extends SchemaManagerRegistry
 {

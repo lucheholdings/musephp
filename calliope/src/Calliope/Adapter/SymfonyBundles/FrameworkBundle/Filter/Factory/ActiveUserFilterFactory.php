@@ -1,8 +1,7 @@
 <?php
 namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\Factory;
 
-use Calliope\Framework\Extension\Filter\PropertyFilter;
-use Calliope\Framework\Core\Filter\Factory as FilterFactory;
+use Calliope\Core\Filter\Factory as FilterFactory;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\ActiveUserFilter;

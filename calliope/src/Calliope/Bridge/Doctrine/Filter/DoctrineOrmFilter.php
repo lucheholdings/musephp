@@ -1,6 +1,7 @@
 <?php
 namespace Calliope\Bridge\Doctrine\Filter;
 
+// todo: condition namespace is not defined.
 use Calliope\Framework\Core\Filter\Condition\ConnectCondition;
 use Calliope\Bridge\Doctrine\Connection\DoctrineOrmConnection;
 use Doctrine\Common\Persistence\ObjectManager;

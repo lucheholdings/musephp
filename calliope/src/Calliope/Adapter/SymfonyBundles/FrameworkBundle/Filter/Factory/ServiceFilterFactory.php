@@ -3,6 +3,7 @@ namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle\Filter\Factory;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Calliope\Framework\Core\Filter\Factory as FilterFactory;
+// todo: is required interface Calliope\Core\Filter? createFilterArgs is claimed, but it is not implemented in this class.
 
 /**
  * ServiceFilterFactory 

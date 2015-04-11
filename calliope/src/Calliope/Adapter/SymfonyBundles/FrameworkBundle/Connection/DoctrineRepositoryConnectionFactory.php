@@ -4,8 +4,9 @@ namespace Calliope\Adapter\SymfonyBundles\FrameworkBundle\Connection;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\ORM\EntityRepository;
 
-use Calliope\Framework\Core\Connection\Factory\ConnectionFactoryInterface,
-	Calliope\Framework\Core\Connection\Factory\AbstractConnectionFactory
+use
+	Calliope\Core\Connection\Factory,
+	Calliope\Core\Connection\Factory\AbstractConnectionFactory
 ;
 use Calliope\Bridge\Doctrine\Connection\DoctrineOrmConnection; 
 
@@ -19,7 +20,7 @@ use Calliope\Bridge\Doctrine\Connection\DoctrineOrmConnection;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class DoctrineRepositoryConnectionFactory extends AbstractConnectionFactory implements ConnectionFactoryInterface 
+class DoctrineRepositoryConnectionFactory extends AbstractConnectionFactory implements Factory
 {
 	/**
 	 * container 
