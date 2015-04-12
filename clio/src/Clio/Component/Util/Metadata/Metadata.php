@@ -9,11 +9,12 @@ namespace Clio\Component\Util\Metadata;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Metadata
+interface Metadata extends \Serializable
 {
 	/**
 	 * getName 
-	 * 
+	 *   Name of Metadata.
+     *   Either name of schema or field.
 	 * @access public
 	 * @return void
 	 */
@@ -21,7 +22,7 @@ interface Metadata
 
 	/**
 	 * __toString 
-	 * 
+	 *   Alias of getName 
 	 * @access protected
 	 * @return void
 	 */

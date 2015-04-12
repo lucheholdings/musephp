@@ -3,6 +3,7 @@ namespace Clio\Component\Util\Metadata;
 
 /**
  * Factory 
+ *    Create schema metadata.
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }

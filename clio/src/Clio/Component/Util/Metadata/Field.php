@@ -14,14 +14,6 @@ namespace Clio\Component\Util\Metadata;
 interface Field extends Metadata
 {
     /**
-     * getName 
-     * 
-     * @access public
-     * @return void
-     */
-    function getName();
-
-    /**
      * getOwnedSchema 
      *   Get Schema which onwed this field 
      * @access public

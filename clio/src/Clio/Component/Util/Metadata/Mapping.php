@@ -13,32 +13,24 @@ interface Mapping extends \Serializable
 {
 	/**
 	 * getName 
-	 * 
+	 *   Name of the mapping.
+     *  
 	 * @access public
-	 * @return void
+	 * @return string 
 	 */
 	function getName();
 
 	/**
 	 * getMetadata 
-	 * 
+	 *   
 	 * @access public
-	 * @return void
+	 * @return Metadata 
 	 */
 	function getMetadata();
 
 	/**
-	 * clean 
-	 *   Clean Mapping information 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function clean();
-
-	/**
 	 * __toString 
-	 * 
+	 *   Alias of getName 
 	 * @access protected
 	 * @return void
 	 */

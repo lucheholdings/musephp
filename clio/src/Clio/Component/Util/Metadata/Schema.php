@@ -46,5 +46,13 @@ interface Schema extends Metadata
      * @return void
      */
     function getField($field);
+
+    /**
+     * isValidData 
+     * 
+     * @access public
+     * @return void
+     */
+    function isValidData($data);
 }
 

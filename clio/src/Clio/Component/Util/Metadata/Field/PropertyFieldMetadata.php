@@ -52,5 +52,24 @@ class PropertyFieldMetadata extends FieldMetadata
     {
         return $this->reflector;
     }
+
+    public function serialize(array $extra = array())
+    {
+        $extra['property_container'] = $this->reflector->getDeclaringClass()->getName();
+        $extra['property_name']      = $this->reflector->getName();
+
+        return parent::serialize($extra);
+    }
+
+    public function unserialize($serialized)
+    {
+        $extra = parent::unserialize($serialized);
+        $propertyContainer = $extra['property_container'];
+        $propertyName = $extra['property_name'];
+
+        $this->reflector = new \ReflectionProperty($propertyContainer, $propertyName);
+
+        return $extra;
+    }
 }
 

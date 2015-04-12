@@ -31,7 +31,7 @@ class FieldMetadataFactory
      * @access public
      * @return void
      */
-    public function __construct(Registry $schemaRegistry)
+    public function __construct(Registry $schemaRegistry = null)
     {
         $this->schemaRegistry = $schemaRegistry;
     }
@@ -67,6 +67,9 @@ class FieldMetadataFactory
      */
     public function getSchemaRegistry()
     {
+        if(!$this->schemaRegistry) {
+            throw new \RuntimeException('SchemaRegistry is not initialized');
+        }
         return $this->schemaRegistry;
     }
     

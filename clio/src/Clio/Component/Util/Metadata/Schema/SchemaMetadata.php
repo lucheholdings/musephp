@@ -107,6 +107,8 @@ class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
     
     /**
      * setParent 
+     *   Set parent Schema or name of the parent.
+     *   If parent name is setted, please warmup this metadata before use.
      * 
      * @param mixed $parent 
      * @access public
@@ -114,7 +116,7 @@ class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
      */
     public function setParent($parent)
     {
-        if(!$parent instanceof Schema) {
+        if(!is_string($parent) && !$parent instanceof Schema) {
             throw new \InvalidArgumentException('Parent has to be a Schema');
         }
         parent::setParent($parent);
@@ -270,7 +272,7 @@ class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
     {
         $extra['name'] = $this->name;
         $extra['type'] = $this->type;
-        $extra['fields'] = $this->getParentName();
+        $extra['fields'] = $this->getFields()->toArray();
 
         return parent::serialize($extra);
     }
@@ -286,9 +288,9 @@ class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
     {
         $extra = parent::unserialize($serialized);
         
-        $this->name = $extra['name'];
-        $this->type = $extra['type'];
-        $this->fields = $extra['fields'];
+        $this->name   = $extra['name'];
+        $this->type   = $extra['type'];
+        $this->fields = new FieldCollection($extra['fields']);
         
         return $extra;
     }
