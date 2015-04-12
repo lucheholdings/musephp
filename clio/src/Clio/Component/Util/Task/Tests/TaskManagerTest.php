@@ -19,7 +19,7 @@ class TaskManagerTest extends TestCase
 	{
 		$task = new Task('task');
 		$taskManager = new TaskManager(new QueuedTaskScheduler(new SimpleQueue(), new SimpleMap()));
-		$taskManager->addExecutor(new ClosureExecutor('task', function($task) {
+		$taskManager->setExecutor('task', new ClosureExecutor(function($task) {
 				return 'success';
 			}));
 
