@@ -68,6 +68,9 @@ abstract class AbstractSingleFieldAccessor implements SingleFieldAccessor
 	 */
 	public function isNull($container)
 	{
+        if(!$this->isSupportedAccess($container, self::ACCESS_TYPE_GET)) {
+            throw new \RuntimeException('Invalid Access.');
+        }
 		return null === $this->get($container);
 	}
 
@@ -86,12 +89,25 @@ abstract class AbstractSingleFieldAccessor implements SingleFieldAccessor
 		return $this;
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isSupportMethod($container, $field, $methodType)
+    /**
+     * isSupportedAccess 
+     *   Return true by default  
+     * 
+     * @param mixed $container 
+     * @param mixed $field 
+     * @param mixed $accessType 
+     * @access public
+     * @return void
+     */
+	public function isSupportedAccess($container, $accessType)
 	{
-		return $field === $this->getFieldName();
+        switch($accessType) {
+        case self::ACCESS_TYPE_GET:
+        case self::ACCESS_TYPE_SET:
+            return true;
+        default:
+            throw new \InvalidArgumentException(sprintf('AccessType "%s" is invalid.', (string)$accessType));
+        }
 	}
 }
 
