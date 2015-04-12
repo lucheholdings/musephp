@@ -7,7 +7,6 @@ use Clio\Component\Util\Task\Task\Task;
 /**
  * TaskTest 
  * 
- * @uses TestCase
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
