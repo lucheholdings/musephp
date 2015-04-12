@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Accessor\Field;
 
 use Clio\Component\Util\Accessor\FieldAccessor;
+
 /**
  * MultiFieldAccessor 
  * 
@@ -82,5 +83,15 @@ interface MultiFieldAccessor extends FieldAccessor
 	 * @return void
 	 */
 	function existsField($container, $field);
+
+    /**
+     * isSupportedAccess 
+     * 
+     * @param mixed $container 
+     * @param mixed $field 
+     * @access public
+     * @return void
+     */
+    function isSupportedAccess($container, $field, $accessType);
 }
 

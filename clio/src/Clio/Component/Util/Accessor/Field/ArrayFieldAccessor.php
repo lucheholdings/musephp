@@ -2,13 +2,12 @@
 namespace Clio\Component\Util\Accessor\Field;
 
 /**
- * BasicFieldAccessor 
- *    
+ * ArrayFieldAccessor 
+ * 
  * @uses AbstractSingleFieldAccessor
- * @uses FieldAccessorInterface
  * @package { PACKAGE }
- * @copyright { COPYRIGHT } (c) { COMPANY }
- * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
 class ArrayFieldAccessor extends AbstractSingleFieldAccessor 

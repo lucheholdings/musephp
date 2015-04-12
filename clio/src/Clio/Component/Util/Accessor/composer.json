@@ -1,0 +1,27 @@
+{
+	"name": "museclio/util-accessor",
+	"type": "library",
+	"description": "PHP Accessor Library",
+	"keywords": [
+		"php",
+		"accessor"
+	],
+	"license": "MIT",
+	"require" : {
+		"php" : ">=5.4.0"
+	},
+	"require" : {
+        "museclio/util-metadata": "~2.0.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Clio\\Component\\Util\\Accessor\\": "",
+		}
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
+		}
+	}
+}

@@ -12,7 +12,7 @@ use Clio\Component\Util\Accessor\Field\MultiFieldAccessor;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface SchemaAccessor extends MultiFieldAccessor
+interface SchemaAccessor extends Accessor
 {
 	/**
 	 * getSchema 
@@ -24,7 +24,7 @@ interface SchemaAccessor extends MultiFieldAccessor
 
 	/**
 	 * createDataAccessor 
-	 * 
+	 *   Create DataAccessor which specified current Schema to access. 
 	 * @access public
 	 * @return SchemaDataAccessor
 	 */

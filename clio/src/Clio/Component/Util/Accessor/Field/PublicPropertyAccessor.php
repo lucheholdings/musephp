@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Field;
 
 /**
- * PublicPropertyFieldAccessor 
+ * PublicPropertyAccessor 
  * 
  * @uses PropertyFieldAccessor
  * @package { PACKAGE }
@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Accessor\Field;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PublicPropertyFieldAccessor extends AbstractSingleFieldAccessor 
+class PublicPropertyAccessor extends AbstractSingleFieldAccessor 
 {
 	/**
 	 * propertyReflector 
@@ -20,6 +20,14 @@ class PublicPropertyFieldAccessor extends AbstractSingleFieldAccessor
 	 */
 	private $propertyReflector;
 
+    /**
+     * __construct 
+     * 
+     * @param mixed $fieldName 
+     * @param \ReflectionProperty $propertyReflector 
+     * @access public
+     * @return void
+     */
 	public function __construct($fieldName, \ReflectionProperty $propertyReflector)
 	{
 		parent::__construct($fieldName);

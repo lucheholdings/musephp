@@ -58,5 +58,14 @@ interface SingleFieldAccessor extends FieldAccessor
 	 * @return void
 	 */
 	function getFieldName();
+
+    /**
+     * isSupportedAccess 
+     * 
+     * @param mixed $container 
+     * @access public
+     * @return void
+     */
+    function isSupportedAccess($container, $accessType);
 }
 

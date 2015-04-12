@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Accessor\Field;
 
 /**
  * Collection 
- * 
+ *   Collection of SingleFieldAccessor 
  * @uses MultiFieldAccessor
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
@@ -12,18 +12,17 @@ namespace Clio\Component\Util\Accessor\Field;
  */
 class Collection implements MultiFieldAccessor 
 {
-
 	/**
 	 * {@inheritdoc}
 	 */
-	private $accessors = array();
+	private $fields = array();
 	
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(array $accessors = array())
+	public function __construct(array $fields = array())
 	{
-		foreach($accessors as $field => $accessor) {
+		foreach($fields as $field => $accessor) {
 			$this->addFieldAccessor($accessor);
 		}
 	}
@@ -70,8 +69,8 @@ class Collection implements MultiFieldAccessor
 	public function isSupportMethod($container, $field, $type)
 	{
 		try {
-			$accessor = $this->getFieldAccessor($field);
-			return $accessor->isSupportMethod($container, $type);
+			$field = $this->getFieldAccessor($field);
+			return $field->isSupportMethod($container, $type);
 		} catch(\Exception $ex) {
 			// Field not exists, so not supported.
 			return false;
@@ -85,31 +84,29 @@ class Collection implements MultiFieldAccessor
 	{
 		$values = array();
 
-		foreach($this->accessors as $field => $accessor) {
-			if($accessor instanceof IgnoreFieldAccessor)
+		foreach($this->fields as $field => $field) {
+			if($field instanceof IgnoreFieldAccessor)
 				continue;
-			if($accessor->isSupportMethod($container, $field, Accessor::ACCESS_GET)) {
-				$values[$field] = $accessor->get($container);
+			if($field->isSupportMethod($container, $field, Accessor::ACCESS_GET)) {
+				$values[$field] = $field->get($container);
 			}
 		}
 
 		return $values;
 	}
-
 	
 	/**
 	 * {@inheritdoc}
 	 */
 	public function getFieldNames($container = null)
 	{
-		return array_keys(array_filter($this->accessors, function($accessor){
-			if($accessor instanceof IgnoreFieldAccessor) {
+		return array_keys(array_filter($this->fields, function($field){
+			if($field instanceof IgnoreFieldAccessor) {
 				return false;
 			}
 			return true;
 		}));
 	}
-
 	
 	/**
 	 * {@inheritdoc}
@@ -124,7 +121,7 @@ class Collection implements MultiFieldAccessor
 	 */
 	public function addFieldAccessor(SingleFieldAccessor $accessor)
 	{
-		$this->accessors[$accessor->getFieldName()] = $accessor;
+		$this->fields[$accessor->getFieldName()] = $accessor;
 
 		return $this;
 	}
@@ -134,7 +131,7 @@ class Collection implements MultiFieldAccessor
 	 */
 	public function hasFieldAccessor($field)
 	{
-		return isset($this->accessors[$field]);
+		return isset($this->fields[$field]);
 	}
 	
 	/**
@@ -142,10 +139,10 @@ class Collection implements MultiFieldAccessor
 	 */
 	public function getFieldAccessor($field)
 	{
-		if(!isset($this->accessors[$field])) {
+		if(!isset($this->fields[$field])) {
 			throw new \RuntimeException(sprintf('Field "%s" is not supported.', $field));
 		}
 
-		return $this->accessors[$field];
+		return $this->fields[$field];
 	}
 }

@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Accessor\Field;
 
 /**
  * IgnoreFieldAccessor 
- * 
+ *   SingleFieldAccessor to ignore the specified field 
  * @uses AbstractSingleFieldAccessor
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
@@ -12,7 +12,6 @@ namespace Clio\Component\Util\Accessor\Field;
  */
 class IgnoreFieldAccessor extends AbstractSingleFieldAccessor 
 {
-
 	/**
 	 * get 
 	 * 
