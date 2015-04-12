@@ -9,6 +9,7 @@ use Clio\Component\Pattern\Factory\MappedFactory;
 use Clio\Component\Util\Metadata\Schema;
 use Clio\Component\Util\Metadata\Schema\SchemaMetadata;
 use Clio\Component\Util\Metadata\Builder\SchemaBuilder;
+use Clio\Component\Util\Metadata\Field as Fields;
 use Clio\Component\Util\Type as Types;
 /**
  * MetadataFactory 
@@ -89,24 +90,30 @@ class MetadataFactory implements Factory, MappedFactory
 
         $builder
             ->setType($type)
-            ->enableCreateFieldsFromProperty()
+            ->enableDefaultFieldsOnType()
         ;
         // create type with type factory
         if(!$type instanceof Types\Type) {
-            $type = $this->typeRegistry->createType($type);
+            $type = $this->typeRegistry->get($type);
         }
 
-        $metadata = new SchemaMetadata($type);
+        $schemaMetadata = new SchemaMetadata($type);
         
         // Default field set if type is a class 
         if($type instanceof Types\Actual\ClassType) {
+            // Set parent schema
+            $parent = $type->getReflector()->getParentClass();
+            if($parent) {
+                $schemaMetadata->setParent($parent);
+            }
+
             $fields = array();
             // Create Property fields for class 
             foreach($type->getReflector()->getProperties() as $property) {
-                $fields[$property->getName()] = new PropertyFieldMetadata($schema, $property);
+                $fields[$property->getName()] = new Fields\PropertyFieldMetadata($schemaMetadata, $property);
             }
 
-            $metadata->setFields($fields);
+            $schemaMetadata->setFields($fields);
         } 
 
 		if($this->getMappingFactory()) {

@@ -55,7 +55,7 @@ abstract class AbstractMetadata implements Metadata
      * @access public
      * @return void
      */
-    public function __construct($name, array $mappings = array(), array $options = array(), Metadata $parent =  null)
+    public function __construct($name, array $mappings = array(), array $options = array(), $parent =  null)
     {
         $this->name = $name;
         $this->mappings = $mappings;
@@ -267,7 +267,7 @@ abstract class AbstractMetadata implements Metadata
     public function getParent()
     {
         if($this->parent && (!$this->parent instanceof Schema)) {
-            throw new \RuntimeException('Parent is not initialized yet');
+            throw new \RuntimeException('Parent is not initialized yet.');
         }
         return $this->parent;
     }

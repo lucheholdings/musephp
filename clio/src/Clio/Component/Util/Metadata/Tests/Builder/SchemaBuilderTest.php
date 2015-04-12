@@ -34,7 +34,7 @@ class SchemaBuilderTests extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals('foo', $metadata->getName());
         $this->assertInstanceof('Clio\Component\Util\Type\Type', $metadata->getType());
-        $this->assertEquals(Types\PrimitiveTypes::TYPE_INTEGER, $metadata->getType()->getName());
+        $this->assertEquals(Types\PrimitiveTypes::TYPE_INT, $metadata->getType()->getName());
         $this->assertCount(2, $metadata->getOptions());
         $this->assertCount(1, $metadata->getFields());
     }

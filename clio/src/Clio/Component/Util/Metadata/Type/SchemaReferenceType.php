@@ -87,7 +87,7 @@ class SchemaReferenceType extends AbstractType implements FieldContainable
 		switch($type) {
 		case 'schema':
 			return true;
-		case PrimitiveTypes::TYPE_OBJECT:
+		case PrimitiveTypes::TYPE_CLASS:
 			return ($schema instanceof Schema\ClassMetadata);
 		case PrimitiveTypes::TYPE_ARRAY:
 			return ($schema instanceof Schema\ArraySchemaMetadata);
