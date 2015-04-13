@@ -57,7 +57,7 @@ class SimpleGuesser implements Guesser
      */
     public function guess($value)
     {
-        $guessed = strtolower(is_object($value) ? get_class($value) : gettype($value));
+        $guessed = is_object($value) ? get_class($value) : strtolower(gettype($value));
 
         return $this->getResolver()->resolve($guessed);
     }
