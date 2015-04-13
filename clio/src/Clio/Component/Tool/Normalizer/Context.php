@@ -3,6 +3,7 @@ namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Tool\Normalizer\Type;
 use Clio\Component\Tool\Normalizer\Type\TypeResolver;
+
 /**
  * Context 
  * 
@@ -326,7 +327,7 @@ class Context
 		}
 		
 		// Return mixed field type.
-		return new NormalizerType();
+		return new Type\NormalizerType();
 	}
     
     public function getDataPool()
@@ -346,5 +347,17 @@ class Context
         }
         return $this->_typeGuesser;
     }
-}
 
+    /**
+     * notify 
+     * 
+     * @param mixed $eventname 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+    public function notify($eventname, array $options = array())
+    {
+        // do nothing
+    }
+}
