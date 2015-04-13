@@ -1,10 +1,9 @@
 <?php
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
+use Clio\Component\Tool\Normalizer\Type;
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Util\Type\Type as TypeInterface,
-	Clio\Component\Util\Type as Types
-;
+use Clio\Component\Util\Type as Types;
 
 /**
  * ArrayStrategy
@@ -17,7 +16,7 @@ use Clio\Component\Util\Type\Type as TypeInterface,
  */
 class ArrayStrategy extends AbstractSchemaStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
-	protected function doNormalize($data, TypeInterface $type, Context $context)
+	protected function doNormalize($data, Type $type, Context $context)
 	{
 		// 
 		if(!is_array($data)) {
@@ -41,7 +40,7 @@ class ArrayStrategy extends AbstractSchemaStrategy implements NormalizationStrat
 	 * @access protected
 	 * @return void
 	 */
-	protected function doDenormalize($data, TypeInterface $type, Context $context, $object = null)
+	protected function doDenormalize($data, Type $type, Context $context, $object = null)
 	{
 		// 
 		if(!is_array($data)) {

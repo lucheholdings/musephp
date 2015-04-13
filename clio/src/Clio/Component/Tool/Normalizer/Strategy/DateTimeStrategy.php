@@ -2,9 +2,8 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Util\Type as Types,
-	Clio\Component\Util\Type\Type
-;
+use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type as Types;
 
 /**
  * DateTimeStrategy
@@ -53,7 +52,7 @@ class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type->isType(Types\PrimitiveTypes::TYPE_OBJECT) && ('DateTime' == $type->getName()));
+		return ($type->isType(Types\PrimitiveTypes::TYPE_CLASS) && ('DateTime' == $type->getName()));
 	}
 
 	/**
@@ -61,7 +60,7 @@ class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type->isType(Types\PrimitiveTypes::TYPE_OBJECT) && ('DateTime' == $type->getName()));
+		return ($type->isType(Types\PrimitiveTypes::TYPE_CLASS) && ('DateTime' == $type->getName()));
 	}
 
     

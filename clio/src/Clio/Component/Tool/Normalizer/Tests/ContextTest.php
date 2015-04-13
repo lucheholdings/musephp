@@ -42,7 +42,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
 		// pre-condition
 		$this->assertEmpty($context->getScopeStack());
 
-		$context->enterScope('data', new Types\Actual\ScalarType('int'));
+		$context->enterScope('data', new Types\Actual\ScalarType(Types\PrimitiveTypes::TYPE_INT));
 		// check post entered condition
 		$this->assertNotEmpty($context->getScopeStack());
 		$this->assertCount(1, $context->getScopeStack());

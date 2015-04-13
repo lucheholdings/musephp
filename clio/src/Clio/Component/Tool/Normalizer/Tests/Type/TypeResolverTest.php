@@ -16,13 +16,13 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
         $type = $resolver->resolve('int');
         $this->assertInstanceof('Clio\Component\Tool\Normalizer\Type\NormalizerType', $type);
         $this->assertInstanceof('Clio\Component\Util\Type\Actual\ScalarType', $type->getType());
-        $this->assertEquals(PrimitiveTypes::TYPE_INTEGER, $type->getType()->getName());
+        $this->assertEquals(PrimitiveTypes::TYPE_INT, $type->getType()->getName());
 
 
-        $type = $resolver->resolve(new Types\Actual\ScalarType(PrimitiveTypes::TYPE_INTEGER));
+        $type = $resolver->resolve(new Types\Actual\ScalarType(PrimitiveTypes::TYPE_INT));
         $this->assertInstanceof('Clio\Component\Tool\Normalizer\Type\NormalizerType', $type);
         $this->assertInstanceof('Clio\Component\Util\Type\Actual\ScalarType', $type->getType());
-        $this->assertEquals(PrimitiveTypes::TYPE_INTEGER, $type->getType()->getName());
+        $this->assertEquals(PrimitiveTypes::TYPE_INT, $type->getType()->getName());
     }
 }
 

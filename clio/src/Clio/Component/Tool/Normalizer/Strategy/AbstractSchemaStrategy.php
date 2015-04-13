@@ -2,10 +2,8 @@
 namespace Clio\Component\Tool\Normalizer\Strategy;
 
 use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type as NormalizerTypeInterface;
-use Clio\Component\Util\Type\Type as TypeInterface,
-	Clio\Component\Util\Type as Types
-;
+use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Util\Type as Types;
 
 use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes,
 	Clio\Component\Tool\Normalizer\Type\ReferenceType
@@ -43,7 +41,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 		
 		if(!$type) {
 			throw new \InvalidArgumentException('Strategy requires Type is not null.');
-		} else if(!$type instanceof NormalizerTypeInterface) {
+		} else if(!$type instanceof Type) {
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
@@ -91,19 +89,6 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 	}
 
 	/**
-	 * doNormalize 
-	 *   Normalize the data itself. 
-     *   Subfield should not be normalized on this method.
-     * 
-	 * @param mixed $data 
-	 * @param mixed $type 
-	 * @param mixed $context 
-	 * @access protected
-	 * @return void
-	 */
-	abstract protected function doNormalize($data, NormalizerTypeInterface $type, Context $context);
-
-	/**
 	 * denormalize 
 	 * 
 	 * @param mixed $data 
@@ -118,7 +103,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 			throw new \InvalidArgumentException('Strategy requires Context is not null.');
 		}
 
-		if(!$type instanceof NormalizerTypeInterface) {
+		if(!$type instanceof Type) {
 			throw new \InvalidArgumentException(sprintf('Strategy requires $type is an instanceof of Type, but "%s" is given.', is_object($type) ? get_class($type) : gettype($type)));
 		}
 
@@ -184,19 +169,5 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 
 		return $denormalized;
 	}
-
-	/**
-	 * doDenormalize 
-	 *   Denormalize data with denormalized field values. 
-	 * 
-	 * @param mixed $data 
-	 * @param mixed $type 
-	 * @param mixed $context 
-	 * @param mixed $object 
-	 * @abstract
-	 * @access protected
-	 * @return void
-	 */
-    abstract protected function doDenormalize($data, NormalizerTypeInterface $type, Context $context, $object = null);
 }
 

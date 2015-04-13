@@ -4,6 +4,7 @@ namespace Clio\Component\Tool\Normalizer\Tests\Strategy;
 use Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy;
 use Clio\Component\Tool\Normalizer\Type\NormalizerType;
 use Clio\Component\Util\Type\Actual as ActualTypes;
+use Clio\Component\Util\Type as Types;
 
 class ScalarStrategyTest extends StrategyTestCase 
 {
@@ -26,7 +27,7 @@ class ScalarStrategyTest extends StrategyTestCase
 	public function testNormalizeInt()
 	{
 		$this->testData = 1;
-		$this->testTypeName = 'int';
+		$this->testTypeName = Types\PrimitiveTypes::TYPE_INT;
 		parent::testNormalize();
 	}
 
