@@ -7,9 +7,14 @@ use Clio\Component\Tool\Normalizer\Strategy\PriorityCollection,
 	Clio\Extra\Normalizer\Strategy\AccessorStrategy
 ;
 
-use Clio\Component\Util\Accessor\Schema\Registry as SchemaAccessorRegistry;
-use Clio\Component\Util\Accessor\Schema\Factory\FieldSchemaAccessorFactory;
+use Clio\Component\Pattern\Registry,
+    Clio\Component\Pattern\Registry\Registry as RegistryInterface;
+use Clio\Component\Pattern\Loader,
+    Clio\Component\Pattern\Loader\Loader as LoaderInterace;
 
+use Clio\Component\Util\Accessor\Registry as AccessorRegistry;
+use Clio\Component\Util\Accessor\Loader as AccessorLoader;
+use Clio\Component\Util\Accessor\Factory\SchemaAccessorFactory;
 /**
  * AccessorNormalizer 
  * 
@@ -29,18 +34,16 @@ class AccessorNormalizer extends BaseNormalizer
 	 * @access public
 	 * @return void
 	 */
-	static public function createDefault(SchemaAccessorRegistry $accessorRegistry = null)
+	static public function createDefault(RegistryInterface $accessorRegistry)
 	{
-		if(!$accessorRegistry) {
-			$accessorRegistry = SchemaAccessorRegistry::createRegistry(new FieldSchemaAccessorFactory());
-		}
-
 		$strategy = new PriorityCollection(array(
+			new Strategy\MixedStrategy(),
 			new Strategy\DateTimeStrategy(),
 			new Strategy\StdClassStrategy(),
 			new AccessorStrategy($accessorRegistry),
+			//new Strategy\ArrayStrategy(),
 			new Strategy\ReferenceStrategy(),
-			new Strategy\ScalarStrategy(),
+			//new Strategy\ScalarStrategy(),
 		));
 
 		return new self($strategy);

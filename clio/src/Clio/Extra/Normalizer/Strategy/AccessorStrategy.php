@@ -1,102 +1,117 @@
 <?php
 namespace Clio\Extra\Normalizer\Strategy;
 
-use Clio\Component\Tool\Normalizer\Strategy\ObjectStrategy;
-use Clio\Component\Tool\Normalizer\Strategy\NormalizationStrategy,
-	Clio\Component\Tool\Normalizer\Strategy\DenormalizationStrategy
-;
-use Clio\Component\Util\Metadata\Exception as MetadataException;
-use Clio\Component\Util\Accessor\Accessor;
-use Clio\Component\Util\Accessor\Factory\DataAccessorFactory;
-use Clio\Component\Util\Accessor\SchemaAccessorFactory;
-use Clio\Component\Util\Accessor\Factory\BasicClassAccessorFactory;
-use Clio\Component\Tool\Normalizer\Context,
-	Clio\Component\Util\Type\Type,
-	Clio\Component\Util\Type as Types,
-	Clio\Component\Util\Type\Converter as TypeConverter
-;
+use Clio\Component\Tool\Normalizer\Strategy as Strategies;
+use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Tool\Normalizer\Context;
 
-use Clio\Component\Util\Accessor\Schema\Registry as SchemaAccessorRegistry;
+use Clio\Component\Util\Type as Types;
+use Clio\Extra\Type as ExtraTypes;
+use Clio\Component\Util\Accessor\Registry as AccessorRegistry;
+use Clio\Component\Util\Accessor;
+
+//use Clio\Component\Tool\Normalizer\Strategy\NormalizationStrategy,
+//	Clio\Component\Tool\Normalizer\Strategy\DenormalizationStrategy
+//;
+//use Clio\Component\Util\Metadata\Exception as MetadataException;
+//use Clio\Component\Util\Accessor\Accessor;
+//use Clio\Component\Util\Accessor\Factory\DataAccessorFactory;
+//use Clio\Component\Util\Accessor\SchemaAccessorFactory;
+//use Clio\Component\Util\Accessor\Factory\BasicClassAccessorFactory;
+//
+//
+//use Clio\Component\Tool\Normalizer\Context,
+//	Clio\Component\Util\Type as Types,
+//	Clio\Component\Util\Type\Converter as TypeConverter
+//;
+
 
 /**
  * AccessorStrategy 
  * 
- * @uses ObjectStrategy
- * @uses NormalizationStrategy
+ * @uses Strategies\ObjectStrategy
+ * @uses Strategies\NormalizationStrategy
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy, 
-	DenormalizationStrategy
+class AccessorStrategy extends Strategies\ObjectStrategy implements Strategies\NormalizationStrategy, 
+	Strategies\DenormalizationStrategy
 {
-	/**
-	 * {@inheritdoc}
-	 */
-	private $accessorFactory;
+    private $accessorRegistry;
 
-	/**
-	 * typeConverter 
-	 * 
-	 * @var mixed
-	 * @access protected
-	 */
-	protected $typeConverter;
-
-	/**
-	 * __construct 
-	 * 
-	 * @param ClassMetadataRegistry $registry 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct(SchemaAccessorRegistry $accessorRegistry, TypeConverter $converter = null)
+    /**
+     * __construct 
+     * 
+     * @param AccessorRegistry $accessorRegistry 
+     * @access public
+     * @return void
+     */
+	public function __construct(AccessorRegistry $accessorRegistry)
 	{
-		$this->accessorFactory = new DataAccessorFactory($accessorRegistry);
-		$this->typeConverter = $converter;
+        $this->accessorRegistry = $accessorRegistry;
 	}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function canNormalize($data, $type)
+    {
+        return $this->getAccessorRegistry()->has((string)$type);
+    }
 
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function doNormalize($data, Type $type, Context $context)
 	{
-		$accessor = $this->createDataAccessor($type, $data); 
+        // Get accessor from Schema name 
+        $accessor = $this->getAccessorRegistry()->get($type->getName());
 
-		$fieldValues = $accessor->getFieldValues();
+        if($accessor instanceof Accessor\Field\MultiFiledAccessor) {
+            return $accessor->getFieldValues($data);
+        } else if($accessor instanceof Accessor\Field\SingleFieldAccessor) {
+		    return $accessor->get($data);
+        }
 
-		return $fieldValues;
+        throw new \RuntimeException('AccessorStrategy only support either SingleFieldAccessor or MultiFieldAccessor');
 	}
+
+    /**
+     * {@inheritdoc}
+     */
+    public function canDenormalize($data, $type)
+    {
+        return $this->getAccessorRegistry()->has((string)$type);
+    }
 
 	/**
 	 * {@inheritdoc}
 	 */
 	protected function doDenormalize($data, Type $type, Context $context, $object = null)
 	{
+        $accessor = $this->getAccessorRegistry()->get($type->getName());
+
 		if(!$object) {
-			// create new Object
-			if($type instanceof Types\ProxyType) {
-				$type = $type->getRawType();
-			}
-			$object = $type->construct();
+            $object = $type->getSchema()->newInstance();
 		}
 
-		$accessor = $this->createDataAccessor($type, $object); 
+        $dataAccessor = $accessor->createDataAccessor($data);
 
 		// Set Field Values
 		if(is_array($data)) {
 			foreach($data as $key => $value) {
-				//if($accessor->existsField($key)) {
-				if($accessor->isSupportMethod($key, Accessor::ACCESS_SET)) {
-					$accessor->set($key, $value);
+				if($dataAccessor->isSupportedAccess($key, Accessor::ACCESS_SET)) {
+					$dataAccessor->set($key, $value);
 				}
 			}
 		} else {
+            // fixme: if dataAccessor is ScalarSchemaAccessor, then set
 			return $data;
 		}
 
-		return $accessor->getData();
+		return $dataAccessor->getData();
 	}
 
 	/**
@@ -154,10 +169,33 @@ class AccessorStrategy extends ObjectStrategy implements NormalizationStrategy,
 	 * @access public
 	 * @return void
 	 */
-	public function setTypeConverter(TypeConverter $typeConverter)
+	public function setTypeConverter(Types\Converter\TypeConverter $typeConverter)
 	{
 		$this->typeConverter = $typeConverter;
 		return $this;
 	}
-
+    
+    /**
+     * getAccessorRegistry 
+     * 
+     * @access public
+     * @return Clio\Component\Util\Accessor\Registry 
+     */
+    public function getAccessorRegistry()
+    {
+        return $this->accessorRegistry;
+    }
+    
+    /**
+     * setAccessorRegistry 
+     * 
+     * @param Clio\Component\Util\Accessor\Registry $accessorRegistry 
+     * @access public
+     * @return void
+     */
+    public function setAccessorRegistry(AccessorRegistry $accessorRegistry)
+    {
+        $this->accessorRegistry = $accessorRegistry;
+        return $this;
+    }
 }
