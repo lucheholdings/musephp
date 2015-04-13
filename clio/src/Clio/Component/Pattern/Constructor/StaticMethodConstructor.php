@@ -44,8 +44,11 @@ class StaticMethodConstructor implements Constructor
 	 * @access public
 	 * @return void
 	 */
-	public function construct(\ReflectionClass $class, array $args = array())
+	public function construct(\ReflectionClass $class = null, array $args = array())
 	{
+        if(!$class) {
+            throw new \InvalidArgumentException('Argument 1 of ConstructConstructor::construct has to be ReflectionClass.');
+        }
 		return $class->getMethod($this->getMethod())->invokeArgs(null, $args);
 	}
     

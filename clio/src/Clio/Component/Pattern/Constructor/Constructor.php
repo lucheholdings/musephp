@@ -20,12 +20,9 @@ interface Constructor
 	 * construct 
 	 *   Constructor Strategy
 	 *   
-	 * 
-	 * @param \ReflectionClass $class 
-	 * @param array $args 
 	 * @access public
 	 * @return mixed instanceof the specified class
 	 */
-	function construct(\ReflectionClass $class, array $args = array());
+	function construct();
 }
 
