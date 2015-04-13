@@ -36,7 +36,7 @@ class StdClassStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canNormalize($data, $type)
 	{
-		return ($type instanceof Types\ObjectType) && ('stdClass' == $type->getClassReflector()->getName());
+        return $type->isType('stdClass');
 	}
 
 	/**
@@ -44,6 +44,6 @@ class StdClassStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	 */
 	public function canDenormalize($data, $type)
 	{
-		return ($type instanceof Types\ObjectType) && ('stdClass' == $type->getClassReflector()->getName());
+        return $type->isType('stdClass');
 	}
 }

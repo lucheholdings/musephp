@@ -11,7 +11,7 @@ class TypeResolverTest extends \PHPUnit_Framework_TestCase
 {
     public function testResolve()
     {
-        $resolver = new TypeResolver(ActualResolverFactory::createWithRegistry(new BasicRegistry()));
+        $resolver = new TypeResolver(ActualResolverFactory::createWithRegistry(Types\Registry\Factory::createDefault()));
 
         $type = $resolver->resolve('int');
         $this->assertInstanceof('Clio\Component\Tool\Normalizer\Type\NormalizerType', $type);

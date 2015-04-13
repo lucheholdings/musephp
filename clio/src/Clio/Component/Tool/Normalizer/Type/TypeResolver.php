@@ -17,7 +17,7 @@ class TypeResolver
 {
     static public function createDefault()
     {
-        return new self(Types\Resolver\Factory::createWithRegistry(new Types\BasicRegistry()));
+        return new self(Types\Resolver\Factory::createWithRegistry(Types\Registry\Factory::createDefault()));
     }
 
     /**
