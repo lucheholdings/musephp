@@ -48,9 +48,16 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function canNormalize($object, $type, Context $context)
+	public function canNormalize($data, $type, Context $context = null)
 	{
-		return $this->getStrategy()->canNormalize($object, $type, $context);
+        if(!$type instanceof Type) {
+            if(!$context) {
+                $context = $this->createContext();
+            }
+            $type = $context->getTypeResolver()->resolve($type, array('data' => $data));
+        }
+
+		return $this->getStrategy()->canNormalize($data, $type);
 	}
 
 	/**
@@ -93,7 +100,7 @@ class Normalizer implements
 		}
         
         // 
-        $this->log('Start Normalizaing', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+        $context->notify('normalizer.normalize.begin', array('type' => $type, 'data' => $data));
 
 		$normalized = $strategy->normalize($data, $type, $context);
 
@@ -110,7 +117,7 @@ class Normalizer implements
 			}
 		}
 
-		$this->log('End Normalizing.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+        $context->notify('normalizer.normalize.end', array('type' => $type, 'data' => $data));
 
 		return $normalized;
 	}
@@ -118,9 +125,15 @@ class Normalizer implements
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canDenormalize($data, $type, Context $context)
+	public function canDenormalize($data, $type, Context $context = null)
 	{
-		return $this->getstrategy()->canDenormalize($data, $type, $context);
+        if(!$type instanceof Type) {
+            if(!$context) {
+                $context = $this->createContext();
+            }
+            $type = $context->getTypeResolver()->resolve($type, array('data' => $data));
+        }
+		return $this->getStrategy()->canDenormalize($data, $type);
 	}
 
 	/**
@@ -133,8 +146,7 @@ class Normalizer implements
 		}
 		try {
 			if(!$context) {
-				$context = new Context($this->getTypeResolver());
-				$context->setNormalizer($this);
+                $context = $this->createContext();
 			}
 
 			$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
@@ -149,10 +161,10 @@ class Normalizer implements
 				throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
 			}
 
-			$this->log('Start Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+            $context->notify('normalizer.denormalize.begin', array('type' => $type, 'data' => $data));
 			$denormalized = $strategy->denormalize($data, $type, $context); 
 
-			$this->log('End Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+            $context->notify('normalizer.denormalize.end', array('type' => $type, 'data' => $data));
 
 			return $denormalized;
 			
@@ -204,20 +216,9 @@ class Normalizer implements
      */
     public function createContext()
     {
-        return new Context($this->typeResolver);
-    }
-
-    /**
-     * log 
-     * 
-     * @param mixed $message 
-     * @param array $options 
-     * @access public
-     * @return void
-     */
-    public function log($message, array $options = array())
-    {
-        // Please extends log method if needed.
+        $context = new Context($this->typeResolver);
+        $context->setNormalizer($this);
+        return $context;
     }
 }
 
