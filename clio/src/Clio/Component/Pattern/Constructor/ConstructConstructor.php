@@ -12,8 +12,6 @@ namespace Clio\Component\Pattern\Constructor;
  */
 class ConstructConstructor implements Constructor
 {
-	static private $_instance = null;
-
 	/**
 	 * getInstance 
 	 *   Singleton of the Constructor.
@@ -24,11 +22,12 @@ class ConstructConstructor implements Constructor
 	 */
 	static public function getInstance()
 	{
-		if(self::$_instance) {
-			self::$_instance = new self();
+        static $_instance;
+		if(!$_instance) {
+			$_instance = new self();
 		}
 
-		return self::$_instance;
+		return $_instance;
 	}
 
 	/**
@@ -39,8 +38,11 @@ class ConstructConstructor implements Constructor
 	 * @access public
 	 * @return void
 	 */
-	public function construct(\ReflectionClass $class, array $args = array())
+	public function construct(\ReflectionClass $class = null, array $args = array())
 	{
+        if(!$class) {
+            throw new \InvalidArgumentException('Argument 1 of ConstructConstructor::construct has to be ReflectionClass.');
+        }
         if($class->getConstructor()) {
     		return $class->newInstanceArgs($args);
         } else {
