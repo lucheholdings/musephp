@@ -24,7 +24,7 @@ class SequentialFactory extends SimpleCollection implements MappedFactory
 		return $this->doCreate($args);
 	}
 
-	public function createByKey()
+	public function createByKey($key)
 	{
 		return $this->createArgs(func_get_args());
 	}
