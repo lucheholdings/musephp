@@ -43,7 +43,19 @@ class ProxyLoader implements Loader
      */
     public function load($resource, array $options = array())
     {
-        $this->getLoader()->load($resource, $options);
+        return $this->getLoader()->load($resource, $options);
+    }
+
+    /**
+     * canLoad 
+     * 
+     * @param mixed $resource 
+     * @access public
+     * @return void
+     */
+    public function canLoad($resource)
+    {
+        return $this->getLoader()->canLoad($resource);
     }
     
     /**
