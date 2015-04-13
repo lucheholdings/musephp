@@ -29,7 +29,7 @@ abstract class ObjectStrategy extends AbstractSchemaStrategy
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return $type->isType(Types\PrimitiveTypes::TYPE_OBJECT);
+		return $type->isType(Types\PrimitiveTypes::TYPE_CLASS);
 	}
 
 	/**
@@ -37,6 +37,6 @@ abstract class ObjectStrategy extends AbstractSchemaStrategy
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return $type->isType(Types\PrimitiveTypes::TYPE_OBJECT);
+		return $type->isType(Types\PrimitiveTypes::TYPE_CLASS);
 	}
 }

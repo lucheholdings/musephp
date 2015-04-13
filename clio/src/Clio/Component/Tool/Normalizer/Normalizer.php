@@ -6,9 +6,6 @@ use Clio\Component\Util\Type as Types,
 	Clio\Component\Util\Type\Resolver as TypeResolver
 ;
 
-use Psr\Log as PsrLog;
-
-
 /**
  * Normalizer 
  * 
@@ -19,8 +16,7 @@ use Psr\Log as PsrLog;
  */
 class Normalizer implements 
 	Strategy\NormalizationStrategy,
-	Strategy\DenormalizationStrategy,
-	PsrLog\LoggerAwareInterface
+	Strategy\DenormalizationStrategy
 {
 	/**
 	 * strategy 
@@ -31,8 +27,6 @@ class Normalizer implements
 	private $strategy;
 
 	private $typeResolver;
-
-	private $logger;
 
 	/**
 	 * __construct 
@@ -97,11 +91,9 @@ class Normalizer implements
 		if(!$strategy instanceof Strategy\NormalizationStrategy) {
 			throw new UnsupportedException('Normalizer Strategy dose not support normalize.');
 		}
-
-		if($type)
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Normalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
-		else 
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Normalize');
+        
+        // 
+        $this->log('Start Normalizaing', array('type' => $type->getName(), 'path' => $context->getScopePath()));
 
 		$normalized = $strategy->normalize($data, $type, $context);
 
@@ -118,10 +110,7 @@ class Normalizer implements
 			}
 		}
 
-		if($type)
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Normalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
-		else 
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Normalize');
+		$this->log('End Normalizing.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
 
 		return $normalized;
 	}
@@ -160,10 +149,10 @@ class Normalizer implements
 				throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
 			}
 
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+			$this->log('Start Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
 			$denormalized = $strategy->denormalize($data, $type, $context); 
 
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
+			$this->log('End Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
 
 			return $denormalized;
 			
@@ -207,20 +196,6 @@ class Normalizer implements
         return $this;
     }
     
-    public function getLogger()
-    {
-		if(!$this->logger) 
-			$this->logger = new PsrLog\NullLogger();
-
-        return $this->logger;
-    }
-    
-    public function setLogger(PsrLog\LoggerInterface $logger)
-    {
-        $this->logger = $logger;
-        return $this;
-    }
-
     /**
      * createContext 
      *   Create default Normalizer Context 
@@ -230,6 +205,19 @@ class Normalizer implements
     public function createContext()
     {
         return new Context($this->typeResolver);
+    }
+
+    /**
+     * log 
+     * 
+     * @param mixed $message 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+    public function log($message, array $options = array())
+    {
+        // Please extends log method if needed.
     }
 }
 

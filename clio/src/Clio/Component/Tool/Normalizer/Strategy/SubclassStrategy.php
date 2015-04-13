@@ -25,7 +25,7 @@ abstract class SubclassStrategy extends ObjectStrategy
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return ($type->isType(Types\PrimitiveTypes::TYPE_OBJECT) && $type->isType($this->getClassName()));
+		return ($type->isType(Types\PrimitiveTypes::TYPE_CLASS) && $type->isType($this->getClassName()));
 	}
 
 	/**
@@ -33,7 +33,7 @@ abstract class SubclassStrategy extends ObjectStrategy
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return ($type->isType(Types\PrimitiveTypes::TYPE_OBJECT) && $type->isType($this->getClassName()));
+		return ($type->isType(Types\PrimitiveTypes::TYPE_CLASS) && $type->isType($this->getClassName()));
 	}
 
 }

@@ -23,7 +23,7 @@ class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, 
 	 */
 	public function canNormalize($data, $type, Context $context)
 	{
-		return $type->isType(Types\PrimitiveTypes::TYPE_SCALAR);
+		return $type->isType(Types\PrimitiveTypes::BASE_TYPE_SCALAR);
 	}
 
 	/**
@@ -39,7 +39,7 @@ class ScalarStrategy extends AbstractStrategy implements NormalizationStrategy, 
 	 */
 	public function canDenormalize($data, $type, Context $context)
 	{
-		return $type->isType(Types\PrimitiveTypes::TYPE_SCALAR);
+		return $type->isType(Types\PrimitiveTypes::BASE_TYPE_SCALAR);
 	}
 
 	/**
