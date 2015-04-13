@@ -96,8 +96,8 @@ abstract class AbstractMetadata implements Metadata
 			$this->mappings = new MappingCollection();
 		}
 
-        if($includeParent) {
-            return $this->getMappings()->merge($this->getParent()->getMappings());
+        if($includeParent && $this->getParent()) {
+            return $this->mappings->merge($this->getParent()->getMappings());
         }
 
         return $this->mappings;

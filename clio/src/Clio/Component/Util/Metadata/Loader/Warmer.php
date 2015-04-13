@@ -1,6 +1,12 @@
 <?php
 namespace Clio\Component\Util\Metadata\Loader;
 
+use Clio\Component\Util\Metadata\SchemaRegistry;
+use Clio\Component\Util\Metadata\Metadata,
+    Clio\Component\Util\Metadata\Schema,
+    Clio\Component\Util\Metadata\Field
+;
+
 /**
  * Warmer 
  *   Warmer to warm Metadata when its load. 
@@ -53,13 +59,13 @@ class Warmer
         $this->warmParent($metadata);
 
         if($metadata instanceof Schema) {
-            $this->wamSchemaMetadata($metadata);
+            $this->warmSchemaMetadata($metadata);
         } else if($metadata instanceof Field) {
             // 
             $this->warmFieldMetadata($metadata);
         }
 
-        $this->wamMappings($metadata);
+        $this->warmMappings($metadata);
 
         unset($this->_warmings[$name]);
     }
@@ -73,7 +79,9 @@ class Warmer
      */
     protected function warmParent(Metadata $metadata)
     {
-        $mtadata->setParent($this->getSchema($metadata->getParentName()));
+        if($metadata->getParentName()) {
+            $metadata->setParent($this->getSchema($metadata->getParentName()));
+        }
     }
 
     /**
@@ -152,7 +160,7 @@ class Warmer
     public function getSchema($schemaName)
     {
         // to avoid circular loading 
-        if(isset($this->_warmings[$schemaName]) {
+        if(isset($this->_warmings[$schemaName])) {
             return $this->_warmings[$schemaName];
         } else {
             return $this->getSchemaRegistry()->get($schemaName);

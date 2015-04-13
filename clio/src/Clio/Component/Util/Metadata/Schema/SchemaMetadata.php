@@ -20,14 +20,6 @@ use Clio\Component\Util\Type as Types;
 class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
 {
     /**
-     * name 
-     * 
-     * @var mixed
-     * @access protected
-     */
-    protected $name;
-
-    /**
      * type 
      *   Actual type of Schema 
      * @var mixed
@@ -42,15 +34,6 @@ class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
      * @access protected
      */
     protected $fields;
-
-    /**
-     * mappings 
-     * 
-     * @var mixed
-     * @access protected
-     */
-    protected $mappings;
-
 
     /**
      * __construct 

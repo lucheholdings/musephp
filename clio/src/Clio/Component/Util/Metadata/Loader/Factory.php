@@ -20,7 +20,7 @@ abstract class Factory
      * @access public
      * @return void
      */
-    static public function createComplexLoader(array $loaders, $warmer = null)
+    static public function createComplexLoader(array $baseLoaders, $warmer = null)
     {
         if(1 == count($baseLoaders)) {
             $loader = array_shift($baseLoaders);
