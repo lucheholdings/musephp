@@ -50,19 +50,24 @@ class DateTimeStrategy extends ObjectStrategy implements NormalizationStrategy, 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canNormalize($data, $type, Context $context)
+	public function canNormalize($data, $type)
 	{
-		return ($type->isType(Types\PrimitiveTypes::TYPE_CLASS) && ('DateTime' == $type->getName()));
+        if($type instanceof Type) {
+            return $type->isType('DateTime');
+        }
+        return 'DateTime'  == (string)$type;
 	}
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canDenormalize($data, $type, Context $context)
+	public function canDenormalize($data, $type)
 	{
-		return ($type->isType(Types\PrimitiveTypes::TYPE_CLASS) && ('DateTime' == $type->getName()));
+        if($type instanceof Type) {
+            return $type->isType('DateTime');
+        }
+        return 'DateTime' == (string)$type;
 	}
-
     
     public function getFormat()
     {

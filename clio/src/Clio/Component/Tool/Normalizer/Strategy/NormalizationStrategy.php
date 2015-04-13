@@ -23,13 +23,14 @@ interface NormalizationStrategy extends Strategy
 	 */
 	function normalize($data, $type = null, Context $context = null);
 
-	/**
-	 * canNormalize 
-	 * 
-	 * @param mixed $data 
-	 * @access public
-	 * @return void
-	 */
-	function canNormalize($data, $type, Context $context);
+    /**
+     * canNormalize 
+     * 
+     * @param mixed $data 
+     * @param mixed $type 
+     * @access public
+     * @return void
+     */
+	function canNormalize($data, $type);
 }
 

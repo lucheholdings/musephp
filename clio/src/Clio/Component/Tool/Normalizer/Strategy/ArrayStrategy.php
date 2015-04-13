@@ -57,12 +57,12 @@ class ArrayStrategy extends AbstractSchemaStrategy implements NormalizationStrat
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canNormalize($data, $type, Context $context)
+	public function canNormalize($data, $type)
 	{
 		return ($type->isType('array') || $type->isType('map') || $type->isType('set')) && is_array($data);
 	}
 
-	public function canDenormalize($data, $type, Context $context)
+	public function canDenormalize($data, $type)
 	{
 		return ($type->isType('array') || $type->isType('map') || $type->isType('set')) && is_array($data);
 	}

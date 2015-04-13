@@ -6,7 +6,7 @@ use Clio\Component\Tool\Normalizer\Type\Types;
 
 class ReferenceStrategy implements NormalizationStrategy 
 {
-	public function canNormalize($data, $type, Context $context)
+	public function canNormalize($data, $type)
 	{
 		return ($type->isType(Types::TYPE_REFERENCE));
 	}

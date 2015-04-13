@@ -6,7 +6,7 @@ use Clio\Component\Util\Type as Types;
 
 class MixedStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
-	public function canNormalize($data, $type, Context $context)
+	public function canNormalize($data, $type)
 	{
 		return $type->isType(Types\PrimitiveTypes::TYPE_MIXED);
 	}
@@ -22,7 +22,7 @@ class MixedStrategy implements NormalizationStrategy, DenormalizationStrategy
 		return $context->getNormalizer()->normalize($data, $type, $context);
 	}
 
-	public function canDenormalize($data, $type, Context $context)
+	public function canDenormalize($data, $type)
 	{
 		return ($type->isType(Types\PrimitiveTypes::TYPE_MIXED));
 	}

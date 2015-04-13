@@ -51,8 +51,8 @@ class NormalizableStrategy extends InterfaceStrategy implements NormalizationStr
 	/**
 	 * {@inheritdoc}
 	 */
-	public function canNormalize($data, $type, Context $context)
+	public function canNormalize($data, $type)
 	{
-		return parent::canNormalize($data, $type, $context);
+		return parent::canNormalize($data, $type);
 	}
 }
