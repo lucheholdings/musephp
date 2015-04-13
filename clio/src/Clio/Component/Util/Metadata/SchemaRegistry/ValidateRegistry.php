@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\SchemaRegistry;
 
+use Clio\Component\Util\Metadata\Schema;
 use Clio\Component\Util\Metadata\SchemaRegistry;
 use Clio\Component\Pattern\Registry\ProxyRegistry;
 
@@ -22,7 +23,7 @@ class ValidateRegistry extends ProxyRegistry implements SchemaRegistry
     public function set($key, $value)
     {
         if(!$value instanceof Schema) {
-            throw new \InvalidArgumentException('ValidateRegistry only accept Schema as a value.');
+            throw new \InvalidArgumentException(sprintf('ValidateRegistry only accept Schema as a value, but "%s" is given for "%s".', is_object($value) ? get_class($value) : gettype($value), $key));
         }
 
         return parent::set($key, $value);
@@ -36,7 +37,7 @@ class ValidateRegistry extends ProxyRegistry implements SchemaRegistry
         $value = parent::get($key);
 
         if(!$value instanceof Schema) {
-            throw new \RuntimeException('Loaded value is invalid. ValidateRegistry only accept Schema as a value.');
+            throw new \RuntimeException(sprintf('Loaded value is invalid. ValidateRegistry only accept Schema as a value, but "%s" is given for "%s".', is_object($value) ? get_class($value) : gettype($value), $key));
         }
 
         return $value;

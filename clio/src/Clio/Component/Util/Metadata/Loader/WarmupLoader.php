@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\Loader;
 
+use Clio\Component\Pattern\Loader\Loader;
 use Clio\Component\Pattern\Loader\ProxyLoader;
 /**
  * WarmupLoader 
@@ -58,7 +59,9 @@ class WarmupLoader extends ProxyLoader
         $loaded = parent::load($type);
 
         // 2nd. Warm the loaded object
-        return $this->warmer->warm($loaded, $type);
+        $this->warmer->warm($loaded, $type);
+
+        return $loaded;
     }
     
     /**

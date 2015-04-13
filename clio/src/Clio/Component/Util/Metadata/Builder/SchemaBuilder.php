@@ -114,14 +114,16 @@ class SchemaBuilder
             $fields = array_merge($this->getDefaultFieldsOnType($schema), $fields);
         }
 
-        foreach($fields as $fieldName => $fieldType) {
-            if($fieldType instanceof Field) {
-                $fieldMetadatas[$fieldName] = $fieldType;
-            } else {
-                $fieldMetadatas[$fieldName] = $this->factory->createFieldMetadata($schema, $fieldName, $fieldType);
+        if(!empty($fields)) {
+            foreach($fields as $fieldName => $fieldType) {
+                if($fieldType instanceof Field) {
+                    $fieldMetadatas[$fieldName] = $fieldType;
+                } else {
+                    $fieldMetadatas[$fieldName] = $this->factory->createFieldMetadata($schema, $fieldName, $fieldType);
+                }
             }
+            $schema->setFields($fieldMetadatas);
         }
-        $schema->setFields($fieldMetadatas);
 
         return $schema;
     }

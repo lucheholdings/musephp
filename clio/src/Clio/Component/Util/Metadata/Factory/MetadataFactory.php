@@ -88,33 +88,11 @@ class MetadataFactory implements Factory, MappedFactory
 	{
         $builder = $this->createBuilder();
 
-        $builder
+        $schemaMetadata = $builder
             ->setType($type)
             ->enableDefaultFieldsOnType()
+            ->getSchemaMetadata()
         ;
-        // create type with type factory
-        if(!$type instanceof Types\Type) {
-            $type = $this->typeRegistry->get($type);
-        }
-
-        $schemaMetadata = new SchemaMetadata($type);
-        
-        // Default field set if type is a class 
-        if($type instanceof Types\Actual\ClassType) {
-            // Set parent schema
-            $parent = $type->getReflector()->getParentClass();
-            if($parent) {
-                $schemaMetadata->setParent($parent);
-            }
-
-            $fields = array();
-            // Create Property fields for class 
-            foreach($type->getReflector()->getProperties() as $property) {
-                $fields[$property->getName()] = new Fields\PropertyFieldMetadata($schemaMetadata, $property);
-            }
-
-            $schemaMetadata->setFields($fields);
-        } 
 
 		if($this->getMappingFactory()) {
 			$schemaMetadata->setMappings($this->getMappingFactory()->createMapping($schemaMetadata));
