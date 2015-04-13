@@ -68,6 +68,7 @@ class LoadableRegistry extends ProxyRegistry
      */
 	public function load($key, array $options = array())
 	{
+        $key = (string)$key;
 		$loaded = null;
 		// Load for the key
         if(isset($this->loadings[$key])) {
@@ -92,6 +93,7 @@ class LoadableRegistry extends ProxyRegistry
 	 */
 	public function get($key)
 	{
+        $key = (string)$key;
 		if(!$this->isLoaded($key)) {
 			$loaded = $this->load($key, array(), false);
 		}
@@ -108,6 +110,7 @@ class LoadableRegistry extends ProxyRegistry
      */
 	public function has($key)
 	{
+        $key = (string)$key;
 		if($this->getRegistry()->has($key)) {
 			return true;
 		}
