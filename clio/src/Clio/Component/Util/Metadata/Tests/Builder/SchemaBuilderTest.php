@@ -12,7 +12,7 @@ class SchemaBuilderTests extends \PHPUnit_Framework_TestCase
 {
     public function testBuildPrimitive()
     {
-        $typeRegistry = new Types\BasicRegistry();
+        $typeRegistry = Types\Registry\Factory::createDefault();
         $factory = new MetadataFactory($typeRegistry);
         $builder = new SchemaBuilder($factory, $typeRegistry);
 
@@ -41,7 +41,7 @@ class SchemaBuilderTests extends \PHPUnit_Framework_TestCase
 
     public function testBuildClass()
     {
-        $typeRegistry = new Types\BasicRegistry();
+        $typeRegistry = Types\Registry\Factory::createDefault();
         $factory = new MetadataFactory($typeRegistry);
         $builder = new SchemaBuilder($factory, $typeRegistry);
 

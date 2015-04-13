@@ -8,7 +8,7 @@ use Clio\Component\Util\Metadata;
 
 /**
  * FieldContainerSchemaAccessor 
- * 
+ *   Commonly, we use this type of SchemaAccessor. 
  * @uses MultiFieldAccessor
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
@@ -17,22 +17,6 @@ use Clio\Component\Util\Metadata;
  */
 class FieldContainerSchemaAccessor extends AbstractSchemaAccessor implements Fields\MultiFieldAccessor 
 {
-    /**
-     * schema 
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $schema;
-
-    /**
-     * options 
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $options;
-
     /**
      * fieldAccessors 
      * 
