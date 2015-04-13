@@ -4,9 +4,9 @@ namespace Clio\Component\Util\Accessor\Tests\Schema;
 use Clio\Component\Util\Type\Registry as TypeRegistry;
 use Clio\Component\Util\Metadata\Factory\MetadataFactory;
 
-use Clio\Component\Util\Accessor\Schema\FieldContainerSchemaAccessor;
+use Clio\Component\Util\Accessor\Schema\DateTimeSchemaAccessor;
 
-class FieldContainerSchemaAccessorTest extends \PHPUnit_Framework_TestCase 
+class DateTimeSchemaAccessorTest extends \PHPUnit_Framework_TestCase 
 {
     public function testBasic()
     {
@@ -17,5 +17,4 @@ class FieldContainerSchemaAccessorTest extends \PHPUnit_Framework_TestCase
         
     }
 }
-
 

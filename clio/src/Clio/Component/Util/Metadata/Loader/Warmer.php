@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Metadata;
+namespace Clio\Component\Util\Metadata\Loader;
 
 /**
  * Warmer 

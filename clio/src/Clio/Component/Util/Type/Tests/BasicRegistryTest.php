@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Type\Tests;
 
 use Clio\Component\Util\Type\PrimitiveTypes;
-use Clio\Component\Util\Type\BasicRegistry;
+use Clio\Component\Util\Type\Registry as TypeRegistry;
 
 class BasicRegistryTest extends \PHPUnit_Framework_TestCase 
 {
@@ -14,7 +14,7 @@ class BasicRegistryTest extends \PHPUnit_Framework_TestCase
      */
     public function testBasic()
     {
-        $registry = new BasicRegistry();
+        $registry = TypeRegistry\Factory::createDefault();
 
         $this->assertTrue($registry->hasType('int'));
         $this->assertTrue($registry->hasType('string'));

@@ -17,7 +17,7 @@ interface Notifier
 	 * @param mixed $notify 
 	 * @param array $args 
 	 * @access public
-	 * @return void
+	 * @return mixed 
 	 */
 	function notify($notify, array $args = array());
 }

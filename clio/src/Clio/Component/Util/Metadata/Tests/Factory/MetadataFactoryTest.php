@@ -8,7 +8,7 @@ class MetadataFactoryTest extends \PHPUnit_Framework_TestCase
 {
     public function testCreateBuilder()
     {
-        $typeRegistry = new Types\BasicRegistry();
+        $typeRegistry = Types\Registry\Factory::createDefault();
         $factory = new MetadataFactory($typeRegistry);
         
         $builder = $factory->createBuilder();

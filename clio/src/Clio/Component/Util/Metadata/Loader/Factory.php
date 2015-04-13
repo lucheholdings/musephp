@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Metadata\SchemaRegistry\Loader;
+namespace Clio\Component\Util\Metadata\Loader;
 
 /**
  * Factory 
