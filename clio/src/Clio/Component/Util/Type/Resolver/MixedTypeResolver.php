@@ -55,7 +55,7 @@ class MixedTypeResolver extends TypeResolverChain
     public function getGuesser()
     {
         if(!$this->guesser) {
-            $this->guesser = SimpleGuesser::create($this->getRootResolver());
+            $this->guesser = Guesser\SimpleGuesser::create($this->getRootResolver());
         }
         return $this->guesser;
     }
