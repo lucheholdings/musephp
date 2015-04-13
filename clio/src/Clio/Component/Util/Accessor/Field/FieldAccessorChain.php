@@ -54,6 +54,7 @@ class FieldAccessorChain extends ProxyFieldAccessor
      */
     public function getBaseAccessor()
     {
+        $root = null;
         if(!$this->_root) {
             $collectionAccessor = null;
             // build 

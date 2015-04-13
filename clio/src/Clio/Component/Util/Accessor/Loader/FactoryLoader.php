@@ -16,6 +16,9 @@ use Clio\Component\Util\Accessor\Factory;
  */
 class FactoryLoader extends BaseLoader 
 {
+    private $schemaRegistry;
+    
+    private $factory;
     /**
      * __construct 
      * 
@@ -23,14 +26,14 @@ class FactoryLoader extends BaseLoader
      * @access public
      * @return void
      */
-    public function __construct(SchemaRegistry $registry, Factory $factory = null)
+    public function __construct(SchemaRegistry $schemaRegistry, Factory $factory = null)
     {
         $this->schemaRegistry = $schemaRegistry;
 
         if(!$factory) {
-            $factory = new Factory\AccessorFactory();
+            $factory = new Factory\SchemaAccessorFactory();
         }
-        $this->factory = $factory;
+        parent::__construct($factory);
     }
 
     /**
@@ -41,7 +44,7 @@ class FactoryLoader extends BaseLoader
         // GEt Schema from SchemaRegistry
         $schema = $this->schemaRegistry->get($resource);
 
-        return $this->factory->createAccessor($schema);
+        return parent::load($schema);
     }
 }
 

@@ -39,6 +39,10 @@ class DataAccessor implements SchemaAccessor
 	public function __construct(SchemaAccessor $schemaAccessor, $data)
 	{
 		$this->schemaAccessor = $schemaAccessor;
+
+        if(is_scalar($data) || is_array($data)) {
+            $data = new Tool\Scalar($data);
+        }
 		$this->data = $data;
 	}
 
@@ -67,6 +71,9 @@ class DataAccessor implements SchemaAccessor
      */
     public function getData()
     {
+        if($this->data instanceof Tool\Scalar) {
+            return $this->data->raw;
+        }
         return $this->data;
     }
     
@@ -79,6 +86,9 @@ class DataAccessor implements SchemaAccessor
      */
     public function setData($data)
     {
+        if(is_scalar($data) || is_array($data)) {
+            $data = new Tool\Scalar($data);
+        }
         $this->data = $data;
         return $this;
     }
