@@ -8,8 +8,6 @@ use Clio\Component\Util\Type;
 use Clio\Component\Exception\UnsupportedException;
 use Clio\Component\Util\Validator\SubclassValidator;
 
-use Psr\Log as PsrLog;
-
 /**
  * PriorityCollection 
  * 
@@ -68,18 +66,21 @@ class PriorityCollection extends PrioritySet implements
 	/**
 	 * normalize 
 	 * 
-	 * @param mixed $object 
+	 * @param mixed $data 
 	 * @access public
 	 * @return void
 	 */
-	public function normalize($object, $type = null, Context $context = null)
+	public function normalize($data, $type = null, Context $context = null)
 	{
 		foreach($this as $strategy) {
 			if( ($strategy instanceof NormalizationStrategy) && 
-				$strategy->canNormalize($object, $type, $context)) 
+				$strategy->canNormalize($data, $type)) 
 			{
-				$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Strategy Handle normalize.', array('strategy' => get_class($strategy), 'data'=> $object));
-				return $strategy->normalize($object, $type, $context);
+                $context->notify('strategy.normalize.begin', array('strategy' => get_class($strategy), 'data' => $data));
+				$response = $strategy->normalize($data, $type, $context);
+                $context->notify('strategy.normalize.end', array('strategy' => get_class($strategy), 'data' => $data));
+
+                return $response;
 			}
 		}
 
@@ -89,15 +90,15 @@ class PriorityCollection extends PrioritySet implements
 	/**
 	 * canNormalize 
 	 * 
-	 * @param mixed $object 
+	 * @param mixed $data 
 	 * @access public
 	 * @return void
 	 */
-	public function canNormalize($object, $type, Context $context)
+	public function canNormalize($data, $type)
 	{
 		foreach($this as $strategy) {
 			if( ($strategy instanceof NormalizationStrategy) && 
-				$strategy->canNormalize($object, $type, $context)) 
+				$strategy->canNormalize($data, $type)) 
 			{
 				return true;
 			}
@@ -118,10 +119,13 @@ class PriorityCollection extends PrioritySet implements
 	{
 		foreach($this as $strategy) {
 			if( ($strategy instanceof DenormalizationStrategy) && 
-				$strategy->canDenormalize($data, $type, $context)) 
+				$strategy->canDenormalize($data, $type)) 
 			{
-				$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Strategy Handle denormalize.', array('strategy' => get_class($strategy)));
-				return $strategy->denormalize($data, $type, $context);
+                $context->notify('strategy.denormalize.begin', array('strategy' => get_class($strategy), 'data' => $data));
+				$response = $strategy->denormalize($data, $type, $context);
+                $context->notify('strategy.denormalize.end', array('strategy' => get_class($strategy), 'data' => $data));
+
+                return $response;
 			}
 		}
 
@@ -136,30 +140,17 @@ class PriorityCollection extends PrioritySet implements
 	 * @access public
 	 * @return void
 	 */
-	public function canDenormalize($data, $type, Context $context)
+	public function canDenormalize($data, $type)
 	{
 		foreach($this as $strategy) {
 			if( ($strategy instanceof DenormalizationStrategy) && 
-				$strategy->canDenormalize($data, $type, $context)) 
+				$strategy->canDenormalize($data, $type)) 
 			{
 				return true;
 			}
 		}
 
 		return false;
-	}
-
-	public function getLogger()
-	{
-		if(!$this->logger)
-			$this->logger = PsrLog\NullLogger();
-
-		return $this->logger;
-	}
-
-	public function setLogger(PsrLog\LoggerInterface $logger)
-	{
-		$this->logger = $logger;
 	}
 }
 

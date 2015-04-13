@@ -6,7 +6,7 @@ use Clio\Component\Util\Type\NullType;
 
 class NullStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
-	public function canNormalize($data, $type, Context $context)
+	public function canNormalize($data, $type)
 	{
 		return ($type->isType('null'));
 	}
@@ -16,7 +16,7 @@ class NullStrategy implements NormalizationStrategy, DenormalizationStrategy
 		return null;
 	}
 
-	public function canDenormalize($data, $type, Context $context)
+	public function canDenormalize($data, $type)
 	{
 		return ($type->isType('null'));
 	}

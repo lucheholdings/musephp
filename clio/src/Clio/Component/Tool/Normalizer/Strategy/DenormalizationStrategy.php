@@ -33,6 +33,6 @@ interface DenormalizationStrategy extends Strategy
 	 * @access public
 	 * @return void
 	 */
-	function canDenormalize($object, $type, Context $context);
+	function canDenormalize($object, $type);
 }
 

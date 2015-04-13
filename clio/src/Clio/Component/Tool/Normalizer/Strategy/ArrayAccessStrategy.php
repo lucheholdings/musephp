@@ -77,12 +77,12 @@ class ArrayAccessStrategy extends ArrayStrategy implements NormalizationStrategy
     /**
      * {@inheritdoc}
      */
-    public function canNormalize($data, $type, Context $context)
+    public function canNormalize($data, $type)
     {
         return ($type->isType('array') || $type->isType('map') || $type->isType('set') || $type->isType('Traversable'));
     }
 
-    public function canDenormalize($data, $type, Context $context)
+    public function canDenormalize($data, $type)
     {
         return ($type->isType('array') || $type->isType('map') || $type->isType('set') || $type->isType('ArrayAccess'));
     }
