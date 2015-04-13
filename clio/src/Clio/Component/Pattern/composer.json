@@ -1,0 +1,25 @@
+{
+    "name": "musephp/clio-patterns",
+    "type": "library",
+    "description": "PHP Pattern Library",
+    "keywords": [
+        "php",
+        "patterns"
+    ],
+    "license": "MIT",
+    "require" : {
+        "php" : ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clio\\Component\\Pattern\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}
+
