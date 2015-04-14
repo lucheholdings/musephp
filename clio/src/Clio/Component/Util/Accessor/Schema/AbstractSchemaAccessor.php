@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Accessor\Schema;
 
 use Clio\Component\Util\Accessor\SchemaAccessor;
+use Clio\Component\Util\Accessor\DataAccessor;
 use Clio\Component\Util\Metadata;
 
 abstract class AbstractSchemaAccessor implements SchemaAccessor
@@ -83,9 +84,12 @@ abstract class AbstractSchemaAccessor implements SchemaAccessor
      * @access public
      * @return void
      */
-    public function createDataAccessor($data)
+    public function createDataAccessor($data = null)
     {
-        if(!$this->getSchema()->isValidData($data)) {
+        if(!$data) {
+            // Create DataAccessor with new Data
+            $data = $this->getSchema()->newData();
+        } else if(!$this->getSchema()->isValidData($data)) {
             throw new \InvalidArgumentException(sprintf('Data is not a valid data of Schema "%s"', $this->getSchema()->getName()));
         }
 

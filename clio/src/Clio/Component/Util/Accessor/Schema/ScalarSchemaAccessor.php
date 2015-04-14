@@ -32,7 +32,7 @@ class ScalarSchemaAccessor extends DirectSchemaAccessor
     public function set($data, $value)
     {
         if(!$data instanceof Scalar) {
-            throw new \InvalidArgumentException();
+            throw new \InvalidArgumentException(sprintf('ScalarSchemaAccessor only accept data is an instnaceof Scalar, but "%s" is given.', is_object($data) ? get_class($data) : gettype($data)));
         }
         $data->raw = $value;
     }

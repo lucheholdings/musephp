@@ -51,6 +51,9 @@ class FieldMetadata extends AbstractMetadata implements Field
         parent::__construct($name, $mappings, $options, $parent);
         
         $this->ownedSchema = $ownedSchema;
+
+        if(!$typeSchema)
+            $typeSchema = 'mixed';
         $this->typeSchema = $typeSchema;
     }
     

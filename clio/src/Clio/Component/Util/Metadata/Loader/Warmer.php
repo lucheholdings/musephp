@@ -53,21 +53,21 @@ class Warmer
      * @access public
      * @return void
      */
-    public function warm(Metadata $metadata, $name)
+    public function warm(Metadata $metadata)
     {
-        $this->_warmings[$name] = $metadata;
-        $this->warmParent($metadata);
-
         if($metadata instanceof Schema) {
+            $this->_warmings[$metadata->getName()] = $metadata;
+            $this->warmParent($metadata);
             $this->warmSchemaMetadata($metadata);
         } else if($metadata instanceof Field) {
             // 
+            $this->warmParent($metadata);
             $this->warmFieldMetadata($metadata);
         }
 
         $this->warmMappings($metadata);
 
-        unset($this->_warmings[$name]);
+        unset($this->_warmings[$metadata->getName()]);
     }
 
     /**
@@ -108,7 +108,7 @@ class Warmer
      */
     protected function warmSchemaMetadata(Schema $schema)
     {
-        foreach($schema->getFields() as $field) {
+        foreach($schema->getFields() as $fieldname => $field) {
             $this->warm($field);
         }
     }

@@ -17,7 +17,7 @@ use Clio\Component\Util\Type as Types;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
+class SchemaMetadata extends AbstractMetadata implements Schema
 {
     /**
      * type 
@@ -60,32 +60,18 @@ class SchemaMetadata extends AbstractMetadata implements Schema, Types\Type
     }
 
     /**
-     * newInstance 
+     * newData
      * 
      * @access public
      * @return void
      */
-    public function newInstance()
-    {
-        return $this->newInstanceArgs(func_get_args());
-    }
-
-    /**
-     * newInstanceArgs 
-     * 
-     * @param array $args 
-     * @access public
-     * @return void
-     */
-    public function newInstanceArgs(array $args = array())
+    public function newData(array $args = array())
     {
         if($this->hasMapping('constructor')) {
             return $this->getMapping('constructor')->construct($this->getType(), $args);
-        } else if($this->getType() instanceof Types\Instantiatable) {
-            return $this->getType()->newInstanceArgs($args);
+        } else {
+            return $this->getType()->newData($args);    
         }
-
-        throw new \RuntimeException('Schema "%s" is not instantiatable');
     }
     
     /**
