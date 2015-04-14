@@ -178,4 +178,15 @@ class ProxyType implements Type
 	{
 		return call_user_func_array(array($this->getType(), $method), $args);
 	}
+
+    /**
+     * newData 
+     * 
+     * @access public
+     * @return void
+     */
+    public function newData(array $args = array())
+    {
+        return $this->getType()->newData($args);
+    }
 }

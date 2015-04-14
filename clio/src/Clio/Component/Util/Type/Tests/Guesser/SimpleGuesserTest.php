@@ -42,7 +42,7 @@ class SimpleGuesserTest extends \PHPUnit_Framework_TestCase
 
         $type = $guesser->guess(new \StdClass());
         $this->assertInstanceof('Clio\Component\Util\Type\Actual\ClassType', $type);
-        $this->assertEquals('stdclass', $type->getName());
+        $this->assertEquals('stdClass', $type->getName());
     }
 
     public function testBasic()

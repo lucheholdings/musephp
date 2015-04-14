@@ -117,5 +117,30 @@ class ScalarType extends AbstractType
 			return parent::convertData($data, $type);
 		}
 	}
+
+    /**
+     * newData 
+     * 
+     * @access public
+     * @return void
+     */
+    public function newData()
+    {
+		switch($this->getName()) {
+		case PrimitiveTypes::TYPE_STRING:
+			return '';
+		case PrimitiveTypes::TYPE_BOOL:
+			return false;
+		case PrimitiveTypes::TYPE_INT:
+		case PrimitiveTypes::TYPE_FLOAT:
+			return 0;
+		case PrimitiveTypes::TYPE_NULL:
+			return null;
+		case PrimitiveTypes::TYPE_ARRAY;
+			return array();
+		default:
+			throw new UnsupportedException(sprintf('createNew from Type "%s" is not supported.', $this->getName()));
+		}
+    }
 }
 

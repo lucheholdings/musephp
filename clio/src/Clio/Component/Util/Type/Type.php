@@ -36,4 +36,12 @@ interface Type
 	 * @return bool 
 	 */
 	function isType($type);
+
+    /**
+     * newData 
+     * 
+     * @access public
+     * @return void
+     */
+    function newData();
 }
