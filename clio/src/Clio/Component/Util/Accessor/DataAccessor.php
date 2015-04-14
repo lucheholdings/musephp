@@ -56,11 +56,30 @@ class DataAccessor implements SchemaAccessor
      */
     public function __call($method, array $args = array())
     {
+        $this->tryInitData();
         // Push $this->data as first argument
         array_unshift($args, $this->data);
 
         // Call SchemaAccessor method
         return call_user_func_array(array($this->getSchemaAccessor(), $method), $args);
+    }
+
+    public function tryInitData()
+    {
+        if(!$this->data) {
+            $schema = $this->getSchemaAccessor()->getSchema();
+
+            if($schema->isType('null')) {
+                return ;
+            }
+            
+            if($schema->isType('class')) {
+                // instantiate
+                $this->data = $schema->newInstance();
+            } else {
+                $this->data = new Tool\Scalar();
+            }
+        }
     }
     
     /**
@@ -71,6 +90,8 @@ class DataAccessor implements SchemaAccessor
      */
     public function getData()
     {
+        $this->tryInitData();
+
         if($this->data instanceof Tool\Scalar) {
             return $this->data->raw;
         }
@@ -115,6 +136,17 @@ class DataAccessor implements SchemaAccessor
     {
         $this->schemaAccessor = $schemaAccessor;
         return $this;
+    }
+
+    /**
+     * getSchema 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getSchema()
+    {
+        return $this->getSchemaAccessor()->getSchema();
     }
 }
 

@@ -59,7 +59,7 @@ class WarmupLoader extends ProxyLoader
         $loaded = parent::load($type);
 
         // 2nd. Warm the loaded object
-        $this->warmer->warm($loaded, $type);
+        $this->warmer->warm($loaded);
 
         return $loaded;
     }

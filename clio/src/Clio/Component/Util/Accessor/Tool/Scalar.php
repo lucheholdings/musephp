@@ -19,6 +19,11 @@ class Scalar
      */
     public $raw;
 
+    public function __construct($raw)
+    {
+        $this->raw = $raw;
+    }
+
     /**
      * isNull 
      * 

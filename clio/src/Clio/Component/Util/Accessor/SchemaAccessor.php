@@ -21,13 +21,5 @@ interface SchemaAccessor extends Accessor
 	 * @return void
 	 */
 	function getSchema();
-
-	/**
-	 * createDataAccessor 
-	 *   Create DataAccessor which specified current Schema to access. 
-	 * @access public
-	 * @return SchemaDataAccessor
-	 */
-	function createDataAccessor($data);
 }
 
