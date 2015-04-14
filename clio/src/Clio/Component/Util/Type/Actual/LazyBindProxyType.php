@@ -59,5 +59,10 @@ class LazyBindProxyType extends ProxyType
 		
 		return parent::isResolved();
 	}
+
+    public function newData()
+    {
+        return $this->getType()->newData();
+    }
 }
 

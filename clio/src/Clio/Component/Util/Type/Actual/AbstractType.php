@@ -71,5 +71,17 @@ abstract class AbstractType implements Type, Convertable
 
 		throw new UnsupportedException(sprintf('Convert data from "%s" to "%s" is not supported', (string)$this, (string)$type));
 	}
+
+    /**
+     * newData 
+     *   Create new data of type.
+     * 
+     * @access public
+     * @return void
+     */
+    public function newData()
+    {
+        throw new \Exception(sprintf('Class "%s" does not support method "newData".', get_class($this)));
+    }
 }
 

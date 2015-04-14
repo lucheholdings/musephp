@@ -55,4 +55,9 @@ class ArrayType extends AbstractType
 	{
 		return is_array($value);
 	}
+
+    public function newData()
+    {
+        return array();
+    }
 }

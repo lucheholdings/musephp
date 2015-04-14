@@ -48,5 +48,16 @@ class NullType extends AbstractType
 	{
 		return true;
 	}
+
+    /**
+     * newData 
+     * 
+     * @access public
+     * @return void
+     */
+    public function newData()
+    {
+        return null;
+    }
 }
 

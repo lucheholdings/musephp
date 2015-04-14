@@ -128,5 +128,20 @@ class ClassType extends AbstractType
     {
         return $this->reflector;
     }
+
+    public function newData(array $args = array())
+    {
+        $constructor = $this->reflector->getConstructor();
+
+        if($constructor) {
+            if(empty($args)) {
+                return $this->reflector->newInstance();
+            } else {
+                return $this->reflector->newInstanceArgs($args);
+            }
+        } else {
+            return $this->reflector->newInstanceWithoutConstructor();
+        }
+    }
 }
 
