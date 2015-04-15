@@ -48,7 +48,8 @@ abstract class AbstractStrategy implements Strategy
 				try {
 					$this->enterScope($context, $value, $fieldType, $key);
 						
-					$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+                    if($context->getNormalizer())
+    					$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
 
 					$this->leaveScope($context);
 				} catch(CircularException $ex) {
@@ -57,7 +58,8 @@ abstract class AbstractStrategy implements Strategy
 						throw $ex;
 					}
 
-					$value = $context->getNormalizer()->normalize($data, new ReferenceType($type), $context);
+                    if($context->getNormalizer())
+					    $value = $context->getNormalizer()->normalize($data, new ReferenceType($type), $context);
 				}
 			}, array($context, $type));
 		}
@@ -92,7 +94,8 @@ abstract class AbstractStrategy implements Strategy
 
 				$this->enterScope($context, $value, $fieldType, $key);
 				// 
-				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
+                if($context->getNormalizer())
+				   $value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
 
 				$this->leaveScope($context);
 			});

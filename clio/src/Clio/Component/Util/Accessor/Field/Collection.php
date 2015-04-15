@@ -66,11 +66,11 @@ class Collection implements MultiFieldAccessor
 	/**
 	 * {@inheritdoc}
 	 */
-	public function isSupportMethod($container, $field, $type)
+	public function isSupportedAccess($container, $field, $type)
 	{
 		try {
 			$field = $this->getFieldAccessor($field);
-			return $field->isSupportMethod($container, $type);
+			return $field->isSupportedAccess($container, $type);
 		} catch(\Exception $ex) {
 			// Field not exists, so not supported.
 			return false;
@@ -84,11 +84,12 @@ class Collection implements MultiFieldAccessor
 	{
 		$values = array();
 
-		foreach($this->fields as $field => $field) {
-			if($field instanceof IgnoreFieldAccessor)
+		foreach($this->fields as $field => $accessor) {
+			if($accessor instanceof IgnoreFieldAccessor)
 				continue;
-			if($field->isSupportMethod($container, $field, Accessor::ACCESS_GET)) {
-				$values[$field] = $field->get($container);
+            
+			if($accessor->isSupportedAccess($container, self::ACCESS_TYPE_GET)) {
+				$values[$field] = $accessor->get($container);
 			}
 		}
 

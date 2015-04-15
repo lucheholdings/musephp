@@ -103,7 +103,7 @@ class ChainedFieldAccessor extends ProxyFieldAccessor
      */
 	public function getFieldValues($container)
     {
-        $values $this->getBaseAccessor()->getFieldValues($container);
+        $values = $this->getBaseAccessor()->getFieldValues($container);
         
         if($this->nextAccessor) {
             $values = array_merge($this->nextAccessor->getFieldValues($container, $field), $values);

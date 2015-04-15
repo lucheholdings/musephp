@@ -24,7 +24,7 @@ class FieldMetadataTest extends \PHPUnit_Framework_TestCase
     public function testConstruct()
     {
         $owner = new SchemaMetadata(new Types\Actual\ArrayType());
-        $metadata = new FieldMetadata($owner, 'foo');
+        $metadata = new FieldMetadata($owner, 'foo', new SchemaMetadata(new Types\Actual\MixedType()));
 
         $this->assertEquals('foo', $metadata->getName());
         $this->assertEquals('foo', (string)$metadata);
