@@ -9,6 +9,9 @@ use Clio\Component\Util\Type as Types;
 use Clio\Extra\Type as ExtraTypes;
 use Clio\Component\Util\Accessor\Registry as AccessorRegistry;
 use Clio\Component\Util\Accessor;
+use Clio\Component\Util\Accessor\Field\SingleFieldAccessor,
+    Clio\Component\Util\Accessor\Field\MultiFieldAccessor
+;
 
 //use Clio\Component\Tool\Normalizer\Strategy\NormalizationStrategy,
 //	Clio\Component\Tool\Normalizer\Strategy\DenormalizationStrategy
@@ -69,7 +72,7 @@ class AccessorStrategy extends Strategies\ObjectStrategy implements Strategies\N
         // Get accessor from Schema name 
         $accessor = $this->getAccessorRegistry()->get($type->getName());
 
-        if($accessor instanceof Accessor\Field\MultiFiledAccessor) {
+        if($accessor instanceof Accessor\Field\MultiFieldAccessor) {
             return $accessor->getFieldValues($data);
         } else if($accessor instanceof Accessor\Field\SingleFieldAccessor) {
 		    return $accessor->get($data);
@@ -89,26 +92,26 @@ class AccessorStrategy extends Strategies\ObjectStrategy implements Strategies\N
 	/**
 	 * {@inheritdoc}
 	 */
-	protected function doDenormalize($data, Type $type, Context $context, $object = null)
+	protected function doDenormalize($data, Type $type, Context $context, $base = null)
 	{
         $accessor = $this->getAccessorRegistry()->get($type->getName());
 
-		if(!$object) {
-            $object = $type->getSchema()->newInstance();
-		}
-
-        $dataAccessor = $accessor->createDataAccessor($data);
+        // Create dataAccessor with Base data
+        $dataAccessor = $accessor->createDataAccessor($base);
 
 		// Set Field Values
-		if(is_array($data)) {
-			foreach($data as $key => $value) {
-				if($dataAccessor->isSupportedAccess($key, Accessor::ACCESS_SET)) {
-					$dataAccessor->set($key, $value);
-				}
-			}
-		} else {
-            // fixme: if dataAccessor is ScalarSchemaAccessor, then set
-			return $data;
+		if($accessor instanceof MultiFieldAccessor) {
+            if(is_array($data)) {
+			    foreach($data as $key => $value) {
+			    	if($dataAccessor->isSupportedAccess($key, Accessor\Accessor::ACCESS_TYPE_SET)) {
+			    		$dataAccessor->set($key, $value);
+			    	}
+			    }
+            } else {
+                throw new \InvalidArgumentException(sprintf('Denormalizing type "%s" only accept array data.', (string)$type));
+            }
+		} else if($accessor instanceof SingleFieldAccessor) {
+			$dataAccessor->set($data);
 		}
 
 		return $dataAccessor->getData();
