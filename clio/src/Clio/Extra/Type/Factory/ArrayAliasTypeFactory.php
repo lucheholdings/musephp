@@ -5,8 +5,24 @@ use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
 use Clio\Extra\Type;
 use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
-class TypeFactory extends AbstractTypeFactory
+/**
+ * ArrayAliasTypeFactory 
+ * 
+ * @uses AbstractTypeFactory
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
+class ArrayAliasTypeFactory extends AbstractTypeFactory
 {
+    /**
+     * createType 
+     * 
+     * @param mixed $name 
+     * @access public
+     * @return void
+     */
 	public function createType($name)
 	{
 		switch($name) {
@@ -22,6 +38,13 @@ class TypeFactory extends AbstractTypeFactory
 		throw new UnsupportedException(sprintf('Unknown type "%s" to create.', $name));
 	}
 
+    /**
+     * isSupportedType 
+     * 
+     * @param mixed $name 
+     * @access public
+     * @return void
+     */
 	public function isSupportedType($name)
 	{
 		switch($name) {
