@@ -1,0 +1,35 @@
+{
+    "name": "musephp/clio-extra",
+    "type": "library",
+    "description": "Clio Extra Component to bind Components",
+    "keywords": [
+        "muse",
+        "clio"
+    ],
+    "license": "MIT",
+    "homepage": "http://musephp.org",
+    "authors": [
+        {
+            "name": "44",
+            "email": "yoshi@1o1.co.jp"
+        }
+    ],
+    "support": {
+        "source": "https://github.com/phpmuse/clio-extra"
+    },
+    "require": {
+        "php": ">=5.4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Clio\\Extra\\": ""
+        }
+    },
+    "minimum-stability": "dev",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.0-dev"
+        }
+    }
+}
+
