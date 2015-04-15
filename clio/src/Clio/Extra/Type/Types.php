@@ -15,5 +15,9 @@ class Types
 	const TYPE_MAP  = 'map';
 	# Alias of Set
 	const TYPE_LIST = 'list';
+
+    // definitions of field and schema types
+    const TYPE_SCHEMA = 'schema';
+    const TYPE_FIELD  = 'field';
 }
 
