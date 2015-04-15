@@ -136,7 +136,11 @@ class ClassType extends AbstractType
         // try using constructor to create new object.
         if($constructor) {
             if(empty($args)) {
-                return $this->reflector->newInstance();
+                if(0 < $constructor->getNumberOfRequiredParameters()) {
+                    return $this->reflector->newInstanceWithoutConstructor();
+                } else {
+                    return $this->reflector->newInstance();
+                }
             } else {
                 return $this->reflector->newInstanceArgs($args);
             }
