@@ -30,14 +30,8 @@
     "replace": {
         "museclio/framework": "self.version",
         "museclio/util-container": "self.version",
-
-        "museclio/pce-metadata": "self.version",
-        "museclio/pce-metadata": "self.version",
-
-
-        "museclio/symfony-framework-bundle": "self.version",
-
-		"museclio/jms-serializer-bridge": "self.version"
+        "museclio/util-type": "self.version",
+        "museclio/util-metadata": "self.version"
     },
     "autoload": {
         "psr-0": {
