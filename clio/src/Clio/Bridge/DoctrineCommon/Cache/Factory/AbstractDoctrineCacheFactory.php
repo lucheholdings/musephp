@@ -44,7 +44,7 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 	/**
 	 * {@inheritdoc}
 	 */
-	public function createByKey()
+	public function createByKey($key)
 	{
 		return $this->doCreate(func_get_args());
 	}
