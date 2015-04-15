@@ -11,7 +11,12 @@ class TestSchemaRegistry extends Metadata\SchemaRegistry\ValidateRegistry
     public function __construct()
     {
         parent::__construct(new Registry\LoadableRegistry(
-                Metadata\Loader\Factory::createComplexLoader(array(new Loader\FactoryLoader(new Metadata\Factory\MetadataFactory(Type\Registry\Factory::createDefault()))), new Metadata\Loader\Warmer($this))
+                Metadata\Loader\Factory::createComplexLoader(
+                    array(
+                        new Loader\FactoryLoader(new Metadata\Factory\MetadataFactory(Type\Registry\Factory::createDefault()))
+                    ), 
+                    new Metadata\Loader\Warmer($this)
+                )
             ));
     }
 }
