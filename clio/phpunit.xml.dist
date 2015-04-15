@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit backupGlobals="false"
+         backupStaticAttributes="false"
+         colors="true"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         processIsolation="false"
+         stopOnFailure="false"
+         syntaxCheck="true"
+         bootstrap="./tests/bootstrap.php"
+>
+    <testsuites>
+        <testsuite name="MusePHP TestSuite">
+            <directory>./src/Clio/Component/*/Tests</directory>
+            <directory>./src/Clio/Component/*/*/Tests</directory>
+            <directory>./src/Clio/Extra</directory>
+            <directory>./src/Clio/Bridge</directory>
+            <directory>./src/Clio/Adapter</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>./src/Clio</directory>
+            <exclude>
+                <directory>./src/Clio/Component/*/Tests</directory>
+                <directory>./src/Clio/Component/*/Resources</directory>
+                <directory>./src/Clio/Component/*/vendor</directory>
+                <directory>./src/Clio/Component/*/*/Tests</directory>
+                <directory>./src/Clio/Component/*/*/Resources</directory>
+                <directory>./src/Clio/Component/*/*/vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
+</phpunit>
+
+
