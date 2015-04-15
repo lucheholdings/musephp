@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field;
 
+use Clio\Component\Util\Accessor\FieldAccessor;
+
 /**
  * FieldAccessorChain 
  *   FieldAccessorChain is a ProxyFieldAccessor.
@@ -24,14 +26,6 @@ class FieldAccessorChain extends ProxyFieldAccessor
     private $accessors;
 
     /**
-     * _root 
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $_root;
-
-    /**
      * __construct 
      * 
      * @param array $accessors 
@@ -42,7 +36,7 @@ class FieldAccessorChain extends ProxyFieldAccessor
     {
         $this->accessors = array();
         foreach($accessors as $accessor) {
-            $this->addFieldAccessor($accessor);
+            $this->addAccessor($accessor);
         }
     }
 
@@ -55,7 +49,7 @@ class FieldAccessorChain extends ProxyFieldAccessor
     public function getBaseAccessor()
     {
         $root = null;
-        if(!$this->_root) {
+        if(!$this->baseAccessor) {
             $collectionAccessor = null;
             // build 
             foreach($this->accessors as $accessor) {
@@ -66,7 +60,7 @@ class FieldAccessorChain extends ProxyFieldAccessor
                     }
 
                     // add SingleFieldAccessor into Collection
-                    $collectionAccessor->getFieldAccessor()->addFieldAccessor($accessor);
+                    $collectionAccessor->getBaseAccessor()->addFieldAccessor($accessor);
                 } else if($accessor instanceof MultiFieldAccessor) {
                     $chained = new ChainedFieldAccessor($accessor);
                 }
@@ -87,10 +81,10 @@ class FieldAccessorChain extends ProxyFieldAccessor
                 $root = $collectionAccessor;
             }
 
-            $this->_root = $root;
+            $this->baseAccessor = $root;
         }
 
-        return $this->_root;
+        return $this->baseAccessor;
     }
 
     /**
@@ -102,7 +96,7 @@ class FieldAccessorChain extends ProxyFieldAccessor
      */
     public function addAccessor(FieldAccessor $accessor)
     {
-        $this->_root = null;
+        $this->baseAccessor = null;
         $this->accessors[] = $accessor;
 
         return $this;

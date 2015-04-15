@@ -75,7 +75,8 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 					}
 						
 					// Normalize Field value
-					$value = $context->getNormalizer()->normalize($value, $fieldType, $context);
+                    if($context->getNormalizer())
+					    $value = $context->getNormalizer()->normalize($value, $fieldType, $context);
 
 					$this->leaveScope($context);
 				});
@@ -85,7 +86,7 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 			return $fields;
 		}
 
-		throw new \LogicException(sprintf('AbstractSchemaStrategy::getNormalizedFields() requires null, scalar or array value as returned value, but "%s" is returned.', is_object($fields) ? get_class($fields) : gettype($fields)));
+		throw new \LogicException(sprintf('doNormalize requires to return either null, scalar or array value, but "%s" is returned.', is_object($fields) ? get_class($fields) : gettype($fields)));
 	}
 
 	/**
@@ -122,7 +123,8 @@ abstract class AbstractSchemaStrategy extends AbstractStrategy
 				$fieldType = $context->getFieldType($type, $key);
 				$context->enterScope($value, $fieldType, $key);
 				// Denormalize the field value 
-				$value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
+                if($context->getNormalizer())
+				    $value = $context->getNormalizer()->denormalize($value, $fieldType, $context);
 
 				$this->leaveScope($context);
 

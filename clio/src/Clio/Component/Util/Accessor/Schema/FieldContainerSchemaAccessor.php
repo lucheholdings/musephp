@@ -37,6 +37,7 @@ class FieldContainerSchemaAccessor extends AbstractSchemaAccessor implements Fie
     public function __construct(Metadata\Schema $schema, array $fieldAccessors = array(), array $options = array())
     {
         parent::__construct($schema, $options);
+
         $this->fieldAccessors = new Fields\FieldAccessorChain($fieldAccessors);
     }
 
@@ -90,7 +91,7 @@ class FieldContainerSchemaAccessor extends AbstractSchemaAccessor implements Fie
      */
     public function set($container, $field, $value)
     {
-        return $this->fieldAccessors->set($container, $field, $set);
+        return $this->fieldAccessors->set($container, $field, $value);
     }
 
     /**

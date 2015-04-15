@@ -41,7 +41,7 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return $this->getBaseAccessor()->get($container); 
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
             return $this->getBaseAccessor()->get($container, $field);
         } else {
             throw new \RuntimeException('Not Implemented');
@@ -55,7 +55,7 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return $this->getBaseAccessor()->set($container, $value); 
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
             return $this->getBaseAccessor()->set($container, $field, $value);
         } else {
             throw new \RuntimeException('Not Implemented');
@@ -69,7 +69,7 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return $this->getBaseAccessor()->isNull($container); 
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
             return $this->getBaseAccessor()->isNull($container, $field);
         } else {
             throw new \RuntimeException('Not Implemented');
@@ -83,7 +83,7 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return $this->getBaseAccessor()->clear($container); 
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
             return $this->getBaseAccessor()->clear($container, $field);
         } else {
             throw new \RuntimeException('Not Implemented');
@@ -97,7 +97,7 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return array($this->getBaseAccessor()->getFieldName($container)); 
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
             return $this->getBaseAccessor()->getFieldNames($container);
         } else {
             throw new \RuntimeException('Not Implemented');
@@ -111,8 +111,8 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return array($this->getBaseAccessor()->getFieldName() => $this->getBaseAccessor()->get($container)); 
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
-            return $this->getBaseAccessor()->getFieldValues($container, $field);
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
+            return $this->getBaseAccessor()->getFieldValues($container);
         } else {
             throw new \RuntimeException('Not Implemented');
         }
@@ -125,7 +125,7 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return true;
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
             return $this->getBaseAccessor()->existsField($container, $field);
         } else {
             throw new \RuntimeException('Not Implemented');
@@ -139,7 +139,7 @@ class ProxyFieldAccessor implements MultiFieldAccessor
     {
         if($this->getBaseAccessor() instanceof SingleFieldAccessor) {
             return ($field == $this->getBaseAccessor()->getFieldName()) && $this->getBaseAccessor()->isSupportedAccess($container, $accessType);
-        } else if($this->getBaseAccessor() instanceof MultiFieldAcccessor) {
+        } else if($this->getBaseAccessor() instanceof MultiFieldAccessor) {
             return $this->getBaseAccessor()->isSupportedAccess($container, $field, $accessType);
         } else {
             throw new \RuntimeException('Not Implemented');
