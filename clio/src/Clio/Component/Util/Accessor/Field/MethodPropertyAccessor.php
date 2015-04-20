@@ -1,8 +1,6 @@
 <?php
 namespace Clio\Component\Util\Accessor\Field;
 
-use Clio\Component\Util\Psr\Psr1;
-
 /**
  * MethodPropertyAccessor
  * 
