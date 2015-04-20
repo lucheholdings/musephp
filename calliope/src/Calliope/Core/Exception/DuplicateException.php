@@ -1,6 +1,8 @@
 <?php
 namespace Calliope\Core\Exception;
 
+use Calliope\Core\Exception;
+
 /**
  * DuplicateException 
  * 
@@ -9,7 +11,7 @@ namespace Calliope\Core\Exception;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class DuplicateException extends \RuntimeException 
+class DuplicateException extends \RuntimeException implements Exception
 {
 }
 

@@ -2,8 +2,8 @@
 namespace Calliope\Core\Connection\Factory;
 
 use Calliope\Core\Connection\Factory;
-use Calliope\Core\SchemaRegistry;
-use Calliope\Core\SchemaManagerInterface;
+use Calliope\Core\Schema\Registry as SchemaRegistry;
+use Calliope\Core\Schema\Manager as SchemaManager;
 
 use Calliope\Core\Connection\UsecaseConnection;
 
@@ -74,7 +74,7 @@ class UsecaseConnectionFactory extends AbstractConnectionFactory implements Fact
      * @param registry the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setRegistry(SchemaRegistryInteface $registry)
+    public function setRegistry(SchemaRegistry $registry)
     {
         $this->registry = $registry;
         return $this;

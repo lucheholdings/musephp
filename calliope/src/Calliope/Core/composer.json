@@ -1,10 +1,10 @@
 {
-    "name": "musecalliope/core",
+    "name": "musephp/calliope-core",
 	"type": "library",
 	"license": "MIT",
 	"description": "Calliope Framework Core",
 	"require": {
-		"museerato/core": "~2.0",
+		"musephp/erato-core":       "~2.0",
 		"symfony/event-dispatcher": "~2.0"
 	},
 	"autoload": {
