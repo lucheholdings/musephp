@@ -1,17 +1,17 @@
 <?php
-namespace Clio\Component\Util\Hash;
+namespace Clio\Component\Util\Id;
 
-use Clio\Component\Util\Hash\Strategy\PseudoHashGenerateStrategy;
+use Clio\Component\Util\Id\Generator\Strategy;
 
 /**
- * HashUtil 
+ * Generator 
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class HashUtil 
+class Generator 
 {
 	/**
 	 * _instance 
@@ -38,13 +38,13 @@ class HashUtil
 	}
 
 	/**
-	 * generate 
-	 *   Generate Hash 
+	 * generateDefault 
+	 *   Generate with default strategy
 	 * @static
 	 * @access public
 	 * @return void
 	 */
-	static public function generateHash()
+	static public function generateDefault()
 	{
 		return self::getInstance()->generate(func_get_args());
 	}
@@ -60,17 +60,17 @@ class HashUtil
 	/**
 	 * __construct 
 	 * 
-	 * @param HashGenerateStrategyInterface $strategy 
+	 * @param Strategy $strategy 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(HashGenerateStrategyInterface $strategy = null)
+	public function __construct(Strategy $strategy = null)
 	{
 		if($strategy) {
 			$this->strategy = $strategy;
 		} else {
 			// Set default strategy
-			$this->strategy = new PseudoHashGenerateStrategy();
+			$this->strategy = new Strategy\PseudoHashGenerateStrategy();
 		}
 	}
     
@@ -92,7 +92,7 @@ class HashUtil
      * @param strategy the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setStrategy(HashGenerateStrategyInterface $strategy)
+    public function setStrategy(Strategy $strategy)
     {
         $this->strategy = $strategy;
         return $this;

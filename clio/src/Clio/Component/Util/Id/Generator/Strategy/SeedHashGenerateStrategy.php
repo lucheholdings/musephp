@@ -1,5 +1,7 @@
 <?php
-namespace Clio\Component\Util\Hash\Strategy;
+namespace Clio\Component\Util\Id\Generator\Strategy;
+
+use Clio\Component\Util\Id\Generator\Strategy;
 
 /**
  * SeedHashGenerateStrategy 
@@ -10,7 +12,7 @@ namespace Clio\Component\Util\Hash\Strategy;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SeedHashGenerateStrategy implements HashGenerateStrategyInterface
+class SeedHashGenerateStrategy implements Strategy
 {
 	/**
 	 * algorithm 
