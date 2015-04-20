@@ -14,7 +14,8 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Clio\Extra\Loader as ClioLoader;
 use Clio\Component\Util as ClioUtil;
-use Clio\Component\Exception\ResourceNotFoundException;
+use Clio\Component\Pattern\Tools\FileLocator as ClioFileLocator;
+use Clio\Component\Pattern\Loader\Exception as ClioLoaderException;
 use Clio\Bridge\SymfonyComponents\Format\Yaml\Yaml as YamlFormat;
 
 /**
@@ -93,7 +94,7 @@ class CalliopeFrameworkExtension extends Extension
 				$dirs = $this->getBundleConfigDir($container->getParameter('kernel.bundles'));
 				foreach($dirs as $bundleName => $dir) {
 					$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
-					$loader  = new ClioLoader\FormatFileLoader(new ClioUtil\Locator\FileLocator($dir), array(new YamlFormat()));
+					$loader  = new ClioLoader\FormatFileLoader(new ClioFileLocator($dir), array(new YamlFormat()));
 					try {
 						$bundleConfigs = $loader->load('calliope.yml');
 						if(!isset($bundleConfigs['schema'])) {
@@ -104,7 +105,7 @@ class CalliopeFrameworkExtension extends Extension
 						foreach($bundleSchemas as $name => $schemaConfig) {
 							$importedSchemas[$bundleNameSnakeCase . '.' . $name] = $schemaConfig; 
 						}
-					} catch(ResourceNotFoundException $ex) {
+					} catch(ClioLoaderException $ex) {
 						// ignore exception
 					}
 				}
@@ -113,7 +114,7 @@ class CalliopeFrameworkExtension extends Extension
 				foreach($dirs as $bundleName => $dir) {
 					if(in_array($bundleName, $bundles)) {
 						$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
-						$loader  = new ClioLoader\FormatFileLoader(new ClioUtil\Locator\FileLocator($dir), array(new YamlFormat()));
+						$loader  = new ClioLoader\FormatFileLoader(new ClioFileLocator($dir), array(new YamlFormat()));
 
 						$bundleConfigs = $loader->load('calliope.yml');
 						if(!isset($bundleConfigs['schema'])) {
