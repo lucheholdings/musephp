@@ -1,15 +1,15 @@
 <?php
-namespace Clio\Component\Util\Hash\Strategy;
+namespace Clio\Component\Util\Id\Strategy\Generator;
 
 /**
- * HashGenerateStrategyInterface 
+ * Strategy
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license MIT
  */
-interface HashGenerateStrategyInterface
+interface Strategy
 {
 	/**
 	 * generate 

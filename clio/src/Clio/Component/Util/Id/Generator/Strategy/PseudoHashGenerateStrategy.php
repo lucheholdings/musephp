@@ -1,6 +1,7 @@
 <?php
-namespace Clio\Component\Util\Hash\Strategy;
+namespace Clio\Component\Util\Id\Generator\Strategy;
 
+use Clio\Component\Util\Id\Generator\Strategy;
 /**
  * PseudoHashGenerateStrategy 
  * 
@@ -10,7 +11,7 @@ namespace Clio\Component\Util\Hash\Strategy;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PseudoHashGenerateStrategy implements HashGenerateStrategyInterface
+class PseudoHashGenerateStrategy implements Strategy 
 {
 	private $defaultByteLen = 8;
 
