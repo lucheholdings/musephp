@@ -2,9 +2,9 @@
 namespace Clio\Extra\Loader;
 
 use Clio\Component\Pattern\Loader\FileLoader;
+use Clio\Component\Pattern\Tools\FileLocator;
 use Clio\Component\Util\Format;
 use Clio\Component\Util\Format\FileFormat;
-use Clio\Component\Util\Locator\Locator;
 use Clio\Component\Exception\UnsupportedException;
 
 /**
@@ -26,7 +26,7 @@ class FormatFileLoader extends FileLoader
 	 */
 	private $formats;
 
-	public function __construct(Locator $locator, array $formats = array())
+	public function __construct(FileLocator $locator, array $formats = array())
 	{
 		parent::__construct($locator);
 
