@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Core\Connection;
 
-use Clio\Component\Pattern\Registry\Registry;
-use Calliope\Core\Manager;
+use Calliope\Core\Schema\Registry as SchemaRegistry;
+use Calliope\Core\Schmea\Manager as SchemaManager;
 
 /**
  * UsecaseConnection 
@@ -15,20 +15,26 @@ use Calliope\Core\Manager;
  */
 class UsecaseConnection extends AbstractConnection implements CRUDConnection 
 {
-	private $registry;
+    /**
+     * schemaSchemaRegistry 
+     *   SchemaRegistry to get destination schema 
+     * @var mixed
+     * @access private
+     */
+	private $schemaSchemaRegistry;
 
 	/**
 	 * __construct 
 	 * 
-	 * @param Registry $registry 
+	 * @param SchemaRegistry $schemaSchemaRegistry 
 	 * @param mixed $connectTo 
 	 * @param array $options 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Registry $registry, $connectTo, array $options = array())
+	public function __construct(SchemaRegistry $schemaSchemaRegistry, $connectTo, array $options = array())
 	{
-		$this->registry = $registry;
+		$this->schemaSchemaRegistry = $schemaSchemaRegistry;
 
 		parent::__construct($connectTo, $options);
 	}
@@ -42,27 +48,50 @@ class UsecaseConnection extends AbstractConnection implements CRUDConnection
 	protected function doConnect()
 	{
 		if(is_string($this->connectTo)) {
-			$toSchema = $this->getRegistry()->get($this->connectTo);
+			$toSchema = $this->getSchemaRegistry()->get($this->connectTo);
 
 			$this->connectTo = $toSchema->getMapping('schema_manager')->getManager();
 		}
 
-		if(!$this->connectTo instanceof Manager) {
+		if(!$this->connectTo instanceof SchemaManager) {
 			throw new \InvalidArgumentException(sprintf('Invalid destination. Destination of UsecaseConnection has to be a Manager, but "%s" is given.', is_object($this->connectTo) ? get_class($this->connectTo) : gettype($this->connectTo)));
 		}
 	}
     
-    public function getRegistry()
+    /**
+     * getSchemaRegistry 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getSchemaRegistry()
     {
-        return $this->registry;
+        return $this->schemaSchemaRegistry;
     }
     
-    public function setRegistry(Registry $registry)
+    /**
+     * setSchemaRegistry 
+     * 
+     * @param SchemaRegistry $schemaSchemaRegistry 
+     * @access public
+     * @return void
+     */
+    public function setSchemaRegistry(SchemaRegistry $schemaSchemaRegistry)
     {
-        $this->registry = $registry;
+        $this->schemaSchemaRegistry = $schemaSchemaRegistry;
         return $this;
     }
 
+    /**
+     * findBy 
+     * 
+     * @param array $criteria 
+     * @param array $orderBy 
+     * @param mixed $limit 
+     * @param mixed $offset 
+     * @access public
+     * @return void
+     */
 	public function findBy(array $criteria, array $orderBy = array(), $limit = null, $offset = null)
 	{
 		$models = $this->getConnectTo()->findBy($criteria, $orderBy, $limit, $offset);
@@ -74,6 +103,14 @@ class UsecaseConnection extends AbstractConnection implements CRUDConnection
 		});
 	}
 
+    /**
+     * findOneBy 
+     * 
+     * @param array $criteria 
+     * @param array $orderBy 
+     * @access public
+     * @return void
+     */
 	public function findOneBy(array $criteria, array $orderBy = null)
 	{
 		$model = $this->getConnectTo()->findOneBy($criteria, $orderBy);
