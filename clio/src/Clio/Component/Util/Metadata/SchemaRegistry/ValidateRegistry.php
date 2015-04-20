@@ -17,6 +17,19 @@ use Clio\Component\Pattern\Registry\ProxyRegistry;
  */
 class ValidateRegistry extends ProxyRegistry implements SchemaRegistry
 {
+
+    /**
+     * has 
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
+    public function has($key)
+    {
+        return parent::has($key);
+    }
+
     /**
      * {@inheritdoc}
      */
