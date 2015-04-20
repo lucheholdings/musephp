@@ -1,8 +1,9 @@
 <?php
 namespace Erato\Core;
 
-use Clio\Component\Util\Psr\Psr1,
-	Clio\Component\Util\Grammer\Grammer;
+use Clio\Component\Util\Literal\CaseUtil,
+    Clio\Component\Util\Literal\Psr1
+;
 
 
 class CodingStandard 
@@ -23,11 +24,11 @@ class CodingStandard
 		case self::NAMING_METHOD: 
 			return Psr1::formatMethodName(implode('_', $args));
 		case self::NAMING_PROPERTY: 
-			return Grammer::camelize(implode('_', $args));
+			return CaseUtil::camelize(implode('_', $args));
 		case self::NAMING_ARRAY_FIELD: 
-			return Grammer::snakize(implode('_', $args));
+			return CaseUtil::snakize(implode('_', $args));
 		case self::NAMING_ACCESSOR: 
-			return Grammer::snakize(implode('_', $args));
+			return CaseUtil::snakize(implode('_', $args));
 		default:
 			throw new \InvalidArgumentException(sprintf('Naming "%s" is unknown constraint.', $naming));
 		}
