@@ -2,6 +2,7 @@
 namespace Clio\Component\Pattern\Loader;
 
 use Clio\Component\Pattern\Tools;
+use Clio\Component\Pattern\Loader\Exception as LoaderExceptions;
 
 /**
  * FileLoader 
@@ -25,11 +26,11 @@ class FileLoader implements Loader
 	/**
 	 * __construct 
 	 * 
-	 * @param Tools\Locator $locator 
+	 * @param Tools\FileLocator $locator 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Tools\Locator $locator)
+	public function __construct(Tools\FileLocator $locator)
 	{
 		$this->locator = $locator;
 	}
@@ -56,19 +57,20 @@ class FileLoader implements Loader
 			$path = $locator->locate($file, true);
 		} catch(\InvalidArgumentException $ex) {
 			// File is not located.
-			throw new ResourceNotFoundException(sprintf('Resource "%s" is not found.', $file), 0, $ex);
+			throw new LoaderExceptions\ResourceNotFoundException(sprintf('Resource "%s" is not found.', $file), 0, $ex);
 		}
 		
 		// Import the file with file format 
 		return $this->doImportFile($path);
 	}
 
-	/**
-	 * importFile 
-	 * 
-	 * @access public
-	 * @return void
-	 */
+    /**
+     * doImportFile 
+     * 
+     * @param mixed $path 
+     * @access protected
+     * @return void
+     */
 	protected function doImportFile($path)
 	{
 		// Unknow format, so just load the file as string.
@@ -93,7 +95,7 @@ class FileLoader implements Loader
      * @access public
      * @return void
      */
-    public function setLocator(Tools\Locator $locator)
+    public function setLocator(Tools\FileLocator $locator)
     {
         $this->locator = $locator;
         return $this;
@@ -101,6 +103,11 @@ class FileLoader implements Loader
 
 	public function canLoad($resource)
 	{
+        try {
+	        $path = $locator->locate($file, true);
+        } catch(\InvalidArgumentException $ex) {
+            return false;
+        }
 		return true;
 	}
 }
