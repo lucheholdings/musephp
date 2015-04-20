@@ -1,0 +1,25 @@
+{
+	"name": "musephp/clio-util-literals",
+	"type": "library",
+	"description": "Literal Component of Clio",
+	"keywords": [
+		"php",
+		"literals"
+	],
+	"license": "MIT",
+	"require" : {
+		"php" : ">=5.4.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Clio\\Component\\Util\\Literal\\": "",
+		}
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
+		}
+	}
+}
+
