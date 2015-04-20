@@ -28,7 +28,6 @@ class MetadataRegistry extends BasicSchemaRegsitry
 	 */
 	public function __construct(MetadataFactory $factory, TypeRegsitry $typeRegistry, CacheProvider $cacheProvider = null)
 	{
-
 		parent::__construct($factory, $typeRegsitry);
 
 		if($cacheProvider) {
