@@ -2,6 +2,7 @@
 namespace Clio\Extra\Loader;
 
 use Clio\Component\Pattern\Loader;
+use Clio\Component\Pattern\Parser\Parser;
 use Clio\Component\Util\Format;
 use Clio\Component\Util\Format\FileFormat;
 use Clio\Component\Exception\UnsupportedException;
@@ -25,36 +26,35 @@ class FormatFileLoader extends Loader\FileLoader
 	 */
 	private $formats;
 
-	public function __construct(Loader\FileLocator $locator, array $formats = array())
+    /**
+     * __construct 
+     * 
+     * @param Loader\FileLocator $locator 
+     * @param array $formats 
+     * @access public
+     * @return void
+     */
+	public function __construct(Loader\FileLocator $locator, array $formats = array(), Parser $parser = null)
 	{
-		parent::__construct($locator);
+		parent::__construct($locator, $parser);
 
 		$this->formats = $formats;
 	}
 
-	/**
-	 * load 
-	 * 
-	 * @param mixed $resource 
-	 * @access public
-	 * @return void
-	 */
-	public function load($resource)
-	{
-		$format = $this->resolveFormat($resource);
+    /**
+     * doImport 
+     * 
+     * @param mixed $filepath 
+     * @access protected
+     * @return void
+     */
+    protected function doImport($filepath)
+    {
+		$format = $this->resolveFormat($filepath);
+		$context = parent::doImport($filepath);
 
-		if(!$format) {
-			// 
-			throw new UnsupportedException(sprintf('Resource "%s" is not supported format to load', $resource));
-		}
-
-		// if line breaks not exists, then might be file name 
-		if(false === strpos("\n", $resource) && $this->getLocator()) {
-			$resource = $this->importFile($resource);
-		}
-
-		return $format->parse($resource);
-	}
+		return $format->parse($context);
+    }
 
 	/**
 	 * resolveFormat 
