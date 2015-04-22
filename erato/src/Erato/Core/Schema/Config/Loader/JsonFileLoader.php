@@ -13,19 +13,15 @@ namespace Erato\Core\Schema\Config\Loader;
 class JsonFileLoader extends ArrayEncodedFileLoader 
 {
     /**
-     * __construct 
+     * doLoad 
      * 
-     * @access public
+     * @param mixed $resource 
+     * @access protected
      * @return void
      */
-    public function __construct()
-    {
-        $this->parser = new ArrayParser();
-    }
-
     protected function doLoad($resource)
     {
-        return parent::doLoad($resource . '.yml');
+        return parent::doLoad($resource . '.json');
     }
 
     /**
@@ -37,7 +33,7 @@ class JsonFileLoader extends ArrayEncodedFileLoader
      */
     protected function doImport($filepath)
     {
-        return Yaml::import($filepath);
+        return json_decode(parent::doImport($filepath));
     }
 }
 

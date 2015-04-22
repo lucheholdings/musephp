@@ -1,8 +1,30 @@
 <?php
 namespace Erato\Core\Schema\Config\Loader;
 
+use Clio\Component\Pattern\Loader\FileLoader;
+use Clio\Component\Pattern\Loader\FileLocator;
+use Erato\Core\Schema\Config\Parser\ArrayParser;
+
+/**
+ * ArrayEncodedFileLoader 
+ * 
+ * @uses FileLoader
+ * @abstract
+ * @package { PACKAGE }
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
+ * @license { LICENSE }
+ */
 abstract class ArrayEncodedFileLoader extends FileLoader
 {
+    /**
+     * parser 
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $parser;
+
     /**
      * __construct 
      * 
@@ -11,36 +33,33 @@ abstract class ArrayEncodedFileLoader extends FileLoader
      */
     public function __construct(FileLocator $locator)
     {
-        parent::__construct();
+        parent::__construct($locator);
+
         $this->parser = new ArrayParser();
     }
-}
 
+    /**
+     * import 
+     * 
+     * @param mixed $filepath 
+     * @access public
+     * @return void
+     */
+    public function import($filepath) 
+    {
+        $data = parent::import($filepath);
 
-// SequentialSelectLoader 
-SelectLoader
-{
-
-}
-
-SequentialLoader::selectEither();
-
-SequentialLoader::merge(array());
-
-LoaderDispatcher
-
-DispatchLoader 
-{
-    do {
-        
-    } while($loader->getDispatchIterator()->next());
-}
-
-if($loader instanceof LoaderCollection) {
-    $iterator = $loader->getDispatchIterator();
-    do {
-        $iterator->dispatch();
-    } while($iterator->next);
-} else {
-    return $loader->load();
+        return $this->parser->parse($data);
+    }
+    
+    /**
+     * getParser 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getParser()
+    {
+        return $this->parser;
+    }
 }
