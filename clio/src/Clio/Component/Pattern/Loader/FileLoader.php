@@ -1,7 +1,6 @@
 <?php
 namespace Clio\Component\Pattern\Loader;
 
-use Clio\Component\Pattern\Tools;
 use Clio\Component\Pattern\Loader\Exception as LoaderExceptions;
 
 /**
@@ -26,11 +25,11 @@ class FileLoader implements Loader
 	/**
 	 * __construct 
 	 * 
-	 * @param Tools\FileLocator $locator 
+	 * @param FileLocator $locator 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Tools\FileLocator $locator)
+	public function __construct(FileLocator $locator)
 	{
 		$this->locator = $locator;
 	}
@@ -44,14 +43,15 @@ class FileLoader implements Loader
 	}
 
 	/**
-	 * importFile 
+	 * import
 	 * 
 	 * @param mixed $resource 
 	 * @access protected
 	 * @return void
 	 */
-	protected function importFile($file)
+	protected function import($file)
 	{
+        // configure file path
 		$locator = $this->getLocator();
 		try {
 			$path = $locator->locate($file, true);
@@ -61,19 +61,18 @@ class FileLoader implements Loader
 		}
 		
 		// Import the file with file format 
-		return $this->doImportFile($path);
+		return $this->doImport($path);
 	}
 
     /**
-     * doImportFile 
+     * doImport
      * 
      * @param mixed $path 
      * @access protected
      * @return void
      */
-	protected function doImportFile($path)
+	protected function doImport($path)
 	{
-		// Unknow format, so just load the file as string.
 		return file_get_contents($path);
 	}
     
@@ -95,12 +94,19 @@ class FileLoader implements Loader
      * @access public
      * @return void
      */
-    public function setLocator(Tools\FileLocator $locator)
+    public function setLocator(FileLocator $locator)
     {
         $this->locator = $locator;
         return $this;
     }
 
+    /**
+     * canLoad 
+     * 
+     * @param mixed $resource 
+     * @access public
+     * @return void
+     */
 	public function canLoad($resource)
 	{
         try {
