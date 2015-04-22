@@ -12,7 +12,7 @@ use Clio\Component\Pattern\Loader\Exception as LoaderExceptions;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class FileLoader implements Loader 
+class FileLoader extends AbstractResourceLoader 
 {
 	/**
 	 * locator 
@@ -29,22 +29,15 @@ class FileLoader implements Loader
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(FileLocator $locator)
+	public function __construct(FileLocator $locator, Parser $parser = null)
 	{
 		$this->locator = $locator;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function load($resource)
-	{
-		return $this->loadFile($resource);
+        parent::__construct($parser);
 	}
 
 	/**
 	 * import
-	 * 
+	 *   Import context from file resource
 	 * @param mixed $resource 
 	 * @access protected
 	 * @return void
@@ -66,7 +59,7 @@ class FileLoader implements Loader
 
     /**
      * doImport
-     * 
+     *   Parse file format 
      * @param mixed $path 
      * @access protected
      * @return void
@@ -99,22 +92,4 @@ class FileLoader implements Loader
         $this->locator = $locator;
         return $this;
     }
-
-    /**
-     * canLoad 
-     * 
-     * @param mixed $resource 
-     * @access public
-     * @return void
-     */
-	public function canLoad($resource)
-	{
-        try {
-	        $path = $locator->locate($file, true);
-        } catch(\InvalidArgumentException $ex) {
-            return false;
-        }
-		return true;
-	}
 }
-

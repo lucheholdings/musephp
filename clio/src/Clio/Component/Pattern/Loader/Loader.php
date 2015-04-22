@@ -19,13 +19,4 @@ interface Loader
      * @return void
      */
 	function load($resource);
-
-	/**
-	 * canLoad 
-	 * 
-	 * @param mixed $resource 
-	 * @access public
-	 * @return void
-	 */
-	function canLoad($resource);
 }
