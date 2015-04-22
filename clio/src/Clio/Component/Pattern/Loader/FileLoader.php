@@ -39,18 +39,18 @@ class FileLoader extends AbstractResourceLoader
 	 * import
 	 *   Import context from file resource
 	 * @param mixed $resource 
-	 * @access protected
+	 * @access public 
 	 * @return void
 	 */
-	protected function import($file)
+	public function import($filepath)
 	{
         // configure file path
 		$locator = $this->getLocator();
 		try {
-			$path = $locator->locate($file, true);
+			$path = $locator->locate($filepath, true);
 		} catch(\InvalidArgumentException $ex) {
 			// File is not located.
-			throw new LoaderExceptions\ResourceNotFoundException(sprintf('Resource "%s" is not found.', $file), 0, $ex);
+			throw new LoaderExceptions\ResourceNotFoundException(sprintf('Resource "%s" is not found.', $filepath), 0, $ex);
 		}
 		
 		// Import the file with file format 

@@ -71,7 +71,7 @@ abstract class AbstractResourceLoader implements Loader
      * @access public
      * @return void
      */
-    function import($resource);
+    abstract public function import($resource);
     
     /**
      * getParser 
