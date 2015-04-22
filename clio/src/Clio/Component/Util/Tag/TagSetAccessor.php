@@ -9,7 +9,7 @@ namespace Clio\Component\Util\Tag;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TagSetAccessor 
+class TagSetAccessor implements TagSetAccessorInterface 
 {
 	/**
 	 * tagFactory 
@@ -65,7 +65,7 @@ class TagSetAccessor
 		return $container->remove($name);
 	}
 
-	public function removeAll()
+	public function removeAll(TagSet $container)
 	{
 		$container->removeAll();
 	}
