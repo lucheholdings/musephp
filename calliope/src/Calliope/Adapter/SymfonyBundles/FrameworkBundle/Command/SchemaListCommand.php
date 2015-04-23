@@ -78,7 +78,7 @@ class SchemaListCommand extends ContainerAwareCommand
 
 	protected function getSchemaRegistry()
 	{
-		return $this->getContainer()->get('calliope_framework.metadata.registry');
+		return $this->getContainer()->get('calliope_framework.schema.registry');
 	}
 }
 

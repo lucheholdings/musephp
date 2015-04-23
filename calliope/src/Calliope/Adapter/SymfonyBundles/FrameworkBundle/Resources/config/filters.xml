@@ -100,7 +100,7 @@
 			class="%calliope_framework.active_user_filter_listener_factory.class%"
 		>
 			<argument type="service" id="security.context"/>
-			<argument type="service" id="erato_framework.metadata.registry"/>
+			<argument type="service" id="erato_framework.schema.registry"/>
 
 			<tag name="calliope_framework.filter_listener_factory" for="active_user"/>
 		</service>

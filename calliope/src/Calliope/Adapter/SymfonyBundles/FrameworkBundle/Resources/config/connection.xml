@@ -67,7 +67,7 @@
 			id="calliope_framework.connection_factory.model"
 			class="%calliope_framework.connection_factory.model.class%"
 		>
-			<argument type="service" id="calliope_framework.metadata.registry"/>
+			<argument type="service" id="calliope_framework.schema.registry"/>
 			<tag name="calliope_framework.connection_factory" for="model"/>
 		</service>
 		<!--
