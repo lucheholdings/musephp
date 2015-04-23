@@ -174,7 +174,7 @@ class Configuration implements ConfigurationInterface
 						->scalarNode('type')->defaultValue('file_system')->end()
 						->scalarNode('ttl')->defaultValue(0)->end()
 						->arrayNode('options')
-							->defaultValue(array('directory' => '%kernel.cache_dir%/erato_framework/metadata', 'extension' => 'cache.php'))
+							->defaultValue(array('directory' => '%kernel.cache_dir%/erato_framework.schema', 'extension' => 'cache.php'))
 							->prototype('variable')
 							->end()
 						->end()

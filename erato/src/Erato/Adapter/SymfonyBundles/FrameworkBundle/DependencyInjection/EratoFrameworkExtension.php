@@ -87,19 +87,19 @@ class EratoFrameworkExtension extends Extension
 		{
 			$loaders = (array) $configs['config_loader'];
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_config_loader.annotation');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_config_loader.annotation');
 			
-			$container->setDefinition('erato_framework.metadata.config_loader.annotation', $definition);
-			$container->setAlias('erato_framework.metadata.config_loader', 'erato_framework.metadata.config_loader.annotation');
+			$container->setDefinition('erato_framework.schema.config_loader.annotation', $definition);
+			$container->setAlias('erato_framework.schema.config_loader', 'erato_framework.schema.config_loader.annotation');
 		}
 
 		$this->configureMetadataCache($container, $configs['cache']);
 
 		if($configs['cache']['enabled']) {
-			$container->setAlias('erato_framework.metadata.registry.loader', 'erato_framework.metadata.registry.cache_loader');
-			$container->setParameter('erato_framework.metadata.registry.cache_loader.ttl', $configs['cache']['ttl']);
+			$container->setAlias('erato_framework.schema.registry.loader', 'erato_framework.schema.registry.cache_loader');
+			$container->setParameter('erato_framework.schema.registry.cache_loader.ttl', $configs['cache']['ttl']);
 		} else {
-			$container->setAlias('erato_framework.metadata.registry.loader', 'erato_framework.metadata.registry.factory_loader');
+			$container->setAlias('erato_framework.schema.registry.loader', 'erato_framework.schema.registry.factory_loader');
 		}
 	}
 
@@ -109,17 +109,17 @@ class EratoFrameworkExtension extends Extension
 		if($configs['enabled']) {
 			switch($configs['type']) {
 			case 'alias':
-				$container->setAlias('erato_framework.metadata.registry.cache_loader.cache', $configs['options']['id']);
+				$container->setAlias('erato_framework.schema.registry.cache_loader.cache', $configs['options']['id']);
 				break;
 			default:
-				$cacheDefinition = new DefinitionDecorator('erato_framework.metadata.registry.cache_loader.default_cache');
+				$cacheDefinition = new DefinitionDecorator('erato_framework.schema.registry.cache_loader.default_cache');
 
 				$options = $configs['options'];
 				$cacheDefinition->replaceArgument(0, $configs['type']);
 				$cacheDefinition->replaceArgument(1, $options);
 			
 				$container->setDefinition(
-					'erato_framework.metadata.registry.cache_loader.cache',
+					'erato_framework.schema.registry.cache_loader.cache',
 					$cacheDefinition
 				);
 				break;
@@ -144,7 +144,7 @@ class EratoFrameworkExtension extends Extension
 	protected function configureAttributeMapMapping($container, $configs)
 	{
 		if(isset($configs['enabled'])) {
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.attribute_map');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.attribute_map');
 
 			$definition->replaceArgument(0, $configs['fieldname']);
 			$definition->replaceArgument(1, $configs['default_class']);
@@ -153,7 +153,7 @@ class EratoFrameworkExtension extends Extension
 			$this->enableMapping($definition, 'attribute_map');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.attribute_map',
+				'erato_framework.schema.mapping_factory.attribute_map',
 				$definition
 			);
 		}
@@ -162,7 +162,7 @@ class EratoFrameworkExtension extends Extension
 	protected function configureTagSetMapping($container, $configs)
 	{
 		if(isset($configs['enabled'])) {
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.tag_set');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.tag_set');
 
 			$definition->replaceArgument(0, $configs['fieldname']);
 			$definition->replaceArgument(1, $configs['default_class']);
@@ -171,7 +171,7 @@ class EratoFrameworkExtension extends Extension
 			$this->enableMapping($definition, 'tag_set');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.tag_set',
+				'erato_framework.schema.mapping_factory.tag_set',
 				$definition
 			);
 		}
@@ -189,13 +189,13 @@ class EratoFrameworkExtension extends Extension
 	{
 		if(isset($configs['enabled'])) {
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.accessor');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.accessor');
 			$definition->addMethodCall('setOptions', array($configs['options']));
 
 			$this->enableMapping($definition, 'accessor');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.accessor',
+				'erato_framework.schema.mapping_factory.accessor',
 				$definition
 			);
 		}
@@ -205,7 +205,7 @@ class EratoFrameworkExtension extends Extension
 	{
 		if($configs['enabled']) {
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.normalizer');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.normalizer');
 
 			$definition->replaceArgument(1, array('normalizer' => $configs['default_normalizer']));
 			$definition->addMethodCall('setOptions', array($configs['options']));
@@ -214,7 +214,7 @@ class EratoFrameworkExtension extends Extension
 
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.normalizer',
+				'erato_framework.schema.mapping_factory.normalizer',
 				$definition
 			);
 		}
@@ -223,14 +223,14 @@ class EratoFrameworkExtension extends Extension
 	protected function configureSerializerMapping($container, $configs)
 	{
 		if($configs['enabled']) {
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.serializer');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.serializer');
 			$definition->replaceArgument(1, array('serializer' => $configs['default_serializer']));
 			$definition->addMethodCall('setOptions', array($configs['options']));
 
 			$this->enableMapping($definition, 'serializer');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.serializer',
+				'erato_framework.schema.mapping_factory.serializer',
 				$definition
 			);
 		}
@@ -240,14 +240,14 @@ class EratoFrameworkExtension extends Extension
 	{
 		if($configs['enabled']) {
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.schemifier');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.schemifier');
 			$definition->replaceArgument(1, array('factory' => $configs['default_factory']));
 			$definition->addMethodCall('setOptions', array($configs['options']));
 
 			$this->enableMapping($definition, 'schemifier');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.schemifier',
+				'erato_framework.schema.mapping_factory.schemifier',
 				$definition
 			);
 		}
@@ -258,7 +258,7 @@ class EratoFrameworkExtension extends Extension
 		if($configs['enabled']) {
 			$this->getLoader()->load('manager.xml');
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.schema_manager');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.schema_manager');
 
 			$definition->replaceArgument(0, new Reference($configs['factory_service']));
 			$definition->replaceArgument(1, $configs['default_class']);
@@ -267,7 +267,7 @@ class EratoFrameworkExtension extends Extension
 			$this->enableMapping($definition, 'schema_manager');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.schema_manager',
+				'erato_framework.schema.mapping_factory.schema_manager',
 				$definition
 			);
 		}
@@ -277,13 +277,13 @@ class EratoFrameworkExtension extends Extension
 	{
 		if(isset($configs['enabled'])) {
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.identifier');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.identifier');
 			$definition->addMethodCall('setOptions', array($configs['options']));
 
 			$this->enableMapping($definition, 'identifier');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.identifier',
+				'erato_framework.schema.mapping_factory.identifier',
 				$definition
 			);
 		}
@@ -293,13 +293,13 @@ class EratoFrameworkExtension extends Extension
 	{
 		if(isset($configs['enabled'])) {
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.merger');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.merger');
 			$definition->addMethodCall('setOptions', array($configs['options']));
 
 			$this->enableMapping($definition, 'merger');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.merger',
+				'erato_framework.schema.mapping_factory.merger',
 				$definition
 			);
 		}
@@ -309,13 +309,13 @@ class EratoFrameworkExtension extends Extension
 	{
 		if(isset($configs['enabled'])) {
 
-			$definition = new DefinitionDecorator('erato_framework.metadata.default_mapping_factory.replacer');
+			$definition = new DefinitionDecorator('erato_framework.schema.default_mapping_factory.replacer');
 			$definition->addMethodCall('setOptions', array($configs['options']));
 
 			$this->enableMapping($definition, 'replacer');
 
 			$container->setDefinition(
-				'erato_framework.metadata.mapping_factory.replacer',
+				'erato_framework.schema.mapping_factory.replacer',
 				$definition
 			);
 		}
@@ -524,6 +524,6 @@ class EratoFrameworkExtension extends Extension
 	 */
 	protected function enableMapping($definition, $name)
 	{
-		$definition->addTag('erato_framework.metadata.mapping_factory', array('for' => $name));
+		$definition->addTag('erato_framework.schema.mapping_factory', array('for' => $name));
 	}
 }

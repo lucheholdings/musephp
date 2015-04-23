@@ -27,7 +27,7 @@
 			id="erato_framework.accessor.registry"
 			class="%erato_framework.accessor.registry.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.registry"/>
+			<argument type="service" id="erato_framework.schema.registry"/>
 		</service>
 		<!-- -->
 		<service
