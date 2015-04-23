@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Type\Actual;
 
+use Clio\Component\Util\Type\AbstractType;
 use Clio\Component\Util\Type\PrimitiveTypes;
 
 /**

@@ -33,7 +33,7 @@ class NormalizerType extends Types\ProxyType implements TypeInterface
     public function __construct(Types\Type $type = null)
     {
         if(!$type) {
-            $type = new Types\Actual\MixedType();
+            $type = new Types\MixedType();
         }
         parent::__construct($type);
     }

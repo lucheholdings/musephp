@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Type\Actual;
+namespace Clio\Component\Util\Type;
 
 use Clio\Component\Util\Type\PrimitiveTypes;
 
@@ -14,26 +14,60 @@ use Clio\Component\Util\Type\PrimitiveTypes;
  */
 class MixedType extends AbstractType 
 {
+    /**
+     * __construct 
+     * 
+     * @access public
+     * @return void
+     */
 	public function __construct()
 	{
 		parent::__construct(PrimitiveTypes::TYPE_MIXED);
 	}
 
+    /**
+     * isType 
+     * 
+     * @param mixed $type 
+     * @access public
+     * @return void
+     */
 	public function isType($type)
 	{
 		return 'mixed' == $type;
 	}
 
+    /**
+     * isValidData 
+     * 
+     * @param mixed $value 
+     * @access public
+     * @return void
+     */
 	public function isValidData($value)
 	{
 		return true;
 	}
 
+    /**
+     * resolve 
+     * 
+     * @param Resolver $resolver 
+     * @param mixed $data 
+     * @access public
+     * @return void
+     */
 	public function resolve(Resolver $resolver, $data = null)
 	{
 		return $resolver->resolve($this, array('data' => $data));
 	}
 
+    /**
+     * isResolved 
+     * 
+     * @access public
+     * @return void
+     */
 	public function isResolved()
 	{
 		return false;

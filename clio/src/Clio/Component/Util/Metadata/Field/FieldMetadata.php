@@ -105,7 +105,7 @@ class FieldMetadata extends AbstractMetadata implements Field
     {
         // if typeSchema is not specified, then initialized by Mixied
         if(!$this->typeSchema) {
-            $this->typeSchema = new SchemaMetadata(new Types\Actual\MixedType());
+            $this->typeSchema = new SchemaMetadata(new Types\MixedType());
         } else if(!$this->typeSchema instanceof Schema) {
             throw new \RuntimeException('TypeSchema is not initialized yet.');
         }

@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Type\Actual;
+namespace Clio\Component\Util\Type;
 
 /**
  * LazyBindProxyType 

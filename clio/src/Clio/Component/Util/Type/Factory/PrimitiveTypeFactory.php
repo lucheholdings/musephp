@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Type\Factory;
 
+use Clio\Component\Util\Type\MixedType;
 use Clio\Component\Util\Type\Actual as ActualTypes;
 use Clio\Component\Util\Type\PrimitiveTypes;
 use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
@@ -30,7 +31,7 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 		case PrimitiveTypes::TYPE_NULL:
 			return new ActualTypes\NullType();
 		case PrimitiveTypes::TYPE_MIXED:
-			return new ActualTypes\MixedType();
+			return new MixedType();
 		case PrimitiveTypes::TYPE_INT:
 		case PrimitiveTypes::TYPE_FLOAT:
 		case PrimitiveTypes::TYPE_STRING:

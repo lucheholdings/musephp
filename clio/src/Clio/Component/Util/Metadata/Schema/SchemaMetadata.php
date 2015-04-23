@@ -45,7 +45,7 @@ class SchemaMetadata extends AbstractMetadata implements Schema
      * @access public
      * @return void
      */
-    public function __construct(Types\Type $type, $name = null, array $fields = array(), Schema $parent = null, array $mappings = array(), array $options = array())
+    public function __construct(Types\Type $type, $name = null, array $fields = array(), $parent = null, array $mappings = array(), array $options = array())
     {
         $this->type = $type;
         if(!$name) {
