@@ -9,7 +9,7 @@ class MetadataRegistryTest extends TestCase
 		$kernel->getContainer();
 
 
-		$registry = $this->get('erato_framework.metadata.registry');
+		$registry = $this->get('erato_framework.schema.registry');
 	}
 }
 

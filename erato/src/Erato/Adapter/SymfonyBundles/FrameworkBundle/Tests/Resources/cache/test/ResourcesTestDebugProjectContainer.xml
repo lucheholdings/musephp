@@ -118,17 +118,17 @@
     <parameter key="erato_framework.factory_map.class">Clio\Component\Pattern\Factory\NamedCollection</parameter>
     <parameter key="erato_framework.component_factory.class">Clio\Component\Pattern\Factory\ComponentFactory</parameter>
     <parameter key="erato_framework.doctrine_cache_factory.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\DoctrineCacheFactory</parameter>
-    <parameter key="erato_framework.metadata.registry.class">Clio\Extra\Metadata\SchemaRegistry</parameter>
-    <parameter key="erato_framework.metadata.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
-    <parameter key="erato_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-    <parameter key="erato_framework.metadata.class_metadata_factory.class">Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
-    <parameter key="erato_framework.metadata.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-    <parameter key="erato_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
-    <parameter key="erato_framework.metadata.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
-    <parameter key="erato_framework.metadata.attribute_map_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory</parameter>
-    <parameter key="erato_framework.metadata.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
-    <parameter key="erato_framework.metadata.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
-    <parameter key="erato_framework.metadata.cache_clearer.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer</parameter>
+    <parameter key="erato_framework.schema.registry.class">Clio\Extra\Metadata\SchemaRegistry</parameter>
+    <parameter key="erato_framework.schema.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
+    <parameter key="erato_framework.schema.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
+    <parameter key="erato_framework.schema.class_metadata_factory.class">Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
+    <parameter key="erato_framework.schema.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
+    <parameter key="erato_framework.schema.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
+    <parameter key="erato_framework.schema.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
+    <parameter key="erato_framework.schema.attribute_map_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory</parameter>
+    <parameter key="erato_framework.schema.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
+    <parameter key="erato_framework.schema.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
+    <parameter key="erato_framework.schema.cache_clearer.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer</parameter>
     <parameter key="erato_framework.accessor.registry.class">Erato\Core\Accessor\SchemaAccessorRegistry</parameter>
     <parameter key="erato_framework.accessor.schema_accessor_factory_collection.class">Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection</parameter>
     <parameter key="erato_framework.accessor.class_accessor_factory.class">Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory</parameter>
@@ -188,7 +188,7 @@
     </service>
     <service id="cache_clearer" class="Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer">
       <argument type="collection">
-        <argument type="service" id="erato_framework.metadata.cache_clearer"/>
+        <argument type="service" id="erato_framework.schema.cache_clearer"/>
       </argument>
     </service>
     <service id="request" scope="request" synthetic="true" synchronized="true"/>
@@ -616,48 +616,48 @@
     <service id="erato_framework.doctrine_cache_factory" class="Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\DoctrineCacheFactory">
       <argument type="service" id="service_container"/>
     </service>
-    <service id="erato_framework.metadata.registry" class="Clio\Extra\Metadata\SchemaRegistry">
-      <argument type="service" id="erato_framework.metadata.registry.cache_loader"/>
+    <service id="erato_framework.schema.registry" class="Clio\Extra\Metadata\SchemaRegistry">
+      <argument type="service" id="erato_framework.schema.registry.cache_loader"/>
     </service>
-    <service id="erato_framework.metadata.registry.cache_loader" class="Clio\Extra\Registry\Loader\CachedLoader">
-      <argument type="service" id="erato_framework.metadata.registry.factory_loader"/>
-      <argument type="service" id="erato_framework.metadata.registry.cache_loader.cache" on-invalid="null"/>
+    <service id="erato_framework.schema.registry.cache_loader" class="Clio\Extra\Registry\Loader\CachedLoader">
+      <argument type="service" id="erato_framework.schema.registry.factory_loader"/>
+      <argument type="service" id="erato_framework.schema.registry.cache_loader.cache" on-invalid="null"/>
     </service>
-    <service id="erato_framework.metadata.registry.factory_loader" class="Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader">
-      <argument type="service" id="erato_framework.metadata.class_metadata_factory"/>
+    <service id="erato_framework.schema.registry.factory_loader" class="Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader">
+      <argument type="service" id="erato_framework.schema.class_metadata_factory"/>
     </service>
-    <service id="erato_framework.metadata.class_metadata_factory" class="Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory">
-      <argument type="service" id="erato_framework.metadata.mapping_factory.collection"/>
+    <service id="erato_framework.schema.class_metadata_factory" class="Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory">
+      <argument type="service" id="erato_framework.schema.mapping_factory.collection"/>
     </service>
-    <service id="erato_framework.metadata.mapping_factory.collection" class="Clio\Component\Util\Metadata\Mapping\Factory\Collection">
+    <service id="erato_framework.schema.mapping_factory.collection" class="Clio\Component\Util\Metadata\Mapping\Factory\Collection">
       <call method="set">
         <argument>attribute</argument>
-        <argument type="service" id="erato_framework.metadata.mapping_factory.attribute_map"/>
+        <argument type="service" id="erato_framework.schema.mapping_factory.attribute_map"/>
       </call>
       <call method="set">
         <argument>tag</argument>
-        <argument type="service" id="erato_framework.metadata.mapping_factory.tag_set"/>
+        <argument type="service" id="erato_framework.schema.mapping_factory.tag_set"/>
       </call>
     </service>
-    <service id="erato_framework.metadata.default_mapping_factory.accessor" class="Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory">
+    <service id="erato_framework.schema.default_mapping_factory.accessor" class="Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory">
       <argument type="service" id="erato_framework.accessor.schema_accessor_factory.metadata" on-invalid="null"/>
       <argument type="service" id="erato_framework.accessor.field_accessor_factory.collection" on-invalid="null"/>
     </service>
-    <service id="erato_framework.metadata.mapping_factory.attribute_map" class="Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory">
-      <tag name="erato_framework.metadata.mapping_factory" for="attribute"/>
+    <service id="erato_framework.schema.mapping_factory.attribute_map" class="Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory">
+      <tag name="erato_framework.schema.mapping_factory" for="attribute"/>
     </service>
-    <service id="erato_framework.metadata.mapping_factory.tag_set" class="Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory">
-      <tag name="erato_framework.metadata.mapping_factory" for="tag"/>
+    <service id="erato_framework.schema.mapping_factory.tag_set" class="Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory">
+      <tag name="erato_framework.schema.mapping_factory" for="tag"/>
     </service>
-    <service id="erato_framework.metadata.mapping_injector" class="Clio\Component\Util\Injection\Injector" factory-method="getInjector" factory-service="erato_framework.metadata.mapping_factory"/>
-    <service id="erato_framework.metadata.rebuilder" class="Clio\Component\Util\Metadata\Tool\MetadataRebuilder">
-      <argument type="service" id="erato_framework.metadata.mapping_injector"/>
+    <service id="erato_framework.schema.mapping_injector" class="Clio\Component\Util\Injection\Injector" factory-method="getInjector" factory-service="erato_framework.schema.mapping_factory"/>
+    <service id="erato_framework.schema.rebuilder" class="Clio\Component\Util\Metadata\Tool\MetadataRebuilder">
+      <argument type="service" id="erato_framework.schema.mapping_injector"/>
     </service>
-    <service id="erato_framework.metadata.cache_clearer" class="Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer">
+    <service id="erato_framework.schema.cache_clearer" class="Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer">
       <tag name="kernel.cache_clearer"/>
-      <argument type="service" id="erato_framework.metadata.registry.cache_loader.cache" on-invalid="null"/>
+      <argument type="service" id="erato_framework.schema.registry.cache_loader.cache" on-invalid="null"/>
     </service>
-    <service id="erato_framework.metadata.registry.cache_loader.cache" class="Clio\Component\Util\Cache\CacheProvider" factory-method="createCacheProvider" factory-service="erato_framework.cache_factory" public="false">
+    <service id="erato_framework.schema.registry.cache_loader.cache" class="Clio\Component\Util\Cache\CacheProvider" factory-method="createCacheProvider" factory-service="erato_framework.cache_factory" public="false">
       <argument>file_system</argument>
       <argument type="collection">
         <argument key="directory">/Users/yoshi/Workspace/muse/bundle-dev/vendor/musephp/musephp/erato/src/Erato/Adapter/SymfonyBundles/FrameworkBundle/Tests/Resources/cache/test/erato_framework</argument>
@@ -665,7 +665,7 @@
       </argument>
     </service>
     <service id="erato_framework.accessor.registry" class="Erato\Core\Accessor\SchemaAccessorRegistry">
-      <argument type="service" id="erato_framework.metadata.registry"/>
+      <argument type="service" id="erato_framework.schema.registry"/>
     </service>
     <service id="erato_framework.accessor.schema_accessor_factory.collection" class="Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection">
       <call method="set">
@@ -781,8 +781,8 @@
     <service id="clio_component.cache.factory" alias="clio_component.cache.factory.doctrine"/>
     <service id="clio_component.cache.provider_factory" alias="clio_component.cache.provider_factory.doctrine"/>
     <service id="erato_framework.cache_factory" alias="clio_component.cache.provider_factory.doctrine"/>
-    <service id="erato_framework.metadata.mapping_factory" alias="erato_framework.metadata.mapping_factory.collection"/>
-    <service id="erato_framework.metadata.registry.loader" alias="erato_framework.metadata.registry.cache_loader"/>
+    <service id="erato_framework.schema.mapping_factory" alias="erato_framework.schema.mapping_factory.collection"/>
+    <service id="erato_framework.schema.registry.loader" alias="erato_framework.schema.registry.cache_loader"/>
     <service id="erato_framework.accessor.schema_accessor_factory" alias="erato_framework.accessor.schema_accessor_factory.collection"/>
     <service id="erato_framework.accessor.field_accessor_factory" alias="erato_framework.accessor.field_accessor_factory.collection"/>
     <service id="erato_framework.normalizer.strategy" alias="erato_framework.normalizer.strategy_collection"/>

@@ -65,18 +65,18 @@ class ResourcesTestDebugProjectContainer extends Container
             'erato_framework.accessor.schema_accessor_factory.collection' => 'getEratoFramework_Accessor_SchemaAccessorFactory_CollectionService',
             'erato_framework.accessor.schema_accessor_factory.metadata' => 'getEratoFramework_Accessor_SchemaAccessorFactory_MetadataService',
             'erato_framework.doctrine_cache_factory' => 'getEratoFramework_DoctrineCacheFactoryService',
-            'erato_framework.metadata.cache_clearer' => 'getEratoFramework_Metadata_CacheClearerService',
-            'erato_framework.metadata.class_metadata_factory' => 'getEratoFramework_Metadata_ClassMetadataFactoryService',
-            'erato_framework.metadata.default_mapping_factory.accessor' => 'getEratoFramework_Metadata_DefaultMappingFactory_AccessorService',
-            'erato_framework.metadata.mapping_factory.attribute_map' => 'getEratoFramework_Metadata_MappingFactory_AttributeMapService',
-            'erato_framework.metadata.mapping_factory.collection' => 'getEratoFramework_Metadata_MappingFactory_CollectionService',
-            'erato_framework.metadata.mapping_factory.tag_set' => 'getEratoFramework_Metadata_MappingFactory_TagSetService',
-            'erato_framework.metadata.mapping_injector' => 'getEratoFramework_Metadata_MappingInjectorService',
-            'erato_framework.metadata.rebuilder' => 'getEratoFramework_Metadata_RebuilderService',
-            'erato_framework.metadata.registry' => 'getEratoFramework_Metadata_RegistryService',
-            'erato_framework.metadata.registry.cache_loader' => 'getEratoFramework_Metadata_Registry_CacheLoaderService',
-            'erato_framework.metadata.registry.cache_loader.cache' => 'getEratoFramework_Metadata_Registry_CacheLoader_CacheService',
-            'erato_framework.metadata.registry.factory_loader' => 'getEratoFramework_Metadata_Registry_FactoryLoaderService',
+            'erato_framework.schema.cache_clearer' => 'getEratoFramework_Metadata_CacheClearerService',
+            'erato_framework.schema.class_metadata_factory' => 'getEratoFramework_Metadata_ClassMetadataFactoryService',
+            'erato_framework.schema.default_mapping_factory.accessor' => 'getEratoFramework_Metadata_DefaultMappingFactory_AccessorService',
+            'erato_framework.schema.mapping_factory.attribute_map' => 'getEratoFramework_Metadata_MappingFactory_AttributeMapService',
+            'erato_framework.schema.mapping_factory.collection' => 'getEratoFramework_Metadata_MappingFactory_CollectionService',
+            'erato_framework.schema.mapping_factory.tag_set' => 'getEratoFramework_Metadata_MappingFactory_TagSetService',
+            'erato_framework.schema.mapping_injector' => 'getEratoFramework_Metadata_MappingInjectorService',
+            'erato_framework.schema.rebuilder' => 'getEratoFramework_Metadata_RebuilderService',
+            'erato_framework.schema.registry' => 'getEratoFramework_Metadata_RegistryService',
+            'erato_framework.schema.registry.cache_loader' => 'getEratoFramework_Metadata_Registry_CacheLoaderService',
+            'erato_framework.schema.registry.cache_loader.cache' => 'getEratoFramework_Metadata_Registry_CacheLoader_CacheService',
+            'erato_framework.schema.registry.factory_loader' => 'getEratoFramework_Metadata_Registry_FactoryLoaderService',
             'erato_framework.normalizer' => 'getEratoFramework_NormalizerService',
             'erato_framework.normalizer.default_strategy.accessor' => 'getEratoFramework_Normalizer_DefaultStrategy_AccessorService',
             'erato_framework.normalizer.strategy.accessor' => 'getEratoFramework_Normalizer_Strategy_AccessorService',
@@ -139,8 +139,8 @@ class ResourcesTestDebugProjectContainer extends Container
             'erato_framework.accessor.field_accessor_factory' => 'erato_framework.accessor.field_accessor_factory.collection',
             'erato_framework.accessor.schema_accessor_factory' => 'erato_framework.accessor.schema_accessor_factory.collection',
             'erato_framework.cache_factory' => 'clio_component.cache.provider_factory.doctrine',
-            'erato_framework.metadata.mapping_factory' => 'erato_framework.metadata.mapping_factory.collection',
-            'erato_framework.metadata.registry.loader' => 'erato_framework.metadata.registry.cache_loader',
+            'erato_framework.schema.mapping_factory' => 'erato_framework.schema.mapping_factory.collection',
+            'erato_framework.schema.registry.loader' => 'erato_framework.schema.registry.cache_loader',
             'erato_framework.normalizer.strategy' => 'erato_framework.normalizer.strategy_collection',
             'event_dispatcher' => 'debug.event_dispatcher',
         );
@@ -169,7 +169,7 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getCacheClearerService()
     {
-        return $this->services['cache_clearer'] = new \Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer(array(0 => $this->get('erato_framework.metadata.cache_clearer')));
+        return $this->services['cache_clearer'] = new \Symfony\Component\HttpKernel\CacheClearer\ChainCacheClearer(array(0 => $this->get('erato_framework.schema.cache_clearer')));
     }
 
     /**
@@ -500,7 +500,7 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Accessor_RegistryService()
     {
-        return $this->services['erato_framework.accessor.registry'] = new \Erato\Core\Accessor\SchemaAccessorRegistry($this->get('erato_framework.metadata.registry'));
+        return $this->services['erato_framework.accessor.registry'] = new \Erato\Core\Accessor\SchemaAccessorRegistry($this->get('erato_framework.schema.registry'));
     }
 
     /**
@@ -561,7 +561,7 @@ class ResourcesTestDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'erato_framework.metadata.cache_clearer' service.
+     * Gets the 'erato_framework.schema.cache_clearer' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -570,11 +570,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_CacheClearerService()
     {
-        return $this->services['erato_framework.metadata.cache_clearer'] = new \Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer($this->get('erato_framework.metadata.registry.cache_loader.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['erato_framework.schema.cache_clearer'] = new \Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer($this->get('erato_framework.schema.registry.cache_loader.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
-     * Gets the 'erato_framework.metadata.class_metadata_factory' service.
+     * Gets the 'erato_framework.schema.class_metadata_factory' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -583,11 +583,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_ClassMetadataFactoryService()
     {
-        return $this->services['erato_framework.metadata.class_metadata_factory'] = new \Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory($this->get('erato_framework.metadata.mapping_factory.collection'));
+        return $this->services['erato_framework.schema.class_metadata_factory'] = new \Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory($this->get('erato_framework.schema.mapping_factory.collection'));
     }
 
     /**
-     * Gets the 'erato_framework.metadata.default_mapping_factory.accessor' service.
+     * Gets the 'erato_framework.schema.default_mapping_factory.accessor' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -596,11 +596,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_DefaultMappingFactory_AccessorService()
     {
-        return $this->services['erato_framework.metadata.default_mapping_factory.accessor'] = new \Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory($this->get('erato_framework.accessor.schema_accessor_factory.metadata', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('erato_framework.accessor.field_accessor_factory.collection', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['erato_framework.schema.default_mapping_factory.accessor'] = new \Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory($this->get('erato_framework.accessor.schema_accessor_factory.metadata', ContainerInterface::NULL_ON_INVALID_REFERENCE), $this->get('erato_framework.accessor.field_accessor_factory.collection', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
-     * Gets the 'erato_framework.metadata.mapping_factory.attribute_map' service.
+     * Gets the 'erato_framework.schema.mapping_factory.attribute_map' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -609,11 +609,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_MappingFactory_AttributeMapService()
     {
-        return $this->services['erato_framework.metadata.mapping_factory.attribute_map'] = new \Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory();
+        return $this->services['erato_framework.schema.mapping_factory.attribute_map'] = new \Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory();
     }
 
     /**
-     * Gets the 'erato_framework.metadata.mapping_factory.collection' service.
+     * Gets the 'erato_framework.schema.mapping_factory.collection' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -622,16 +622,16 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_MappingFactory_CollectionService()
     {
-        $this->services['erato_framework.metadata.mapping_factory.collection'] = $instance = new \Clio\Component\Util\Metadata\Mapping\Factory\Collection();
+        $this->services['erato_framework.schema.mapping_factory.collection'] = $instance = new \Clio\Component\Util\Metadata\Mapping\Factory\Collection();
 
-        $instance->set('attribute', $this->get('erato_framework.metadata.mapping_factory.attribute_map'));
-        $instance->set('tag', $this->get('erato_framework.metadata.mapping_factory.tag_set'));
+        $instance->set('attribute', $this->get('erato_framework.schema.mapping_factory.attribute_map'));
+        $instance->set('tag', $this->get('erato_framework.schema.mapping_factory.tag_set'));
 
         return $instance;
     }
 
     /**
-     * Gets the 'erato_framework.metadata.mapping_factory.tag_set' service.
+     * Gets the 'erato_framework.schema.mapping_factory.tag_set' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -640,11 +640,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_MappingFactory_TagSetService()
     {
-        return $this->services['erato_framework.metadata.mapping_factory.tag_set'] = new \Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory();
+        return $this->services['erato_framework.schema.mapping_factory.tag_set'] = new \Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory();
     }
 
     /**
-     * Gets the 'erato_framework.metadata.mapping_injector' service.
+     * Gets the 'erato_framework.schema.mapping_injector' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -653,11 +653,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_MappingInjectorService()
     {
-        return $this->services['erato_framework.metadata.mapping_injector'] = $this->get('erato_framework.metadata.mapping_factory.collection')->getInjector();
+        return $this->services['erato_framework.schema.mapping_injector'] = $this->get('erato_framework.schema.mapping_factory.collection')->getInjector();
     }
 
     /**
-     * Gets the 'erato_framework.metadata.rebuilder' service.
+     * Gets the 'erato_framework.schema.rebuilder' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -666,11 +666,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_RebuilderService()
     {
-        return $this->services['erato_framework.metadata.rebuilder'] = new \Clio\Component\Util\Metadata\Tool\MetadataRebuilder($this->get('erato_framework.metadata.mapping_injector'));
+        return $this->services['erato_framework.schema.rebuilder'] = new \Clio\Component\Util\Metadata\Tool\MetadataRebuilder($this->get('erato_framework.schema.mapping_injector'));
     }
 
     /**
-     * Gets the 'erato_framework.metadata.registry' service.
+     * Gets the 'erato_framework.schema.registry' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -679,11 +679,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_RegistryService()
     {
-        return $this->services['erato_framework.metadata.registry'] = new \Clio\Extra\Metadata\SchemaRegistry($this->get('erato_framework.metadata.registry.cache_loader'));
+        return $this->services['erato_framework.schema.registry'] = new \Clio\Extra\Metadata\SchemaRegistry($this->get('erato_framework.schema.registry.cache_loader'));
     }
 
     /**
-     * Gets the 'erato_framework.metadata.registry.cache_loader' service.
+     * Gets the 'erato_framework.schema.registry.cache_loader' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -692,11 +692,11 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_Registry_CacheLoaderService()
     {
-        return $this->services['erato_framework.metadata.registry.cache_loader'] = new \Clio\Extra\Registry\Loader\CachedLoader($this->get('erato_framework.metadata.registry.factory_loader'), $this->get('erato_framework.metadata.registry.cache_loader.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE));
+        return $this->services['erato_framework.schema.registry.cache_loader'] = new \Clio\Extra\Registry\Loader\CachedLoader($this->get('erato_framework.schema.registry.factory_loader'), $this->get('erato_framework.schema.registry.cache_loader.cache', ContainerInterface::NULL_ON_INVALID_REFERENCE));
     }
 
     /**
-     * Gets the 'erato_framework.metadata.registry.factory_loader' service.
+     * Gets the 'erato_framework.schema.registry.factory_loader' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -705,7 +705,7 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_Registry_FactoryLoaderService()
     {
-        return $this->services['erato_framework.metadata.registry.factory_loader'] = new \Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader($this->get('erato_framework.metadata.class_metadata_factory'));
+        return $this->services['erato_framework.schema.registry.factory_loader'] = new \Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader($this->get('erato_framework.schema.class_metadata_factory'));
     }
 
     /**
@@ -1474,7 +1474,7 @@ class ResourcesTestDebugProjectContainer extends Container
     }
 
     /**
-     * Gets the 'erato_framework.metadata.registry.cache_loader.cache' service.
+     * Gets the 'erato_framework.schema.registry.cache_loader.cache' service.
      *
      * This service is shared.
      * This method always returns the same instance of the service.
@@ -1487,7 +1487,7 @@ class ResourcesTestDebugProjectContainer extends Container
      */
     protected function getEratoFramework_Metadata_Registry_CacheLoader_CacheService()
     {
-        return $this->services['erato_framework.metadata.registry.cache_loader.cache'] = $this->get('clio_component.cache.provider_factory.doctrine')->createCacheProvider('file_system', array('directory' => '/Users/yoshi/Workspace/muse/bundle-dev/vendor/musephp/musephp/erato/src/Erato/Adapter/SymfonyBundles/FrameworkBundle/Tests/Resources/cache/test/erato_framework', 'extension' => 'cache.php'));
+        return $this->services['erato_framework.schema.registry.cache_loader.cache'] = $this->get('clio_component.cache.provider_factory.doctrine')->createCacheProvider('file_system', array('directory' => '/Users/yoshi/Workspace/muse/bundle-dev/vendor/musephp/musephp/erato/src/Erato/Adapter/SymfonyBundles/FrameworkBundle/Tests/Resources/cache/test/erato_framework', 'extension' => 'cache.php'));
     }
 
     /**
@@ -1698,17 +1698,17 @@ class ResourcesTestDebugProjectContainer extends Container
             'erato_framework.factory_map.class' => 'Clio\\Component\\Pattern\\Factory\\NamedCollection',
             'erato_framework.component_factory.class' => 'Clio\\Component\\Pattern\\Factory\\ComponentFactory',
             'erato_framework.doctrine_cache_factory.class' => 'Erato\\Adapter\\SymfonyBundles\\FrameworkBundle\\Cache\\DoctrineCacheFactory',
-            'erato_framework.metadata.registry.class' => 'Clio\\Extra\\Metadata\\SchemaRegistry',
-            'erato_framework.metadata.registry.cache_loader.class' => 'Clio\\Extra\\Registry\\Loader\\CachedLoader',
-            'erato_framework.metadata.registry.factory_loader.class' => 'Clio\\Component\\Pattern\\Registry\\Loader\\MappedFactoryLoader',
-            'erato_framework.metadata.class_metadata_factory.class' => 'Clio\\Component\\Util\\Metadata\\Schema\\Factory\\ClassMetadataFactory',
-            'erato_framework.metadata.mapped_factory_loader.class' => 'Clio\\Component\\Pattern\\Registry\\Loader\\MappedFactoryLoader',
-            'erato_framework.metadata.mapping_factory_collection.class' => 'Clio\\Component\\Util\\Metadata\\Mapping\\Factory\\Collection',
-            'erato_framework.metadata.accessor_mapping_factory.class' => 'Erato\\Core\\Metadata\\Mapping\\Factory\\AccessorMappingFactory',
-            'erato_framework.metadata.attribute_map_mapping_factory.class' => 'Erato\\Core\\Metadata\\Mapping\\Factory\\AttributeMapMappingFactory',
-            'erato_framework.metadata.tag_set_mapping_factory.class' => 'Erato\\Core\\Metadata\\Mapping\\Factory\\TagSetMappingFactory',
-            'erato_framework.metadata.rebuilder.class' => 'Clio\\Component\\Util\\Metadata\\Tool\\MetadataRebuilder',
-            'erato_framework.metadata.cache_clearer.class' => 'Erato\\Adapter\\SymfonyBundles\\FrameworkBundle\\Cache\\CacheClearer',
+            'erato_framework.schema.registry.class' => 'Clio\\Extra\\Metadata\\SchemaRegistry',
+            'erato_framework.schema.registry.cache_loader.class' => 'Clio\\Extra\\Registry\\Loader\\CachedLoader',
+            'erato_framework.schema.registry.factory_loader.class' => 'Clio\\Component\\Pattern\\Registry\\Loader\\MappedFactoryLoader',
+            'erato_framework.schema.class_metadata_factory.class' => 'Clio\\Component\\Util\\Metadata\\Schema\\Factory\\ClassMetadataFactory',
+            'erato_framework.schema.mapped_factory_loader.class' => 'Clio\\Component\\Pattern\\Registry\\Loader\\MappedFactoryLoader',
+            'erato_framework.schema.mapping_factory_collection.class' => 'Clio\\Component\\Util\\Metadata\\Mapping\\Factory\\Collection',
+            'erato_framework.schema.accessor_mapping_factory.class' => 'Erato\\Core\\Metadata\\Mapping\\Factory\\AccessorMappingFactory',
+            'erato_framework.schema.attribute_map_mapping_factory.class' => 'Erato\\Core\\Metadata\\Mapping\\Factory\\AttributeMapMappingFactory',
+            'erato_framework.schema.tag_set_mapping_factory.class' => 'Erato\\Core\\Metadata\\Mapping\\Factory\\TagSetMappingFactory',
+            'erato_framework.schema.rebuilder.class' => 'Clio\\Component\\Util\\Metadata\\Tool\\MetadataRebuilder',
+            'erato_framework.schema.cache_clearer.class' => 'Erato\\Adapter\\SymfonyBundles\\FrameworkBundle\\Cache\\CacheClearer',
             'erato_framework.accessor.registry.class' => 'Erato\\Core\\Accessor\\SchemaAccessorRegistry',
             'erato_framework.accessor.schema_accessor_factory_collection.class' => 'Clio\\Component\\Util\\Accessor\\Schema\\Factory\\SchemaAccessorFactoryCollection',
             'erato_framework.accessor.class_accessor_factory.class' => 'Clio\\Component\\Util\\Accessor\\Schema\\Factory\\BasicClassAccessorFactory',

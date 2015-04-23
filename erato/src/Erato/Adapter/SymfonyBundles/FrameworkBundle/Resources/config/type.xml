@@ -95,7 +95,7 @@
 			class="%erato_framework.type_registry.class%"
 		>
 			<call method="setSchemaRegistry">
-				<argument type="service" id="erato_framework.metadata.registry"/>
+				<argument type="service" id="erato_framework.schema.registry"/>
 			</call>
 		</service>
 

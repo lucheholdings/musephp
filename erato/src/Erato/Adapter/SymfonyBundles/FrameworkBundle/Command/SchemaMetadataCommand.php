@@ -48,7 +48,7 @@ class SchemaMetadataCommand extends ContainerAwareCommand
 	{
 		$output = $this->getHelper('indent')->decorate($output);
 
-		$schemaRegistry = $this->getContainer()->get('erato_framework.metadata.registry');
+		$schemaRegistry = $this->getContainer()->get('erato_framework.schema.registry');
 
 		if(!$schemaRegistry->has($schema)) {
 			$output->writeln(sprintf('<error>Schema "%s" is not exists.</error>', $schema));

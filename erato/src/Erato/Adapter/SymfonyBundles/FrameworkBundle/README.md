@@ -79,7 +79,7 @@ If you need more Metadata for the specified Metadata, then use Clio\Extra\Metada
 
 ## Sample Usage
 	
-	$registry = $registry->get('erato_framework.metadata.registry');
+	$registry = $registry->get('erato_framework.schema.registry');
 
 	$metadata = $registry->get(Namespaced\ClassPath);
 	// Create new instance of the class.
