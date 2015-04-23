@@ -20,7 +20,7 @@ class PrimitiveTypeFactoryTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceof('Clio\Component\Util\Type\Actual\ArrayType', $factory->createType('array'));
         $this->assertInstanceof('Clio\Component\Util\Type\Actual\NullType', $factory->createType('null'));
-        $this->assertInstanceof('Clio\Component\Util\Type\Actual\MixedType', $factory->createType('mixed'));
+        $this->assertInstanceof('Clio\Component\Util\Type\MixedType', $factory->createType('mixed'));
     }
 }
 
