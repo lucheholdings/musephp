@@ -146,7 +146,7 @@ class CalliopeFrameworkExtension extends Extension
 		
 
 
-		$registry = $container->getDefinition('calliope_framework.metadata.registry');
+		$registry = $container->getDefinition('calliope_framework.schema.registry');
 		foreach($schemas as $name => $params) {
 			if('alias' == $params['type']) {
 				// Aliasing to the service.

@@ -7,73 +7,73 @@
 
 	<parameters>
 		<!-- Registry -->
-	    <parameter key="calliope_framework.metadata.registry.class">Calliope\Core\Metadata\MetadataRegistry</parameter>
-	    <parameter key="calliope_framework.metadata.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaRegistry</parameter>
+	    <parameter key="calliope_framework.schema.registry.class">Calliope\Core\Metadata\MetadataRegistry</parameter>
+	    <parameter key="calliope_framework.schema.reference_registry.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Metadata\SchemaRegistry</parameter>
 
-	    <parameter key="calliope_framework.metadata.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
+	    <parameter key="calliope_framework.schema.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
 		
 		<!-- -->
-        <parameter key="calliope_framework.metadata.schema_metadata_factory.class">Calliope\Core\Metadata\Factory\SchemaMetadataFactory</parameter>
+        <parameter key="calliope_framework.schema.schema_metadata_factory.class">Calliope\Core\Metadata\Factory\SchemaMetadataFactory</parameter>
 	</parameters>
 
 	<services>
 		<!-- Registry -->
 		<service
-			id="calliope_framework.metadata.registry"
-			class="%calliope_framework.metadata.registry.class%"
+			id="calliope_framework.schema.registry"
+			class="%calliope_framework.schema.registry.class%"
 		>
-			<argument type="service" id="calliope_framework.metadata.schema_metadata_factory"/>
+			<argument type="service" id="calliope_framework.schema.schema_metadata_factory"/>
 		</service>
 
 		<!-- Loader -->
 		<service
-			id="calliope_framework.metadata.registry.factory_loader"
-			class="%calliope_framework.metadata.registry.factory_loader.class%"
+			id="calliope_framework.schema.registry.factory_loader"
+			class="%calliope_framework.schema.registry.factory_loader.class%"
 		>
-			<argument type="service" id="calliope_framework.metadata.schema_metadata_factory"/>
+			<argument type="service" id="calliope_framework.schema.schema_metadata_factory"/>
 		</service>
 
 		<!-- Factory -->
 		<service
-			id="calliope_framework.metadata.schema_metadata_factory"
-			class="%calliope_framework.metadata.schema_metadata_factory.class%"
+			id="calliope_framework.schema.schema_metadata_factory"
+			class="%calliope_framework.schema.schema_metadata_factory.class%"
 		>
-			<argument type="service" id="erato_framework.metadata.registry"/>
-			<argument type="service" id="calliope_framework.metadata.mapping_factory"/>
+			<argument type="service" id="erato_framework.schema.registry"/>
+			<argument type="service" id="calliope_framework.schema.mapping_factory"/>
 		</service>
 
 		<!-- Mapping Factory -->
 		<service
-			id="calliope_framework.metadata.mapping_factory"
-			alias="calliope_framework.metadata.mapping_factory.collection"
+			id="calliope_framework.schema.mapping_factory"
+			alias="calliope_framework.schema.mapping_factory.collection"
 		/>
 
 		<service
-			id="calliope_framework.metadata.mapping_factory.collection"
+			id="calliope_framework.schema.mapping_factory.collection"
 			class=""
 		>
 		</service>
 
 		<!-- Injector -->
 		<service
-			id="calliope_framework.metadata.mapping_injectors"
+			id="calliope_framework.schema.mapping_injectors"
 			class="Clio\Component\Util\Injection\Injector"
-			factory-service="calliope_framework.metadata.mapping_factory"
+			factory-service="calliope_framework.schema.mapping_factory"
 			factory-method="getInjector"
 		>
 		</service>
 
 <!--
 		<service
-			id="calliope_framework.metadata.bottom_up_config_loader"
+			id="calliope_framework.schema.bottom_up_config_loader"
 			class=""
 		>
 			
 		</service>
 
 		<service
-			id="calliope_framework.metadata.config_loader.file_locator"
-			class="%calliope_framework.metadata.config_loader.file_locator.class%"
+			id="calliope_framework.schema.config_loader.file_locator"
+			class="%calliope_framework.schema.config_loader.file_locator.class%"
 		>
 			<argument>%kernel.bundles%</argument>
 		</service>

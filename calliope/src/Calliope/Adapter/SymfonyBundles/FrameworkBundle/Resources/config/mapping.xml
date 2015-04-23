@@ -6,25 +6,25 @@
 
 
 	<parameters>
-		<parameter key="calliope_framework.metadata.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
-		<parameter key="calliope_framework.metadata.schema_manager_mapping_factory.class">Calliope\Core\Metadata\Mapping\Factory\SchemaManagerMappingFactory</parameter>
+		<parameter key="calliope_framework.schema.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
+		<parameter key="calliope_framework.schema.schema_manager_mapping_factory.class">Calliope\Core\Metadata\Mapping\Factory\SchemaManagerMappingFactory</parameter>
 	</parameters>
 
 	<services>
 		<service
-			id="calliope_framework.metadata.mapping_factory.collection"
-			class="%calliope_framework.metadata.mapping_factory_collection.class%"
+			id="calliope_framework.schema.mapping_factory.collection"
+			class="%calliope_framework.schema.mapping_factory_collection.class%"
 		>
 		</service>
 
 		<service
-			id="calliope_framework.metadata.mapping_factory.schema_manager"
-			class="%calliope_framework.metadata.schema_manager_mapping_factory.class%"
+			id="calliope_framework.schema.mapping_factory.schema_manager"
+			class="%calliope_framework.schema.schema_manager_mapping_factory.class%"
 		>
 			<argument type="service" id="calliope_framework.container_registry"/>
 			<argument type="service" id="calliope_framework.schema_manager_class_factory"/>
 
-			<tag name="calliope_framework.metadata.mapping_factory" for="schema_manager"/>
+			<tag name="calliope_framework.schema.mapping_factory" for="schema_manager"/>
 		</service>
 	</services>
 </container>

@@ -32,10 +32,10 @@ class MetadataCompilerPass implements CompilerPassInterface
 
 	protected function processMappingFactory($container)
 	{
-		if($container->hasDefinition('calliope_framework.metadata.mapping_factory.collection')) {
-			$collection = $container->getDefinition('calliope_framework.metadata.mapping_factory.collection');
+		if($container->hasDefinition('calliope_framework.schema.mapping_factory.collection')) {
+			$collection = $container->getDefinition('calliope_framework.schema.mapping_factory.collection');
 
-			foreach($container->findTaggedServiceIds('calliope_framework.metadata.mapping_factory') as $id => $tags) {
+			foreach($container->findTaggedServiceIds('calliope_framework.schema.mapping_factory') as $id => $tags) {
 				foreach($tags as $tag) {
 					$collection->addMethodCall(
 						'set',
