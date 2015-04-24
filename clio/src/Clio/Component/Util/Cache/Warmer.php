@@ -13,10 +13,10 @@ interface Warmer
 {
     /**
      * warmup 
-     * 
+     *   Warmup cached data 
      * @access public
      * @return void
      */
-    function warmup();
+    function warmup($cached);
 }
 

@@ -2,7 +2,7 @@
 namespace Clio\Component\Util\Accessor\Loader;
 
 use Clio\Component\Pattern\Loader\FactoryLoader as BaseLoader;
-use Clio\Component\Util\Metadata\SchemaRegistry;;
+use Clio\Component\Util\Metadata\Resolver as SchemaResolver;
 use Clio\Component\Util\Accessor\Factory;
 
 /**
@@ -16,19 +16,19 @@ use Clio\Component\Util\Accessor\Factory;
  */
 class FactoryLoader extends BaseLoader 
 {
-    private $schemaRegistry;
+    private $schemaResolver;
     
     private $factory;
     /**
      * __construct 
      * 
-     * @param SchemaRegistry $registry 
+     * @param SchemaResolver $registry 
      * @access public
      * @return void
      */
-    public function __construct(SchemaRegistry $schemaRegistry, Factory $factory = null)
+    public function __construct(SchemaResolver $schemaResolver, Factory $factory = null)
     {
-        $this->schemaRegistry = $schemaRegistry;
+        $this->schemaResolver = $schemaResolver;
 
         if(!$factory) {
             $factory = new Factory\SchemaAccessorFactory();
@@ -41,8 +41,8 @@ class FactoryLoader extends BaseLoader
      */
     public function load($resource)
     {
-        // GEt Schema from SchemaRegistry
-        $schema = $this->schemaRegistry->get($resource);
+        // GEt Schema from SchemaResolver
+        $schema = $this->schemaResolver->resolve($resource);
 
         return parent::load($schema);
     }

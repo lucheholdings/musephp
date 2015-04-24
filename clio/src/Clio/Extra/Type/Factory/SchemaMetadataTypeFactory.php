@@ -3,7 +3,7 @@ namespace Clio\Extra\Type\Factory;
 
 use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
 use Clio\Extra\Type as ExtraTypes;
-use Clio\Component\Util\Metadata\SchemaRegistry;
+use Clio\Component\Util\Metadata\Resolver as SchemaResolver;
 
 /**
  * SchemaMetadataTypeFactory 
@@ -17,24 +17,24 @@ use Clio\Component\Util\Metadata\SchemaRegistry;
 class SchemaMetadataTypeFactory extends AbstractTypeFactory 
 {
     /**
-     * schemaRegistry 
+     * schemaResolver 
      * 
      * @var mixed
      * @access private
      */
-    private $schemaRegistry;
+    private $schemaResolver;
 
     /**
      * __construct 
      * 
-     * @param SchemaRegistry $schemaRegistry 
+     * @param SchemaResolver $schemaResolver 
      * @access public
      * @return void
      */
-    public function __construct(SchemaRegistry $schemaRegistry)
+    public function __construct(SchemaResolver $schemaResolver)
     {
         parent::__construct();
-        $this->schemaRegistry = $schemaRegistry;
+        $this->schemaResolver = $schemaResolver;
     }
 
     /**
@@ -46,11 +46,12 @@ class SchemaMetadataTypeFactory extends AbstractTypeFactory
      */
     public function createType($name, array $options = array())
     {
-        if(!$this->schemaRegistry->has($name)) {
-            throw new \InvalidArgumentException(sprintf('Schema "%s" is not exists.', $name));
+        try {
+            $schema = $this->schemaResolver->resolve($name);
+        } catch(\Exception $ex) {
+            throw new \InvalidArgumentException(sprintf('Schema "%s" cannot resolved.', $name));
         }
-
-        return new ExtraTypes\SchemaMetadataType($this->schemaRegistry->get($name));
+        return new ExtraTypes\SchemaMetadataType($schema);
     }
 
     /**
@@ -62,30 +63,34 @@ class SchemaMetadataTypeFactory extends AbstractTypeFactory
      */
 	public function isSupportedType($name)
     {
-        return $this->schemaRegistry->has($name);
+        try {
+            return (bool)$this->schemaResolver->resolve($name);
+        } catch(\Exception $ex) {
+            return false;
+        }
     }
     
     /**
-     * getSchemaRegistry 
+     * getSchemaResolver 
      * 
      * @access public
      * @return void
      */
-    public function getSchemaRegistry()
+    public function getSchemaResolver()
     {
-        return $this->schemaRegistry;
+        return $this->schemaResolver;
     }
     
     /**
-     * setSchemaRegistry 
+     * setSchemaResolver 
      * 
-     * @param mixed $schemaRegistry 
+     * @param mixed $schemaResolver 
      * @access public
      * @return void
      */
-    public function setSchemaRegistry(SchemaRegistry $schemaRegistry)
+    public function setSchemaResolver(SchemaResolver $schemaResolver)
     {
-        $this->schemaRegistry = $schemaRegistry;
+        $this->schemaResolver = $schemaResolver;
         return $this;
     }
 }
