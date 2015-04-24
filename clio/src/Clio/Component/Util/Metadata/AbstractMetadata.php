@@ -27,8 +27,6 @@ abstract class AbstractMetadata implements Metadata
      * parent 
      *   If inherited metadata, parent will be setted.
      *   Otherwise null.
-     *   When serialize parent, its only store the name of metaedata.
-     *   When unserialize, parent is still the name of metadata, so please warmup parent from its name..
      * @var mixed
      * @access private
      */
@@ -212,51 +210,6 @@ abstract class AbstractMetadata implements Metadata
 	{
 		$this->options[$name] = $value;
 		return $this;
-	}
-
-    /**
-     * serialize 
-     * 
-     * @param array $extra 
-     * @access public
-     * @return void
-     */
-	public function serialize(array $extra = array())
-	{
-		return serialize(array(
-            (string)$this->parent,
-			$this->options,
-			$this->mappings->toArray(),
-			$extra
-		));
-	}
-
-    /**
-     * unserialize 
-     * 
-     * @param mixed $serialized 
-     * @access public
-     * @return void
-     */
-	public function unserialize($serialized)
-	{
-		$data = unserialize($serialized);
-		if(!$data) {
-			throw new \RuntimeException(sprintf('Failed to unserialize "%s"', get_class($this)));
-		}
-
-		list(
-            $this->parent,
-			$this->options,
-			$mappings,
-			$extra
-		) = $data;
-
-		$this->mappings = new MappingCollection($mappings);
-		foreach($this->mappings as $mapping) {
-			$mapping->setMetadata($this);
-		}
-		return $extra;
 	}
 
     public function hasParent()

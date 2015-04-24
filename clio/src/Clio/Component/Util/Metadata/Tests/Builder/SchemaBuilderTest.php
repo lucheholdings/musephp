@@ -1,30 +1,28 @@
 <?php
 namespace Clio\Component\Util\Metadata\Tests\Builder;
 
-use Clio\Component\Util\Metadata\Builder\SchemaBuilder;
-use Clio\Component\Util\Metadata\Factory\MetadataFactory;
-use Clio\Component\Util\Metadata\Factory\FieldMetadataFactory;
+use Clio\Component\Util\Metadata;
 use Clio\Component\Util\Type as Types;
 
-use Clio\Component\Pattern\Registry\FactoryRegistry;
+use Clio\Component\Pattern\Registry;
+use Clio\Component\Pattern\Loader;
 
 class SchemaBuilderTests extends \PHPUnit_Framework_TestCase
 {
     public function testBuildPrimitive()
     {
-        $typeRegistry = Types\Registry\Factory::createDefault();
-        $factory = new MetadataFactory($typeRegistry);
-        $builder = new SchemaBuilder($factory, $typeRegistry);
+        $schemaResolver = new Metadata\Resolver\RegisteredResolver(); 
+        $typeResolver = new Types\Resolver\RegisteredResolver(Types\Registry\Factory::createDefault());
+        $schemaRegistry = new Metadata\Registry\ValidateRegistry(new Registry\LoadableRegistry(
+                new Loader\FactoryLoader(new Metadata\Factory\SchemaFactory($schemaResolver, $typeResolver))
+            ));
 
-        $schemaRegistry = new FactoryRegistry($factory);
-        $fieldFactory = new FieldMetadataFactory($schemaRegistry);
+        $schemaResolver->setRegistry($schemaRegistry);
 
-        $factory->setFieldFactory($fieldFactory);
-
+        $builder = new Metadata\Builder\SchemaBuilder($schemaResolver, $typeResolver);
         $builder
             ->setName('foo')
             ->setType('int')
-            ->setTypeRegistry($typeRegistry)
             ->addOption('foo', 'Foo')
             ->addOption('bar', 'Bar')
             ->addField('field1', 'int')
@@ -41,19 +39,20 @@ class SchemaBuilderTests extends \PHPUnit_Framework_TestCase
 
     public function testBuildClass()
     {
-        $typeRegistry = Types\Registry\Factory::createDefault();
-        $factory = new MetadataFactory($typeRegistry);
-        $builder = new SchemaBuilder($factory, $typeRegistry);
+        $schemaResolver = new Metadata\Resolver\RegisteredResolver(); 
+        $typeResolver = new Types\Resolver\RegisteredResolver(Types\Registry\Factory::createDefault());
+        $schemaRegistry = new Metadata\Registry\ValidateRegistry(new Registry\LoadableRegistry(
+                new Loader\FactoryLoader(new Metadata\Factory\SchemaFactory($schemaResolver, $typeResolver))
+            ));
 
-        $schemaRegistry = new FactoryRegistry($factory);
-        $fieldFactory = new FieldMetadataFactory($schemaRegistry);
+        $schemaResolver->setRegistry($schemaRegistry);
 
-        $factory->setFieldFactory($fieldFactory);
+        $builder = new Metadata\Builder\SchemaBuilder($schemaResolver, $typeResolver);
 
         $builder
             ->setName('foo')
             ->setType('Clio\Component\Util\Metadata\Tests\Models\TestModel')
-            ->setTypeRegistry($typeRegistry)
+            ->appendProperties()
             ->addField('field1', 'int')
         ;
 

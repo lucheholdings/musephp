@@ -9,7 +9,7 @@ namespace Clio\Component\Util\Metadata;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Metadata extends \Serializable
+interface Metadata 
 {
 	/**
 	 * getName 
