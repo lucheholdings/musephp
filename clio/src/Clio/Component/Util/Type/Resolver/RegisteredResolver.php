@@ -5,14 +5,14 @@ use Clio\Component\Util\Type\Resolver;
 use Clio\Component\Util\Type\Registry;
 
 /**
- * RegisteredTypeResolver 
+ * RegisteredResolver 
  *    Resolve type registered on TypeRegistry. 
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class RegisteredTypeResolver implements Resolver 
+class RegisteredResolver implements Resolver 
 {
     /**
      * typeRegistry 
