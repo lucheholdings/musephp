@@ -1,11 +1,4 @@
 <?php
-/**
- * ${ FILENAME }
- * 
- * @copyright ${ COPYRIGHT }
- * @license ${ LICENSE }
- * 
- */
 namespace Clio\Component\Tool\Counter;
 
 /**

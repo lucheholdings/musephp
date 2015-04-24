@@ -1,11 +1,4 @@
 <?php
-/**
- * ${ FILENAME }
- * 
- * @copyright ${ COPYRIGHT }
- * @license ${ LICENSE }
- * 
- */
 namespace Clio\Component\Tool\Counter;
 
 /**
@@ -27,6 +20,12 @@ class MemcachedCounterMap implements CounterMap
 	 */
 	private $memcached;
 
+    /**
+     * ns 
+     * 
+     * @var mixed
+     * @access private
+     */
 	private $ns;
 
 	/**
