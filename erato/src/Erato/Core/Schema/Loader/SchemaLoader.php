@@ -3,7 +3,7 @@ namespace Erato\Core\Schema\Loader;
 
 use Clio\Component\Pattern\Loader\Loader;
 use Clio\Component\Util\Type;
-use Clio\Component\Util\Metadata\Schema;
+use Clio\Component\Util\Metadata;
 use Erato\Core\Schema\Builder\SchemaBuilder;
 
 /**
@@ -34,7 +34,7 @@ class SchemaLoader implements Loader
      * @access public
      * @return void
      */
-    public function __construct(Loader $configLoader, Schema\Resolver $schemaResolver, Type\Resolver $typeResolver, array $mappingFactories= array())
+    public function __construct(Loader $configLoader, Metadata\Resolver $schemaResolver, Type\Resolver $typeResolver, array $mappingFactories= array())
     {
         $this->configLoader = $configLoader;
         $this->schemaResolver = $schemaResolver;

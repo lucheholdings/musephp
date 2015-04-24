@@ -21,7 +21,7 @@ use Clio\Component\Util\Type;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class BasicRegistry extends Metadata\SchemaRegistry\ValidateRegistry implements SchemaRegistry 
+class BasicRegistry extends Metadata\Registry\ValidateRegistry implements SchemaRegistry 
 {
     /**
      * createDefault 
@@ -31,7 +31,7 @@ class BasicRegistry extends Metadata\SchemaRegistry\ValidateRegistry implements 
      * @access public
      * @return void
      */
-    static public function createDefault(Metadata\Schema\Resolver $schemaResolver, Type\Resolver $typeResolver)
+    static public function createDefault(Metadata\Resolver $schemaResolver, Type\Resolver $typeResolver)
     {
         $configLoader = new ExtraLoader\CacheLoader(
                 new ConfigLoaders\InheritMergeLoader(
@@ -55,7 +55,7 @@ class BasicRegistry extends Metadata\SchemaRegistry\ValidateRegistry implements 
      * @access public
      * @return void
      */
-    public function __construct($configLoader, Metadata\Schema\Resolver $schemaResolver, Type\Resolver $typeResolver, array $mappingFactories = array())
+    public function __construct($configLoader, Metadata\Resolver $schemaResolver, Type\Resolver $typeResolver, array $mappingFactories = array())
     {
         // Load Configuration and build 
         parent::__construct(new Registry\LoadableRegistry(new SchemaLoader(

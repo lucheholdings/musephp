@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Schema;
 
-use Clio\Component\Util\Metadata\SchemaRegistry as BaseRegistry;
+use Clio\Component\Util\Metadata\Registry as BaseRegistry;
 
 /**
  * Registry 
