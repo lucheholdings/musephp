@@ -1,8 +1,8 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
-use Erato\Core\Metadata\Mapping\SchemaManagerMapping;
+use Erato\Core\Schema\Mapping\SchemaManagerMapping;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 use Clio\Component\Util\Injection\ClassInjector;
@@ -84,7 +84,7 @@ class SchemaManagerMappingFactory extends AbstractSchemaMetadataMappingFactory
 	{
 		if(!$this->injector) {
 			// 
-			$this->injector = new ClassInjector('Erato\Core\Metadata\Mapping\SchemaManagerMapping', 'setManagerClassFactory', array($this->getManagerClassFactory()));
+			$this->injector = new ClassInjector('Erato\Core\Schema\Mapping\SchemaManagerMapping', 'setManagerClassFactory', array($this->getManagerClassFactory()));
 		}
 		return $this->injector;
 	}

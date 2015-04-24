@@ -1,5 +1,5 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\AbstractFactory;
 use Clio\Component\Util\Metadata\Metadata;
@@ -10,8 +10,8 @@ use Clio\Component\Util\Metadata\FieldMetadata,
 use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
 
-use Erato\Core\Metadata\Mapping\SchemaAccessorMapping,
-	Erato\Core\Metadata\Mapping\FieldAccessorMapping
+use Erato\Core\Schema\Mapping\SchemaAccessorMapping,
+	Erato\Core\Schema\Mapping\FieldAccessorMapping
 ;
 
 use Clio\Component\Exception\UnsupportedException;
@@ -142,8 +142,8 @@ class AccessorMappingFactory extends AbstractFactory
 		if(!$this->injector) {
 			// 
 			$this->injector = new InjectorCollection(array(
-				new ClassInjector('Erato\Core\Metadata\Mapping\SchemaAccessorMapping', 'setAccessorFactory', array($this->getSchemaAccessorFactory())),
-				new ClassInjector('Erato\Core\Metadata\Mapping\FieldAccessorMapping', 'setAccessorFactory', array($this->getFieldAccessorFactory()))
+				new ClassInjector('Erato\Core\Schema\Mapping\SchemaAccessorMapping', 'setAccessorFactory', array($this->getSchemaAccessorFactory())),
+				new ClassInjector('Erato\Core\Schema\Mapping\FieldAccessorMapping', 'setAccessorFactory', array($this->getFieldAccessorFactory()))
 			));
 		}
 		return $this->injector;

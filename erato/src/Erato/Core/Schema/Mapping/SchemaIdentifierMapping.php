@@ -1,5 +1,5 @@
 <?php
-namespace Erato\Core\Metadata\Mapping;
+namespace Erato\Core\Schema\Mapping;
 
 use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
 use Clio\Component\Util\Metadata\Metadata;

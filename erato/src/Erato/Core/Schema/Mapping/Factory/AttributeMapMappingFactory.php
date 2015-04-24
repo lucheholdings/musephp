@@ -1,5 +1,5 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 // Metadata 
 use Clio\Component\Util\Metadata\Metadata,
@@ -7,7 +7,7 @@ use Clio\Component\Util\Metadata\Metadata,
 	Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory
 ;
 // Mapping
-use Erato\Core\Metadata\Mapping\AttributeMapMapping;
+use Erato\Core\Schema\Mapping\AttributeMapMapping;
 
 /**
  * AttributeMapMappingFactory 

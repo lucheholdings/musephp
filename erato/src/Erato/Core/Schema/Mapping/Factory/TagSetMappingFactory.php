@@ -1,10 +1,10 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Erato\Core\Metadata\Mapping\TagSetMapping;
+use Erato\Core\Schema\Mapping\TagSetMapping;
 
 /**
  * TagSetMappingFactory 

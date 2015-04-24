@@ -1,8 +1,8 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
-use Erato\Core\Metadata\Mapping\SchemaMergerMapping;
+use Erato\Core\Schema\Mapping\SchemaMergerMapping;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
 

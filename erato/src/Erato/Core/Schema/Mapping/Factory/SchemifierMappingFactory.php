@@ -1,8 +1,8 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Extra\Metadata\Mapping\Factory\AbstractRegistryServiceMappingFactory;
-use Erato\Core\Metadata\Mapping\SchemifierMapping;
+use Erato\Core\Schema\Mapping\SchemifierMapping;
 use Clio\Component\Tool\Schemifier\Schemifier;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
