@@ -67,7 +67,7 @@ class PriorityMappedFactoryCollection extends PriorityFactoryCollection implemen
 				return $factory->createByKeyArgs($key, $args);
 			}
 		}
-        throw new UnsupportedException(sprintf('Key "%s" is not supported.', $key));
+        throw new Exception\UnsupportedException(sprintf('Key "%s" is not supported.', $key));
     }
 
     /**

@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Pattern\Loader;
 
+use Clio\Component\Pattern\Loader\Exception as LoaderException;
+
 /**
  * SequentialLoader 
  * 
@@ -10,7 +12,7 @@ namespace Clio\Component\Pattern\Loader;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class SequentialLoader implements Loader
+class SequentialLoader implements Loader, \IteratorAggregate
 {
     /**
      * loaders 
@@ -49,31 +51,14 @@ class SequentialLoader implements Loader
         $loaded = array();
 
         foreach($this->loaders as $loader) {
-            if($loader->canLoad($resource, $options)) {
+            try {
                 $loaded[] = $loader->load($resource, $options);
+            } catch (LoaderException $exception) {
+                continue;
             }
         }
 
         return $loaded;
-    }
-
-    /**
-     * canLoad 
-     * 
-     * @param mixed $resource 
-     * @param array $options 
-     * @access public
-     * @return void
-     */
-    public function canLoad($resource, array $options = array())
-    {
-        foreach($this->loaders as $loader) {
-            if($loader->canLoad($resource, $options)) {
-                return true;
-            }
-        }
-        
-        return false;
     }
 
     /**
@@ -87,6 +72,11 @@ class SequentialLoader implements Loader
     {
         $this->loaders[] = $loader;
         return $this;
+    }
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->loaders);
     }
 }
 

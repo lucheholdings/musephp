@@ -2,6 +2,7 @@
 namespace Clio\Component\Pattern\Registry;
 
 use Clio\Component\Pattern\Loader\Loader;
+use Clio\Component\Pattern\Loader\Exception as LoaderException;
 
 /**
  * LoadableRegistry 
@@ -73,14 +74,21 @@ class LoadableRegistry extends ProxyRegistry
 		// Load for the key
         if(isset($this->loadings[$key])) {
             throw new CircularException(sprintf('CircularException is occured. "%s" is on loading process.', (string)$key));
-        } else if($this->loader && $this->loader->canLoad($key)) {
+        } else if($this->loader) {
 
             $this->loadings[$key] = true;
-            //
-			$loaded = $this->loader->load($key, $options);
+            try {
+                //
+			    $loaded = $this->loader->load($key, $options);
 
-            $this->set($key, $loaded);
-            unset($this->loadings[$key]);
+                $this->set($key, $loaded);
+                unset($this->loadings[$key]);
+            } catch(LoaderException $ex) {
+                unset($this->loadings[$key]);
+
+                // Throw LoaderException
+                throw $ex;
+            }
 		} else {
             throw new \InvalidArgumentException(sprintf('"%s" cannot load.', $key));
         }
@@ -115,9 +123,13 @@ class LoadableRegistry extends ProxyRegistry
 			return true;
 		}
 
-		// 
-		if($this->loader) 
-            return $this->loader->canLoad($key);
+		// try load 
+        try {
+		    $this->load($key);
+            return true;
+        } catch(LoaderException $ex) {
+            // Do not throw
+        }
 
 		return false;
 	}
