@@ -1,25 +1,24 @@
 <?php
 namespace Erato\Core\Schema\Config;
 
-class Configuration 
+interface Configuration
 {
-    public function getName($name)
-    {
-        return $name;
-    }
+    /**
+     * inherit 
+     * 
+     * @param Configuration $config 
+     * @access public
+     * @return void
+     */
+    function inherit(Configuration $config);
 
-    public function addField()
-    {
-    }
-
-    public function getMappings()
-    {
-        
-    }
-
-    public function merge(Configuration $config)
-    {
-        
-    }
+    /**
+     * merge 
+     * 
+     * @param Configuration $config 
+     * @access public
+     * @return void
+     */
+    function merge(Configuration $config);
 }
 

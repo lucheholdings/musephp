@@ -54,7 +54,7 @@
 			class="%erato_framework.serializer.normalizer_strategy.class%"
 		>
 			<argument type="service" id="erato_framework.normalizer" on-invalid="ignore" />
-			<argument type="service" id="erato_framework.coder" on-invalid="ignore" />
+			<argument type="service" id="erato_framework.normalizer.coder" on-invalid="ignore" />
 		</service>
 
 		<service
@@ -68,6 +68,11 @@
 			class="%erato_framework.serializer.php_strategy.class%"
 		>
 		</service>
+
+		<service
+			id="erato_framework.serializer.coder.default"
+            alias="clio_component.coders"
+		/>
 	</services>	
 </container>
 

@@ -13,7 +13,6 @@
 		<parameter key="erato_framework.schema.normalizer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\NormalizerMappingFactory</parameter>
 		<parameter key="erato_framework.schema.serializer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SerializerMappingFactory</parameter>
 		<parameter key="erato_framework.schema.schemifier_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemifierMappingFactory</parameter>
-		<parameter key="erato_framework.schema.schema_manager_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaManagerMappingFactory</parameter>
 		<parameter key="erato_framework.schema.identifier_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaIdentifierMappingFactory</parameter>
 		<parameter key="erato_framework.schema.merger_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaMergerMappingFactory</parameter>
 		<parameter key="erato_framework.schema.replacer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaReplacerMappingFactory</parameter>
@@ -67,14 +66,6 @@
 		>
 			<argument type="service" id="erato_framework.container_registry"/>
 			<argument></argument>
-		</service>
-
-		<service
-			id="erato_framework.schema.default_mapping_factory.schema_manager"
-			class="%erato_framework.schema.schema_manager_mapping_factory.class%"
-		>
-			<argument type="service" id="erato_framework.schema_manager.class_factory" on-invalid="null"/>
-			<argument>%erato_framework.schema_manager.default.class%</argument>
 		</service>
 
 		<service

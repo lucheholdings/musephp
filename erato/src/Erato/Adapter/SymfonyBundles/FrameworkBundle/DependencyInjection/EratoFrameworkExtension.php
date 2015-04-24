@@ -32,28 +32,18 @@ class EratoFrameworkExtension extends Extension
         $this->loader->load('services.xml');
 
 		$this->loader->load('type.xml');
-		$this->loader->load('metadata.xml');
+		$this->loader->load('schema.xml');
 		$this->loader->load('mapping.xml');
 
-		$this->configureCoding($container, $config['coding_standard']);
-		$this->configureCacheFactory($container, $config['cache_factory']);
-		$this->configureMetadata($container, $config['metadata']);
-		//$this->configureSchema($configs['schema']);
-		$this->configureMapping($container, $config['mappings']);
-
-		$this->configureAccessor($container, $config['accessor']);
-		//$this->configureFormat();
+		//$this->configureCoding($container, $config['coding_standard']);
+		//$this->configureCacheFactory($container, $config['cache_factory']);
 		//$this->configureMetadata($container, $config['metadata']);
-		////$this->configureCounter($container, $config['counter']);
-		////$this->configureKvs($container, $config['kvs']);
-		////$this->configureFieldAccessor($container, $config['field_accessor']);
-		////$this->configureClassMetadata($container, $config['class_metadata']);
+		//$this->configureMapping($container, $config['mappings']);
 
-		////$this->configureJMSSerializer($container, $config['jms_serializer']);
-		$this->configureCoder($container, $config['coder']);
-		$this->configureNormalizer($container, $config['normalizer']);
-		$this->configureSchemifier($container, $config['schemifier']);
-		$this->configureSerializer($container, $config['serializer']);
+		//$this->configureAccessor($container, $config['accessor']);
+		//$this->configureNormalizer($container, $config['normalizer']);
+		//$this->configureSchemifier($container, $config['schemifier']);
+		//$this->configureSerializer($container, $config['serializer']);
     }
 
 	protected function initParameters($container, $configs)
@@ -87,7 +77,7 @@ class EratoFrameworkExtension extends Extension
 		{
 			$loaders = (array) $configs['config_loader'];
 
-			$definition = new DefinitionDecorator('erato_framework.schema.default_config_loader.annotation');
+			$definition = new DefinitionDecorator('erato_framework.schema.config_loader.annotation');
 			
 			$container->setDefinition('erato_framework.schema.config_loader.annotation', $definition);
 			$container->setAlias('erato_framework.schema.config_loader', 'erato_framework.schema.config_loader.annotation');
@@ -135,7 +125,7 @@ class EratoFrameworkExtension extends Extension
 		$this->configureNormalizerMapping($container, $mappingConfig['normalizer']);
 		$this->configureSerializerMapping($container, $mappingConfig['serializer']);
 		$this->configureSchemifierMapping($container, $mappingConfig['schemifier']);
-		$this->configureSchemaManagerMapping($container, $mappingConfig['schema_manager']);
+		//$this->configureSchemaManagerMapping($container, $mappingConfig['schema_manager']);
 		$this->configureIdentifierMapping($container, $mappingConfig['identifier']);
 		$this->configureMergerMapping($container, $mappingConfig['merger']);
 		$this->configureReplacerMapping($container, $mappingConfig['replacer']);
@@ -380,25 +370,25 @@ class EratoFrameworkExtension extends Extension
 		}
 	}
 
-	protected function configureCoder($container, $configs)
-	{
-		if($configs['enabled']) {
-			// If configuration enabled, then load serializer.xml
-			$this->getLoader()->load('coder.xml');
+	//protected function configureCoder($container, $configs)
+	//{
+	//	if($configs['enabled']) {
+	//		// If configuration enabled, then load serializer.xml
+	//		$this->getLoader()->load('coder.xml');
 
-			foreach($configs['format'] as $name => $coderConfig) {
-				if($coderConfig['enabled']) {
-					$coderDefinition = new DefinitionDecorator($coderConfig['id']);
-					$coderDefinition->addTag('erato_framework.coder', array('for' => $name));
-					
-					$container->setDefinition(
-						'erato_framework.coder.' . $name,
-						$coderDefinition
-					);
-				}
-			}
-		}
-	}
+	//		foreach($configs['format'] as $name => $coderConfig) {
+	//			if($coderConfig['enabled']) {
+	//				$coderDefinition = new DefinitionDecorator($coderConfig['id']);
+	//				$coderDefinition->addTag('erato_framework.coder', array('for' => $name));
+	//				
+	//				$container->setDefinition(
+	//					'erato_framework.coder.' . $name,
+	//					$coderDefinition
+	//				);
+	//			}
+	//		}
+	//	}
+	//}
 
 	protected function configureSerializer($container, $configs)
 	{

@@ -1,0 +1,30 @@
+<?php
+namespace Erato\Core\Tests\Schema\Registry;
+
+use Erato\Core\Schema\Registry\BasicRegistry;
+use Clio\Component\Util\Type;
+use Clio\Component\Util\Metadata;
+
+class BasicRegistryTest extends \PHPUnit_Framework_TestCase
+{
+	/**
+	 * testCosntruct 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function testCosntruct()
+	{
+		$registry = BasicRegistry::createDefault(
+                new Metadata\Schema\Resolver\LazyResolver(new Metadata\Schema\Resolver\RegisteredResolver()),
+                new Type\Resolver\RegisteredResolver(Type\Registry\Factory::createDefault())
+            );
+
+		$metadata = $registry->get('Erato\Core\Tests\Models\SimpleModel');
+		$this->assertInstanceof('Clio\Component\Util\Metadata\Schema', $metadata);
+
+        $this->assertEquals('Erato\Core\Tests\Models\SimpleModel', $metadata->getName());
+        $this->assertCount(3, $metadata->getFields());
+	}
+}
+
