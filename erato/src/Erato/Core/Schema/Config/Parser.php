@@ -20,6 +20,6 @@ interface Parser extends BaseParser
      * @access public
      * @return void
      */
-    function parse($contents);
+    function parse($contents = null);
 }
 

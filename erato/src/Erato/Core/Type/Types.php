@@ -15,4 +15,3 @@ final class Types
 	const TYPE_IDENTIFIER = 'identifier';
 	const TYPE_IGNORE     = 'ignore';
 }
-

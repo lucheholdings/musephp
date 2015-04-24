@@ -3,101 +3,12 @@
 <container xmlns="http://symfony.com/schema/dic/services"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
-
-    <parameters>
-		<!-- Registry -->
-		<parameter key="erato_framework.accessor.registry.class">Erato\Core\Accessor\SchemaAccessorRegistry</parameter>
-		<!-- Schema Accessor Factory -->
-        <parameter key="erato_framework.accessor.schema_accessor_factory.collection.class">Clio\Component\Util\Accessor\Schema\Factory\Collection</parameter>
-        <parameter key="erato_framework.accessor.schema_accessor_factory.fields.class">Clio\Component\Util\Accessor\Schema\Factory\FieldSchemaAccessorFactory</parameter>
-
-		<!-- Field Accessor Factory -->
-        <parameter key="erato_framework.accessor.field_accessor_factory.collection.class">Clio\Component\Util\Accessor\Field\Factory\Collection</parameter>
-        <parameter key="erato_framework.accessor.field_accessor_factory.ignore.class">Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory</parameter>
-        <parameter key="erato_framework.accessor.field_accessor_factory.public_property.class">Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory</parameter>
-        <parameter key="erato_framework.accessor.field_accessor_factory.method.class">Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory</parameter>
-        <parameter key="erato_framework.accessor.field_accessor_factory.attribute_map.class">Clio\Extra\Accessor\Field\Factory\AttributeMapAccessorFactory</parameter>
-        <parameter key="erato_framework.accessor.field_accessor_factory.tag_set.class">Clio\Extra\Accessor\Field\Factory\TagSetFieldAccessorFactory</parameter>
-
-    </parameters>
-
 	<services>
 		<!-- Schema AccessorRegistry -->
 		<service 
 			id="erato_framework.accessor.registry"
-			class="%erato_framework.accessor.registry.class%"
-		>
-			<argument type="service" id="erato_framework.schema.registry"/>
-		</service>
-		<!-- -->
-		<service
-			id="erato_framework.accessor.schema_accessor_factory"
-			alias="erato_framework.accessor.schema_accessor_factory.collection"
+            alias="clio_component.accessor.registry"
 		/>
-
-		<!-- Schema Accessor Factory -->
-		<service 
-			id="erato_framework.accessor.schema_accessor_factory.collection"
-			class="%erato_framework.accessor.schema_accessor_factory.collection.class%"
-		>
-		<!-- Items are injected by "erato_framework.accessor.schema_accessor_factory" tag -->
-		</service>
-	
-		<!-- Schema Accessor -->
-		<service 
-			id="erato_framework.accessor.schema_accessor_factory.fields"
-			class="%erato_framework.accessor.schema_accessor_factory.fields.class%"
-		>
-		  <argument type="service" id="erato_framework.accessor.field_accessor_factory.collection" />
-		  <!-- Items are injected by "erato_framework.accessor.class_field_accessor_factory" tag -->
-		  <tag name="erato_framework.accessor.schema_accessor_factory" for="fields"/>
-		</service>
-		
-		<!-- Default Field Accessor Factories -->
-		<service
-			id="erato_framework.accessor.field_accessor_factory"
-			alias="erato_framework.accessor.field_accessor_factory.collection"
-		/>
-
-		<service 
-			id="erato_framework.accessor.field_accessor_factory.collection"
-			class="%erato_framework.accessor.field_accessor_factory.collection.class%"
-		>
-		</service>
-
-
-		<service 
-			id="erato_framework.accessor.field_accessor_factory.ignore"
-			class="%erato_framework.accessor.field_accessor_factory.ignore.class%"
-		>
-		    <tag name="erato_framework.accessor.field_accessor_factory" for="ignore"/>
-		</service>
-		<service 
-			id="erato_framework.accessor.field_accessor_factory.public_property"
-			class="%erato_framework.accessor.field_accessor_factory.public_property.class%"
-		>
-		    <tag name="erato_framework.accessor.field_accessor_factory" for="public_property"/>
-		</service>
-		
-		<service 
-			id="erato_framework.accessor.field_accessor_factory.method"
-			class="%erato_framework.accessor.field_accessor_factory.method.class%"
-		>
-			<tag name="erato_framework.accessor.field_accessor_factory" for="method"/>
-		</service>
-		
-		<service 
-			id="erato_framework.accessor.field_accessor_factory.tag_set"
-			class="%erato_framework.accessor.field_accessor_factory.tag_set.class%"
-		>
-			<tag name="erato_framework.accessor.field_accessor_factory" for="tags"/>
-		</service>
-		<service
-			id="erato_framework.accessor.field_accessor_factory.attribute_map"
-			class="%erato_framework.accessor.field_accessor_factory.attribute_map.class%"
-		>
-			<argument></argument>
-			<tag name="erato_framework.accessor.field_accessor_factory" for="attributes"/>
-		</service>
 	</services>	
 </container>
+

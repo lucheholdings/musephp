@@ -1,0 +1,98 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+		<!-- Registry -->
+	    <parameter key="erato_framework.schema.registry.class">Erato\Core\Schema\Registry\SchemaRegistry</parameter>
+	    <parameter key="erato_framework.schema.config_loader.cache.class">Clio\Extra\Loader\CacheLoader</parameter>
+	    <parameter key="erato_framework.schema.config_loader.merge.class">Erato\Core\Schema\Config\Loader\ConfigurationMergeLoader</parameter>
+	    <parameter key="erato_framework.schema.config_loader.class.class">Erato\Core\Schema\Config\Loader\ClassConfigLoader</parameter>
+	    <parameter key="erato_framework.schema.config_loader.array_file.class">Clio\Extra\Loader\FormattedFileLoader</parameter>
+	    <parameter key="erato_framework.schema.config_loader.annotation.class">Erato\Bridge\Doctrine\Loader\AnnotationLoader</parameter>
+	    <parameter key="erato_framework.schema.config_parser.array.class">Erato\Core\Schema\Config\Parser\ArrayParser</parameter>
+	    <parameter key="erato_framework.schema.config_parser.class_default.class">Erato\Core\Schema\Config\Parser\DefaultClassConfigParser</parameter>
+	    <parameter key="erato_framework.schema.config_parser.class_annotation.class">Erato\Bridge\Doctrine\Schema\Config\Parser\ClassAnnotationParser</parameter>
+    </parameters>
+
+    <services>
+        <service
+            id="erato_framework.schema.registry"
+            class="%erato_framework.schema.registry.class%"
+        >
+            <argument type="service" id="erato_framework.schema.config_loader"/>
+        </service>
+
+        <service
+            id="erato_framework.schema.config_loader"
+            class="%erato_framework.schema.config_loader.cache.class%"
+        >
+            <argument type="service" id="erato_framework.schema.config_cache"/>
+            <argument type="service" id="erato_framework.schema.config_loader.collection"/>
+        </service>
+        <service
+            id="erato_framework.schema.config_loader.collection"
+            class="%erato_framework.schema.config_loader.merge.class%"
+        >
+        </service>
+        <service
+            id="erato_framework.schema.config_loader.class_default"
+            class="%erato_framework.schema.config_loader.class.class%"
+        >
+            <argument type="service" id="erato_framework.schema.config_parser.class_default"/>
+        </service>
+        <service
+            id="erato_framework.schema.config_loader.json"
+            class="%erato_framework.schema.config_loader.array_file.class%"
+        >
+            <argument type="service" id="erato_framework.schema.config_loader_locator"/>
+            <argument>json</argument>
+            <argument type="service" id="erato_framework.schema.config_parser.array"/>
+        </service>
+        <service
+            id="erato_framework.schema.config_loader.yaml"
+            class="%erato_framework.schema.config_loader.array_file.class%"
+        >
+            <argument type="service" id="erato_framework.schema.config_loader_locator"/>
+            <argument>json</argument>
+            <argument type="service" id="erato_framework.schema.config_parser.array"/>
+        </service>
+		<service
+			id="erato_framework.schema.config_loader.annotation"
+			class="%erato_framework.schema.config_loader.class.class%"
+		>
+			<argument type="service" id="erato_framework.schema.config_parser.class_annotation"/>
+		</service>
+
+
+        <service
+            id="erato_framework.schema.config_parser.array"
+            class="%erato_framework.schema.config_parser.array.class%"
+        >
+        </service>
+        <service
+            id="erato_framework.schema.config_parser.class_default"
+            class="%erato_framework.schema.config_parser.class_default.class%"
+        >
+        </service>
+        <service
+            id="erato_framework.schema.config_parser.class_annotation"
+            class="%erato_framework.schema.config_parser.class_annotation.class%"
+        >
+			<argument type="service" id="annotation_reader"/>
+        </service>
+
+        <service 
+            id="erato_framework.schema.config_cache.default"
+			class="Clio\Component\Util\Cache\CacheProvider" 
+			public="false"
+			factory-service="erato_framework.schema.config_cache_factory"
+			factory-method="createCacheProvider"
+		>
+			<argument></argument><!-- type -->
+			<argument></argument><!-- arguments -->
+		</service>
+	</services>	
+</container>
