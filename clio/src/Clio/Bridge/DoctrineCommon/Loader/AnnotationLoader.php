@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Bridge\DoctrineCommon\Loader;
 
-use Clio\Component\Pattern\Loader\Loader;
+use Clio\Component\Pattern\Loader;
 use Doctrine\Common\Annotations\Reader,
 	Doctrine\Common\Annotations\AnnotationReader
 ;
@@ -16,7 +16,7 @@ use Doctrine\Common\Annotations\Reader,
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AnnotationLoader implements Loader 
+abstract class AnnotationLoader implements Loader\Loader 
 {
 	/**
 	 * {@inheritdoc}
@@ -49,7 +49,7 @@ abstract class AnnotationLoader implements Loader
 		} else if(is_string($resource) && class_exists($resource)) {
 			$reflector = new \ReflectionClass($resource);
 		} else {
-			throw new \InvalidArgumentException('Unsupported.');
+			throw new Loader\Exception\InvalidResourceException('Unsupported.');
 		}
 
 		$data = $this->doLoad($reflector);
@@ -66,14 +66,6 @@ abstract class AnnotationLoader implements Loader
 	 * @return void
 	 */
 	abstract protected function doLoad(\ReflectionClass $reflector);
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function canLoad($resource)
-	{
-		return ($resource instanceof \ReflectionClass) || (is_string($resource) && class_exists($resource));
-	}
     
     public function getReader()
     {

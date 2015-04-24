@@ -1,13 +1,12 @@
 <?php
-namespace Clio\Extra\Registry\Loader;
+namespace Clio\Extra\Loader;
 
-use Clio\Component\Pattern\Registry\Loader\ProxyLoader,
-	Clio\Component\Pattern\Registry\EntryLoader
-;
+use Clio\Component\Pattern\Loader;
 use Clio\Component\Util\Cache\CacheProvider;
+use Clio\Component\Util\Cache\Warmer as CacheWarmer;
 
 /**
- * CachedLoader 
+ * CacheLoader 
  * 
  * @uses ProxyLoader
  * @package { PACKAGE }
@@ -15,7 +14,7 @@ use Clio\Component\Util\Cache\CacheProvider;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class CachedLoader extends ProxyLoader 
+class CacheLoader extends Loader\ProxyLoader 
 {
 	/**
 	 * cacheProvider 
@@ -41,16 +40,7 @@ class CachedLoader extends ProxyLoader
 	 */
 	private $ttl = 0;
 
-	/**
-	 * __construct 
-	 * 
-	 * @param EntryLoader $loader 
-	 * @param CacheProvider $cacheProvider 
-	 * @param Injector $cacheWarmer 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct(EntryLoader $loader, CacheProvider $cacheProvider = null, CacheWarmer $cacheWarmer = null)
+	public function __construct(Loader\Loader $loader, CacheProvider $cacheProvider = null, CacheWarmer $cacheWarmer = null)
 	{
 		parent::__construct($loader);
 
@@ -61,34 +51,27 @@ class CachedLoader extends ProxyLoader
 	/**
 	 * {@inheritdoc}
 	 */
-	public function loadEntry($key, array $options = array())
+	public function load($key, array $options = array())
 	{
 		try {
-			if($this->cacheProvider->contains($key)) {
-				$entry = $this->cacheProvider->fetch($key);
+			if($this->cacheProvider && $this->cacheProvider->contains($key)) {
+				$loaded = $this->cacheProvider->fetch($key);
 				
 				// Warmup cache
-				if($this->getCacheWarmer()) {
-					$entry = $this->getCacheWarmer()->warmup($entry);
+				if($this->cacheWarmer) {
+					$loaded = $this->cacheWarmer->warmup($loaded);
 				}
 			} else {
-				$entry = $this->getLoader()->loadEntry($key, $options);
+				$loaded = $this->getLoader()->load($key, $options);
 				// Save
-				$this->cacheProvider->save($key, $entry, $this->getTtl());
+				if($this->cacheProvider)
+                    $this->cacheProvider->save($key, $loaded, $this->getTtl());
 			}
 		} catch(\Exception $ex) {
-			throw new \RuntimeException(sprintf('Failed to load for "%s"', (string)$key), 0, $ex);
+			throw new Loader\Exception\InvalidResourceException(sprintf('Failed to load for "%s"', (string)$key), 0, $ex);
 		}
 
-		return $entry;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function canLoad($key)
-	{
-		return $this->cacheProvider->contains($key) || $this->getLoader()->canLoad($key);
+		return $loaded;
 	}
     
     /**

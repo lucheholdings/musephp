@@ -2,13 +2,14 @@
 namespace Clio\Extra\Tests\Type\Factory;
 
 use Clio\Extra\Tests\TestSchemaRegistry;
+use Clio\Component\Util\Metadata;
 use Clio\Extra\Type\Factory\SchemaMetadataTypeFactory;
 
 class SchemaMetadataTypeFactoryTest extends \PHPUnit_Framework_TestCase 
 {
     public function testCreate()
     {
-        $factory = new SchemaMetadataTypeFactory(new TestSchemaRegistry());
+        $factory = new SchemaMetadataTypeFactory(new Metadata\Resolver\RegisteredResolver(new TestSchemaRegistry()));
 
         $type = $factory->createType('Clio\Component\Util\Type\Tests\Models\Foo');
         $this->assertInstanceof('Clio\Extra\Type\SchemaMetadataType', $type);

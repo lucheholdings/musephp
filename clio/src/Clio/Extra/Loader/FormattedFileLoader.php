@@ -4,11 +4,13 @@ namespace Clio\Extra\Loader;
 use Clio\Component\Pattern\Loader;
 use Clio\Component\Pattern\Parser\Parser;
 use Clio\Component\Util\Format;
+use Clio\Component\Util\Format\Json\Json;
+use Clio\Bridge\SymfonyComponents\Format\Yaml\Yaml;
 use Clio\Component\Util\Format\FileFormat;
 use Clio\Component\Exception\UnsupportedException;
 
 /**
- * FormatFileLoader 
+ * FormattedFileLoader 
  * 
  * @uses FileLoader
  * @package { PACKAGE }
@@ -16,8 +18,30 @@ use Clio\Component\Exception\UnsupportedException;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class FormatFileLoader extends Loader\FileLoader
+class FormattedFileLoader extends Loader\FileLoader
 {
+    /**
+     * createFormat 
+     * 
+     * @param mixed $format 
+     * @static
+     * @access public
+     * @return void
+     */
+    static public function createFormat($format)
+    {
+        switch((string)$format) {
+        case 'json':
+            return new Json();
+        case 'yaml':
+        case 'yml':
+            return new Yaml();
+        default:
+        }
+
+        throw new \InvalidArgumentException('Unsupported format.');
+    }
+
 	/**
 	 * formats 
 	 * 
@@ -38,7 +62,10 @@ class FormatFileLoader extends Loader\FileLoader
 	{
 		parent::__construct($locator, $parser);
 
-		$this->formats = $formats;
+		$this->formats = array();
+        foreach($formats as $format) {
+            $this->addFormat($format);
+        }
 	}
 
     /**
@@ -84,9 +111,15 @@ class FormatFileLoader extends Loader\FileLoader
 	 * @access public
 	 * @return void
 	 */
-	public function addFormat(Format $format)
+	public function addFormat($format)
 	{
-		$this->formats[] = $format;
+        if(is_string($format)) {
+            $format = self::createFormat($format);
+        } else if(!$format instanceof Format) {
+            throw new \InvalidArgumentException('Unsupported format.');
+        }
+
+        $this->formats[] = $format;
 		return $this;
 	}
 
