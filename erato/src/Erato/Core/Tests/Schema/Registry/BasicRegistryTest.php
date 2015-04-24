@@ -16,7 +16,7 @@ class BasicRegistryTest extends \PHPUnit_Framework_TestCase
 	public function testCosntruct()
 	{
 		$registry = BasicRegistry::createDefault(
-                new Metadata\Schema\Resolver\LazyResolver(new Metadata\Schema\Resolver\RegisteredResolver()),
+                new Metadata\Resolver\LazyResolver(new Metadata\Resolver\RegisteredResolver()),
                 new Type\Resolver\RegisteredResolver(Type\Registry\Factory::createDefault())
             );
 
