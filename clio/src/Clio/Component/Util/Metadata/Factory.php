@@ -12,12 +12,13 @@ namespace Clio\Component\Util\Metadata;
  */
 interface Factory
 {
-	/**
-	 * createMetadata 
-	 * 
-	 * @access public
-	 * @return Metadata 
-	 */
-	function createMetadata($type);
+    /**
+     * createSchemaMetadata 
+     * 
+     * @param mixed $type 
+     * @access public
+     * @return void
+     */
+	function createSchemaMetadata($type);
 }
 

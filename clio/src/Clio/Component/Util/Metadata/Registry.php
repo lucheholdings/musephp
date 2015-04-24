@@ -2,14 +2,14 @@
 namespace Clio\Component\Util\Metadata;
 
 /**
- * SchemaRegistry 
+ * Registry 
  * 
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface SchemaRegistry
+interface Registry
 {
     /**
      * has 

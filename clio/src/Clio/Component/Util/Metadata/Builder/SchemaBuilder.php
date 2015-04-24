@@ -2,11 +2,9 @@
 namespace Clio\Component\Util\Metadata\Builder;
 
 use Clio\Component\Util\Type as Types;
-use Clio\Component\Util\Metadata\Factory\MetadataFactory;
-use Clio\Component\Util\Metadata\Schema;
-use Clio\Component\Util\Metadata\Schema\SchemaMetadata;
-use Clio\Component\Util\Metadata\Field;
-use Clio\Component\Util\Metadata\Field\PropertyFieldMetadata;
+use Clio\Component\Util\Metadata;
+
+use Clio\Component\Pattern\Factory\FactoryMap;
 
 /**
  * SchemaBuilder 
@@ -19,12 +17,28 @@ use Clio\Component\Util\Metadata\Field\PropertyFieldMetadata;
 class SchemaBuilder 
 {
     /**
-     * factory 
+     * mappingFactories 
      * 
      * @var mixed
      * @access private
      */
-    private $factory;
+    private $mappingFactory;
+
+    /**
+     * schemaResolver 
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $schemaResolver;
+
+    /**
+     * typeResolver 
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $typeResolver;
 
     /**
      * name 
@@ -58,6 +72,8 @@ class SchemaBuilder
      */
     private $fields = array();
 
+    private $mappings = array();
+
     /**
      * options 
      * 
@@ -67,33 +83,17 @@ class SchemaBuilder
     private $options = array();
 
     /**
-     * typeRegistry 
-     * 
-     * @var mixed
-     * @access private
-     */
-    private $typeRegistry;
-
-    /**
-     * defaultFieldsOnType 
-     * 
-     * @var boolean 
-     * @access private
-     */
-    private $defaultFieldsOnType = true;
-
-    /**
      * __construct 
      * 
-     * @param Types\Registry $typeRegistry 
+     * @param Types\Resolver $typeResolver 
      * @access public
      * @return void
      */
-    public function __construct(MetadataFactory $factory, Types\Registry $typeRegistry = null)
+    public function __construct(Metadata\Resolver $schemaResolver, Types\Resolver $typeResolver, array $mappingFactories = array())
     {
-        $this->factory = $factory;
-        $this->typeRegistry = $typeRegistry;
-        $this->defaultFieldsOnType = true;
+        $this->schemaResolver = $schemaResolver;
+        $this->mappingFactory = new FactoryMap($mappingFactories);
+        $this->typeResolver = $typeResolver;
     }
 
     /**
@@ -104,25 +104,35 @@ class SchemaBuilder
      */
     public function getSchemaMetadata()
     {
-        $schema = new SchemaMetadata($this->getType(), $this->name, array(), $this->getParent(), array(), $this->options);
+        $schema = new Metadata\Schema\SchemaMetadata($this->getType(), $this->name, array(), null, array(), $this->options);
 
-        // 
-
-        $fieldMetadatas = array();
-        $fields = $this->fields;
-        if($this->defaultFieldsOnType) {
-            $fields = array_merge($this->getDefaultFieldsOnType($schema), $fields);
+        if($this->parent) {
+            $schema->setParent($this->schemaResolver->resolve($this->parent));
         }
 
-        if(!empty($fields)) {
-            foreach($fields as $fieldName => $fieldType) {
-                if($fieldType instanceof Field) {
-                    $fieldMetadatas[$fieldName] = $fieldType;
-                } else {
-                    $fieldMetadatas[$fieldName] = $this->factory->createFieldMetadata($schema, $fieldName, $fieldType);
-                }
+        // 
+        if(!empty($this->fields)) {
+            foreach($this->fields as $fieldName => $fieldConfig) {
+                $fieldBuilder = $this->createFieldBuilder();
+                $fieldBuilder
+                    ->setSchema($schema)
+                    ->setName($fieldConfig['name'])
+                    ->setType($fieldConfig['type'])
+                    ->setOptions($fieldConfig['options'])
+                ;
+                $schema->setField($fieldName, $fieldBuilder->getFieldMetadata());
             }
-            $schema->setFields($fieldMetadatas);
+        }
+
+        foreach($this->mappings as $mappingName => $options) {
+            $schema->addMapping($this->mappingFactory->createByKey($mappingName, $schema, $mapping));
+        }
+
+        foreach($this->fields as $fieldName => $fieldConfig) {
+            foreach($fieldConfig['mappings'] as $mappingName => $options) {
+                $field = $schema->getField($fieldName);
+                $field->addMapping($this->mappingFactory->createByKey($mappingName, $field, $options));
+            }
         }
 
         return $schema;
@@ -162,35 +172,35 @@ class SchemaBuilder
     public function getType()
     {
         if(!$this->type instanceof Types\Type) {
-            if(!$this->typeRegistry) {
-                throw new \RuntimeException('Type cannot solve by typeRegistry, cause TypeRegsitry is not specified.');
+            if(!$this->typeResolver) {
+                throw new \RuntimeException('Type cannot solve, because TypeResolver is not specified.');
             }
-            $this->type = $this->typeRegistry->get($this->type);
+            $this->type = $this->typeResolver->resolve($this->type);
         }
         return $this->type;
     }
     
     /**
-     * getTypeRegistry 
+     * getTypeResolver 
      * 
      * @access public
      * @return void
      */
-    public function getTypeRegistry()
+    public function getTypeResolver()
     {
-        return $this->typeRegistry;
+        return $this->typeResolver;
     }
     
     /**
-     * setTypeRegistry 
+     * setTypeResolver 
      * 
-     * @param Types\Registry $typeRegistry 
+     * @param Types\Resolver $typeResolver 
      * @access public
      * @return void
      */
-    public function setTypeRegistry(Types\Registry $typeRegistry)
+    public function setTypeResolver(Types\Resolver $typeResolver)
     {
-        $this->typeRegistry = $typeRegistry;
+        $this->typeResolver = $typeResolver;
         return $this;
     }
     
@@ -212,7 +222,7 @@ class SchemaBuilder
      * @access public
      * @return void
      */
-    public function setParent(Schema $parent)
+    public function setParent($parent)
     {
         $this->parent = $parent;
         return $this;
@@ -266,21 +276,17 @@ class SchemaBuilder
     {
         return $this->fields;
     }
-    
+
     /**
-     * setFields 
+     * hasField 
      * 
-     * @param array $fields 
+     * @param mixed $fieldName 
      * @access public
      * @return void
      */
-    public function setFields(array $fields)
+    public function hasField($fieldName)
     {
-        $this->fields = array();
-        foreach($fields as $name => $field) {
-            $this->setField($name, $field);   
-        }
-        return $this;
+        return isset($this->fields[$fieldName]);
     }
 
     /**
@@ -291,55 +297,79 @@ class SchemaBuilder
      * @access public
      * @return void
      */
-    public function addField($fieldName, $typeSchema = null)
+    public function addField($fieldName, $type = 'mixed', array $options = array(), array $mappings = array())
     {
-        $this->fields[$fieldName] = $typeSchema;
+        $this->fields[$fieldName] = array(
+                'name'     => $fieldName, 
+                'type'     => $type,
+                'options'  => $options, 
+                'mappings' => array(),
+            );
+
+        foreach($mappings as $mappingName => $mappingOptions) {
+            $this->addFieldMapping($fieldName, $mappingName, $mappingOptions);
+        }
         return $this;
     }
 
     /**
-     * enableDefaultFieldsOnType 
+     * appendProperties 
      * 
      * @access public
      * @return void
      */
-    public function enableDefaultFieldsOnType()
+    public function appendProperties()
     {
-        $this->defaultFieldsOnType = true;
-        return $this;
-    }
-
-    /**
-     * disableDefaultFieldsOnType 
-     * 
-     * @access public
-     * @return void
-     */
-    public function disableDefaultFieldsOnType()
-    {
-        $this->defaultFieldsOnType = false;
-        return $this;
-    }
-
-    /**
-     * getDefaultFieldsOnType 
-     * 
-     * @access public
-     * @return void
-     */
-    public function getDefaultFieldsOnType(Schema $schema)
-    {
-        $fields = array();
-        $type = $this->getType();
-        if($type instanceof Types\Actual\ClassType) {
-            $properties = $type->getReflector()->getProperties();
-
-            foreach($properties as $property) {
-                $fields[$property->getName()] = new PropertyFieldMetadata($schema, $property);
+        // if class type
+        if($this->getType()->isType('class')) {
+            foreach($this->getType()->getReflector()->getProperties() as $prop) {
+                if(!$this->hasField($prop->getName())) {
+                    $this->addField($prop->getName());
+                }
             }
         }
+        return $this;
+    }
+    
+    public function hasMapping($name)
+    {
+        return isset($this->mappings[$name]);
+    }
+    
+    public function addMapping($name, array $options = array())
+    {
+        $this->mappings[$name] = $options;
+        return $this;
+    }
 
-        return $fields;
+    public function hasFieldMapping($field, $mappingName)
+    {
+        return $this->hasField($field) && isset($this->fields[$field]['mappings'][$mappingName]);
+    }
+    
+    public function getFieldMapping($field, $mappingName)
+    {
+        if($this->hasField($field)) 
+            throw new \InvalidArgumentException(sprintf('Field "%s" is not exists.', $field));
+
+        if(isset($this->fields[$field]['mappings'][$mappingName])) {
+            throw new \InvalidArgumentException(sprintf('Mapping "%s" is not exists for Field "%s".', $mappingName, $field));
+        }
+        return $this->fields[$field]['mappings'][$mappingName];
+    }
+    
+    public function addFieldMapping($field, $mappingName, array $options = array())
+    {
+        if(!$this->hasField($field)) {
+            $this->addField($field);
+        }
+        $this->fields[$field]['mappings'][$mappingName] = $options;
+        return $this;
+    }
+
+    public function createFieldBuilder()
+    {
+        return new FieldBuilder($this->schemaResolver);
     }
 }
 
