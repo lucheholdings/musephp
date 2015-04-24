@@ -2,7 +2,7 @@ ArrayTool Coder
 ==========
 
 
-ArrayTool Coder is a Encoder/Decoder tool from/to array.
+ArrayTool Coder is a Encoder/Decoder tool from/to array and specified coded.
 
 Ex)
   JsonCoder::encode(array) encode array to json

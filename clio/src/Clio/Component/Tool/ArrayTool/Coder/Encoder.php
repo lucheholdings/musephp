@@ -9,7 +9,7 @@ namespace Clio\Component\Tool\ArrayTool\Coder;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface Encoder extends Coder
+interface Encoder 
 {
 	/**
 	 * encode 
