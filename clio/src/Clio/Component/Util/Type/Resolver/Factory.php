@@ -25,7 +25,7 @@ class Factory
      */
     static public function createWithRegistry(TypeRegistry $typeRegistry)
     {
-        $actualTypeResolver = new RegisteredTypeResolver($typeRegistry);
+        $actualTypeResolver = new RegisteredResolver($typeRegistry);
 
         return new TypeChainResolver(array(
                 new ProxyTypeResolver(),

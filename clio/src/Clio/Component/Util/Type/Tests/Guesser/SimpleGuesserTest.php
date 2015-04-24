@@ -4,7 +4,7 @@ namespace Clio\Component\Util\Type\Tests\Guesser;
 use Clio\Component\Util\Type\Guesser\SimpleGuesser;
 use Clio\Component\Util\Type\Factory as Factories;
 use Clio\Component\Util\Type\Resolver\TypeFactoryResolver;
-use Clio\Component\Util\Type\Resolver\RegisteredTypeResolver;
+use Clio\Component\Util\Type\Resolver\RegisteredResolver;
 use Clio\Component\Util\Type\PrimitiveTypes;
 
 use Clio\Component\Util\Type\Registry as TypeRegistry;
@@ -54,7 +54,7 @@ class SimpleGuesserTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceof('Clio\Component\Util\Type\Resolver\TypeFactoryResolver', $guesser->getResolver());
 
-        $newResolver = new RegisteredTypeResolver(TypeRegistry\Factory::createDefault());
+        $newResolver = new RegisteredResolver(TypeRegistry\Factory::createDefault());
         $guesser->setResolver($newResolver);
         $this->assertNotEquals($resolver, $guesser->getResolver());
         $this->assertEquals($newResolver, $guesser->getResolver());
