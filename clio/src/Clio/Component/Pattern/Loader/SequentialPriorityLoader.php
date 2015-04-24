@@ -21,12 +21,14 @@ class SequentialPriorityLoader extends SequentialLoader
     public function load($resource, array $options = array())
     {
         foreach($this->getLoaders() as $loader) {
-            if($loader->canLoad($resource, $options)) {
+            try {
                 return $laoder->load($resource, $options);
+            } catch(Exception $ex) {
+                continue;
             }
         }
 
-        throw new UnsupportedException(sprintf('Cannot load resource "%s".', $resource));
+        throw new Exception\InvalidResourceException(sprintf('Cannot load resource "%s".', $resource));
     }
 }
 

@@ -47,18 +47,6 @@ class ProxyLoader implements Loader
     }
 
     /**
-     * canLoad 
-     * 
-     * @param mixed $resource 
-     * @access public
-     * @return void
-     */
-    public function canLoad($resource)
-    {
-        return $this->getLoader()->canLoad($resource);
-    }
-    
-    /**
      * getLoader 
      * 
      * @access public

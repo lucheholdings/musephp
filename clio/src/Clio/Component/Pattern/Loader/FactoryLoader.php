@@ -2,6 +2,8 @@
 namespace Clio\Component\Pattern\Loader;
 
 use Clio\Component\Pattern\Factory\MappedFactory;
+use Clio\Component\Pattern\Factory\Exception as FactoryException;
+use Clio\Component\Pattern\Loader\Exception as LoaderException;
 /**
  * FactoryLoader 
  *   FactoryLoader is a Loader loading with a Factory.
@@ -43,19 +45,11 @@ class FactoryLoader implements Loader
      */
     public function load($resource)
     {
-        return $this->factory->createByKey($resource);
-    }
-
-    /**
-     * canLoad 
-     * 
-     * @param mixed $resource 
-     * @access public
-     * @return void
-     */
-    public function canLoad($resource)
-    {
-        return $this->factory->canCreateByKey($resource);
+        try {
+            return $this->factory->createByKey($resource);
+        } catch(FactoryException $ex) {
+            throw new LoaderException\InvalidResourceException('Cannot load resource', 0, $ex);
+        }
     }
     
     /**

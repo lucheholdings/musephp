@@ -2,6 +2,7 @@
 namespace Clio\Component\Pattern\Loader;
 
 use Clio\Component\Pattern\Loader\Exception as LoaderExceptions;
+use Clio\Component\Pattern\Parser\Parser;
 
 /**
  * FileLoader 
