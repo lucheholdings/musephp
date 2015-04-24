@@ -1,8 +1,8 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Extra\Metadata\Mapping\Factory\AbstractRegistryServiceMappingFactory;
-use Erato\Core\Metadata\Mapping\SerializerMapping;
+use Erato\Core\Schema\Mapping\SerializerMapping;
 use Clio\Component\Tool\Serializer\Serializer;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;

@@ -1,9 +1,9 @@
 <?php
-namespace Erato\Core\Metadata\Mapping\Factory;
+namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Extra\Metadata\Mapping\Factory\AbstractRegistryServiceMappingFactory;
-use Erato\Core\Metadata\Mapping\NormalizerMapping,
-	Erato\Core\Metadata\Mapping\NormalizerFieldMapping;
+use Erato\Core\Schema\Mapping\NormalizerMapping,
+	Erato\Core\Schema\Mapping\NormalizerFieldMapping;
 use Clio\Component\Tool\Normalizer\Normalizer;
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\SchemaMetadata;
