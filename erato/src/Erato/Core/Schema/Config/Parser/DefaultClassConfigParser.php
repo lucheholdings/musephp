@@ -61,13 +61,7 @@ class DefaultClassConfigParser implements Parser
         }
 
         foreach($resource->getProperties() as $property) {
-            $field = new FieldConfiguration();
-            $field
-                ->setName($property->getName())
-                ->setType(new Type\MixedType())
-            ;
-
-            $config->addField($field);
+            $field = $config->addField($property->getName());
         }
 
         return $config;

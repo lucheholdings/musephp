@@ -60,7 +60,7 @@ class AccessorStrategyTest extends StrategyTestCase
     public function getContext()
     {
         if(!$this->context) {
-            $this->context = new Context(new NormalizerTypeResolver(Types\Resolver\Factory::createWithRegistry(new TestTypeRegistry())));
+            $this->context = new Context(NormalizerTypeResolver::createWithRegistry(Types\Registry\Factory::createDefault()));
         }
         return $this->context;
     }

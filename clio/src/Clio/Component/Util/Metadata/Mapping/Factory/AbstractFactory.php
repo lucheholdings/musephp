@@ -36,8 +36,7 @@ abstract class AbstractFactory extends BaseFactory implements Factory
 	protected function doCreate(array $args = array())
 	{
 		$metadata = array_shift($args);
-		$mapping = $this->createMapping($metadata);
-
+		return $this->createMapping($metadata);
 	}
 
 	/**

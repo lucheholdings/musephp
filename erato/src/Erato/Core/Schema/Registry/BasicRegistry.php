@@ -5,6 +5,7 @@ use Erato\Core\Schema\Registry as SchemaRegistry;
 use Erato\Core\Schema\Loader\SchemaLoader;
 use Erato\Core\Schema\Config\Loader as ConfigLoaders;
 use Erato\Core\Schema\Config\Parser as ConfigParsers;
+use Clio\Component\Util\Metadata\Loader\TypeSchemaLoader;
 use Clio\Component\Pattern\Loader;
 use Clio\Component\Pattern\Registry;
 use Clio\Extra\Loader as ExtraLoader;
@@ -46,24 +47,37 @@ class BasicRegistry extends Metadata\Registry\ValidateRegistry implements Schema
                 )
             ); 
 
-        return new self($configLoader, $schemaResolver, $typeResolver);
+        return new self(array(
+                new SchemaLoader($configLoader, $schemaResolver, $typeResolver, $mappingFactories),
+                new TypeSchemaLoader(),
+            ));
     }
+
+    private $loaders;
+
     /**
      * __construct 
      * 
-     * @param Loader\Loader $loader 
+     * @param array $loaders 
      * @access public
      * @return void
      */
-    public function __construct($configLoader, Metadata\Resolver $schemaResolver, Type\Resolver $typeResolver, array $mappingFactories = array())
+    public function __construct(array $loaders = array())
     {
+        $this->loaders = new Loader\PrioritySequentialLoader($loaders);
         // Load Configuration and build 
-        parent::__construct(new Registry\LoadableRegistry(new SchemaLoader(
-                $configLoader,
-                $schemaResolver,
-                $typeResolver,
-                $mappingFactories
-            )));
+        parent::__construct(new Registry\LoadableRegistry($this->loaders));
+    }
+    
+    /**
+     * getLoaders 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getLoaders()
+    {
+        return $this->loaders;
     }
 }
 

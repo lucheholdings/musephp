@@ -38,8 +38,8 @@ class Configuration implements ConfigurationInterface
 				->arrayNode('mappings')
 					->addDefaultsIfNotSet()
 					->children()
-						->append($this->buildAttributeMapMappingSection())
-						->append($this->buildTagSetMappingSection())
+						->append($this->buildAttibutesMappingSection())
+						->append($this->buildTagsMappingSection())
 						->append($this->buildAccessorMappingSection())
 						->append($this->buildNormalizerMappingSection())
 						->append($this->buildSerializerMappingSection())
@@ -60,7 +60,7 @@ class Configuration implements ConfigurationInterface
 	/**
 	 * buildCodingSection 
 	 *  
-	 * coding_standards:
+	 * coding_rules:
 	 *     naming:
 	 *         class:           pascal
 	 *         property:        camel
@@ -73,7 +73,7 @@ class Configuration implements ConfigurationInterface
 	protected function buildCodingSection()
 	{
 		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->root('coding_standard');
+		$node = $treeBuilder->root('coding_rules');
 
 		$node
 			->canBeDisabled()
@@ -184,10 +184,10 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	protected function buildAttributeMapMappingSection()
+	protected function buildAttibutesMappingSection()
 	{
 		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->root('attribute_map');
+		$node = $treeBuilder->root('attributes');
 
 		$node
 			->canBeDisabled()
@@ -211,10 +211,10 @@ class Configuration implements ConfigurationInterface
 		return $node;
 	}
 
-	protected function buildTagSetMappingSection()
+	protected function buildTagsMappingSection()
 	{
 		$treeBuilder = new TreeBuilder();
-		$node = $treeBuilder->root('tag_set');
+		$node = $treeBuilder->root('tags');
 
 		$node
 			->canBeDisabled()

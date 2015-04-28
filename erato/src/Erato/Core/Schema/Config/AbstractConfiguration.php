@@ -1,6 +1,8 @@
 <?php
 namespace Erato\Core\Schema\Config;
 
+use Erato\Core\Schema\Config\ParameterBag;
+
 /**
  * AbstractConfiguration 
  * 
@@ -52,7 +54,28 @@ abstract class AbstractConfiguration implements Configuration
         $this->options = $options;
         return $this;
     }
-    
+
+    public function getMapping($name)
+    {
+        return isset($this->mappings[$name]) 
+                ? $this->mappings[$name]
+                : array()
+            ;
+    }
+
+    /**
+     * setMapping 
+     * 
+     * @param mixed $name 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+    public function setMapping($name, array $options)
+    {
+        $this->mappings[$name] = $options;
+    }
+
     /**
      * getMappings 
      * 
@@ -73,7 +96,10 @@ abstract class AbstractConfiguration implements Configuration
      */
     public function setMappings(array $mappings)
     {
-        $this->mappings = $mappings;
+        $this->mappings = array();
+        foreach($mappings as $name => $mapping) {
+            $this->addMapping($name, $mapping);
+        }
         return $this;
     }
 
@@ -87,7 +113,7 @@ abstract class AbstractConfiguration implements Configuration
     public function merge(Configuration $config)
     {
         $this->options = array_merge($this->options, $config->options);
-        $this->mappings = array_replace($this->mappngs, $config->mappings);
+        $this->mappings = array_replace($this->mappings, $config->mappings);
 
         return $this;
     }
@@ -102,6 +128,7 @@ abstract class AbstractConfiguration implements Configuration
     public function inherit(Configuration $config)
     {
         $this->options = array_merge($config->options, $this->options);
+
         $this->mappings = array_replace($config->mappings, $this->mappings);
 
         return $this;

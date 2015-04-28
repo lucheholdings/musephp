@@ -30,16 +30,17 @@ class SchemaBuilder extends BaseBuilder
             ->setType($config->getType())
             ->setOptions($config->getOptions())
         ;
+
         if($config->getParent()) {
             $this->setParent($config->getParent());
         }
 
         foreach($config->getFields() as $fieldName => $fieldConfig) {
-            $this->addField($fieldName, $fieldConfig->type, $fieldConfig->options, $fieldConfig->mappings);
+            $this->addField($fieldName, $fieldConfig->type, $fieldConfig->options, $fieldConfig->getMappings(), $fieldConfig->name);
         }
 
-        foreach($config->getMappings() as $mapping) {
-            $tihs->addMapping($mapping);
+        foreach($config->getMappings() as $name => $mappingConfig) {
+            $this->addMapping($name, $mappingConfig);
         }
     }
 }

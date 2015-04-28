@@ -8,6 +8,8 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
+use Clio\Component\Util\Metadata\Exception as MetadataException;
+
 /**
  * SchemaMetadataCommand 
  * 
@@ -61,47 +63,50 @@ class SchemaMetadataCommand extends ContainerAwareCommand
 
 		$schema = $schemaRegistry->get($schema);
 
-		$data = array(
-			'SchemaName' => $schema->getName(),
-		);
-
+        $data = array();
 		$fields = array();
 		foreach($schema->getFields() as $field) {
 			$mappings = array();
 			foreach($field->getMappings() as $mapping) {
-				$mappings[$mapping->getName()] = $this->getMappingInfo($mapping);
+                $info = $this->getMappingInfo($mapping);
+                if(null !== $info)
+    				$mappings[$mapping->getName()]  = $info;
 			}
 			$fields[$field->getName()] = array(
-				'type'    => $field->getType()->getName(),
-				'Mapping' => $mappings,
+				'type'    => $field->getTypeSchema()->getName(),
+				'options' => $field->getOptions(),
+				'mappings' => $mappings,
 			);
 		}
-		$data['Fields'] = $fields;
+		$data['fields'] = $fields;
 
 		$mappings = $schema->getMappings();
 		if(0 < count($mappings)) {
 			$mappingData = array();
 			foreach($schema->getMappings() as $mapping) {
-				$mappingData[$mapping->getName()] = $this->getMappingInfo($mapping);
+                $info = $this->getMappingInfo($mapping);
+                if(null !== $info)
+    				$mappingData[$mapping->getName()] = $info;
 			}
-			$data['Mappings'] = $mappingData;
+			$data['mappings'] = $mappingData;
 		} else {
-			$data['Mappings'] = 'N/A';
+			$data['mappings'] = array();
 		}
 
-		$output->writeln(Yaml::dump($data, 100));
+		$output->writeln(Yaml::dump(array($schema->getName() => $data), 100));
 
 		$this->getHelper('indent')->dedent();
 		$this->getHelper('display')->horizontalBorder($output, '=');
-
 	}
 
 	protected function getMappingInfo($mapping)
 	{
-		if(method_exists($mapping, 'dumpConfig')) {
-			return $mapping->dumpConfig();
-		}
-		return array();
+        try {
+            $mapping->__getWrapped();
+            return $mapping->getOptions();
+        } catch(MetadataException\UnsupportedException $ex) {
+            return null;
+        }
 	}
 }
 

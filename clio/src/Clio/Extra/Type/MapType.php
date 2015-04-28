@@ -2,7 +2,7 @@
 namespace Clio\Extra\Type;
 
 use Clio\Component\Util\Type\AbstractType;
-use Clio\Component\Util\Type\ArrayType;
+use Clio\Component\Util\Type\Actual\ArrayType;
 /**
  * MapType 
  * 
@@ -16,7 +16,7 @@ class MapType extends ArrayType
 {
 	public function __construct()
 	{
-		AbstractType::__construct(Types::TYPE_SET);
+		AbstractType::__construct(Types::TYPE_MAP);
 	}
 
 	public function isType($type)

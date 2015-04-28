@@ -1,0 +1,59 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Factories -->
+		<service 
+			id="clio_component.type_factory.primitive" 
+			class="Clio\Component\Util\Type\Factory\PrimitiveTypeFactory"
+		>
+		</service>
+		<service 
+			id="clio_component.type_factory.class" 
+			class="Clio\Component\Util\Type\Factory\ClassTypeFactory"
+		>
+		</service>
+		<service 
+			id="clio_component.type_factory.array_alias" 
+			class="Clio\Extra\Type\Factory\ArrayAliasTypeFactory"
+		>
+		</service>
+
+        <!-- Resolvers -->
+        <!-- Complex typeResolver : to resolve Proxy and Mixed as well-->
+        <service
+            id="clio_component.type_resolver.primitive"
+            class="Clio\Component\Util\Type\Resolver"
+            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            factory-method="createWithFactories"
+        >
+            <argument type="service" id="clio_component.type_factory.primitive"/>
+        </service>
+        <service
+            id="clio_component.type_resolver.native"
+            class="Clio\Component\Util\Type\Resolver"
+            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            factory-method="createWithFactories"
+        >
+            <argument type="collection">
+                <argument type="service" id="clio_component.type_factory.primitive"/>
+                <argument type="service" id="clio_component.type_factory.class"/>
+            </argument>
+        </service>
+        <service
+            id="clio_component.type_resolver.custom"
+            class="Clio\Component\Util\Type\Resolver"
+            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            factory-method="createWithFactories"
+        >
+            <argument type="collection">
+                <argument type="service" id="clio_component.type_factory.primitive"/>
+                <argument type="service" id="clio_component.type_factory.class"/>
+                <argument type="service" id="clio_component.type_factory.array_alias"/>
+            </argument>
+        </service>
+    </services>
+</container>

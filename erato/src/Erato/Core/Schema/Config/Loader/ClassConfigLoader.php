@@ -28,7 +28,7 @@ class ClassConfigLoader extends AbstractResourceLoader
             try {
                 $resource = new \ReflectionClass($resource);   
             } catch(\ReflectionException $ex) {
-                throw new LoaderExceptions\ResourceNotFoundException();
+                throw new LoaderExceptions\ResourceNotFoundException(sprintf('Class "%s" is not exists.', $resource), 0, $ex);
             }
         }
         return parent::load($resource);

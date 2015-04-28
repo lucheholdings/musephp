@@ -81,7 +81,7 @@ class ClassFactory extends AbstractMappedFactory
      */
 	protected function resolveConstructorArgs(array $args)
 	{
-		return $args;
+		return array_shift($args);
 	}
 
     /**

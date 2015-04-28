@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Type\Resolver;
 
 use Clio\Component\Util\Type\Resolver;
+use Clio\Component\Util\Type\Exception as TypeException;
 
 /**
  * TypeChainResolver 
@@ -64,11 +65,23 @@ class TypeChainResolver implements Resolver
      */
     public function resolve($type, array $options = array())
     {
+        $resolved = false;
         foreach($this->chains as $next) {
             if($next->canResolve($type, $options)) {
-                $type = $next->resolve($type, $options);
+                try {
+                    $type = $next->resolve($type, $options);
+
+                    $resolved = true;
+                } catch(\Exception $ex) {
+                    //
+                }
             }
         }
+
+        if(!$resolved) {
+            throw new TypeException\CannotResolveException(sprintf('Cannot resolve the type "%s"', (string)$type));
+        }
+
         return $type;
     }
 

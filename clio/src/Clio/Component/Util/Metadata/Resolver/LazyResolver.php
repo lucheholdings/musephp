@@ -4,6 +4,8 @@ namespace Clio\Component\Util\Metadata\Resolver;
 use Clio\Component\Util\Metadata\Resolver;
 use Clio\Component\Util\Metadata\Schema\LazySchemaMetadata;
 
+use Clio\Component\Util\Metadata\Exception as MetadataException;
+
 /**
  * LazyResolver 
  * 
@@ -45,7 +47,7 @@ class LazyResolver implements Resolver
     {
         try {
             $resolved = $this->getActualResolver()->resolve($resource);
-        } catch(\Exception $ex) {
+        } catch(MetadataException\CannotResolveException $ex) {
             $resolved = new LazySchemaMetadata($this->actualResolver, $resource);
         }
 

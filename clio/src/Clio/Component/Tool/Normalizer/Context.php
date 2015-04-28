@@ -3,6 +3,7 @@ namespace Clio\Component\Tool\Normalizer;
 
 use Clio\Component\Tool\Normalizer\Type;
 use Clio\Component\Tool\Normalizer\Type\TypeResolver;
+use Clio\Component\Util\Type as Types;
 
 /**
  * Context 
@@ -84,7 +85,7 @@ class Context
 		$this->scopeStack = new \SplStack();
 
 		if(!$typeResolver) 
-            $typeResolver = TypeResolver::createDefault();
+            $typeResolver = TypeResolver::createWithRegistry(Types\Registry\Factory::createDefault());
 
 		$this->typeResolver = $typeResolver;
 		$this->dataPool = new Tool\DataPool();

@@ -23,9 +23,9 @@ class ArrayAliasTypeFactory extends AbstractTypeFactory
      * @access public
      * @return void
      */
-	public function createType($name)
+	public function createType($type, array $options = array())
 	{
-		switch($name) {
+		switch($type) {
 		case Type\Types::TYPE_SET:
 		case Type\Types::TYPE_LIST:
 			return new Type\SetType();

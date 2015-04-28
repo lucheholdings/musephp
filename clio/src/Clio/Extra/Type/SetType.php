@@ -2,7 +2,7 @@
 namespace Clio\Extra\Type;
 
 use Clio\Component\Util\Type\AbstractType;
-use Clio\Component\Util\Type\ArrayType;
+use Clio\Component\Util\Type\Actual\ArrayType;
 /**
  * SetType 
  * 

@@ -83,10 +83,15 @@ class LazySchemaMetadata implements Schema
         return $this->getLoaded()->isValidData($data);
     }
 
+    public function getMappings()
+    {
+        return $this->getLoaded()->getMappings();
+    }
+
     public function getLoaded()
     {
-        if(is_string($this->actual)) {
-            $this->ref = $this->resolver->resolve($this->actual);
+        if(is_string($this->ref)) {
+            $this->ref = $this->resolver->resolve($this->ref);
         }
 
         if($this->ref instanceof Schema) {

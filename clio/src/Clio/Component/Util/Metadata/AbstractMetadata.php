@@ -94,9 +94,9 @@ abstract class AbstractMetadata implements Metadata
 			$this->mappings = new MappingCollection();
 		}
 
-        if($includeParent && $this->getParent()) {
-            return $this->mappings->merge($this->getParent()->getMappings());
-        }
+        //if($includeParent && $this->getParent()) {
+        //    return $this->mappings->inherit($this->getParent()->getMappings());
+        //}
 
         return $this->mappings;
     }
@@ -120,9 +120,7 @@ abstract class AbstractMetadata implements Metadata
 	 */
 	public function hasMapping($name, $includeParent = true)
 	{
-		if($includeParent && $this->hasParent()) 
-            return $this->getMappings()->hasMapping($name) || $this->getParent()->hasMapping($name);
-        return $this->getMappings()->hasMapping($name);
+        return $this->getMappings($includeParent)->hasMapping($name);
 	}
 
 	/**
@@ -131,13 +129,20 @@ abstract class AbstractMetadata implements Metadata
 	public function getMapping($name, $includeParent = true)
 	{
         if($this->hasMapping($name, false)) {
-            return $this->getMappings()->getMapping($name);
+            return $this->getMappings(false)->getMapping($name);
         } else if($includeParent && $this->hasParent()) {
             return $this->getParent()->getMapping($name);
         } else {
             throw new \RuntimeException(sprintf('Mapping "%s" is not exists', $name));
         }
 	}
+
+    public function addMapping(Mapping $mapping)
+    {
+        $this->getMappings(false)->setMapping($mapping->getName(), $mapping);
+        $mapping->setMetadata($this);
+        return $this;
+    }
 
 	/**
 	 * {@inheritdoc}
@@ -182,7 +187,7 @@ abstract class AbstractMetadata implements Metadata
      */
 	public function hasOption($name)
 	{
-		return array_key_exists($this->optnions, $name);
+		return array_key_exists($name, $this->options);
 	}
 
     /**
@@ -195,7 +200,7 @@ abstract class AbstractMetadata implements Metadata
      */
 	public function getOption($name, $default = null)
 	{
-		return array_key_exists($this->options, $name) ? $this->options[$name] : $default;
+		return array_key_exists($name, $this->options) ? $this->options[$name] : $default;
 	}
 
     /**
@@ -211,6 +216,12 @@ abstract class AbstractMetadata implements Metadata
 		$this->options[$name] = $value;
 		return $this;
 	}
+
+    public function addOptions(array $options)
+    {
+        $this->options = array_merge($this->options, $options);
+        return $this;
+    }
 
     public function hasParent()
     {

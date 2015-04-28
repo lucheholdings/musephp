@@ -12,13 +12,18 @@ class FieldBuilder
 
     private $type;
 
+    private $mappings = array();
+
     private $options = array();
 
-    private $schemaResolver;
+    private $fieldTypeResolver;
 
-    public function __construct(Metadata\Resolver $schemaResolver)
+    private $mappingFactories;
+
+    public function __construct(Metadata\Resolver $fieldTypeResolver, Metadata\Mapping\NamedFactory $mappingFactories = null)
     {
-        $this->schemaResolver = $schemaResolver;
+        $this->fieldTypeResolver   = $fieldTypeResolver;
+        $this->mappingFactories = $mappingFactories;
     }
 
     public function getFieldMetadata()
@@ -36,7 +41,19 @@ class FieldBuilder
             $field = new Metadata\Field\FieldMetadata($schema, $this->getName());
         }
 
-        $field->setTypeSchema($this->getSchemaResolver()->resolve($this->getType()));
+        $field->setTypeSchema($this->getFieldTypeResolver()->resolve($this->getType()));
+        
+        $options = $this->getFieldTypeResolver()->resolveOptions($this->getType());
+        if($options) 
+            $field->addOptions($options);
+
+        //
+        if($this->mappingFactories) {
+            foreach($this->mappings as $mappingName => $options) {
+                $schema->addMapping($this->mappingFactories->createMappingFor($mappingName, $schema, $options));
+            }
+        }
+
         return $field;
     }
     
@@ -73,14 +90,14 @@ class FieldBuilder
         return $this;
     }
     
-    public function getSchemaResolver()
+    public function getFieldTypeResolver()
     {
-        return $this->schemaResolver;
+        return $this->fieldTypeResolver;
     }
     
-    public function setSchemaResolver(Metadata\Resolver $schemaResolver)
+    public function setFieldTypeResolver(Metadata\Resolver $fieldTypeResolver)
     {
-        $this->schemaResolver = $schemaResolver;
+        $this->fieldTypeResolver = $fieldTypeResolver;
         return $this;
     }
     
@@ -92,6 +109,17 @@ class FieldBuilder
     public function setOptions(array $options)
     {
         $this->options = $options;
+        return $this;
+    }
+    
+    public function getMappingFactories()
+    {
+        return $this->mappingFactories;
+    }
+    
+    public function setMappingFactories(Metadata\Mapping\NamedFactory $mappingFactories)
+    {
+        $this->mappingFactories = $mappingFactories;
         return $this;
     }
 }

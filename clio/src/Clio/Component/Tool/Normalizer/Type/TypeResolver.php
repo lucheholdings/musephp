@@ -15,9 +15,14 @@ use Clio\Component\Util\Type as Types;
  */
 class TypeResolver  
 {
-    static public function createDefault()
+    static public function createWithRegistry(Types\Registry $typeRegistry)
     {
-        return new self(Types\Resolver\Factory::createWithRegistry(Types\Registry\Factory::createDefault()));
+        $registeredResolver = new Types\Resolver\RegisteredResolver($typeRegistry);
+        return new self(new Types\Resolver\TypeChainResolver(array(
+            new Types\Resolver\ProxyTypeResolver(),
+            new Types\Resolver\MixedTypeResolver(new Types\Guesser\SimpleGuesser($registeredResolver)),
+            $registeredResolver
+        )));
     }
 
     /**

@@ -24,5 +24,15 @@ interface Resolver
 	 * @return Type 
 	 */
 	function resolve($type, array $options = array());
+
+    /**
+     * canResolve 
+     * 
+     * @param mixed $type 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+    function canResolve($type, array $options = array());
 }
 

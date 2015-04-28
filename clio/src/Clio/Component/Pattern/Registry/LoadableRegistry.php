@@ -73,7 +73,7 @@ class LoadableRegistry extends ProxyRegistry
 		$loaded = null;
 		// Load for the key
         if(isset($this->loadings[$key])) {
-            throw new CircularException(sprintf('CircularException is occured. "%s" is on loading process.', (string)$key));
+            throw new LoaderException\CircularException(sprintf('CircularException is occured. "%s" is on loading process.', (string)$key));
         } else if($this->loader) {
 
             $this->loadings[$key] = true;
@@ -83,14 +83,12 @@ class LoadableRegistry extends ProxyRegistry
 
                 $this->set($key, $loaded);
                 unset($this->loadings[$key]);
-            } catch(LoaderException $ex) {
+            } catch(\Exception $ex) {
                 unset($this->loadings[$key]);
-
-                // Throw LoaderException
                 throw $ex;
             }
 		} else {
-            throw new \InvalidArgumentException(sprintf('"%s" cannot load.', $key));
+            throw new \InvalidArgumentException('Loader is not initialized');
         }
 
 		return $loaded;
@@ -105,8 +103,12 @@ class LoadableRegistry extends ProxyRegistry
 		if(!$this->isLoaded($key)) {
 			$loaded = $this->load($key, array(), false);
 		}
-
-		return $this->getRegistry()->get($key);
+        
+        try {
+		    return $this->getRegistry()->get($key);
+        } catch(\Exception $ex) {
+            throw new Exception\NotRegisteredException(sprintf('"%s" is not registered.', $key), 0, $ex);
+        }
 	}
 
     /**
@@ -129,6 +131,7 @@ class LoadableRegistry extends ProxyRegistry
             return true;
         } catch(LoaderException $ex) {
             // Do not throw
+            throw new LoaderException\Failure(sprintf('Failed to load resource "%s".', $key), 0, $ex);
         }
 
 		return false;

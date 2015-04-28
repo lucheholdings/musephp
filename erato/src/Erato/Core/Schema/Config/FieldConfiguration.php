@@ -1,6 +1,8 @@
 <?php
 namespace Erato\Core\Schema\Config;
 
+use Clio\Component\Util\Type;
+
 /**
  * FieldConfiguration 
  *    
@@ -26,6 +28,11 @@ class FieldConfiguration extends AbstractConfiguration implements \Serializable
      * @access private
      */
     public $type;
+
+    public function __construct()
+    {
+        $this->type = new Type\MixedType();
+    }
 
     /**
      * getName 
@@ -82,8 +89,8 @@ class FieldConfiguration extends AbstractConfiguration implements \Serializable
     {
         parent::merge($config);
 
-        $this->type = $config->type;
-        $this->name = $config->name;
+        if($config->type)
+            $this->type = $config->type;
 
         return $this;
     }

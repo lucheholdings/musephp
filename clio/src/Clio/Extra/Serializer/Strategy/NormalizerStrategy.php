@@ -3,7 +3,8 @@ namespace Clio\Extra\Serializer\Strategy;
 
 use Clio\Component\Tool\Serializer\Context;
 use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\ArrayTool\Coder\Coder;
+use Clio\Component\Tool\ArrayTool\;
+use Clio\Bridge\SymfonyComponents\ArrayTool\\YamlCoder;
 use Clio\Component\Tool\ArrayTool\Mapper\RecursiveKeyMapper;
 use Clio\Component\Tool\Serializer\Strategy\AbstractStrategy;
 use Clio\Component\Tool\Serializer\Strategy\SerializationStrategy,
@@ -26,18 +27,21 @@ class NormalizerStrategy extends AbstractStrategy implements SerializationStrate
 	 */
 	private $normalizer;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	private $coder;
+    /**
+     * coders 
+     * 
+     * @var ArrayTool\\CoderMap 
+     * @access private
+     */
+	private $coders;
 
 	/**
 	 * {@inheritdoc}
 	 */
-	public function __construct(Normalizer $normalizer, Coder $coder)
+	public function __construct(Normalizer $normalizer, Coder\CoderMap $coders)
 	{
 		$this->normalizer = $normalizer;
-		$this->coder = $coder;
+		$this->coders = $coders;
 	}
 
 	/**
@@ -53,7 +57,7 @@ class NormalizerStrategy extends AbstractStrategy implements SerializationStrate
 			$normalized = $mapper->map($normalized);
 		}
 
-		return $this->getCoder()->encode($normalized, $format);
+		return $this->coders->encode($normalized, $format);
 	}
 
 	public function canSerialize($data, $format = null)
@@ -67,7 +71,7 @@ class NormalizerStrategy extends AbstractStrategy implements SerializationStrate
 	protected function doDeserialize($data, $type, $format, Context $context)
 	{
 		// Decode the data to normalized data with Decoder
-		$normalized = $this->getCoder()->decode($data, $format);
+		$normalized = $this->coders->decode($data, $format);
 
 		// Convert normalized field key to property field
 		if($context->has('field_mapper')) {
@@ -104,17 +108,17 @@ class NormalizerStrategy extends AbstractStrategy implements SerializationStrate
     /**
      * {@inheritdoc}
      */
-    public function getCoder()
+    public function gets()
     {
-        return $this->coder;
+        return $this->coders;
     }
     
     /**
      * {@inheritdoc}
      */
-    public function setCoder(Coder $coder)
+    public function sets(Coder\CoderMap $coders)
     {
-        $this->coder = $coder;
+        $this->coders = $coders;
         return $this;
     }
 
@@ -123,7 +127,7 @@ class NormalizerStrategy extends AbstractStrategy implements SerializationStrate
 	 */
 	public function getSupportFormats()
 	{
-		return $this->getCoder()->getKeys();
+        return $this->coders->getKeys();
 	}
 }
 

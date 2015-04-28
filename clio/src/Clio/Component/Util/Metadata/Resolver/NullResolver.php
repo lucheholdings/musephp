@@ -23,6 +23,6 @@ class NullResolver implements Resolver
      */
     public function resolve($resource)
     {
-        throw new \RuntimeException('NullResolver cannot resolve any resource');
+        throw new CannotResolveException('NullResolver cannot resolve any resource');
     }
 }

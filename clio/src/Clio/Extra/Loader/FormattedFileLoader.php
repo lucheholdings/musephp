@@ -6,7 +6,6 @@ use Clio\Component\Pattern\Parser\Parser;
 use Clio\Component\Util\Format;
 use Clio\Component\Util\Format\Json\Json;
 use Clio\Bridge\SymfonyComponents\Format\Yaml\Yaml;
-use Clio\Component\Util\Format\FileFormat;
 use Clio\Component\Exception\UnsupportedException;
 
 /**
@@ -96,7 +95,7 @@ class FormattedFileLoader extends Loader\FileLoader
 		$extension = pathinfo($resource, PATHINFO_EXTENSION);
 		// 
 		foreach($this->formats as $format) {
-			if(($format instanceof FileFormat) && $format->isValidExtension($extension)) {
+			if(($format instanceof Format\FileFormat) && $format->isValidExtension($extension)) {
 				return $format;
 			}
 		}
@@ -115,7 +114,7 @@ class FormattedFileLoader extends Loader\FileLoader
 	{
         if(is_string($format)) {
             $format = self::createFormat($format);
-        } else if(!$format instanceof Format) {
+        } else if(!$format instanceof Format\Format) {
             throw new \InvalidArgumentException('Unsupported format.');
         }
 
@@ -130,7 +129,7 @@ class FormattedFileLoader extends Loader\FileLoader
 	 * @access public
 	 * @return void
 	 */
-	public function removeFormat(Format $format)
+	public function removeFormat(Format\Format $format)
 	{
 		$this->formats = array_filter($this->formats, function($v){
 			return $format !== $v;

@@ -30,6 +30,10 @@ class ClioComponentExtension extends Extension
 		$this->loader->load('cache.xml');
 		$this->loader->load('normalizer.xml');
 
+        // import coders
+		$this->loader->load('coders.xml');
+		$this->loader->load('types.xml');
+
 		$this->configureCache($container, $config['cache']);
 		$this->configureNormalizer($container, $config['normalizer']);
 		$this->configureTask($container, $config['task']);

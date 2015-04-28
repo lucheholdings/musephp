@@ -5,6 +5,7 @@ Clio.Component.Util.Metadata
 Please see Clio docs
 
 Metadata is known as "Schema", or "Architect" Definition.
+It is also described as "Hierachied" type with additional information. 
 
 If an array is defined with specified "keys" and for each value related with the key is defined, 
 you can define "Metadata" for the array.
@@ -12,6 +13,7 @@ you can define "Metadata" for the array.
 In php ReflectionClass is a native Metadata for class, but with Metadata, you can specify 
  - the type of each fields
  - the identifier(s)
+ - and so on.
 
 
 Architect

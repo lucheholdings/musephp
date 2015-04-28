@@ -3,8 +3,9 @@ namespace Clio\Component\Util\Metadata\Mapping\Factory;
 
 use Clio\Component\Util\Metadata\Metadata;
 use Clio\Component\Util\Metadata\Mapping\Factory;
+use Clio\Component\Util\Metadata\Mapping\NamedFactory;
 use Clio\Component\Util\Metadata\Mapping\Collection as MappingCollection;
-use Clio\Component\Pattern\Factory\NamedCollection;
+use Clio\Component\Pattern\Factory\FactoryMap;
 use Clio\Component\Util\Validator\SubclassValidator;
 
 use Clio\Component\Util\Injection\InjectorMap;
@@ -17,7 +18,7 @@ use Clio\Component\Util\Injection\InjectorMap;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class Collection extends NamedCollection implements Factory 
+class Collection extends FactoryMap implements NamedFactory 
 {
 	/**
 	 * injector 
@@ -34,6 +35,20 @@ class Collection extends NamedCollection implements Factory
 	 * @access private
 	 */
 	private $options;
+
+    /**
+     * createMappingFor 
+     * 
+     * @param mixed $name 
+     * @param Metadata $metadata 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+    public function createMappingFor($name, Metadata $metadata, array $options = array())
+    {
+        return $this->getFactory($name)->createMapping($metadata, $options);
+    }
 
 	/**
 	 * createMapping 

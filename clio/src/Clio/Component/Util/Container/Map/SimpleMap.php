@@ -122,7 +122,7 @@ class SimpleMap extends AbstractContainer implements MapInterface
 
 	public function getIterator()
 	{
-		return new ArrayIterator($this->values);
+		return new \ArrayIterator($this->values);
 	}
 
 	public function offsetGet($key)
@@ -142,7 +142,7 @@ class SimpleMap extends AbstractContainer implements MapInterface
 
 	public function offsetExists($key)
 	{
-		$this->hasKey($key);
+		$this->has($key);
 	}
 
 	public function serialize()

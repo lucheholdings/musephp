@@ -78,5 +78,19 @@ class SequentialLoader implements Loader, \IteratorAggregate
     {
         return new \ArrayIterator($this->loaders);
     }
+    
+    public function getLoaders()
+    {
+        return $this->loaders;
+    }
+    
+    public function setLoaders(array $loaders)
+    {
+        $this->loaders = array();
+        foreach($loaders as $loader) {
+            $this->add($loader);
+        }
+        return $this;
+    }
 }
 

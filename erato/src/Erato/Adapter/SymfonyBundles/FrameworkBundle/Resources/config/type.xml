@@ -39,6 +39,12 @@
 		</service>
 
 		<service
+			id="erato_framework.type_resolver.schema_type"
+			class="%erato_framework.type_resolver.field_type.class%"
+		>
+			<argument type="service" id="erato_framework.type_resolver.field_type.actual"/>
+		</service>
+		<service
 			id="erato_framework.type_resolver.field_type"
 			class="%erato_framework.type_resolver.field_type.class%"
 		>

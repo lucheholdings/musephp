@@ -1,10 +1,6 @@
 <?php
 namespace Clio\Component\Util\Type\Resolver;
 
-use Clio\Component\Util\Type\Registry as TypeRegistry;
-use Clio\Component\Util\Type\Factory as TypeFactory;
-use Clio\Component\Util\Type\Guesser\SimpleGuesser;
-
 /**
  * Factory 
  *   Factory to create Resolver for common usage.
@@ -16,41 +12,21 @@ use Clio\Component\Util\Type\Guesser\SimpleGuesser;
 class Factory 
 {
     /**
-     * createWithRegistry 
-     * 
-     * @param TypeRegistry $typeRegistry 
-     * @static
-     * @access public
-     * @return void
-     */
-    static public function createWithRegistry(TypeRegistry $typeRegistry)
-    {
-        $actualTypeResolver = new RegisteredResolver($typeRegistry);
-
-        return new TypeChainResolver(array(
-                new ProxyTypeResolver(),
-                new MixedTypeResolver(),
-                $actualTypeResolver
-            ));
-    }
-
-    /**
-     * createWithFactory 
+     * createWithFactories 
      *    
      * @param TypeFactory $typeFactory 
      * @static
      * @access public
      * @return void
      */
-    static public function createWithFactory(TypeFactory $typeFactory)
+    static public function createWithFactories($factories)
     {
-        $actualTypeResolver = new TypeFactoryResolver($typeFactory);
+        $resolvers = array();
+        foreach($factories as $factory) {
+            $resolvers[] = new TypeFactoryResolver($factory);
+        }
 
-        return new TypeChainResolver(array(
-                new ProxyTypeResolver($actualTypeResolver),
-                new MixedTypeResolver(SimpleGuesser::create($actualTypeResolver)),
-                $actualTypeResolver
-            ));
+        return new TypeChainResolver($resolvers);
     }
 }
 

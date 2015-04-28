@@ -4,8 +4,6 @@ namespace Clio\Component\Util\Metadata\Builder;
 use Clio\Component\Util\Type as Types;
 use Clio\Component\Util\Metadata;
 
-use Clio\Component\Pattern\Factory\FactoryMap;
-
 /**
  * SchemaBuilder 
  * 
@@ -22,7 +20,9 @@ class SchemaBuilder
      * @var mixed
      * @access private
      */
-    private $mappingFactory;
+    private $mappingFactories;
+
+    private $fieldMappingFactories;
 
     /**
      * schemaResolver 
@@ -89,11 +89,12 @@ class SchemaBuilder
      * @access public
      * @return void
      */
-    public function __construct(Metadata\Resolver $schemaResolver, Types\Resolver $typeResolver, array $mappingFactories = array())
+    public function __construct(Metadata\Resolver $schemaResolver, Types\Resolver $typeResolver, Metadata\Mapping\NamedFactory $mappingFactories = null, Metadata\Mapping\NamedFactory $fieldMappingFactories = null) 
     {
         $this->schemaResolver = $schemaResolver;
-        $this->mappingFactory = new FactoryMap($mappingFactories);
         $this->typeResolver = $typeResolver;
+        $this->mappingFactories = $mappingFactories;
+        $this->fieldMappingFactories = $fieldMappingFactories;
     }
 
     /**
@@ -124,15 +125,8 @@ class SchemaBuilder
             }
         }
 
-        foreach($this->mappings as $mappingName => $options) {
-            $schema->addMapping($this->mappingFactory->createByKey($mappingName, $schema, $mapping));
-        }
-
-        foreach($this->fields as $fieldName => $fieldConfig) {
-            foreach($fieldConfig['mappings'] as $mappingName => $options) {
-                $field = $schema->getField($fieldName);
-                $field->addMapping($this->mappingFactory->createByKey($mappingName, $field, $options));
-            }
+        if($this->mappingFactories) {
+            $schema->setMappings($this->mappingFactories->createMappings($schema, $this->mappings));
         }
 
         return $schema;
@@ -369,7 +363,18 @@ class SchemaBuilder
 
     public function createFieldBuilder()
     {
-        return new FieldBuilder($this->schemaResolver);
+        return new FieldBuilder($this->schemaResolver, $this->fieldMappingFactories);
+    }
+    
+    public function getMappingFactories()
+    {
+        return $this->mappingFactories;
+    }
+    
+    public function setMappingFactories(Metadata\Mapping\NamedFactory $mappingFactories)
+    {
+        $this->mappingFactories = $mappingFactories;
+        return $this;
     }
 }
 

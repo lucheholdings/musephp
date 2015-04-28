@@ -34,7 +34,7 @@ class SchemaConfiguration extends AbstractConfiguration implements \Serializable
      * @var mixed
      * @access public
      */
-    public $fields;
+    public $fields = array();
 
     /**
      * parent 
@@ -45,27 +45,14 @@ class SchemaConfiguration extends AbstractConfiguration implements \Serializable
     public $parent;
 
     /**
-     * addField 
-     * 
-     * @param FieldConfiguration $field 
-     * @param mixed $alias 
-     * @access public
-     * @return void
-     */
-    public function addField(FieldConfiguration $field, $alias = null)
-    {
-        $this->fields[$alias ?: $field->getName()] = $field;
-        return $this;
-    }
-
-    /**
      * {@inheritdoc}
      */
     public function merge(Configuration $config)
     {
         parent::merge($config);
         //
-        $this->type = $config->type;
+        if($config->type)
+            $this->type = $config->type;
 
         // merge fields and mappings
         foreach($config->getFields() as $fieldName => $field) {
@@ -118,6 +105,36 @@ class SchemaConfiguration extends AbstractConfiguration implements \Serializable
     {
         $this->type = $type;
         return $this;
+    }
+
+    /**
+     * addField 
+     * 
+     * @param FieldConfiguration $field 
+     * @param mixed $alias 
+     * @access public
+     * @return void
+     */
+    public function addField($name)
+    {
+        if(!isset($this->fields[$name])) {
+            $field = new FieldConfiguration();
+            $this->fields[$name] = $field;
+        }
+        return $this->fields[$name];
+    }
+
+    public function hasField($name) {
+        return isset($this->fields[$name]);
+    }
+
+    public function getField($name)
+    {
+        if(!isset($this->fields[$name])) {
+            throw new \InvalidArgumentException(sprintf('Field "%s" is not exists.', $name));
+        }
+
+        return $this->fields[$name];
     }
     
     /**

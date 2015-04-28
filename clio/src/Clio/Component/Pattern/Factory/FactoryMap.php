@@ -46,7 +46,7 @@ class FactoryMap extends AbstractMappedFactory implements MappedFactory
      */
     protected function doCreateByKey($key, array $args)
     {
-        return $this->getFactory($key)->createByArgs($args); 
+        return $this->getFactory($key)->createArgs($args); 
     }
     
     /**

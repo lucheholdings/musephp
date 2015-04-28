@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata;
 
+use Clio\Component\Pattern\Loader\Loader as BaseLoader;
 /**
  * Loader 
  * 
@@ -9,14 +10,14 @@ namespace Clio\Component\Util\Metadata;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface Loader
+interface Loader extends BaseLoader
 {
     /**
-     * loadMetadata 
+     * load
      * 
      * @param mixed $schemaName 
      * @access public
      * @return void
      */
-    function loadMetadata($schemaName);
+    function load($schemaName);
 }

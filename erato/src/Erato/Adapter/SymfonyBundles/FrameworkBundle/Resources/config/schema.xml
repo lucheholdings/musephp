@@ -6,7 +6,11 @@
 
     <parameters>
 		<!-- Registry -->
-	    <parameter key="erato_framework.schema.registry.class">Erato\Core\Schema\Registry\SchemaRegistry</parameter>
+	    <parameter key="erato_framework.schema.registry.class">Erato\Core\Schema\Registry\BasicRegistry</parameter>
+	    <parameter key="erato_framework.schema.resolver.lazy.class">Clio\Component\Util\Metadata\Resolver\LazyResolver</parameter>
+	    <parameter key="erato_framework.schema.field_schema_resolver.class">Clio\Component\Util\Metadata\Resolver\FieldTypeResolver</parameter>
+	    <parameter key="erato_framework.schema.resolver.registered.class">Clio\Component\Util\Metadata\Resolver\RegisteredResolver</parameter>
+
 	    <parameter key="erato_framework.schema.config_loader.cache.class">Clio\Extra\Loader\CacheLoader</parameter>
 	    <parameter key="erato_framework.schema.config_loader.merge.class">Erato\Core\Schema\Config\Loader\ConfigurationMergeLoader</parameter>
 	    <parameter key="erato_framework.schema.config_loader.class.class">Erato\Core\Schema\Config\Loader\ClassConfigLoader</parameter>
@@ -14,7 +18,7 @@
 	    <parameter key="erato_framework.schema.config_loader.annotation.class">Erato\Bridge\Doctrine\Loader\AnnotationLoader</parameter>
 	    <parameter key="erato_framework.schema.config_parser.array.class">Erato\Core\Schema\Config\Parser\ArrayParser</parameter>
 	    <parameter key="erato_framework.schema.config_parser.class_default.class">Erato\Core\Schema\Config\Parser\DefaultClassConfigParser</parameter>
-	    <parameter key="erato_framework.schema.config_parser.class_annotation.class">Erato\Bridge\Doctrine\Schema\Config\Parser\ClassAnnotationParser</parameter>
+	    <parameter key="erato_framework.schema.config_parser.class_annotation.class">Erato\Bridge\Doctrine\Schema\Config\Parser\AnnotationParser</parameter>
     </parameters>
 
     <services>
@@ -22,20 +26,68 @@
             id="erato_framework.schema.registry"
             class="%erato_framework.schema.registry.class%"
         >
-            <argument type="service" id="erato_framework.schema.config_loader"/>
+            <argument type="collection">
+                <argument type="service" id="erato_framework.schema.loader.from_config"/>
+                <argument type="service" id="erato_framework.schema.loader.primitive_types"/>
+            </argument>
+            
+            <!-- create "erato_framework.schema.registry.proxy" to avoid thrown exception of valid circular-reference -->
+            <tag name="clio_component.proxy" proxy_class="Erato\Adapter\SymfonyBundles\FrameworkBundle\ProxySchemaRegistry"/>
         </service>
 
         <service
-            id="erato_framework.schema.config_loader"
+            id="erato_framework.schema.loader.from_config"
+            class="Erato\Core\Schema\Loader\SchemaLoader"
+        > 
+            <argument type="service" id="erato_framework.schema.config_loader"/>
+            <argument type="service" id="erato_framework.schema.field_schema_resolver"/>
+            <argument type="service" id="erato_framework.schema.type_resolver"/>
+            <argument type="service" id="erato_framework.schema.schema_mapping_factory" />
+            <argument type="service" id="erato_framework.schema.field_mapping_factory" />
+        </service>
+        <service
+            id="erato_framework.schema.loader.primitive_types"
+            class="Clio\Component\Util\Metadata\Loader\TypeSchemaLoader"
+        >
+            <argument type="service" id="erato_framework.schema.type_resolver.primitive"/>
+        </service>
+
+        <service
+            id="erato_framework.schema.resolver"
+            class="%erato_framework.schema.resolver.lazy.class%"
+        >
+            <argument type="service" id="erato_framework.schema.resolver.registered"/>
+        </service>
+
+        <service
+            id="erato_framework.schema.field_schema_resolver"
+            class="%erato_framework.schema.field_schema_resolver.class%"
+        >
+            <argument type="service" id="erato_framework.schema.resolver"/>
+        </service>
+
+        <service
+            id="erato_framework.schema.resolver.registered"
+            class="%erato_framework.schema.resolver.registered.class%"
+        >
+            <argument type="service" id="erato_framework.schema.registry.proxy"/>
+        </service>
+        <service
+            id="erato_framework.schema.config_loader.cache"
             class="%erato_framework.schema.config_loader.cache.class%"
         >
-            <argument type="service" id="erato_framework.schema.config_cache"/>
+            <argument type="service" id="erato_framework.schema.config_cache" on-invalid="null"/>
             <argument type="service" id="erato_framework.schema.config_loader.collection"/>
         </service>
         <service
             id="erato_framework.schema.config_loader.collection"
             class="%erato_framework.schema.config_loader.merge.class%"
         >
+            <argument type="collection">
+                <argument type="service" id="erato_framework.schema.config_loader.class_default" on-invalid="ignore"/>
+                <argument type="service" id="erato_framework.schema.config_loader.array_encoded_file" on-invalid="ignore"/>
+                <argument type="service" id="erato_framework.schema.config_loader.annotation" on-invalid="ignore"/>
+            </argument>
         </service>
         <service
             id="erato_framework.schema.config_loader.class_default"
@@ -44,23 +96,15 @@
             <argument type="service" id="erato_framework.schema.config_parser.class_default"/>
         </service>
         <service
-            id="erato_framework.schema.config_loader.json"
+            id="erato_framework.schema.config_loader.array_encoded_file.default"
             class="%erato_framework.schema.config_loader.array_file.class%"
         >
             <argument type="service" id="erato_framework.schema.config_loader_locator"/>
-            <argument>json</argument>
-            <argument type="service" id="erato_framework.schema.config_parser.array"/>
-        </service>
-        <service
-            id="erato_framework.schema.config_loader.yaml"
-            class="%erato_framework.schema.config_loader.array_file.class%"
-        >
-            <argument type="service" id="erato_framework.schema.config_loader_locator"/>
-            <argument>json</argument>
+            <argument></argument><!-- formats in order -->
             <argument type="service" id="erato_framework.schema.config_parser.array"/>
         </service>
 		<service
-			id="erato_framework.schema.config_loader.annotation"
+			id="erato_framework.schema.config_loader.annotation.default"
 			class="%erato_framework.schema.config_loader.class.class%"
 		>
 			<argument type="service" id="erato_framework.schema.config_parser.class_annotation"/>
@@ -76,6 +120,7 @@
             id="erato_framework.schema.config_parser.class_default"
             class="%erato_framework.schema.config_parser.class_default.class%"
         >
+            <argument type="service" id="erato_framework.schema.type_resolver" />   
         </service>
         <service
             id="erato_framework.schema.config_parser.class_annotation"
@@ -94,5 +139,29 @@
 			<argument></argument><!-- type -->
 			<argument></argument><!-- arguments -->
 		</service>
+
+        <service 
+            id="erato_framework.schema.config_loader_locator"
+            class="Clio\Component\Pattern\Loader\FileLocator"
+        >
+            <argument>%kernel.root_dir%</argument>
+        </service>
+
+        <!-- native type resolver -->
+        <service
+            id="erato_framework.schema.type_resolver"
+            alias="clio_component.type_resolver.custom"
+        />
+        <service
+            id="erato_framework.schema.type_resolver.primitive"
+            class="Clio\Component\Util\Type\Resolver"
+            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            factory-method="createWithFactories"
+        >
+            <argument type="collection">
+                <argument type="service" id="clio_component.type_factory.primitive"/>
+                <argument type="service" id="clio_component.type_factory.array_alias"/>
+            </argument>
+        </service>
 	</services>	
 </container>

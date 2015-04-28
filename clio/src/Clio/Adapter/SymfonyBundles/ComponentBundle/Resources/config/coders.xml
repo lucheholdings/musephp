@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <!-- Factories -->
+		<service 
+			id="clio_component.coders" 
+			class="Clio\Component\Tool\ArrayTool\Coder\CoderMap"
+		>
+		</service>
+		<service 
+			id="clio_component.coder.json" 
+			class="Clio\Component\Util\ArrayTool\Coder\JsonCoder"
+		>
+            <tag name="clio_component.coder" for="json"/>
+		</service>
+		<service 
+			id="clio_component.coder.yaml" 
+			class="Clio\Bridge\SymfonyComponents\ArrayTool\Coder\YamlCoder"
+		>
+            <tag name="clio_component.coder" for="yaml"/>
+		</service>
+    </services>
+</container>
+

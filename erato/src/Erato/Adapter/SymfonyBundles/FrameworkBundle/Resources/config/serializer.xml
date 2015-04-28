@@ -33,7 +33,7 @@
 			id="erato_framework.serializer.context_factory"
 			class="%erato_framework.serializer.context_factory.class%"
 		>
-			<argument type="service" id="erato_framework.coding_standard" />
+			<argument type="service" id="erato_framework.coc" />
 		</service>
 
 		<service
@@ -54,7 +54,7 @@
 			class="%erato_framework.serializer.normalizer_strategy.class%"
 		>
 			<argument type="service" id="erato_framework.normalizer" on-invalid="ignore" />
-			<argument type="service" id="erato_framework.normalizer.coder" on-invalid="ignore" />
+			<argument type="service" id="erato_framework.serializer.coders" on-invalid="ignore" />
 		</service>
 
 		<service
@@ -70,7 +70,7 @@
 		</service>
 
 		<service
-			id="erato_framework.serializer.coder.default"
+			id="erato_framework.serializer.coders"
             alias="clio_component.coders"
 		/>
 	</services>	

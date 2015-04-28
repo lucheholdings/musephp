@@ -2,6 +2,7 @@
 namespace Erato\Core\Schema\Loader;
 
 use Clio\Component\Pattern\Loader\Loader;
+use Clio\Component\Pattern\Loader\Exception as LoaderException;
 use Clio\Component\Util\Type;
 use Clio\Component\Util\Metadata;
 use Erato\Core\Schema\Builder\SchemaBuilder;
@@ -15,7 +16,7 @@ use Erato\Core\Schema\Builder\SchemaBuilder;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class SchemaLoader implements Loader
+class SchemaLoader implements Metadata\Loader
 {
     private $fieldFactory;
 
@@ -25,7 +26,9 @@ class SchemaLoader implements Loader
 
     private $configLoader;
 
-    private $mappingFactories;
+    private $schemaMappingFactories;
+
+    private $fieldMappingFactories;
 
     /**
      * __construct 
@@ -34,12 +37,14 @@ class SchemaLoader implements Loader
      * @access public
      * @return void
      */
-    public function __construct(Loader $configLoader, Metadata\Resolver $schemaResolver, Type\Resolver $typeResolver, array $mappingFactories= array())
+    public function __construct(Loader $configLoader, Metadata\Resolver $schemaResolver, Type\Resolver $typeResolver, Metadata\Mapping\NamedFactory $schemaMappingFactories = null, Metadata\Mapping\NamedFactory $fieldMappingFactories = null)
     {
         $this->configLoader = $configLoader;
         $this->schemaResolver = $schemaResolver;
         $this->typeResolver = $typeResolver;
-        $this->mappingFactories = $mappingFactories;
+
+        $this->schemaMappingFactories = $schemaMappingFactories;
+        $this->fieldMappingFactories = $fieldMappingFactories;
     }
 
     /**
@@ -51,13 +56,44 @@ class SchemaLoader implements Loader
      */
     public function load($resource)
     {
-        $config = $this->configLoader->load($resource);
+        try {
+            $config = $this->configLoader->load($resource);
 
-        $builder = new SchemaBuilder($this->schemaResolver, $this->typeResolver, $this->mappingFactories);
-        $builder->setConfiguration($config);
+            $builder = new SchemaBuilder($this->schemaResolver, $this->typeResolver, $this->schemaMappingFactories, $this->fieldMappingFactories);
+            $builder->setConfiguration($config);
 
-        // Build the SchemaMetadata from the configuration
-        return $builder->getSchemaMetadata();
+            // Build the SchemaMetadata from the configuration
+            return $builder->getSchemaMetadata();
+        } catch(\Exception $ex) {
+            throw new LoaderException\InvalidResourceException('Failed to load resource.', 0, $ex);
+        }
+    }
+    
+    /**
+     * getMappingFactories 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getMappingFactories()
+    {
+        return $this->mappingFactories;
+    }
+    
+    /**
+     * setMappingFactories 
+     * 
+     * @param array $mappingFactories 
+     * @access public
+     * @return void
+     */
+    public function setMappingFactories(array $mappingFactories)
+    {
+        $this->mappingFactories = array();
+        foreach($mappingFactories as $mappingFactory) {
+            $this->addMappingFactory($mappingFactory);
+        }
+        return $this;
     }
 }
 

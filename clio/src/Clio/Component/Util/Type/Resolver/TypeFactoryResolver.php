@@ -3,7 +3,7 @@ namespace Clio\Component\Util\Type\Resolver;
 
 use Clio\Component\Util\Type\Resolver;
 use Clio\Component\Util\Type\Factory as TypeFactory;
-use Clio\Component\Exception\UnsupportedException;
+use Clio\Component\Util\Type\Exception as TypeException;
 
 /**
  * TypeFactoryResolver 
@@ -59,7 +59,7 @@ class TypeFactoryResolver implements Resolver
 	public function resolve($type, array $options = array())
 	{
 		if(!$this->getTypeFactory()->canCreateType($type)) {
-			throw new UnsupportedException(sprintf('Type "%s" is not supported.', (string)$type));	
+			throw new TypeException\InvalidTypeException(sprintf('Type "%s" is not exists.', (string)$type));	
 		}
 
 		return $this->getTypeFactory()->createType($type, $options);

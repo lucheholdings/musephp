@@ -6,19 +6,67 @@
 
     <parameters>
 		<!-- MappingFactory classes -->
-		<parameter key="erato_framework.schema.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
-		<parameter key="erato_framework.schema.attribute_map_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory</parameter>
-		<parameter key="erato_framework.schema.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
-		<parameter key="erato_framework.schema.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
-		<parameter key="erato_framework.schema.normalizer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\NormalizerMappingFactory</parameter>
-		<parameter key="erato_framework.schema.serializer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SerializerMappingFactory</parameter>
-		<parameter key="erato_framework.schema.schemifier_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemifierMappingFactory</parameter>
-		<parameter key="erato_framework.schema.identifier_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaIdentifierMappingFactory</parameter>
-		<parameter key="erato_framework.schema.merger_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaMergerMappingFactory</parameter>
-		<parameter key="erato_framework.schema.replacer_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\SchemaReplacerMappingFactory</parameter>
+		<parameter key="erato_framework.schema.mapping_factory.proxy_collection.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Schema\Mapping\Factory\Collection</parameter>
+		<parameter key="erato_framework.schema.identifier_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\IdentifierMappingFactory</parameter>
+		<parameter key="erato_framework.schema.attributes_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\AttributesMappingFactory</parameter>
+		<parameter key="erato_framework.schema.tags_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\TagsMappingFactory</parameter>
+
+		<parameter key="erato_framework.schema.accessor_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\AccessorMappingFactory</parameter>
+		<parameter key="erato_framework.schema.normalizer_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\NormalizerMappingFactory</parameter>
+		<parameter key="erato_framework.schema.serializer_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\SerializerMappingFactory</parameter>
+		<parameter key="erato_framework.schema.schemifier_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\SchemifierMappingFactory</parameter>
+		<parameter key="erato_framework.schema.merger_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\SchemaMergerMappingFactory</parameter>
+		<parameter key="erato_framework.schema.replacer_mapping_factory.class">Erato\Core\Schema\Mapping\Factory\SchemaReplacerMappingFactory</parameter>
+		<parameter key="erato_framework.schema.schema_mapping_factories" type="collection"></parameter>
+		<parameter key="erato_framework.schema.field_mapping_factories" type="collection"></parameter>
     </parameters>
 
 	<services>
+		<!-- Mapping Factory -->
+		<service
+			id="erato_framework.schema.schema_mapping_factory"
+			class="%erato_framework.schema.mapping_factory.proxy_collection.class%"
+		>
+            <argument type="service" id="service_container"/>
+            <argument>%erato_framework.schema.schema_mapping_factories%</argument>
+		</service>
+		<service
+			id="erato_framework.schema.field_mapping_factory"
+			class="%erato_framework.schema.mapping_factory.proxy_collection.class%"
+		>
+            <argument type="service" id="service_container"/>
+            <argument>%erato_framework.schema.field_mapping_factories%</argument>
+		</service>
+
+		<service
+			id="erato_framework.schema.mapping_factory.identifier._default"
+			class="%erato_framework.schema.identifier_mapping_factory.class%"
+            abstract="true"
+		>
+		</service>
+
+		<service
+			id="erato_framework.schema.mapping_factory.tags._default"
+			class="%erato_framework.schema.tags_mapping_factory.class%"
+            abstract="true"
+		>
+			<argument>tags</argument>
+			<argument>Clio\Component\Util\Tag\SimpleTag</argument>
+		</service>
+		<service
+			id="erato_framework.schema.mapping_factory.attributes._default"
+			class="%erato_framework.schema.attributes_mapping_factory.class%"
+            abstract="true"
+		>
+			<argument>attributes</argument>
+			<argument>Clio\Component\Util\Attribute\SimpleAttribute</argument>
+		</service>
+<!--
+
+
+
+
+
 		<service
 			id="erato_framework.schema.default_mapping_factory.attribute_map"
 			class="%erato_framework.schema.attribute_map_mapping_factory.class%"
@@ -41,7 +89,7 @@
 		>
 			<argument type="service" id="erato_framework.accessor.schema_accessor_factory" on-invalid="null"/>
 			<argument type="service" id="erato_framework.accessor.field_accessor_factory" on-invalid="null"/>
-			<argument type="service" id="erato_framework.coding_standard" on-invalid="null"/>
+			<argument type="service" id="erato_framework.coc" on-invalid="null"/>
 		</service>
 
 		<service
@@ -83,12 +131,7 @@
 			class="%erato_framework.schema.replacer_mapping_factory.class%"
 		>
 		</service>
-		<!-- Mapping Factory -->
-		<service
-			id="erato_framework.schema.mapping_factory.collection"
-			class="%erato_framework.schema.mapping_factory_collection.class%"
-		>
-		</service>
+-->
 	</services>	
 </container>
 

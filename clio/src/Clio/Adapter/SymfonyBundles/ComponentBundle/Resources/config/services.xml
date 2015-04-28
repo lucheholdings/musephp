@@ -8,5 +8,9 @@
         <service id="clio_component.container_registry" class="Clio\Bridge\SymfonyComponents\Registry\ContainerRegistry">
             <argument type="service" id="service_container" />
         </service>
+
+
+        <service id="clio_component.class_factory" class="Clio\Component\Pattern\Factory\ClassFactory">
+        </service>
     </services>
 </container>

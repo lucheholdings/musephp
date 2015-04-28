@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Util\Metadata\Resolver;
 
+use Clio\Component\Util\Metadata\Exception as MetadataException;
 use Clio\Component\Util\Metadata\Resolver;
 use Clio\Component\Util\Metadata\Registry as SchemaRegistry;
 
@@ -45,16 +46,33 @@ class RegisteredResolver implements Resolver
     public function resolve($resource)
     {
         if(!$this->registry) {
-            throw new \RuntimeException('Registry is not initialized yet');
+            throw new MetadataException\CannotResolveException('Registry is not initialized yet');
         }
-        return $this->registry->get($resource);
+        try {
+            return $this->registry->get($resource);
+        } catch(LoaderException $ex) {
+            throw new CannotResolveException('Faield to resolve', 0, $ex);
+        }
     }
     
+    /**
+     * getRegistry 
+     * 
+     * @access public
+     * @return void
+     */
     public function getRegistry()
     {
         return $this->registry;
     }
     
+    /**
+     * setRegistry 
+     * 
+     * @param SchemaRegistry $registry 
+     * @access public
+     * @return void
+     */
     public function setRegistry(SchemaRegistry $registry)
     {
         $this->registry = $registry;

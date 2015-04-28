@@ -61,4 +61,22 @@ class ArrayType extends AbstractType
     {
         return array();
     }
+
+    public function parseInternalTypes(array $types)
+    {
+        $count = count($types);
+        $parsed = array();
+        if(2 <= $count) {
+            $parsed = array(
+                'key' => $types[0],
+                'value' => $types[1],
+            );
+        } else if(1 == $count) {
+            $parsed = array(
+                'value' => $types[0],
+            );
+        }
+
+        return $parsed;
+    }
 }

@@ -1,0 +1,19 @@
+{
+	"name": "museclio/array-tool",
+	"type": "library",
+	"description": "Clio ArrayTool Component",
+	"keywords": [
+		"php",
+		"normalizer"
+	],
+	"license": "MIT",
+	"require" : {
+		"php" : ">=5.4.0"
+	},
+	"minimum-stability": "dev",
+	"extra": {
+		"branch-alias": {
+			"dev-master": "2.0-dev"
+		}
+	}
+}

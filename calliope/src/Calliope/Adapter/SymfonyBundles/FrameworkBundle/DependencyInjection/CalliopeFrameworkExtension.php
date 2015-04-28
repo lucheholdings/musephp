@@ -94,7 +94,7 @@ class CalliopeFrameworkExtension extends Extension
 				$dirs = $this->getBundleConfigDir($container->getParameter('kernel.bundles'));
 				foreach($dirs as $bundleName => $dir) {
 					$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
-					$loader  = new ClioLoader\FormatFileLoader(new ClioFileLocator($dir), array(new YamlFormat()));
+					$loader  = new ClioLoader\FormattedFileLoader(new ClioFileLocator($dir), array(new YamlFormat()));
 					try {
 						$bundleConfigs = $loader->load('calliope.yml');
 						if(!isset($bundleConfigs['schema'])) {
@@ -114,7 +114,7 @@ class CalliopeFrameworkExtension extends Extension
 				foreach($dirs as $bundleName => $dir) {
 					if(in_array($bundleName, $bundles)) {
 						$bundleNameSnakeCase = ClioUtil\Grammer\Grammer::snakize($bundleName);
-						$loader  = new ClioLoader\FormatFileLoader(new ClioFileLocator($dir), array(new YamlFormat()));
+						$loader  = new ClioLoader\FormattedFileLoader(new ClioFileLocator($dir), array(new YamlFormat()));
 
 						$bundleConfigs = $loader->load('calliope.yml');
 						if(!isset($bundleConfigs['schema'])) {
