@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Container\Set;
+namespace Clio\Component\Container\Storage;
 
 use Clio\Component\Container\Set as SetInterface;
 

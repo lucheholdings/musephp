@@ -78,12 +78,12 @@ interface Collection extends Container, \ArrayAccess
     function remove($value);
 
     /**
-     * revemoByKey 
+     * removeByKey 
      * 
      * @param mixed $key 
      * @access public
      * @return void
      */
-    function revemoByKey($key);
+    function removeByKey($key);
 }
 

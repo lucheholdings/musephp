@@ -1,20 +1,19 @@
 <?php
 namespace Clio\Component\Type\Factory;
 
-use Clio\Component\Type\Factory;
-use Clio\Component\Pattern\Factory\PriorityMappedFactoryCollection;
+use Clio\Component\Type\Factory as FactoryInterface;
+use Clio\Component\Pattern\Factory;
 use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 
 /**
  * TypeFactoryCollection 
- * 
- * @uses PriorityMappedFactoryCollection
+ *   Create a type instance with factories
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class TypeFactoryCollection extends PriorityMappedFactoryCollection implements Factory 
+class TypeFactoryCollection extends Factory\SequentialMappedFactory implements FactoryInterface 
 {
     /**
      * getFactoryClass 

@@ -31,12 +31,12 @@
 
 		<service
 			id="clio_component.task_scheduler.on_memory_queue.queue"
-			class="Clio\Component\Container\Queue\SimpleQueue"
+			class="Clio\Component\Container\ArrayImpl\Queue"
 		>
 		</service>
 		<service
 			id="clio_component.task_scheduler.on_memory_queue.map"
-			class="Clio\Component\Container\Map\SimpleMap"
+			class="Clio\Component\Container\ArrayImpl\Map"
 		>
 		</service>
 

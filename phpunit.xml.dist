@@ -19,5 +19,21 @@
             <directory>./terpsichore/Core</directory>
         </testsuite>
     </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory>.</directory>
+            <exclude>
+                <directory>./clio/src/Clio/Component/*/Resources</directory>
+                <directory>./clio/src/Clio/Component/*/Tests</directory>
+                <directory>./clio/src/Clio/Component/*/vendor</directory>
+                <directory>./clio/src/Clio/Extra/Resources</directory>
+                <directory>./clio/src/Clio/Extra/Tests</directory>
+                <directory>./clio/src/Clio/Extra/vendor</directory>
+                <directory>./Tests</directory>
+                <directory>./vendor</directory>
+            </exclude>
+        </whitelist>
+    </filter>
 </phpunit>
 

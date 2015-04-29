@@ -46,21 +46,11 @@ class EventDispatcherConnection extends ProxyConnection
 
 		if($result) {
 			$event = new Conditions\PostFetchCondition($this->getConnection(), null, $criteria, $orderBy, $limit, $offset);
-			if($result instanceof LazyLoadCollection) {
-				
-				// Set post fetch handler as PostLoadCallback
-				$result->addPostLoadCallback(function($loaded) use ($eventDispatcher, $event) {
-					// Set Loaded Data as Result
-					$event->setResult($loaded);
-					$eventDispatcher->dispatch('postFetch', $event);
-					return $event->getResult();
-				});
-			} else {
-				$event->setResult($result);
-				$this->getEventDispatcher()->dispatch('postFetch', $event);
 
-				$result = $event->getResult();
-			}
+			$event->setResult($result);
+			$this->getEventDispatcher()->dispatch('postFetch', $event);
+
+			$result = $event->getResult();
 		}
 
 		return $result;

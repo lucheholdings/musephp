@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Container\Collection;
+namespace Clio\Component\Container\Storage;
 
 use Clio\Component\Container\Collection as CollectionInterface;
 

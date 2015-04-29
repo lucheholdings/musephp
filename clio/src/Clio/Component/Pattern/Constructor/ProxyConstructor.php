@@ -40,7 +40,7 @@ class ProxyConstructor implements Constructor
 	 * @access public
 	 * @return void
 	 */
-	public function construct(\ReflectionClass $class, array $args = array())
+	public function construct(\ReflectionClass $class = null, array $args = array())
 	{
 		return $this->getConstructor()->construct($class, $args);
 	}

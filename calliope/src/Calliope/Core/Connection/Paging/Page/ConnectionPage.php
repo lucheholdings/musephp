@@ -2,10 +2,8 @@
 namespace Calliope\Core\Connection\Paging\Page;
 
 use Calliope\Core\Connection\Paging\ConnectionFetchPagerInterface;
-use Clio\Component\Container\Collection\LazyLoadCollection;
-use Clio\Component\Container\Collection;
+use Clio\Component\Container;
 use Clio\Component\Container\Storage\ArrayStorage;
-use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
 use Clio\Component\Normalizer\Normalizable;
 
 use Calliope\Core\Exception\UnsupportedException;
@@ -14,14 +12,13 @@ use Calliope\Core\Exception\UnsupportedException;
 /**
  * ConnectionPage 
  * 
- * @uses LazyLoadCollection
- * @uses PageInterface
+ * @uses Container
  * @package { PACKAGE }
- * @copyright { COPYRIGHT } (c) { COMPANY }
- * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
+ * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterface, Normalizable 
+class ConnectionPage extends Container\Proxy\Collection implements ConnectionPageInterface, Normalizable 
 {
 	/**
 	 * pager 
@@ -71,20 +68,20 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 	 */
 	public function __construct(ConnectionFetchPagerInterface $pager, $size, $offset)
 	{
-		parent::__construct(array($this, '_load'));
+		parent::__construct();
 
 		$this->pager = $pager;
 		$this->requestSize = $size;
 		$this->offset = $offset;
 	}
 
-	/**
-	 * _load 
-	 * 
-	 * @access protected
-	 * @return void
-	 */
-	public function _load()
+    /**
+     * __initialize 
+     * 
+     * @access protected
+     * @return void
+     */
+	protected function __initialize()
 	{
 		$collection = $this->getConnection()->findBy(
 			$this->getCriteria(),
@@ -93,10 +90,10 @@ class ConnectionPage extends LazyLoadCollection implements ConnectionPageInterfa
 			$this->getOffset()
 		);
 
-		if($collection instanceof Collection) {
-			$storage = new ArrayStorage($collection->toArray());
+		if($collection instanceof Container\Collection) {
+			return $collection;
 		} else if(is_array($collection)) {
-			$storage = new ArrayStorage($collection);
+			return new Container\ArrayImpl\Collection($collection);
 		} else {
 			throw new \RuntimeException('Failed to load');
 		}
