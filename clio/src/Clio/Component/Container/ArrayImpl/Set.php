@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Container\ArrayImpl;
 
-use Clio\Component\Container\Set;
+use Clio\Component\Container\Set as SetInterface;
 
 /**
  * Set 
@@ -63,8 +63,8 @@ class Set extends AbstractContainer implements SetInterface
 	 */
 	public function remove($value)
 	{
-		$this->values = array_filter($this->array, function($v) {
-				return !($value == $v)
+		$this->values = array_filter($this->values, function($v) use ($value) {
+				return !($value == $v);
 			});
 	}
 }

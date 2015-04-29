@@ -1,7 +1,7 @@
 <?php
-namespace Clio\Component\Util\Container\Exception;
+namespace Clio\Component\Container\Exception;
 
-use Clio\Component\Util\Container\Exception;
+use Clio\Component\Container\Exception;
 
 /**
  * EmptyException 

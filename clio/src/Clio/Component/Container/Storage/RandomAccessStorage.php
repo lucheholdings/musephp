@@ -1,46 +1,50 @@
 <?php
-namespace Clio\Component\Container;
+namespace Clio\Component\Container\Storage;
 
 /**
- * Queue 
+ * RandomAccessStorage 
  * 
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface Queue 
+interface RandomAccessStorage 
 {
     /**
-     * enqueue 
+     * existsAt 
      * 
+     * @param mixed $key 
      * @access public
      * @return void
      */
-    function enqueue();
+	function existsAt($key);
 
     /**
-     * dequeue 
+     * getAt 
      * 
+     * @param mixed $key 
      * @access public
      * @return void
      */
-    function dequeue();
+	function getAt($key);
 
     /**
-     * begin 
+     * insertAt 
      * 
+     * @param mixed $key 
+     * @param mixed $value 
      * @access public
      * @return void
      */
-    function begin();
+	function insertAt($key, $value);
 
     /**
-     * end 
+     * removeAt 
      * 
+     * @param mixed $key 
      * @access public
      * @return void
      */
-    function end();
+	function removeAt($key);
 }
-

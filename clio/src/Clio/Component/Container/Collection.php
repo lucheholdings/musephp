@@ -2,8 +2,9 @@
 namespace Clio\Component\Container;
 
 /**
- * Vector 
- * 
+ * Collection 
+ *   Collection is similar with Map, but also be abled to access with values.
+ *   
  * @uses Container
  * @uses 
  * @package { PACKAGE }
@@ -11,7 +12,7 @@ namespace Clio\Component\Container;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface Vector extends Container, \ArrayAccess
+interface Collection extends Container, \ArrayAccess
 {
 
     /**

@@ -11,6 +11,40 @@ namespace Clio\Component\Container;
  */
 interface Map extends Container, \ArrayAccess
 {
+
+    /**
+     * has 
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
+    function has($key);
+
+    /**
+     * getKeys 
+     * 
+     * @access public
+     * @return void
+     */
+    function getKeys();
+
+    /**
+     * getValues 
+     * 
+     * @access public
+     * @return void
+     */
+    function getValues();
+
+    /**
+     * getKeyValues 
+     * 
+     * @access public
+     * @return void
+     */
+    function getKeyValues();
+
     /**
      * get 
      * 
@@ -40,15 +74,13 @@ interface Map extends Container, \ArrayAccess
     function remove($key);
 
     /**
-     * has 
+     * replace 
      * 
-     * @param mixed $key 
+     * @param array $values 
      * @access public
      * @return void
      */
-    function has($key);
-
-    function clear();
+    function replace(array $values);
 
     /**
      * merge 

@@ -1,17 +1,19 @@
 <?php
 namespace Clio\Component\Container\ArrayImpl;
 
+use Clio\Component\Container\Collection as CollectionInterface;
+
 /**
- * Vector 
+ * Collection 
  * 
  * @uses AbstractContainer
- * @uses VectorInterface
+ * @uses CollectionInterface
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class Vector extends AbstractContainer implements VectorInterface 
+class Collection extends AbstractContainer implements CollectionInterface 
 {
     /**
      * hasKey 

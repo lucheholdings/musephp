@@ -1,7 +1,7 @@
 <?php
-namespace Clio\Component\Util\Container\Storage;
+namespace Clio\Component\Container\Storage;
 
-use Clio\Component\Util\Container\Storage;
+use Clio\Component\Container\Storage;
 
 /**
  * ArrayStorage 
@@ -14,7 +14,7 @@ use Clio\Component\Util\Container\Storage;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class ArrayStorage implements Storage, RandomAccessable, SequencialAccessable, SetAccessable, \Serializable, \Countable
+class ArrayStorage implements Storage\Storage, Storage\RandomAccessable, Storage\SequencialAccessable, \Serializable, \Countable
 {
 	/**
 	 * {@inheritdoc}

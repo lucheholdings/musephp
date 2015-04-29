@@ -16,9 +16,9 @@ abstract class AbstractContainer
      * values 
      * 
      * @var mixed
-     * @access private
+     * @access protected 
      */
-    private $values;
+    protected $values;
 
     /**
      * getRaw 
@@ -40,6 +40,51 @@ abstract class AbstractContainer
     public function getSplContainer()
     {
         return $this->values;
+    }
+
+    /**
+     * count 
+     * 
+     * @access public
+     * @return void
+     */
+    public function count()
+    {
+        return $this->values->count();
+    }
+
+    /**
+     * getIterator 
+     * 
+     * @access public
+     * @return void
+     */
+    public function getIterator()
+    {
+        return $this->values->getIterator();
+    }
+
+    /**
+     * serialize 
+     * 
+     * @access public
+     * @return void
+     */
+    public function serialize()
+    {
+        return serialize($this->values);
+    }
+
+    /**
+     * unserialize 
+     * 
+     * @param mixed $serialized 
+     * @access public
+     * @return void
+     */
+    public function unserialize($serialized)
+    {
+        $this->values = unserialize($serialized);
     }
 }
 

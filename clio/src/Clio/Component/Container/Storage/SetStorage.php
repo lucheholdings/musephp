@@ -1,46 +1,41 @@
 <?php
-namespace Clio\Component\Container;
+namespace Clio\Component\Util\Container\Storage;
 
 /**
- * Queue 
+ * SetStorage 
  * 
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface Queue 
+interface SetStorage 
 {
     /**
-     * enqueue 
+     * insert 
      * 
+     * @param mixed $value 
      * @access public
      * @return void
      */
-    function enqueue();
+	function insert($value);
 
     /**
-     * dequeue 
+     * exists 
      * 
+     * @param mixed $value 
      * @access public
      * @return void
      */
-    function dequeue();
+	function exists($value);
 
     /**
-     * begin 
+     * remove 
      * 
+     * @param mixed $value 
      * @access public
      * @return void
      */
-    function begin();
-
-    /**
-     * end 
-     * 
-     * @access public
-     * @return void
-     */
-    function end();
+	function remove($value);
 }
 
