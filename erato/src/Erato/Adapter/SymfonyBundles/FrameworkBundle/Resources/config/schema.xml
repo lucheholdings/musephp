@@ -36,6 +36,14 @@
         </service>
 
         <service
+            id="erato_framework.schema.loader"
+            class="Clio\Component\Pattern\Loader\Loader"
+            factory-service="erato_framework.schema.registry"
+            factory-method="getLoaders"
+        >
+        </service>
+
+        <service
             id="erato_framework.schema.loader.from_config"
             class="Erato\Core\Schema\Loader\SchemaLoader"
         > 
@@ -44,12 +52,15 @@
             <argument type="service" id="erato_framework.schema.type_resolver"/>
             <argument type="service" id="erato_framework.schema.schema_mapping_factory" />
             <argument type="service" id="erato_framework.schema.field_mapping_factory" />
+
+            <tag name="erato_framework.schema.loader" priority="100"/>
         </service>
         <service
             id="erato_framework.schema.loader.primitive_types"
             class="Clio\Component\Util\Metadata\Loader\TypeSchemaLoader"
         >
             <argument type="service" id="erato_framework.schema.type_resolver.primitive"/>
+            <tag name="erato_framework.schema.loader" priority="0"/>
         </service>
 
         <service

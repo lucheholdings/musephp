@@ -98,7 +98,7 @@ abstract class AbstractConfiguration implements Configuration
     {
         $this->mappings = array();
         foreach($mappings as $name => $mapping) {
-            $this->addMapping($name, $mapping);
+            $this->setMapping($name, $mapping);
         }
         return $this;
     }

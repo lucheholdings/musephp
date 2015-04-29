@@ -1,21 +1,20 @@
 <?php
 namespace Erato\Core\Schema\Config\Parser;
 
-use Erato\Core\Schema\Config\Parser;
-use Erato\Core\Schema\Config\SchemaConfiguration,
-    Erato\Core\Schema\Config\FieldConfiguration;
+use Erato\Core\Schema\Config;
 use Clio\Component\Util\Type;
+use Clio\Component\Pattern\Parser\Exception as ParserException;
 
 /**
  * DefaultClassConfigParser 
  * 
- * @uses Parser
+ * @uses AbstractParser
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class DefaultClassConfigParser implements Parser 
+class DefaultClassConfigParser extends AbstractParser 
 {
     /**
      * actualTypeResolver 
@@ -47,10 +46,22 @@ class DefaultClassConfigParser implements Parser
     public function parse($resource = null)
     {
         if(!$resource instanceof \ReflectionClass) {
-            throw new InvalidResourceException('DefaultClassConfigParser only parse an instanceof ReflectionClass.');
+            throw new ParserException\InvalidResourceException('DefaultClassConfigParser only parse an instanceof ReflectionClass.');
         }
 
-        $config = new SchemaConfiguration();
+        return parent::parseSchemaConfiguration($resource);
+    }
+
+    /**
+     * doParseSchemaConfiguration 
+     * 
+     * @param Config\SchemaConfiguration $config 
+     * @param mixed $resource 
+     * @access protected
+     * @return void
+     */
+    protected function doParseSchemaConfiguration(Config\SchemaConfiguration $config, $resource)
+    {
         $config
             ->setName($resource->getName())
             ->setType($this->actualTypeResolver->resolve($resource->getName()))

@@ -1,7 +1,8 @@
 <?php
 namespace Erato\Core\Schema\Config\Parser;
 
-use Erato\Core\Schema\Config\Parser;
+use Erato\Core\Schema\Config;
+use Clio\Component\Pattern\Parser\Exception as ParserException;
 
 /**
  * ArrayParser 
@@ -25,7 +26,7 @@ use Erato\Core\Schema\Config\Parser;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ArrayParser implements Parser 
+class ArrayParser extends AbstractParser 
 {
     /**
      * parse 
@@ -33,64 +34,75 @@ class ArrayParser implements Parser
      * @access public
      * @return void
      */
-    public function parse($contents = null)
+    public function parse($resource = null)
     {
-        if(!is_array($contents)) {
-            throw new \InvalidArgumentException('Invalid format of contents.');
+        if(!is_array($resource)) {
+            throw new ParserException\InvalidResourceException('ArrayParser only accept resource as an array.');
         }
-        
-        // Parse only first schema configs
-        $config = null;
-        foreach($contents as $key => $value) {
-            $config = $this->parseConfiguration($key, $value);
+
+        $schema = null;
+        // parse only first
+        foreach($resource as $name => $config) {
+            $config['name'] = $name;
+            $schema = $this->parseSchemaConfiguration($config);
             break;
         }
-
-        return $config;
+        return $schema;
     }
-    
+
     /**
-     * parseConfiguration 
+     * doParseSchemaConfiguration 
      * 
-     * @param mixed $name 
-     * @param array $configs 
+     * @param Config\SchemaConfiguration $config 
+     * @param mixed $resource 
      * @access protected
      * @return void
      */
-    protected function parseConfiguration($name, array $configs = array())
+    protected function doParseSchemaConfiguration(Config\SchemaConfiguration $config, $resource)
     {
-        $configuration = new Configuration();
-
-        $configuration
-            ->setName($name)
-            ->setType(isset($configs['type']) ? $configs['type'] : false)
-            ->setOptions(isset($configs['options']) ? $configs['options'] : array())
+        $config
+            ->setName($resource['name'])
+            ->setType(isset($resource['type']) ? $resource['type'] : false)
+            ->setOptions(isset($resource['options']) ? $resource['options'] : array())
         ;
 
-        if(isset($configs['fields'])) {
-            foreach($configs['fields'] as $fieldName => $field) {
-                $config->addField($this->parseFieldConfiguration($field));
+        if(isset($resource['fields'])) {
+            foreach($resource['fields'] as $fieldName => $field) {
+                $config->addField($this->doParseFieldConfiguration($field));
             }
         }
+
+        if(isset($resource['mappings'])) {
+            foreach($resource['mappings'] as $mappingName => $mappingConfig) {
+                $config->setMapping($mappingName, $mappingConfig);
+            }
+        }
+        return $config;
     }
 
     /**
-     * parseFieldCoinfiguration 
+     * doParseFieldCoinfiguration 
      * 
-     * @param mixed $configs 
+     * @param mixed $resource
      * @access protected
      * @return void
      */
-    protected function parseFieldCoinfiguration($configs)
+    protected function doParseFieldCoinfiguration($resource)
     {
-        $configuration = new FieldConfiguration();
-        $configuration
-            ->setName($configs['name'])
-            ->setType($configs['type'])
-            ->setOptions(isset($configs['options']) ? $configs['options'] : array())
+        $field = new FieldConfiguration();
+        $field
+            ->setName($resource['name'])
+            ->setType($resource['type'])
+            ->setOptions(isset($resource['options']) ? $resource['options'] : array())
         ;
 
-        return $configuration;
+        if(isset($resource['mappings'])) {
+            foreach($resource['mappings'] as $mappingName => $mappingConfig) {
+                $field->setMapping($mappingName, $mappingConfig);
+            }
+        }
+
+        return $field;
     }
 }
 

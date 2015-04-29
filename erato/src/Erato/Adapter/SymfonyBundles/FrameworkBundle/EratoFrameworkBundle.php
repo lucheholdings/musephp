@@ -19,6 +19,7 @@ class EratoFrameworkBundle extends Bundle
 	{
 		parent::build($container);
 		
+		$container->addCompilerPass(new Compiler\SchemaLoaderCompilerPass());
 		$container->addCompilerPass(new Compiler\AccessorCompilerPass());
 		$container->addCompilerPass(new Compiler\NormalizerCompilerPass());
 		$container->addCompilerPass(new Compiler\MappingFactoryCompilerPass());
