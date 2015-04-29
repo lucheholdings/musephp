@@ -129,7 +129,8 @@ class SchemaFactory implements Metadata\Factory, MappedFactory
 
     public function createBuilder()
     {
-        return new Metadata\Builder\SchemaBuilder($this->schemaResolver, $this->typeResolver, $this->mappingFactories);
+        $mappingFactory = new Metadata\Mapping\Factory\Collection($this->mappingFactories);
+        return new Metadata\Builder\SchemaBuilder($this->schemaResolver, $this->typeResolver, $mappingFactory, $mappingFactory);
     }
     
     public function getSchemaResolver()

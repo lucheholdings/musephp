@@ -20,7 +20,7 @@ class FieldBuilder
 
     private $mappingFactories;
 
-    public function __construct(Metadata\Resolver $fieldTypeResolver, Metadata\Mapping\NamedFactory $mappingFactories = null)
+    public function __construct(Metadata\Resolver\FieldTypeResolver $fieldTypeResolver, Metadata\Mapping\NamedFactory $mappingFactories = null)
     {
         $this->fieldTypeResolver   = $fieldTypeResolver;
         $this->mappingFactories = $mappingFactories;

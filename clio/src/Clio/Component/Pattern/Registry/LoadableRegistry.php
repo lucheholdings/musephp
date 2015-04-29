@@ -129,9 +129,9 @@ class LoadableRegistry extends ProxyRegistry
         try {
 		    $this->load($key);
             return true;
-        } catch(LoaderException $ex) {
+        } catch(\Exception $ex) {
             // Do not throw
-            throw new LoaderException\Failure(sprintf('Failed to load resource "%s".', $key), 0, $ex);
+            //throw new LoaderException\Failure(sprintf('Failed to load resource "%s".', $key), 0, $ex);
         }
 
 		return false;

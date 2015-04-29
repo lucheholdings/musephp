@@ -33,12 +33,12 @@ class MixedTypeResolver extends TypeResolverChain
      */
     public function canResolve($type, array $options = array())
     {
-        return ('mixed' == (string)$type) && array_key_exists('data', $options);
+        return (empty($type) || ('mixed' == (string)$type)) && array_key_exists('data', $options);
     }
 
 	protected function doResolve($type, array $options = array())
 	{
-		if(('mixed' == (string)$type) && array_key_exists('data', $options)) {
+		if((empty($type) || ('mixed' == (string)$type)) && array_key_exists('data', $options)) {
 			$data = $options['data'];
 		
             $guessed = $this->getGuesser()->guess($data);

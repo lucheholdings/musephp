@@ -36,6 +36,15 @@ class Collection extends FactoryMap implements NamedFactory
 	 */
 	private $options;
 
+    public function createMappings(Metadata $metadata, array $options = array())
+    {
+        $mappings = array();
+        foreach($options as $name => $mappingOptions) {
+            $mappings[$name] = $this->createMappingFor($name, $metadata, $mappingOptions);
+        }
+        return new MappingCollection($mappings);
+    }
+
     /**
      * createMappingFor 
      * 

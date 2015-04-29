@@ -363,7 +363,7 @@ class SchemaBuilder
 
     public function createFieldBuilder()
     {
-        return new FieldBuilder($this->schemaResolver, $this->fieldMappingFactories);
+        return new FieldBuilder(new Metadata\Resolver\FieldTypeResolver($this->schemaResolver), $this->fieldMappingFactories);
     }
     
     public function getMappingFactories()

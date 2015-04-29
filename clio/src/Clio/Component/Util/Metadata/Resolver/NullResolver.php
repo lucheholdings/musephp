@@ -2,6 +2,7 @@
 namespace Clio\Component\Util\Metadata\Resolver;
 
 use Clio\Component\Util\Metadata\Resolver;
+use Clio\Component\Util\Metadata\Exception as MetadataException;
 
 /**
  * NullResolver 
@@ -23,6 +24,6 @@ class NullResolver implements Resolver
      */
     public function resolve($resource)
     {
-        throw new CannotResolveException('NullResolver cannot resolve any resource');
+        throw new MetadataException\CannotResolveException('NullResolver cannot resolve any resource');
     }
 }
