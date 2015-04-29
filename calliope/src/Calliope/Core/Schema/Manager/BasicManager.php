@@ -15,17 +15,48 @@ use Calliope\Core\Connection;
  */
 class BasicManager implements Manager 
 {
+    /**
+     * schema 
+     * 
+     * @var mixed
+     * @access private
+     */
     private $schema;
 
+    /**
+     * connection 
+     * 
+     * @var mixed
+     * @access private
+     */
     private $connection;
 
-    public function __construct(Schema $schema, Connection $connection = null)
+    /**
+     * options 
+     * 
+     * @var mixed
+     * @access private
+     */
+    private $options;
+
+    /**
+     * __construct 
+     * 
+     * @param Schema $schema 
+     * @param Connection $connection 
+     * @param array $options 
+     * @access public
+     * @return void
+     */
+    public function __construct(Schema $schema, Connection $connection = null, array $options = array())
     {
         $this->schema = $schema;
-        $this->connection = null;
+        $this->options = $options;
 
-        // Update Connection
-        $this->setConnection($connection);
+        $this->connection = null;
+        if($connection) {
+            $this->setConnection($connection);
+        }
     }
 
 	/**
@@ -97,6 +128,12 @@ class BasicManager implements Manager
 		$this->getConnection()->flush();
 	}
 
+    /**
+     * save 
+     * 
+     * @access public
+     * @return void
+     */
 	public function save()
 	{
 		$this->getConnection()->flush();
@@ -133,6 +170,12 @@ class BasicManager implements Manager
 		return $this->getConnection()->countBy($criteria);
 	}
     
+    /**
+     * getSchema 
+     * 
+     * @access public
+     * @return void
+     */
     public function getSchema()
     {
         return $this->schema;
@@ -146,6 +189,13 @@ class BasicManager implements Manager
 		return $this->connection;
 	}
 
+    /**
+     * setConnection 
+     * 
+     * @param Connection $connection 
+     * @access public
+     * @return void
+     */
 	public function setConnection(Connection $connection)
 	{
 		$this->connection = $connection;
