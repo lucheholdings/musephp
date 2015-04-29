@@ -2,7 +2,7 @@
 namespace Clio\Component\Pattern\Factory;
 
 use Clio\Component\Pattern\Factory\Exception\UnsupportedExcpetion;
-use Clio\Component\Util\Container\Collection\SimpleCollection;
+use Clio\Component\Container\Collection\SimpleCollection;
 /**
  * SequentialFactory
  *    

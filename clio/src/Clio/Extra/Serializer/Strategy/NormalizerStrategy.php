@@ -1,14 +1,14 @@
 <?php
 namespace Clio\Extra\Serializer\Strategy;
 
-use Clio\Component\Tool\Serializer\Context;
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\ArrayTool\;
+use Clio\Component\Serializer\Context;
+use Clio\Component\Normalizer\Normalizer;
+use Clio\Component\ArrayTool\;
 use Clio\Bridge\SymfonyComponents\ArrayTool\\YamlCoder;
-use Clio\Component\Tool\ArrayTool\Mapper\RecursiveKeyMapper;
-use Clio\Component\Tool\Serializer\Strategy\AbstractStrategy;
-use Clio\Component\Tool\Serializer\Strategy\SerializationStrategy,
-	Clio\Component\Tool\Serializer\Strategy\DeserializationStrategy
+use Clio\Component\ArrayTool\Mapper\RecursiveKeyMapper;
+use Clio\Component\Serializer\Strategy\AbstractStrategy;
+use Clio\Component\Serializer\Strategy\SerializationStrategy,
+	Clio\Component\Serializer\Strategy\DeserializationStrategy
 ;
 
 /**

@@ -4,7 +4,7 @@ namespace Clio\Extra\Constructor;
 use Clio\Component\Pattern\Constructor\Constructor,
 	Clio\Component\Pattern\Constructor\ProxyConstructor
 ;
-use Clio\Component\Util\Injection\Injector;
+use Clio\Component\Injection\Injector;
 
 /**
  * InjectionConstructor 

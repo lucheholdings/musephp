@@ -4,7 +4,7 @@ namespace Clio\Adapter\DoctrineExtensions\Behavior\Entity\MappedSuperclass;
 use Doctrine\ORM\Mapping as ORM;
 use Clio\Extra\Model\FlexibleModel as BaseModel;
 
-use Clio\Component\Util\Attribute\AttributeMap;
+use Clio\Component\Attribute\AttributeMap;
 
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 /**

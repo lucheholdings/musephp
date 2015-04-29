@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Type;
 
-use Clio\Component\Util\Type\Type;
-use Clio\Component\Util\Metadata\Metadata;
+use Clio\Component\Type\Type;
+use Clio\Component\Metadata\Metadata;
 
 /**
  * AbstractMetadataType 

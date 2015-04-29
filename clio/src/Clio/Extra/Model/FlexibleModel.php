@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Extra\Model;
 
-use Clio\Component\Util\Attribute\AttributeMap as AttributeMapInterface;
-use Clio\Component\Util\Attribute\AttributeMapAware;
-use Clio\Component\Util\Attribute\SimpleAttributeMap;
+use Clio\Component\Attribute\AttributeMap as AttributeMapInterface;
+use Clio\Component\Attribute\AttributeMapAware;
+use Clio\Component\Attribute\SimpleAttributeMap;
 
 use Clio\Bridge\DoctrineCommon\Container\Storage\DoctrineCollectionStorage;
 /**

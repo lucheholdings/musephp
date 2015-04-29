@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Normalizer\Strategy;
 
-use Clio\Component\Tool\Normalizer\Strategy;
-use Clio\Component\Util\Accessor\Registry as RegistryInterface;
+use Clio\Component\Normalizer\Strategy;
+use Clio\Component\Accessor\Registry as RegistryInterface;
 
 /**
  * Factory 

@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Yaml\Yaml;
 
-use Clio\Component\Util\Task\Task\Task;
+use Clio\Component\Task\Task\Task;
 
 /**
  * TaskSchedulerAddCommand 

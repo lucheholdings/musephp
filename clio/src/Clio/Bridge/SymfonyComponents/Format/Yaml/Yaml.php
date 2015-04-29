@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Bridge\SymfonyComponents\Format\Yaml;
 
-use Clio\Component\Util\Format\StandardFormat;
+use Clio\Component\Format\StandardFormat;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 class Yaml extends StandardFormat

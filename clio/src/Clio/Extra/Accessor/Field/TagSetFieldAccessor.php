@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Accessor\Field;
 
-use Clio\Component\Util\Accessor\Field\AbstractSingleFieldAccessor;
-use Clio\Component\Util\Tag\TagSetAccessor;
+use Clio\Component\Accessor\Field\AbstractSingleFieldAccessor;
+use Clio\Component\Tag\TagSetAccessor;
 
 /**
  * TagSetFieldAccessor 

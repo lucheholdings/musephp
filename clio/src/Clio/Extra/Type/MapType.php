@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Type;
 
-use Clio\Component\Util\Type\AbstractType;
-use Clio\Component\Util\Type\Actual\ArrayType;
+use Clio\Component\Type\AbstractType;
+use Clio\Component\Type\Actual\ArrayType;
 /**
  * MapType 
  * 

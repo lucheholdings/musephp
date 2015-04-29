@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Extra\Metadata\Cache;
 
-use Clio\Component\Util\Execution\Invoker;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Injection\InjectorMap;
+use Clio\Component\Execution\Invoker;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Injection\InjectorMap;
 use Clio\Extra\Registry\Loader\CacheWarmer;
 
 

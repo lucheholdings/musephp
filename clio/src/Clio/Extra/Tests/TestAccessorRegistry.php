@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Tests;
 
-use Clio\Component\Util\Accessor;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Accessor;
+use Clio\Component\Metadata;
 use Clio\Component\Pattern\Registry;
 
 class TestAccessorRegistry extends Accessor\Registry\ValidateRegistry 

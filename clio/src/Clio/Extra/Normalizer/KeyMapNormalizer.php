@@ -1,13 +1,13 @@
 <?php
 namespace Clio\Extra\Normalizer;
 
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\Normalizer\Context,
-	Clio\Component\Tool\Normalizer\Strategy,
-	Clio\Component\Tool\Normalizer\Type,
-	Clio\Component\Tool\Normalizer\Type\ObjectType
+use Clio\Component\Normalizer\Normalizer;
+use Clio\Component\Normalizer\Context,
+	Clio\Component\Normalizer\Strategy,
+	Clio\Component\Normalizer\Type,
+	Clio\Component\Normalizer\Type\ObjectType
 ;
-use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\ArrayTool\Mapper;
 
 /**
  * KeyMapNormalizer 

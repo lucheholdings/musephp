@@ -2,7 +2,7 @@
 namespace Clio\Adapter\SymfonyBundles\FrameworkBundle\Cache;
 
 use Symfony\Component\HttpKernel\CacheClearer\CacheClearerInterface;
-use Clio\Component\Util\Cache\Cache;
+use Clio\Component\Cache\Cache;
 
 /**
  * CacheClearer 

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Bridge\DoctrineCommon\Cache;
 
-use Clio\Component\Util\Cache\Cache;
+use Clio\Component\Cache\Cache;
 use Doctrine\Common\Cache\CacheProvider as DoctrineCacheProviderInterface;
 /**
  * DoctrineCache 

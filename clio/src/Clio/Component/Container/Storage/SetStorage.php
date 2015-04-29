@@ -1,5 +1,5 @@
 <?php
-namespace Clio\Component\Util\Container\Storage;
+namespace Clio\Component\Container\Storage;
 
 /**
  * SetStorage 

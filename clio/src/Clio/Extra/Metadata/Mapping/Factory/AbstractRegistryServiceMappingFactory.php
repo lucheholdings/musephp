@@ -1,11 +1,11 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\AbstractFactory;
+use Clio\Component\Metadata\Mapping\Factory\AbstractFactory;
 
 use Clio\Component\Pattern\Registry\Registry;
-use Clio\Component\Util\Injection\InjectorCollection;
-use Clio\Component\Util\Injection\SubclassInjector;
+use Clio\Component\Injection\InjectorCollection;
+use Clio\Component\Injection\SubclassInjector;
 
 abstract class AbstractRegistryServiceMappingFactory extends AbstractFactory 
 {

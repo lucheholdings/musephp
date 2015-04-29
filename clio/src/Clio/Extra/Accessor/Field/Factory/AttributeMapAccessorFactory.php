@@ -1,11 +1,11 @@
 <?php
 namespace Clio\Extra\Accessor\Field\Factory;
 
-use Clio\Component\Util\Accessor\Field;
-use Clio\Component\Util\Accessor\Field\Factory\AbstractFieldAccessorFactory;
+use Clio\Component\Accessor\Field;
+use Clio\Component\Accessor\Field\Factory\AbstractFieldAccessorFactory;
 use Clio\Extra\Accessor\Field\AttributeMapAccessor;
-use Clio\Component\Util\Attribute\AttributeAccessor,
-	Clio\Component\Util\Attribute\AttributeComponentFactory
+use Clio\Component\Attribute\AttributeAccessor,
+	Clio\Component\Attribute\AttributeComponentFactory
 ;
 
 /**
@@ -68,7 +68,7 @@ class AttributeMapAccessorFactory extends AbstractFieldAccessorFactory
 	public function isSupportedField(Field $field)
 	{
 		if(($field->getSchema() instanceof ReflectionClassAwarable) && ($field->getSchema()->isReflectionClassAwared())) {
-			return $field->getSchema()->getReflectionClass()->implementsInterface('Clio\Component\Util\Attribute\AttributeMapAware');
+			return $field->getSchema()->getReflectionClass()->implementsInterface('Clio\Component\Attribute\AttributeMapAware');
 		}
 	}
     

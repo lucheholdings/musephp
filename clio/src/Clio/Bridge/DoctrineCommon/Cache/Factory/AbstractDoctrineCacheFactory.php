@@ -6,7 +6,7 @@ use Clio\Component\Pattern\Constructor\DefaultConstructorFactory;
 use Clio\Component\Pattern\Factory\MappedFactory,
 	Clio\Component\Pattern\Factory\MappedComponentFactory
 ;
-use Clio\Component\Util\Injection\MethodInjector;
+use Clio\Component\Injection\MethodInjector;
 
 /**
  * AbstractDoctrineCacheFactory 

@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
+use Clio\Component\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Schema\ClassMetadata;
 use Clio\Extra\Metadata\Mapping\AttributeMapMapping;
 
 /**
@@ -17,7 +17,7 @@ use Clio\Extra\Metadata\Mapping\AttributeMapMapping;
  */
 class AttributeMapMappingFactory extends AbstractSchemaMetadataMappingFactory 
 {
-	const CONTAINER_INTERFACE = 'Clio\Component\Util\Attribute\AttributeMapAware';
+	const CONTAINER_INTERFACE = 'Clio\Component\Attribute\AttributeMapAware';
 
 	/**
 	 * defaultFieldName 

@@ -1,12 +1,12 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Accessor\SchemaAccessor;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Accessor\SchemaAccessor;
 
-use Clio\Component\Util\Tag\TagAccessor;
-use Clio\Component\Util\Tag\TagComponentFactory;
+use Clio\Component\Tag\TagAccessor;
+use Clio\Component\Tag\TagComponentFactory;
 
 /**
  * TagSetMapping 

@@ -4,12 +4,12 @@ namespace Clio\Extra\Tests\Schemifier;
 use Clio\Extra\Schemifier\NormalizerSchemifier;
 use Clio\Extra\Tests\Models;
 use Clio\Extra\Normalizer as ExtraNormalizer;
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\Normalizer\Strategy\PriorityCollection,
-	Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy
+use Clio\Component\Normalizer\Normalizer;
+use Clio\Component\Normalizer\Strategy\PriorityCollection,
+	Clio\Component\Normalizer\Strategy\ArrayAccessStrategy
 ;
-use Clio\Component\Tool\Schemifier\ClassSchema;
-use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\Schemifier\ClassSchema;
+use Clio\Component\ArrayTool\Mapper;
 
 use Clio\Extra\Tests\TestSchemaRegistry;
 use Clio\Extra\Tests\TestAccessorRegistry;

@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Accessor\Field;
 
-use Clio\Component\Util\Attribute\AttributeAccessor;
-use Clio\Component\Util\Accessor\Field\MultiFieldAccessor;
+use Clio\Component\Attribute\AttributeAccessor;
+use Clio\Component\Accessor\Field\MultiFieldAccessor;
 
 use Clio\Component\Exception\UnsupportedException;
 

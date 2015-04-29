@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Bridge\Celery\Task;
 
-use Clio\Component\Util\Task\Scheduler;
-use Clio\Component\Util\Task\Task,
-	Clio\Component\Util\Task\Task\ScheduledTask
+use Clio\Component\Task\Scheduler;
+use Clio\Component\Task\Task,
+	Clio\Component\Task\Task\ScheduledTask
 ;
 
 class CeleryTaskScheduler implements Scheduler

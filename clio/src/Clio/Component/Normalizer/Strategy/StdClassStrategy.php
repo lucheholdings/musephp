@@ -1,0 +1,49 @@
+<?php
+namespace Clio\Component\Normalizer\Strategy;
+
+use Clio\Component\Normalizer\Type;
+use Clio\Component\Normalizer\Context;
+use Clio\Component\Type as Types;
+
+/**
+ * StdClassStrategy
+ * 
+ * @uses AbstractNormalizer
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+class StdClassStrategy extends ObjectStrategy implements NormalizationStrategy, DenormalizationStrategy
+{
+	protected function doNormalize($data, Type $type, Context $context)
+	{
+		return (array)$data;
+	}
+
+	protected function doDenormalize($data, Type $type, Context $context, $object = null)
+	{
+		if(!$object) {
+			return (object)$data;
+		}
+
+		// fixme 
+		return (object)$data;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canNormalize($data, $type)
+	{
+        return $type->isType('stdClass');
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function canDenormalize($data, $type)
+	{
+        return $type->isType('stdClass');
+	}
+}

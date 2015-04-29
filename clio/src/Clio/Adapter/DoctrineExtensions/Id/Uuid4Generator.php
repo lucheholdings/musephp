@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Adapter\DoctrineExtensions\Id;
 
-use Clio\Component\Util\Id\Generator\Strategy\UuidGenerateStrategy;
+use Clio\Component\Id\Generator\Strategy\UuidGenerateStrategy;
 
 /**
  * Uuid4Generator 

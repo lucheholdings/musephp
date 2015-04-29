@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Bridge\SymfonyComponents\Validator;
 
-use Clio\Component\Util\Validator\Validator;
+use Clio\Component\Validator\Validator;
 use Symfony\Component\Validator\ValidatorInterface;
 
 /**

@@ -1,11 +1,11 @@
 <?php
 namespace Clio\Extra\Metadata\SchemaRegistry\Loader;
 
-use Clio\Component\Util\Metadata\SchemaRegistry\Loader\MergeLoader;
-use Clio\Component\Util\Metadata\SchemaRegistry\Loader\Warmer;
-use Clio\Component\Util\Metadata\SchemaRegistry\Loader\WarmupLoader;
+use Clio\Component\Metadata\SchemaRegistry\Loader\MergeLoader;
+use Clio\Component\Metadata\SchemaRegistry\Loader\Warmer;
+use Clio\Component\Metadata\SchemaRegistry\Loader\WarmupLoader;
 
-use Clio\Component\Util\Cache\CacheProvider;
+use Clio\Component\Cache\CacheProvider;
 use Clio\Extra\Registry\Loader\CacheLoader;
 
 /**

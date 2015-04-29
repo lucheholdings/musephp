@@ -3,9 +3,9 @@ namespace Clio\Component\Pattern\Factory;
 
 use Clio\Component\Exception\UnsupportedException;
 
-use Clio\Component\Util\Container\Map\StorageMap;
-use Clio\Component\Util\Container\Storage as ContainerStorage;
-use Clio\Component\Util\Validator\SubclassValidator;
+use Clio\Component\Container\Map\StorageMap;
+use Clio\Component\Container\Storage as ContainerStorage;
+use Clio\Component\Validator\SubclassValidator;
 
 /**
  * NamedCollection 

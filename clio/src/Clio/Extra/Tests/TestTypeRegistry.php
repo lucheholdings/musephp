@@ -2,8 +2,8 @@
 namespace Clio\Extra\Tests;
 
 use Clio\Component\Pattern\Registry;
-use Clio\Component\Util\Type as Types;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Type as Types;
+use Clio\Component\Metadata;
 use Clio\Extra\Type as ExtraTypes;
 
 class TestTypeRegistry extends Types\Registry\ValidateRegistry 

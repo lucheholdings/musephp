@@ -1,16 +1,16 @@
 <?php
 namespace Clio\Extra\Tests\Normalizer;
 
-use Clio\Component\Tool\Normalizer\Tests\StrategyTestCase;
+use Clio\Component\Normalizer\Tests\StrategyTestCase;
 use Clio\Extra\Normalizer\Strategy\AccessorStrategy;
 
 use Clio\Extra\Tests\TestAccessorRegistry;
 use Clio\Extra\Tests\TestTypeRegistry;
 use Clio\Extra\Tests\Models;
 
-use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\TypeResolver as NormalizerTypeResolver;
-use Clio\Component\Util\Type as Types;
+use Clio\Component\Normalizer\Context;
+use Clio\Component\Normalizer\Type\TypeResolver as NormalizerTypeResolver;
+use Clio\Component\Type as Types;
 
 class AccessorStrategyTest extends StrategyTestCase 
 {

@@ -1,10 +1,10 @@
 <?php
 namespace Clio\Extra\Serializer;
 
-use Clio\Component\Tool\Serializer\Serializer as BaseSerializer;
+use Clio\Component\Serializer\Serializer as BaseSerializer;
 
-use Clio\Component\Util\Notify\Notifier,
-	Clio\Component\Util\Notify\NullNotifier
+use Clio\Component\Notify\Notifier,
+	Clio\Component\Notify\NullNotifier
 ;
 
 /**

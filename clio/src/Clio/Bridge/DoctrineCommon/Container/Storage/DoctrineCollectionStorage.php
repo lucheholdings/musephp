@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Bridge\DoctrineCommon\Container\Storage;
 
-use Clio\Component\Util\Container\Storage;
+use Clio\Component\Container\Storage;
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 
 /**

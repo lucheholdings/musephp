@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Metadata\Metadata;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Metadata\Metadata;
 use Clio\Component\Pattern\Registry\Registry;
 /**
  * AbstractRegistryServiceMapping 

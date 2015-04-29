@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Type;
 
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Field;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Field;
 
 /**
  * FieldMetadataType 

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Extra\Builder;
 
-use Clio\Component\Util\Metadata\SchemaMetadata;
+use Clio\Component\Metadata\SchemaMetadata;
 use Clio\Component\Pattern\Builder\Builder;
 
 /**

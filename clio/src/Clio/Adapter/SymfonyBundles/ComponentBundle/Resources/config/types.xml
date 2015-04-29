@@ -8,12 +8,12 @@
         <!-- Factories -->
 		<service 
 			id="clio_component.type_factory.primitive" 
-			class="Clio\Component\Util\Type\Factory\PrimitiveTypeFactory"
+			class="Clio\Component\Type\Factory\PrimitiveTypeFactory"
 		>
 		</service>
 		<service 
 			id="clio_component.type_factory.class" 
-			class="Clio\Component\Util\Type\Factory\ClassTypeFactory"
+			class="Clio\Component\Type\Factory\ClassTypeFactory"
 		>
 		</service>
 		<service 
@@ -26,16 +26,16 @@
         <!-- Complex typeResolver : to resolve Proxy and Mixed as well-->
         <service
             id="clio_component.type_resolver.primitive"
-            class="Clio\Component\Util\Type\Resolver"
-            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            class="Clio\Component\Type\Resolver"
+            factory-class="Clio\Component\Type\Resolver\Factory"
             factory-method="createWithFactories"
         >
             <argument type="service" id="clio_component.type_factory.primitive"/>
         </service>
         <service
             id="clio_component.type_resolver.native"
-            class="Clio\Component\Util\Type\Resolver"
-            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            class="Clio\Component\Type\Resolver"
+            factory-class="Clio\Component\Type\Resolver\Factory"
             factory-method="createWithFactories"
         >
             <argument type="collection">
@@ -45,8 +45,8 @@
         </service>
         <service
             id="clio_component.type_resolver.custom"
-            class="Clio\Component\Util\Type\Resolver"
-            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            class="Clio\Component\Type\Resolver"
+            factory-class="Clio\Component\Type\Resolver\Factory"
             factory-method="createWithFactories"
         >
             <argument type="collection">

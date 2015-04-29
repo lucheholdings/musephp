@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Extra\Model;
 
-use Clio\Component\Util\Tag\Tag as TagInterface;
+use Clio\Component\Tag\Tag as TagInterface;
 
 /**
  * Tag 

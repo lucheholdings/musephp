@@ -2,8 +2,8 @@
 namespace Clio\Extra\Loader;
 
 use Clio\Component\Pattern\Loader;
-use Clio\Component\Util\Cache\CacheProvider;
-use Clio\Component\Util\Cache\Warmer as CacheWarmer;
+use Clio\Component\Cache\CacheProvider;
+use Clio\Component\Cache\Warmer as CacheWarmer;
 
 /**
  * CacheLoader 

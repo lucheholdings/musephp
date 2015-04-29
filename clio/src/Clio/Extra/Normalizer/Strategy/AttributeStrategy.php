@@ -1,12 +1,12 @@
 <?php
 namespace Clio\Extra\Normalizer\Strategy;
 
-use Clio\Component\Tool\Normalizer\Strategy\InterfaceStrategy;
-use Clio\Component\Tool\Normalizer\Strategy\NormalizationStrategy,
-	Clio\Component\Tool\Normalizer\Strategy\DenormalizationStrategy
+use Clio\Component\Normalizer\Strategy\InterfaceStrategy;
+use Clio\Component\Normalizer\Strategy\NormalizationStrategy,
+	Clio\Component\Normalizer\Strategy\DenormalizationStrategy
 ;
-use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type;
+use Clio\Component\Normalizer\Context;
+use Clio\Component\Normalizer\Type;
 
 class AttributeStrategy extends InterfaceStrategy implements NormalizationStrategy, DenormalizationStrategy 
 {
@@ -28,7 +28,7 @@ class AttributeStrategy extends InterfaceStrategy implements NormalizationStrate
 
 	public function getInterfaceName()
 	{
-		return 'Clio\Component\Util\Attribute\Attribute';
+		return 'Clio\Component\Attribute\Attribute';
 	}
 }
 

@@ -1,0 +1,34 @@
+<?php
+namespace Clio\Component\Attribute;
+
+use Clio\Component\Container\Map\StorageMap;
+use Clio\Component\Validator\SubclassValidator;
+
+class SimpleAttributeMap extends StorageMap implements AttributeMap
+{
+	protected function initContainer(array $values)
+	{
+		$this
+			->enableStorageValidation()
+			->setValueValidator(new SubclassValidator('Clio\Component\Attribute\Attribute'))
+		;
+		parent::initContainer($values);
+	}
+
+	public function getOwner()
+	{
+		return $this->owner;		
+	}
+
+	public function setOwner(AttributeMapAware $owner)
+	{
+		$this->owner = $owner;
+	}
+
+	public function set($key, $value)
+	{
+		$value->setOwner($this->getOwner());
+		return parent::set($key, $value);
+	}
+}
+

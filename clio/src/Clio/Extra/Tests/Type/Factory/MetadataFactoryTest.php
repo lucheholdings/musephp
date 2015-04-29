@@ -2,7 +2,7 @@
 namespace Clio\Extra\Tests\Type\Factory;
 
 use Clio\Extra\Tests\TestSchemaRegistry;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Metadata;
 use Clio\Extra\Type\Factory\SchemaMetadataTypeFactory;
 
 class SchemaMetadataTypeFactoryTest extends \PHPUnit_Framework_TestCase 
@@ -11,13 +11,13 @@ class SchemaMetadataTypeFactoryTest extends \PHPUnit_Framework_TestCase
     {
         $factory = new SchemaMetadataTypeFactory(new Metadata\Resolver\RegisteredResolver(new TestSchemaRegistry()));
 
-        $type = $factory->createType('Clio\Component\Util\Type\Tests\Models\Foo');
+        $type = $factory->createType('Clio\Component\Type\Tests\Models\Foo');
         $this->assertInstanceof('Clio\Extra\Type\SchemaMetadataType', $type);
-        $this->assertTrue($type->isType('Clio\Component\Util\Type\Tests\Models\Foo'));
+        $this->assertTrue($type->isType('Clio\Component\Type\Tests\Models\Foo'));
 
-        $type = $factory->createType('Clio\Component\Util\Type\Tests\Models\FooInterface');
+        $type = $factory->createType('Clio\Component\Type\Tests\Models\FooInterface');
         $this->assertInstanceof('Clio\Extra\Type\SchemaMetadataType', $type);
-        $this->assertTrue($type->isType('Clio\Component\Util\Type\Tests\Models\FooInterface'));
+        $this->assertTrue($type->isType('Clio\Component\Type\Tests\Models\FooInterface'));
     }
 }
 

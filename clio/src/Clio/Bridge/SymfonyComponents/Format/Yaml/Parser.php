@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Bridge\SymfonyComponents\Format\Yaml;
 
-use Clio\Component\Util\Format\Parser as ParserInterface;
+use Clio\Component\Format\Parser as ParserInterface;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 class Parser implements ParserInterface

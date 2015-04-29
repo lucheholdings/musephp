@@ -4,7 +4,7 @@ namespace Clio\Adapter\DoctrineExtensions\Id;
 use Doctrine\ORM\Id\AbstractIdGenerator;
 use Doctrine\ORM\EntityManager;
 
-use Clio\Component\Util\Id\Generator\Strategy;
+use Clio\Component\Id\Generator\Strategy;
 
 /**
  * AbstractStrategyGenerator 

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Bridge\SymfonyComponents\Format\Yaml;
 
-use Clio\Component\Util\Format\Dumper as DumperInterface;
+use Clio\Component\Format\Dumper as DumperInterface;
 use Symfony\Component\Yaml\Yaml as SymfonyYaml;
 
 class Dumper implements DumperInterface

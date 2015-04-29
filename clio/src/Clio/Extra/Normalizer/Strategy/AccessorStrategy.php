@@ -1,31 +1,31 @@
 <?php
 namespace Clio\Extra\Normalizer\Strategy;
 
-use Clio\Component\Tool\Normalizer\Strategy as Strategies;
-use Clio\Component\Tool\Normalizer\Type;
-use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Normalizer\Strategy as Strategies;
+use Clio\Component\Normalizer\Type;
+use Clio\Component\Normalizer\Context;
 
-use Clio\Component\Util\Type as Types;
+use Clio\Component\Type as Types;
 use Clio\Extra\Type as ExtraTypes;
-use Clio\Component\Util\Accessor\Registry as AccessorRegistry;
-use Clio\Component\Util\Accessor;
-use Clio\Component\Util\Accessor\Field\SingleFieldAccessor,
-    Clio\Component\Util\Accessor\Field\MultiFieldAccessor
+use Clio\Component\Accessor\Registry as AccessorRegistry;
+use Clio\Component\Accessor;
+use Clio\Component\Accessor\Field\SingleFieldAccessor,
+    Clio\Component\Accessor\Field\MultiFieldAccessor
 ;
 
-//use Clio\Component\Tool\Normalizer\Strategy\NormalizationStrategy,
-//	Clio\Component\Tool\Normalizer\Strategy\DenormalizationStrategy
+//use Clio\Component\Normalizer\Strategy\NormalizationStrategy,
+//	Clio\Component\Normalizer\Strategy\DenormalizationStrategy
 //;
-//use Clio\Component\Util\Metadata\Exception as MetadataException;
-//use Clio\Component\Util\Accessor\Accessor;
-//use Clio\Component\Util\Accessor\Factory\DataAccessorFactory;
-//use Clio\Component\Util\Accessor\SchemaAccessorFactory;
-//use Clio\Component\Util\Accessor\Factory\BasicClassAccessorFactory;
+//use Clio\Component\Metadata\Exception as MetadataException;
+//use Clio\Component\Accessor\Accessor;
+//use Clio\Component\Accessor\Factory\DataAccessorFactory;
+//use Clio\Component\Accessor\SchemaAccessorFactory;
+//use Clio\Component\Accessor\Factory\BasicClassAccessorFactory;
 //
 //
-//use Clio\Component\Tool\Normalizer\Context,
-//	Clio\Component\Util\Type as Types,
-//	Clio\Component\Util\Type\Converter as TypeConverter
+//use Clio\Component\Normalizer\Context,
+//	Clio\Component\Type as Types,
+//	Clio\Component\Type\Converter as TypeConverter
 //;
 
 
@@ -182,7 +182,7 @@ class AccessorStrategy extends Strategies\ObjectStrategy implements Strategies\N
      * getAccessorRegistry 
      * 
      * @access public
-     * @return Clio\Component\Util\Accessor\Registry 
+     * @return Clio\Component\Accessor\Registry 
      */
     public function getAccessorRegistry()
     {
@@ -192,7 +192,7 @@ class AccessorStrategy extends Strategies\ObjectStrategy implements Strategies\N
     /**
      * setAccessorRegistry 
      * 
-     * @param Clio\Component\Util\Accessor\Registry $accessorRegistry 
+     * @param Clio\Component\Accessor\Registry $accessorRegistry 
      * @access public
      * @return void
      */

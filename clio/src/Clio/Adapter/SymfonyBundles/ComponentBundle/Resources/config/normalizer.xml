@@ -5,17 +5,17 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="clio_component.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
+        <parameter key="clio_component.normalizer.class">Clio\Component\Normalizer\Normalizer</parameter>
 
-        <parameter key="clio_component.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
+        <parameter key="clio_component.normalizer.strategy_collection.class">Clio\Component\Normalizer\Strategy\PriorityCollection</parameter>
 		<!-- Strategy Classes -->
-        <parameter key="clio_component.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
-        <parameter key="clio_component.normalizer.array_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayStrategy</parameter>
-        <parameter key="clio_component.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
-        <parameter key="clio_component.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
-        <parameter key="clio_component.normalizer.array_access_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy</parameter>
-        <parameter key="clio_component.normalizer.normalizable_strategy.class">Clio\Component\Tool\Normalizer\Strategy\NormalizableStrategy</parameter>
-        <parameter key="clio_component.normalizer.std_class_strategy.class">Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy</parameter>
+        <parameter key="clio_component.normalizer.scalar_strategy.class">Clio\Component\Normalizer\Strategy\ScalarStrategy</parameter>
+        <parameter key="clio_component.normalizer.array_strategy.class">Clio\Component\Normalizer\Strategy\ArrayStrategy</parameter>
+        <parameter key="clio_component.normalizer.reference_strategy.class">Clio\Component\Normalizer\Strategy\ReferenceStrategy</parameter>
+        <parameter key="clio_component.normalizer.datetime_strategy.class">Clio\Component\Normalizer\Strategy\DateTimeStrategy</parameter>
+        <parameter key="clio_component.normalizer.array_access_strategy.class">Clio\Component\Normalizer\Strategy\ArrayAccessStrategy</parameter>
+        <parameter key="clio_component.normalizer.normalizable_strategy.class">Clio\Component\Normalizer\Strategy\NormalizableStrategy</parameter>
+        <parameter key="clio_component.normalizer.std_class_strategy.class">Clio\Component\Normalizer\Strategy\StdClassStrategy</parameter>
 
 		<!-- -->
 		<parameter key="clio_component.normalizer.jms_serializer_strategy.class">Clio\Bridge\JMSSerializer\Normalizer\JMSSerializerStrategy</parameter>

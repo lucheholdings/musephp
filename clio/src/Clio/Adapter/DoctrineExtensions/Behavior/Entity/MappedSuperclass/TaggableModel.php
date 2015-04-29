@@ -4,8 +4,8 @@ namespace Clio\Adapter\DoctrineExtensions\Behavior\Entity\MappedSuperclass;
 use Doctrine\ORM\Mapping as ORM;
 use Clio\Extra\Model\TaggableModel as BaseModel;
 
-use Clio\Component\Util\Attribute\AttributeMap;
-use Clio\Component\Util\Tag\TagSet;
+use Clio\Component\Attribute\AttributeMap;
+use Clio\Component\Tag\TagSet;
 
 use Doctrine\Common\Collections\Collection as DoctrineCollection;
 use Doctrine\Common\Collections\ArrayCollection;

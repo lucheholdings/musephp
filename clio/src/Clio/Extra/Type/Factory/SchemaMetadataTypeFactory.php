@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Extra\Type\Factory;
 
-use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
+use Clio\Component\Type\Factory\AbstractTypeFactory;
 use Clio\Extra\Type as ExtraTypes;
-use Clio\Component\Util\Metadata\Resolver as SchemaResolver;
+use Clio\Component\Metadata\Resolver as SchemaResolver;
 
 /**
  * SchemaMetadataTypeFactory 

@@ -3,8 +3,8 @@ namespace Clio\Extra\Loader;
 
 use Clio\Component\Pattern\Loader;
 use Clio\Component\Pattern\Parser\Parser;
-use Clio\Component\Util\Format;
-use Clio\Component\Util\Format\Json\Json;
+use Clio\Component\Format;
+use Clio\Component\Format\Json\Json;
 use Clio\Bridge\SymfonyComponents\Format\Yaml\Yaml;
 use Clio\Component\Exception\UnsupportedException;
 

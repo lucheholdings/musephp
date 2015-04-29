@@ -1,7 +1,7 @@
 <?php
-namespace Clio\Component\Tool\ArrayTool\Mapper;
+namespace Clio\Component\ArrayTool\Mapper;
 
-use Clio\Component\Util\Literal\CaseUtil;
+use Clio\Component\Literal\CaseUtil;
 /**
  * KeyCaseMapper 
  *    Convert array keys to specified case.

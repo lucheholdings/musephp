@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Extra\Normalizer\Type;
 
-use Clio\Component\Tool\Normalizer\Type\NormalizerType as BaseType;
+use Clio\Component\Normalizer\Type\NormalizerType as BaseType;
 use Clio\Extra\Type\AbstractMetadataType,
     Clio\Extra\Type\FieldMetadataType
 ;

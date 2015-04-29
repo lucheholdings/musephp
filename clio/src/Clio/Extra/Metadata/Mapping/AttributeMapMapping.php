@@ -1,12 +1,12 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Accessor\SchemaAccessor;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Accessor\SchemaAccessor;
 
-use Clio\Component\Util\Attribute\AttributeAccessor;
-use Clio\Component\Util\Attribute\AttributeComponentFactory;
+use Clio\Component\Attribute\AttributeAccessor;
+use Clio\Component\Attribute\AttributeComponentFactory;
 
 /**
  * AttributeMapMapping 

@@ -2,7 +2,7 @@
 namespace Clio\Extra\Pattern\Factory;
 
 use Clio\Component\Pattern\Factory;
-use Clio\Component\Util\Validator\Validator;
+use Clio\Component\Validator\Validator;
 
 /**
  * ValidationFactory 

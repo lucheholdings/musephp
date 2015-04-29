@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Bridge\SymfonyComponents\Task\Executor;
 
-use Clio\Component\Util\Task\Executor\AbstractExecutor;
-use Clio\Component\Util\Task\Task;
+use Clio\Component\Task\Executor\AbstractExecutor;
+use Clio\Component\Task\Task;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface,
 	Symfony\Component\Console\Input\ArrayInput

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Pattern\Registry;
 
-use Clio\Component\Util\Container\Map\StorageMap;
+use Clio\Component\Container\Map\StorageMap;
 
 /**
  * MapRegistry 

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Extra\Type\Factory;
 
-use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
+use Clio\Component\Type\Factory\AbstractTypeFactory;
 use Clio\Extra\Type;
 use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 

@@ -1,11 +1,11 @@
 <?php
 namespace Clio\Extra\Schemifier\Factory;
 
-use Clio\Component\Tool\Schemifier\Factory\SchemifierFactory;
-use Clio\Component\Tool\Normalizer\Normalizer;
+use Clio\Component\Schemifier\Factory\SchemifierFactory;
+use Clio\Component\Normalizer\Normalizer;
 
 use Clio\Component\Pattern\Factory\ComponentFactory;
-use Clio\Component\Tool\Schemifier\FieldKeyMapperRegistry;
+use Clio\Component\Schemifier\FieldKeyMapperRegistry;
 use Clio\Extra\Schemifier\NormalizerSchemifier;
 
 

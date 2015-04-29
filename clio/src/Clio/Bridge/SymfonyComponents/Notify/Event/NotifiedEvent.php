@@ -2,7 +2,7 @@
 namespace Clio\Bridge\SymfonyComponents\Notify\Event;
 
 use Symfony\Component\EventDispatcher\Event;
-use Clio\Component\Util\Notify\Notifier;
+use Clio\Component\Notify\Notifier;
 
 /**
  * NotifiedEvent 

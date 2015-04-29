@@ -1,9 +1,9 @@
 <?php
 namespace Clio\Component\Pattern\Factory;
 
-use Clio\Component\Util\Container\Set\PrioritySet;
-use Clio\Component\Util\Container\Storage\ValidatableStorage;
-use Clio\Component\Util\Validator\SubclassValidator;
+use Clio\Component\Container\Set\PrioritySet;
+use Clio\Component\Container\Storage\ValidatableStorage;
+use Clio\Component\Validator\SubclassValidator;
 
 /**
  * PriorityFactoryCollection 

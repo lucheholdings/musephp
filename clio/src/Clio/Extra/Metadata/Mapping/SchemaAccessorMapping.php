@@ -1,10 +1,10 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping;
 
-use Clio\Component\Util\Accessor\Schema;
-use Clio\Component\Util\Accessor\Schema\ReflectionClassAwarable;
-use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
-use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
+use Clio\Component\Accessor\Schema;
+use Clio\Component\Accessor\Schema\ReflectionClassAwarable;
+use Clio\Component\Accessor\SimpleSchemaAccessor;
+use Clio\Component\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 
 /**
  * SchemaAccessorMapping 

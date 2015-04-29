@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata;
-use Clio\Component\Util\Proxy\Proxy as BaseProxy;
+use Clio\Component\Metadata;
+use Clio\Component\Proxy\Proxy as BaseProxy;
 
 /**
  * Proxy 

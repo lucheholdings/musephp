@@ -1,15 +1,15 @@
 <?php
 namespace Clio\Extra\Schemifier;
 
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\Schemifier\Schemifier,
-	Clio\Component\Tool\Schemifier\AbstractSchemifier;
-use Clio\Component\Tool\Schemifier\Exception as SchemifierException;
-use Clio\Component\Tool\Schemifier\FieldMapperRegistry;
+use Clio\Component\Normalizer\Normalizer;
+use Clio\Component\Schemifier\Schemifier,
+	Clio\Component\Schemifier\AbstractSchemifier;
+use Clio\Component\Schemifier\Exception as SchemifierException;
+use Clio\Component\Schemifier\FieldMapperRegistry;
 
-use Clio\Component\Tool\ArrayTool\Mapper;
+use Clio\Component\ArrayTool\Mapper;
 
-use Clio\Component\Tool\Normalizer\Exception as NormalizerException;
+use Clio\Component\Normalizer\Exception as NormalizerException;
 /**
  * NormalizerSchemifier 
  *   Use Normalizer to convert, normalize/denormalize, data.

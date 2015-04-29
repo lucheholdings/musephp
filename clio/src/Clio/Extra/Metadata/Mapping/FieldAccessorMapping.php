@@ -1,11 +1,11 @@
 <?php
 namespace Clio\Extra\Metadata\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Metadata\Field;
-use Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection;
-use Clio\Component\Util\Accessor\Field as AccessorField;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Metadata\Field;
+use Clio\Component\Accessor\Field\Factory\FieldAccessorFactoryCollection;
+use Clio\Component\Accessor\Field as AccessorField;
 
 /**
  * FieldAccessorMapping 

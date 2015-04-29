@@ -1,11 +1,11 @@
 <?php
 namespace Clio\Extra\Accessor\Field\Factory;
 
-use Clio\Component\Util\Accessor\Field;
-use Clio\Component\Util\Accessor\Field\Factory\AbstractFieldAccessorFactory;
-use Clio\Component\Util\Tag\TagSetAware,
-	Clio\Component\Util\Tag\TagSetAccessor,
-	Clio\Component\Util\Tag\TagComponentFactory
+use Clio\Component\Accessor\Field;
+use Clio\Component\Accessor\Field\Factory\AbstractFieldAccessorFactory;
+use Clio\Component\Tag\TagSetAware,
+	Clio\Component\Tag\TagSetAccessor,
+	Clio\Component\Tag\TagComponentFactory
 ;
 use Clio\Extra\Accessor\Field\TagSetFieldAccessor;
 use Clio\Extra\Accessor\Schema\ReflectionClassAwarable;

@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Tests;
 
-use Clio\Component\Util\Metadata;
-use Clio\Component\Util\Type;
+use Clio\Component\Metadata;
+use Clio\Component\Type;
 use Clio\Component\Pattern\Loader;
 use Clio\Component\Pattern\Registry;
 

@@ -1,8 +1,8 @@
 <?php
 namespace Clio\Extra\Type;
 
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Schema;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Schema;
 
 /**
  * SchemaMetadataType 

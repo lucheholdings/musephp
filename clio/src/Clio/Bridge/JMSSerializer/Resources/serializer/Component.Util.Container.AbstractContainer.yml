@@ -1,4 +1,4 @@
-Clio\Component\Util\Container\AbstractContainer:
+Clio\Component\Container\AbstractContainer:
     exclusion_policy:    ALL
     read_only:           true 
     properties:

@@ -2,8 +2,8 @@
 namespace Clio\Bridge\SymfonyComponents\ArrayTool\Coder;
 
 use Symfony\Component\Yaml\Yaml;
-use Clio\Component\Tool\ArrayTool\Coder\Encoder,
-	Clio\Component\Tool\ArrayTool\Coder\Decoder
+use Clio\Component\ArrayTool\Coder\Encoder,
+	Clio\Component\ArrayTool\Coder\Decoder
 ;
 
 /**

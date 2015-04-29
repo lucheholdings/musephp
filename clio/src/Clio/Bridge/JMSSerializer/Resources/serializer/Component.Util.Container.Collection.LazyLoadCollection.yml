@@ -1,4 +1,4 @@
-Clio\Component\Util\Container\Collection\LazyLoadCollection:
+Clio\Component\Container\Collection\LazyLoadCollection:
     exclusion_policy:    ALL
     read_only:           true 
     properties:

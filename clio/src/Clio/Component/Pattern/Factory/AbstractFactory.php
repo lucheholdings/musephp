@@ -5,7 +5,7 @@ use Clio\Component\Pattern\Constructor\Constructor,
 	Clio\Component\Pattern\Constructor\ConstructConstructor
 ;
 
-use Clio\Component\Util\Validator\Validator;
+use Clio\Component\Validator\Validator;
 
 /**
  * AbstractFactory 
