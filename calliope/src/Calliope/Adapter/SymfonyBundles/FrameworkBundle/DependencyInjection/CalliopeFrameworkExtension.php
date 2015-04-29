@@ -45,7 +45,7 @@ class CalliopeFrameworkExtension extends Extension
         $this->loader = $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 		
 		$this->loader->load('services.xml');
-		$this->loader->load('metadata.xml');
+		$this->loader->load('schema.xml');
 		$this->loader->load('mapping.xml');
 		$this->loader->load('manager.xml');
 		$this->loader->load('connection.xml');
