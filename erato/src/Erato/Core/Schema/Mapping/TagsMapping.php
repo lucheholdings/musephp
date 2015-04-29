@@ -1,12 +1,12 @@
 <?php
 namespace Erato\Core\Schema\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Accessor\SchemaAccessor;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Accessor\SchemaAccessor;
 
-use Clio\Component\Util\Type;
-use Clio\Component\Util\Tag;
+use Clio\Component\Type;
+use Clio\Component\Tag;
 
 /**
  * TagsMapping 
@@ -19,7 +19,7 @@ use Clio\Component\Util\Tag;
  */
 class TagsMapping extends AbstractMapping 
 {
-    const DEFAULT_TAG_CLASS = 'Clio\Component\Util\Tag\SimpleTag';
+    const DEFAULT_TAG_CLASS = 'Clio\Component\Tag\SimpleTag';
 
 	/**
 	 * _accessor 

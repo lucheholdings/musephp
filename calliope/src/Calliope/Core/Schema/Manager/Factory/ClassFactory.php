@@ -4,7 +4,7 @@ namespace Calliope\Core\Schema\Manager\Factory;
 use Clio\Extra\Pattern\Factory\ValidationFactory;
 use Calliope\Core\Connection;
 use Clio\Component\Pattern\Factory;
-use Clio\Component\Util\Validator;
+use Clio\Component\Validator;
 
 /**
  * ClassFactory 

@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Bridge\Symfony;
 
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
+use Clio\Component\Metadata\Schema\ClassMetadata;
 // todo: SchemaManager is not defined, but Calliope\Core\Manager interface is extended from Erato\Core\SchemaManager interface.
 // Is required an interface is Calliope\Core\Manager?
 use Calliope\Framework\Core\SchemaManager;

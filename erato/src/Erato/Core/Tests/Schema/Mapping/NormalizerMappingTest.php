@@ -2,11 +2,11 @@
 namespace Erato\Core\Tests\Schema\Mapping;
 
 use Erato\Core\Schema\Mapping\NormalizerMapping;
-use Clio\Component\Util\Schema\Schema\ClassSchema;
+use Clio\Component\Schema\Schema\ClassSchema;
 
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\Normalizer\Strategy\PriorityCollection,
-	Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy;
+use Clio\Component\Normalizer\Normalizer;
+use Clio\Component\Normalizer\Strategy\PriorityCollection,
+	Clio\Component\Normalizer\Strategy\ArrayAccessStrategy;
 use Erato\Core\Tests\Models;
 
 class NormalizerMappingFatoryTest extends \PHPUnit_Framework_TestCase

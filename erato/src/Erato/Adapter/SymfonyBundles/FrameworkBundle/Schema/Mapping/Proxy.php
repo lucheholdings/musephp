@@ -4,8 +4,8 @@ namespace Erato\Adapter\SymfonyBundles\FrameworkBundle\Schema\Mapping;
 use Clio\Extra\Metadata\Mapping\Proxy as BaseProxy; 
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Exception as MetadataException;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Exception as MetadataException;
 
 /**
  * Proxy 

@@ -3,8 +3,8 @@ namespace Erato\Core\Manager\Factory;
 
 use Clio\Component\Pattern\Factory\ClassFactory;
 use Erato\Core\SchemaManager;
-use Clio\Component\Util\Metadata\SchemaMetadata;
-use Clio\Component\Util\Validator\SubclassValidator;
+use Clio\Component\Metadata\SchemaMetadata;
+use Clio\Component\Validator\SubclassValidator;
 
 /**
  * SchemaManagerClassFactory 

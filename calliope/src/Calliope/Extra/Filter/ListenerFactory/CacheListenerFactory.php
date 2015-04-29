@@ -2,7 +2,7 @@
 namespace Calliope\Extra\Filter\ListenerFactory;
 
 use Calliope\Bridge\SymfonyComponents\Filter\ListenerFactory;
-use Clio\Component\Util\Cache\CacheProvider;
+use Clio\Component\Cache\CacheProvider;
 
 /**
  * CacheFactory 

@@ -1,11 +1,11 @@
 <?php
 namespace Erato\Core\Schema\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\AbstractFactory;
+use Clio\Component\Metadata\Mapping\Factory\AbstractFactory;
 use Erato\Core\Schema\Mapping\IdentifierMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Exception as MetadataException;
-use Clio\Component\Util\Metadata\Schema;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Exception as MetadataException;
+use Clio\Component\Metadata\Schema;
 
 /**
  * IdentifierMappingFactory 

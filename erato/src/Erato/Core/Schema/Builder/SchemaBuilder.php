@@ -2,7 +2,7 @@
 namespace Erato\Core\Schema\Builder;
 
 use Erato\Core\Schema\Config\SchemaConfiguration;
-use Clio\Component\Util\Metadata\Builder\SchemaBuilder as BaseBuilder;
+use Clio\Component\Metadata\Builder\SchemaBuilder as BaseBuilder;
 
 /**
  * SchemaBuilder 

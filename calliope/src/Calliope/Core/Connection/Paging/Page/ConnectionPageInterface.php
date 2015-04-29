@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Core\Connection\Paging\Page;
 
-use Clio\Component\Util\Container\Collection;
+use Clio\Component\Container\Collection;
 
 /**
  * ConnectionPageInterface 

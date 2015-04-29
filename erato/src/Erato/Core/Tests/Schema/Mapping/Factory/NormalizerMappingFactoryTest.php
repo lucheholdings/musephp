@@ -2,10 +2,10 @@
 namespace Erato\Core\Tests\Schema\Mapping\Factory;
 
 use Erato\Core\Schema\Mapping\Factory\NormalizerMappingFactory;
-use Clio\Component\Util\Schema\Schema\ClassSchema;
+use Clio\Component\Schema\Schema\ClassSchema;
 
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\Normalizer\Strategy\PriorityCollection;
+use Clio\Component\Normalizer\Normalizer;
+use Clio\Component\Normalizer\Strategy\PriorityCollection;
 
 class NormalizerMappingFatoryTest extends MappingFactoryTest 
 {

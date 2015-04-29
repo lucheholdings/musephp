@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Schema\Config;
 
-use Clio\Component\Util\Type;
+use Clio\Component\Type;
 
 /**
  * FieldConfiguration 

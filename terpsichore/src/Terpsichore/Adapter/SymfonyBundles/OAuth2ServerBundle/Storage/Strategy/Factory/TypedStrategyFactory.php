@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\Factory;
 
-use Clio\Component\Util\Container\Map\SimpleMap;
+use Clio\Component\Container\Map\SimpleMap;
 
 /**
  * TypedStrategyFactory 

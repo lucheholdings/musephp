@@ -2,9 +2,9 @@
 namespace Erato\Adapter\SymfonyBundles\FrameworkBundle\Schema\Mapping\Factory;
 
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Mapping;
-use Clio\Component\Util\Metadata\Mapping\NamedFactory;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Mapping;
+use Clio\Component\Metadata\Mapping\NamedFactory;
 use Erato\Adapter\SymfonyBundles\FrameworkBundle\Schema\Mapping\Proxy;
 
 /**

@@ -2,7 +2,7 @@
 namespace Erato\Core\Type\Factory;
 
 use Erato\Core\Type\SchemaType;
-use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
+use Clio\Component\Type\Factory\AbstractTypeFactory;
 
 /**
  * SchemaTypeFactory 

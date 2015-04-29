@@ -5,12 +5,12 @@ use Erato\Core\Schema\Registry as SchemaRegistry;
 use Erato\Core\Schema\Loader\SchemaLoader;
 use Erato\Core\Schema\Config\Loader as ConfigLoaders;
 use Erato\Core\Schema\Config\Parser as ConfigParsers;
-use Clio\Component\Util\Metadata\Loader\TypeSchemaLoader;
+use Clio\Component\Metadata\Loader\TypeSchemaLoader;
 use Clio\Component\Pattern\Loader;
 use Clio\Component\Pattern\Registry;
 use Clio\Extra\Loader as ExtraLoader;
-use Clio\Component\Util\Metadata;
-use Clio\Component\Util\Type;
+use Clio\Component\Metadata;
+use Clio\Component\Type;
 
 /**
  * ValidateRegistry 

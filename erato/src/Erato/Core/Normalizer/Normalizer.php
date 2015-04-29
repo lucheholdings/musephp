@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Normalizer;
 
-use Clio\Component\Tool\Normalizer\Strategy;
+use Clio\Component\Normalizer\Strategy;
 use Clio\Extra\Normalizer\KeyMapNormalizer;
 
 use Erato\Core\CodingStandard;

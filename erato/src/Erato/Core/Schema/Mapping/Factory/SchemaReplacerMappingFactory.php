@@ -1,10 +1,10 @@
 <?php
 namespace Erato\Core\Schema\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
+use Clio\Component\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
 use Erato\Core\Schema\Mapping\SchemaReplacerMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\SchemaMetadata;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\SchemaMetadata;
 
 /**
  * SchemaReplacerMappingFactory 

@@ -6,13 +6,13 @@
 
     <parameters>
 	    <parameter key="erato_framework.type_registry.class">Erato\Core\Type\BasicRegistry</parameter>
-	    <parameter key="erato_framework.type_resolver.recursive.class">Clio\Component\Util\Type\Resolver\RecursiveResolver</parameter>
-	    <parameter key="erato_framework.type_resolver.sequence.class">Clio\Component\Util\Type\Resolver\PrioritySequentialResolver</parameter>
-	    <parameter key="erato_framework.type_resolver.registry.class">Clio\Component\Util\Type\Resolver\RegistryResolver</parameter>
-	    <parameter key="erato_framework.type_resolver.factory.class">Clio\Component\Util\Type\Resolver\TypeFactoryResolver</parameter>
-	    <parameter key="erato_framework.type_resolver.field_type.class">Clio\Component\Util\Type\Resolver\FieldTypeResolver</parameter>
-	    <parameter key="erato_framework.type_resolver.mixed.class">Clio\Component\Util\Type\Resolver\MixedTypeResolver</parameter>
-	    <parameter key="erato_framework.type_factory.sequential.class">Clio\Component\Util\Type\Factory\SequentialFactory</parameter>
+	    <parameter key="erato_framework.type_resolver.recursive.class">Clio\Component\Type\Resolver\RecursiveResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.sequence.class">Clio\Component\Type\Resolver\PrioritySequentialResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.registry.class">Clio\Component\Type\Resolver\RegistryResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.factory.class">Clio\Component\Type\Resolver\TypeFactoryResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.field_type.class">Clio\Component\Type\Resolver\FieldTypeResolver</parameter>
+	    <parameter key="erato_framework.type_resolver.mixed.class">Clio\Component\Type\Resolver\MixedTypeResolver</parameter>
+	    <parameter key="erato_framework.type_factory.sequential.class">Clio\Component\Type\Factory\SequentialFactory</parameter>
     </parameters>
 
 	<services>

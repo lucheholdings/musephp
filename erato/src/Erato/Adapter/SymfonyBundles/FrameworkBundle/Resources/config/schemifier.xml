@@ -5,8 +5,8 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="erato_framework.schemifier.class">Clio\Component\Tool\Schemifier\Schemifier</parameter>
-        <parameter key="erato_framework.schemifier_field_mapper_registry.class">Clio\Component\Tool\Schemifier\FieldMapperRegistry</parameter>
+        <parameter key="erato_framework.schemifier.class">Clio\Component\Schemifier\Schemifier</parameter>
+        <parameter key="erato_framework.schemifier_field_mapper_registry.class">Clio\Component\Schemifier\FieldMapperRegistry</parameter>
         <parameter key="erato_framework.schemifier_factory.normalizer.class">Clio\Extra\Schemifier\Factory\NormalizerSchemifierFactory</parameter>
     </parameters>
 

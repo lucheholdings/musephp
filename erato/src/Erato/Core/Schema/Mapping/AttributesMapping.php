@@ -3,12 +3,12 @@ namespace Erato\Core\Schema\Mapping;
 
 use Erato\Core\Schema\Mappings;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping,
-	Clio\Component\Util\Metadata\Metadata
+use Clio\Component\Metadata\Mapping\AbstractMapping,
+	Clio\Component\Metadata\Metadata
 ;
 
-use Clio\Component\Util\Type;
-use Clio\Component\Util\Attribute;
+use Clio\Component\Type;
+use Clio\Component\Attribute;
 
 /**
  * AttributesMapping 
@@ -21,7 +21,7 @@ use Clio\Component\Util\Attribute;
  */
 class AttributesMapping extends AbstractMapping 
 {
-    const DEFAULT_ATTRIBUTE_CLASS = 'Clio\Component\Util\Attribute\SimpleAttribute';
+    const DEFAULT_ATTRIBUTE_CLASS = 'Clio\Component\Attribute\SimpleAttribute';
 
 	/**
 	 * _accessor 

@@ -2,7 +2,7 @@
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory;
 
 use Clio\Component\Pattern\Factory\NamedCollection;
-use Clio\Component\Util\Validator\SubclassValidator;
+use Clio\Component\Validator\SubclassValidator;
 
 /**
  * TokenResolverFactoryMap 

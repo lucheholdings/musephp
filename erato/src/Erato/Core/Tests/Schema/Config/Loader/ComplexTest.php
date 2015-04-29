@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Tests\Schema\Config\Loader;
 
-use Clio\Component\Util\Type;
+use Clio\Component\Type;
 use Erato\Core\Schema\Config\Loader as ConfigLoader,
     Erato\Core\Schema\Config\Parser as ConfigParser
 ;

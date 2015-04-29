@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Client\Auth;
 
-use Clio\Component\Util\Container\Map\SimpleMap;
+use Clio\Component\Container\Map\SimpleMap;
 
 /**
  * User 

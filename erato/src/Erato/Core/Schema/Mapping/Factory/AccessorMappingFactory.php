@@ -1,14 +1,14 @@
 <?php
 namespace Erato\Core\Schema\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\AbstractFactory;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Clio\Component\Util\Metadata\FieldMetadata,
-	Clio\Component\Util\Metadata\Field\PropertyMetadata
+use Clio\Component\Metadata\Mapping\Factory\AbstractFactory;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Schema\ClassMetadata;
+use Clio\Component\Metadata\FieldMetadata,
+	Clio\Component\Metadata\Field\PropertyMetadata
 ;
-use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
-use Clio\Component\Util\Accessor\Field\FieldAccessorFactory;
+use Clio\Component\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
+use Clio\Component\Accessor\Field\FieldAccessorFactory;
 
 use Erato\Core\Schema\Mapping\SchemaAccessorMapping,
 	Erato\Core\Schema\Mapping\FieldAccessorMapping
@@ -16,8 +16,8 @@ use Erato\Core\Schema\Mapping\SchemaAccessorMapping,
 
 use Clio\Component\Exception\UnsupportedException;
 
-use Clio\Component\Util\Injection\ClassInjector;
-use Clio\Component\Util\Injection\InjectorCollection;
+use Clio\Component\Injection\ClassInjector;
+use Clio\Component\Injection\InjectorCollection;
 
 use Erato\Core\CodingStandard;
 

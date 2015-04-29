@@ -1,9 +1,9 @@
 <?php
 namespace Erato\Core\Schema\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Normalizer\Context;
 
 class NormalizerFieldMapping extends AbstractMapping
 {

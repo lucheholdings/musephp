@@ -2,7 +2,7 @@
 namespace Erato\Core\Schema\Config\Parser;
 
 use Erato\Core\Schema\Config;
-use Clio\Component\Util\Type;
+use Clio\Component\Type;
 use Clio\Component\Pattern\Parser\Exception as ParserException;
 
 /**

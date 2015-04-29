@@ -13,7 +13,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 
 use Clio\Extra\Loader as ClioLoader;
-use Clio\Component\Util as ClioUtil;
+use Clio\Component as ClioUtil;
 use Clio\Component\Pattern\Loader\FileLocator as ClioFileLocator;
 use Clio\Component\Pattern\Loader\Exception as ClioLoaderException;
 use Clio\Bridge\SymfonyComponents\Format\Yaml\Yaml as YamlFormat;

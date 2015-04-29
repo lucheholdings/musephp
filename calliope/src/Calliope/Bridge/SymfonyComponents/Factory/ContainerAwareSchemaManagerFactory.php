@@ -2,7 +2,7 @@
 namespace Calliope\Bridge\Symfony\Factory;
 
 use Calliope\Framework\Core\Factory\SchemaManagerComponentFactory;
-use Clio\Component\Util\Metadata\SchemaRegistry;
+use Clio\Component\Metadata\SchemaRegistry;
 use Clio\Component\Pattern\Registry\Registry;
 use Calliope\Framework\Core\Connection\Factory\TypeConnectionFactory;
 

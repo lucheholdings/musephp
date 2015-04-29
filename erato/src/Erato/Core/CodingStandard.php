@@ -1,8 +1,8 @@
 <?php
 namespace Erato\Core;
 
-use Clio\Component\Util\Literal\CaseUtil,
-    Clio\Component\Util\Literal\Psr1
+use Clio\Component\Literal\CaseUtil,
+    Clio\Component\Literal\Psr1
 ;
 
 

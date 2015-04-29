@@ -2,7 +2,7 @@
 namespace Calliope\Core\Schema\Mapping\Factory;
 
 use Calliope\Core\Connection;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Metadata;
 
 /**
  * ConnectionMappingFactory 

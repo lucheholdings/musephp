@@ -1,8 +1,8 @@
 <?php
 namespace Erato\Core\Type;
 
-use Clio\Component\Util\Type\ProxyType;
-use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes;
+use Clio\Component\Type\ProxyType;
+use Clio\Component\Normalizer\Type\Types as NormalizerTypes;
 
 /**
  * IdentifierType 

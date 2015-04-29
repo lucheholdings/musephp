@@ -5,14 +5,14 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="erato_framework.serializer.class">Clio\Component\Tool\Serializer\Serializer</parameter>
+        <parameter key="erato_framework.serializer.class">Clio\Component\Serializer\Serializer</parameter>
 
 		<parameter key="erato_framework.serializer.context_factory.class">Erato\Core\Serializer\ContextFactory</parameter>
-        <parameter key="erato_framework.serializer.strategy.class">Clio\Component\Tool\Serializer\Strategy</parameter>
-        <parameter key="erato_framework.serializer.strategy_collection.class">Clio\Component\Tool\Serializer\Strategy\PriorityStrategyCollection</parameter>
+        <parameter key="erato_framework.serializer.strategy.class">Clio\Component\Serializer\Strategy</parameter>
+        <parameter key="erato_framework.serializer.strategy_collection.class">Clio\Component\Serializer\Strategy\PriorityStrategyCollection</parameter>
         <parameter key="erato_framework.serializer.normalizer_strategy.class">Clio\Extra\Serializer\Strategy\NormalizerStrategy</parameter>
-        <parameter key="erato_framework.serializer.json_strategy.class">Clio\Component\Tool\Serializer\Strategy\JsonSerializableStrategy</parameter>
-        <parameter key="erato_framework.serializer.php_strategy.class">Clio\Component\Tool\Serializer\Strategy\PhpSerializableStrategy</parameter>
+        <parameter key="erato_framework.serializer.json_strategy.class">Clio\Component\Serializer\Strategy\JsonSerializableStrategy</parameter>
+        <parameter key="erato_framework.serializer.php_strategy.class">Clio\Component\Serializer\Strategy\PhpSerializableStrategy</parameter>
     </parameters>
 
 	<services>

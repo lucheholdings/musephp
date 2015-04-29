@@ -2,7 +2,7 @@
 namespace Calliope\Core\Schema;
 
 use Calliope\Core\Schema;
-use Clio\Component\Util\Metadata\Schema\SchemaMetadata as BaseSchema;
+use Clio\Component\Metadata\Schema\SchemaMetadata as BaseSchema;
 
 /**
  * BasicSchema 

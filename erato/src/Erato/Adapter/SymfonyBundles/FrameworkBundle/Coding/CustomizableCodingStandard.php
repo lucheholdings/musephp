@@ -2,7 +2,7 @@
 namespace Erato\Adapter\SymfonyBundles\FrameworkBundle\Coding;
 
 use Erato\Core\CodingStandard;
-use Clio\Component\Util\Grammer\Grammer;
+use Clio\Component\Grammer\Grammer;
 
 
 class CustomizableCodingStandard extends CodingStandard 

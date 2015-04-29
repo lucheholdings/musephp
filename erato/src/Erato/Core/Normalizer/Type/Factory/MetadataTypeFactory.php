@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Normalizer\Type\Factory;
 
-use Clio\Component\Tool\Normalizer\Type\Factory\BasicFactory;
+use Clio\Component\Normalizer\Type\Factory\BasicFactory;
 use Erato\Core\Normalizer\Type\MetadataType;
 use Erato\Core\SchemaRegistry;
 use Erato\Core\CodingStandard;

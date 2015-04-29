@@ -3,10 +3,10 @@ namespace Erato\Core\Schema\Mapping\Factory;
 
 use Clio\Extra\Metadata\Mapping\Factory\AbstractRegistryServiceMappingFactory;
 use Erato\Core\Schema\Mapping\SchemifierMapping;
-use Clio\Component\Tool\Schemifier\Schemifier;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\SchemaMetadata;
-use Clio\Component\Util\Injection\ClassInjector;
+use Clio\Component\Schemifier\Schemifier;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\SchemaMetadata;
+use Clio\Component\Injection\ClassInjector;
 
 /**
  * SchemifierMappingFactory 

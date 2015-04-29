@@ -57,7 +57,7 @@
 		<!-- Injector -->
 		<service
 			id="calliope_framework.schema.mapping_injectors"
-			class="Clio\Component\Util\Injection\Injector"
+			class="Clio\Component\Injection\Injector"
 			factory-service="calliope_framework.schema.mapping_factory"
 			factory-method="getInjector"
 		>

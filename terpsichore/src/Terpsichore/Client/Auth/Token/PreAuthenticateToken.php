@@ -9,7 +9,7 @@
 namespace Terpsichore\Client\Auth\Token;
 
 use Terpsichore\Client\Auth\Token;
-use Clio\Component\Util\Container\Map\SimpleMap;
+use Clio\Component\Container\Map\SimpleMap;
 
 /**
  * PreAuthenticateToken

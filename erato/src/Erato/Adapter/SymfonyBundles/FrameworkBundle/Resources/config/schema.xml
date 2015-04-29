@@ -7,9 +7,9 @@
     <parameters>
 		<!-- Registry -->
 	    <parameter key="erato_framework.schema.registry.class">Erato\Core\Schema\Registry\BasicRegistry</parameter>
-	    <parameter key="erato_framework.schema.resolver.lazy.class">Clio\Component\Util\Metadata\Resolver\LazyResolver</parameter>
-	    <parameter key="erato_framework.schema.field_schema_resolver.class">Clio\Component\Util\Metadata\Resolver\FieldTypeResolver</parameter>
-	    <parameter key="erato_framework.schema.resolver.registered.class">Clio\Component\Util\Metadata\Resolver\RegisteredResolver</parameter>
+	    <parameter key="erato_framework.schema.resolver.lazy.class">Clio\Component\Metadata\Resolver\LazyResolver</parameter>
+	    <parameter key="erato_framework.schema.field_schema_resolver.class">Clio\Component\Metadata\Resolver\FieldTypeResolver</parameter>
+	    <parameter key="erato_framework.schema.resolver.registered.class">Clio\Component\Metadata\Resolver\RegisteredResolver</parameter>
 
 	    <parameter key="erato_framework.schema.config_loader.cache.class">Clio\Extra\Loader\CacheLoader</parameter>
 	    <parameter key="erato_framework.schema.config_loader.merge.class">Erato\Core\Schema\Config\Loader\ConfigurationMergeLoader</parameter>
@@ -57,7 +57,7 @@
         </service>
         <service
             id="erato_framework.schema.loader.primitive_types"
-            class="Clio\Component\Util\Metadata\Loader\TypeSchemaLoader"
+            class="Clio\Component\Metadata\Loader\TypeSchemaLoader"
         >
             <argument type="service" id="erato_framework.schema.type_resolver.primitive"/>
             <tag name="erato_framework.schema.loader" priority="0"/>
@@ -142,7 +142,7 @@
 
         <service 
             id="erato_framework.schema.config_cache.default"
-			class="Clio\Component\Util\Cache\CacheProvider" 
+			class="Clio\Component\Cache\CacheProvider" 
 			public="false"
 			factory-service="erato_framework.schema.config_cache_factory"
 			factory-method="createCacheProvider"
@@ -165,8 +165,8 @@
         />
         <service
             id="erato_framework.schema.type_resolver.primitive"
-            class="Clio\Component\Util\Type\Resolver"
-            factory-class="Clio\Component\Util\Type\Resolver\Factory"
+            class="Clio\Component\Type\Resolver"
+            factory-class="Clio\Component\Type\Resolver\Factory"
             factory-method="createWithFactories"
         >
             <argument type="collection">

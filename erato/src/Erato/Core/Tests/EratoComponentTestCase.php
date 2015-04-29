@@ -1,8 +1,8 @@
 <?php
 namespace Erato\Core\Tests;
 
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Schema\ClassMetadata;
 
 abstract class EratoComponentTestCase extends \PHPUnit_Framework_TestCase 
 {

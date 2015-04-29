@@ -2,10 +2,10 @@
 namespace Erato\Core\Schema\Mapping;
 
 use Clio\Extra\Metadata\Mapping\AbstractRegistryServiceMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Clio\Component\Tool\Serializer\Serializer;
-use Clio\Component\Tool\Serializer\Context;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Schema\ClassMetadata;
+use Clio\Component\Serializer\Serializer;
+use Clio\Component\Serializer\Context;
 use Clio\Component\Pattern\Registry\Registry;
 
 class SerializerMapping extends AbstractRegistryServiceMapping

@@ -4,8 +4,8 @@ namespace Erato\Core\Tests;
 use Erato\Core\Schema\Registry\BasicRegistry;
 use Erato\Core\Schema\Config\Loader as ConfigLoaders;
 use Erato\Core\Schema\Config\Parser as ConfigParsers;
-use Clio\Component\Util\Type;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Type;
+use Clio\Component\Metadata;
 
 class TestSchemaRegistry extends BasicRegistry
 {

@@ -5,22 +5,22 @@
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="erato_framework.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
+        <parameter key="erato_framework.normalizer.class">Clio\Component\Normalizer\Normalizer</parameter>
         <parameter key="erato_framework.normalizer_type_resolver.class">Clio\Extra\Normalizer\Type\Resolver</parameter>
 
-        <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
+        <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Normalizer\Strategy\PriorityCollection</parameter>
 		<!-- Strategy Classes -->
         <parameter key="erato_framework.normalizer.accessor_strategy.class">Clio\Extra\Normalizer\Strategy\AccessorStrategy</parameter>
 
-        <parameter key="erato_framework.normalizer.mixed_strategy.class">Clio\Component\Tool\Normalizer\Strategy\MixedStrategy</parameter>
-        <parameter key="erato_framework.normalizer.null_strategy.class">Clio\Component\Tool\Normalizer\Strategy\NullStrategy</parameter>
-        <parameter key="erato_framework.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
-        <parameter key="erato_framework.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
-        <parameter key="erato_framework.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
-        <parameter key="erato_framework.normalizer.array_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayStrategy</parameter>
-        <parameter key="erato_framework.normalizer.array_access_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy</parameter>
-        <parameter key="erato_framework.normalizer.normalizable_strategy.class">Clio\Component\Tool\Normalizer\Strategy\NormalizableStrategy</parameter>
-        <parameter key="erato_framework.normalizer.std_class_strategy.class">Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy</parameter>
+        <parameter key="erato_framework.normalizer.mixed_strategy.class">Clio\Component\Normalizer\Strategy\MixedStrategy</parameter>
+        <parameter key="erato_framework.normalizer.null_strategy.class">Clio\Component\Normalizer\Strategy\NullStrategy</parameter>
+        <parameter key="erato_framework.normalizer.scalar_strategy.class">Clio\Component\Normalizer\Strategy\ScalarStrategy</parameter>
+        <parameter key="erato_framework.normalizer.reference_strategy.class">Clio\Component\Normalizer\Strategy\ReferenceStrategy</parameter>
+        <parameter key="erato_framework.normalizer.datetime_strategy.class">Clio\Component\Normalizer\Strategy\DateTimeStrategy</parameter>
+        <parameter key="erato_framework.normalizer.array_strategy.class">Clio\Component\Normalizer\Strategy\ArrayStrategy</parameter>
+        <parameter key="erato_framework.normalizer.array_access_strategy.class">Clio\Component\Normalizer\Strategy\ArrayAccessStrategy</parameter>
+        <parameter key="erato_framework.normalizer.normalizable_strategy.class">Clio\Component\Normalizer\Strategy\NormalizableStrategy</parameter>
+        <parameter key="erato_framework.normalizer.std_class_strategy.class">Clio\Component\Normalizer\Strategy\StdClassStrategy</parameter>
     </parameters>
 
     <services>

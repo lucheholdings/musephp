@@ -4,13 +4,13 @@ namespace Erato\Core\Type;
 use Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader,
 	Clio\Component\Pattern\Registry\Loader\LoaderCollection
 ;
-use Clio\Component\Util\Type\Loader\MappedTypeFactoryLoader;
+use Clio\Component\Type\Loader\MappedTypeFactoryLoader;
 
-use Clio\Component\Util\Type\Factory\PrimitiveTypeFactory;
+use Clio\Component\Type\Factory\PrimitiveTypeFactory;
 use Clio\Extra\Type\Factory\TypeFactory as ExtensionalTypeFactory;
 use Erato\Core\Type\Factory\SchemaTypeFactory;
 
-use Clio\Component\Util\Metadata\Type\BaseRegistry;
+use Clio\Component\Metadata\Type\BaseRegistry;
 
 /**
  * BasicRegistry 

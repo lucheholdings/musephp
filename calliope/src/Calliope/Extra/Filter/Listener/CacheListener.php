@@ -2,7 +2,7 @@
 namespace Calliope\Extra\Filter\Listener;
 
 use Calliope\Bridge\SymfonyComponents\Filter\Event\FilterEvent;
-use Clio\Component\Util\Cache\CacheProvider;
+use Clio\Component\Cache\CacheProvider;
 
 /**
  * CacheListener 

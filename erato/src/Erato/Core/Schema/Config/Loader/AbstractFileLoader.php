@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Schema\Config\Loader;
 
-use Clio\Component\Util\Literal\NamespaceUtil;
+use Clio\Component\Literal\NamespaceUtil;
 
 /**
  * AbstractFileLoader 

@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Framework\Core\Tool;
 
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Clio\Component\Util\Merger\ScalarMerger;
+use Clio\Component\Metadata\Schema\ClassMetadata;
+use Clio\Component\Merger\ScalarMerger;
 /**
  * Merger 
  *   Merger metadata attributes with given metadata

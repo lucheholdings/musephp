@@ -2,9 +2,9 @@
 namespace Erato\Core\Accessor;
 
 use Clio\Component\Pattern\Registry\ReferenceRegistry;
-use Clio\Component\Util\Metadata\SchemaRegistry;
+use Clio\Component\Metadata\SchemaRegistry;
 
-use Clio\Component\Util\Accessor\Schema\Registry;
+use Clio\Component\Accessor\Schema\Registry;
 /**
  * SchemaAccessorRegistry 
  * 

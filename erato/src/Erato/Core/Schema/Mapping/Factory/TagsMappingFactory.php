@@ -1,9 +1,9 @@
 <?php
 namespace Erato\Core\Schema\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Schema;
+use Clio\Component\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Schema;
 use Clio\Component\Pattern\Factory\Exception as FactoryException;
 use Erato\Core\Schema\Mapping\TagsMapping;
 
@@ -40,7 +40,7 @@ class TagsMappingFactory extends AbstractSchemaMetadataMappingFactory
 	protected function doCreateMapping(Metadata $metadata, array $options)
 	{
         $mapping = null;
-		if(($metadata instanceof Schema) && ($metadata->getType()->isType('Clio\Component\Util\Tag\TagSetAware'))) {
+		if(($metadata instanceof Schema) && ($metadata->getType()->isType('Clio\Component\Tag\TagSetAware'))) {
             $options = array_merge($this->defaultOptions, $options);
 			// 
 			$mapping = new TagsMapping($metadata, $options);

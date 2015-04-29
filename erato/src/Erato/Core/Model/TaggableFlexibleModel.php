@@ -1,9 +1,9 @@
 <?php
 namespace Erato\Core\Model;
 
-use Clio\Component\Util\Tag\TagSetAware;
-use Clio\Component\Util\Tag\TagSet as TagSetInterface;
-use Clio\Component\Util\Tag\SimpleTagSet;
+use Clio\Component\Tag\TagSetAware;
+use Clio\Component\Tag\TagSet as TagSetInterface;
+use Clio\Component\Tag\SimpleTagSet;
 
 use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
 /**

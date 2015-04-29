@@ -1,8 +1,8 @@
 <?php
 namespace Erato\Core\Schema\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Accessor\SchemaAccessor;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Accessor\SchemaAccessor;
 
 /**
  * AccessorMapping 

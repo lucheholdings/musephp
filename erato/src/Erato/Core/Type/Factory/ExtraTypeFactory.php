@@ -1,10 +1,10 @@
 <?php
 namespace Erato\Core\Type\Factory;
 
-use Clio\Component\Util\Type\Factory\AbstractTypeFactory;
+use Clio\Component\Type\Factory\AbstractTypeFactory;
 use Erato\Core\Type;
 use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
-use Clio\Component\Util\Type\NullType;
+use Clio\Component\Type\NullType;
 
 class ExtraTypeFactory extends AbstractTypeFactory
 {

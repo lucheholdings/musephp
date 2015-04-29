@@ -2,11 +2,11 @@
 namespace Calliope\Core\Connection\Paging\Page;
 
 use Calliope\Core\Connection\Paging\ConnectionFetchPagerInterface;
-use Clio\Component\Util\Container\Collection\LazyLoadCollection;
-use Clio\Component\Util\Container\Collection;
-use Clio\Component\Util\Container\Storage\ArrayStorage;
+use Clio\Component\Container\Collection\LazyLoadCollection;
+use Clio\Component\Container\Collection;
+use Clio\Component\Container\Storage\ArrayStorage;
 use Clio\Bridge\DoctrineCollection\Container\Storage\DoctrineCollectionStorage;
-use Clio\Component\Tool\Normalizer\Normalizable;
+use Clio\Component\Normalizer\Normalizable;
 
 use Calliope\Core\Exception\UnsupportedException;
 

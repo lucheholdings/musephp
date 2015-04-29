@@ -1,14 +1,14 @@
 <?php
 namespace Erato\Core\Schema\Mapping;
 
-use Clio\Component\Util\Accessor\Schema;
-use Clio\Component\Util\Accessor\Schema\ReflectionClassAwarable;
-use Clio\Component\Util\Accessor\SimpleSchemaAccessor;
-use Clio\Component\Util\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
+use Clio\Component\Accessor\Schema;
+use Clio\Component\Accessor\Schema\ReflectionClassAwarable;
+use Clio\Component\Accessor\SimpleSchemaAccessor;
+use Clio\Component\Accessor\Schema\AccessorFactory as SchemaAccessorFactory;
 
-use Clio\Component\Util\Accessor\SchemaDataAccessor;
-use Clio\Component\Util\Grammer\Grammer;
-use Clio\Component\Util\Metadata\Exception as MetadataException;
+use Clio\Component\Accessor\SchemaDataAccessor;
+use Clio\Component\Grammer\Grammer;
+use Clio\Component\Metadata\Exception as MetadataException;
 
 /**
  * SchemaAccessorMapping 

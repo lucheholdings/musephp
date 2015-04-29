@@ -105,13 +105,13 @@
     <parameter key="annotations.file_cache_reader.class">Doctrine\Common\Annotations\FileCacheReader</parameter>
     <parameter key="clio_component.cache.factory.doctrine.class">Clio\Bridge\DoctrineCommon\Cache\Factory\DoctrineCacheFactory</parameter>
     <parameter key="clio_component.cache.provider_factory.doctrine.class">Clio\Bridge\DoctrineCommon\Cache\Factory\DoctrineCacheProviderFactory</parameter>
-    <parameter key="clio_component.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
-    <parameter key="clio_component.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
-    <parameter key="clio_component.normalizer.scalar_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy</parameter>
-    <parameter key="clio_component.normalizer.reference_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy</parameter>
-    <parameter key="clio_component.normalizer.datetime_strategy.class">Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy</parameter>
-    <parameter key="clio_component.normalizer.array_access_strategy.class">Clio\Component\Tool\Normalizer\Strategy\ArrayAccessStrategy</parameter>
-    <parameter key="clio_component.normalizer.std_class_strategy.class">Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy</parameter>
+    <parameter key="clio_component.normalizer.class">Clio\Component\Normalizer\Normalizer</parameter>
+    <parameter key="clio_component.normalizer.strategy_collection.class">Clio\Component\Normalizer\Strategy\PriorityCollection</parameter>
+    <parameter key="clio_component.normalizer.scalar_strategy.class">Clio\Component\Normalizer\Strategy\ScalarStrategy</parameter>
+    <parameter key="clio_component.normalizer.reference_strategy.class">Clio\Component\Normalizer\Strategy\ReferenceStrategy</parameter>
+    <parameter key="clio_component.normalizer.datetime_strategy.class">Clio\Component\Normalizer\Strategy\DateTimeStrategy</parameter>
+    <parameter key="clio_component.normalizer.array_access_strategy.class">Clio\Component\Normalizer\Strategy\ArrayAccessStrategy</parameter>
+    <parameter key="clio_component.normalizer.std_class_strategy.class">Clio\Component\Normalizer\Strategy\StdClassStrategy</parameter>
     <parameter key="clio_component.normalizer.jms_serializer_strategy.class">Clio\Bridge\JMSSerializer\Normalizer\JMSSerializerStrategy</parameter>
     <parameter key="erato_framework.event_listener.exception_listener.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\EventListener\ExceptionListener</parameter>
     <parameter key="erato_framework.service_registry.class">Clio\Bridge\SymfonyDI\Registry\ServiceContainerRegistry</parameter>
@@ -121,33 +121,33 @@
     <parameter key="erato_framework.schema.registry.class">Clio\Extra\Metadata\SchemaRegistry</parameter>
     <parameter key="erato_framework.schema.registry.cache_loader.class">Clio\Extra\Registry\Loader\CachedLoader</parameter>
     <parameter key="erato_framework.schema.registry.factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-    <parameter key="erato_framework.schema.class_metadata_factory.class">Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
+    <parameter key="erato_framework.schema.class_metadata_factory.class">Clio\Component\Metadata\Schema\Factory\ClassMetadataFactory</parameter>
     <parameter key="erato_framework.schema.mapped_factory_loader.class">Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader</parameter>
-    <parameter key="erato_framework.schema.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
+    <parameter key="erato_framework.schema.mapping_factory_collection.class">Clio\Component\Metadata\Mapping\Factory\Collection</parameter>
     <parameter key="erato_framework.schema.accessor_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AccessorMappingFactory</parameter>
     <parameter key="erato_framework.schema.attribute_map_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\AttributeMapMappingFactory</parameter>
     <parameter key="erato_framework.schema.tag_set_mapping_factory.class">Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory</parameter>
-    <parameter key="erato_framework.schema.rebuilder.class">Clio\Component\Util\Metadata\Tool\MetadataRebuilder</parameter>
+    <parameter key="erato_framework.schema.rebuilder.class">Clio\Component\Metadata\Tool\MetadataRebuilder</parameter>
     <parameter key="erato_framework.schema.cache_clearer.class">Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer</parameter>
     <parameter key="erato_framework.accessor.registry.class">Erato\Core\Accessor\SchemaAccessorRegistry</parameter>
-    <parameter key="erato_framework.accessor.schema_accessor_factory_collection.class">Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection</parameter>
-    <parameter key="erato_framework.accessor.class_accessor_factory.class">Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory</parameter>
+    <parameter key="erato_framework.accessor.schema_accessor_factory_collection.class">Clio\Component\Accessor\Schema\Factory\SchemaAccessorFactoryCollection</parameter>
+    <parameter key="erato_framework.accessor.class_accessor_factory.class">Clio\Component\Accessor\Schema\Factory\BasicClassAccessorFactory</parameter>
     <parameter key="erato_framework.accessor.schema_metadata_accessor_factory.class">Erato\Core\Accessor\Schema\Factory\SchemaMetadataAccessorFactory</parameter>
-    <parameter key="erato_framework.accessor.field_accessor_factory_collection.class">Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection</parameter>
+    <parameter key="erato_framework.accessor.field_accessor_factory_collection.class">Clio\Component\Accessor\Field\Factory\FieldAccessorFactoryCollection</parameter>
     <parameter key="erato_framework.accessor.attribute_map_field_accessor_factory.class">Erato\Core\Accessor\Field\Factory\AttributeMapAccessorFactory</parameter>
-    <parameter key="erato_framework.accessor.ignore_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory</parameter>
-    <parameter key="erato_framework.accessor.public_property_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory</parameter>
-    <parameter key="erato_framework.accessor.method_field_accessor_factory.class">Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory</parameter>
+    <parameter key="erato_framework.accessor.ignore_field_accessor_factory.class">Clio\Component\Accessor\Field\Factory\IgnoreFieldAccessorFactory</parameter>
+    <parameter key="erato_framework.accessor.public_property_field_accessor_factory.class">Clio\Component\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory</parameter>
+    <parameter key="erato_framework.accessor.method_field_accessor_factory.class">Clio\Component\Accessor\Field\Factory\MethodFieldAccessorFactory</parameter>
     <parameter key="erato_framework.accessor.tag_set_field_accessor_factory.class">Erato\Core\Accessor\Field\Factory\TagSetFieldAccessorFactory</parameter>
-    <parameter key="erato_framework.accessor.schema_accessor.interface">Clio\Component\Util\Accessor\Schema\SimpleSchemaAccessor</parameter>
+    <parameter key="erato_framework.accessor.schema_accessor.interface">Clio\Component\Accessor\Schema\SimpleSchemaAccessor</parameter>
     <parameter key="erato_framework.accessor.attribute_map_accessor.class">Erato\Core\Accessor\AttributeMapAccessor</parameter>
-    <parameter key="erato_framework.accessor.field_accessor_collection.class">Clio\Component\Util\Accessor\Field\FieldAccessorCollection</parameter>
-    <parameter key="erato_framework.accessor.ignore_field_accessor.class">Clio\Component\Util\Accessor\Field\Ignore</parameter>
-    <parameter key="erato_framework.accessor.public_property_field_accessor.class">Clio\Component\Util\Accessor\Field\PublicPropertyFieldAccessor</parameter>
-    <parameter key="erato_framework.accessor.method_field_accessor.class">Clio\Component\Util\Accessor\Field\MethodFieldAccessor</parameter>
+    <parameter key="erato_framework.accessor.field_accessor_collection.class">Clio\Component\Accessor\Field\FieldAccessorCollection</parameter>
+    <parameter key="erato_framework.accessor.ignore_field_accessor.class">Clio\Component\Accessor\Field\Ignore</parameter>
+    <parameter key="erato_framework.accessor.public_property_field_accessor.class">Clio\Component\Accessor\Field\PublicPropertyFieldAccessor</parameter>
+    <parameter key="erato_framework.accessor.method_field_accessor.class">Clio\Component\Accessor\Field\MethodFieldAccessor</parameter>
     <parameter key="erato_framework.accessor.tag_set_field_accessor.class">Erato\Core\Accessor\Field\TagSetFieldAccessor</parameter>
-    <parameter key="erato_framework.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
-    <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Tool\Normalizer\Strategy\PriorityCollection</parameter>
+    <parameter key="erato_framework.normalizer.class">Clio\Component\Normalizer\Normalizer</parameter>
+    <parameter key="erato_framework.normalizer.strategy_collection.class">Clio\Component\Normalizer\Strategy\PriorityCollection</parameter>
     <parameter key="erato_framework.normalizer.accessor_strategy.class">Erato\Core\Normalizer\Strategy\AccessorStrategy</parameter>
     <parameter key="console.command.ids" type="collection"/>
   </parameters>
@@ -590,20 +590,20 @@
     </service>
     <service id="clio_component.cache.factory.doctrine" class="Clio\Bridge\DoctrineCommon\Cache\Factory\DoctrineCacheFactory"/>
     <service id="clio_component.cache.provider_factory.doctrine" class="Clio\Bridge\DoctrineCommon\Cache\Factory\DoctrineCacheProviderFactory"/>
-    <service id="clio_component.normalizer" class="Clio\Component\Tool\Normalizer\Normalizer">
+    <service id="clio_component.normalizer" class="Clio\Component\Normalizer\Normalizer">
       <argument type="service" id="clio_component.normalizer.strategy_collection"/>
     </service>
-    <service id="clio_component.normalizer.strategy_collection" class="Clio\Component\Tool\Normalizer\Strategy\PriorityCollection"/>
-    <service id="clio_component.normalizer.strategy.datetime" class="Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy">
+    <service id="clio_component.normalizer.strategy_collection" class="Clio\Component\Normalizer\Strategy\PriorityCollection"/>
+    <service id="clio_component.normalizer.strategy.datetime" class="Clio\Component\Normalizer\Strategy\DateTimeStrategy">
       <tag name="clio_component.normalizer.strategy" priority="0"/>
     </service>
-    <service id="clio_component.normalizer.strategy.reference" class="Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy">
+    <service id="clio_component.normalizer.strategy.reference" class="Clio\Component\Normalizer\Strategy\ReferenceStrategy">
       <tag name="clio_component.normalizer.strategy" priority="0"/>
     </service>
-    <service id="clio_component.normalizer.strategy.std_class" class="Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy">
+    <service id="clio_component.normalizer.strategy.std_class" class="Clio\Component\Normalizer\Strategy\StdClassStrategy">
       <tag name="clio_component.normalizer.strategy" priority="0"/>
     </service>
-    <service id="clio_component.normalizer.strategy.scalar" class="Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy">
+    <service id="clio_component.normalizer.strategy.scalar" class="Clio\Component\Normalizer\Strategy\ScalarStrategy">
       <tag name="clio_component.normalizer.strategy" priority="0"/>
     </service>
     <service id="clio_component.normalizer.strategy.jms" class="Clio\Bridge\JMSSerializer\Normalizer\JMSSerializerStrategy">
@@ -626,10 +626,10 @@
     <service id="erato_framework.schema.registry.factory_loader" class="Clio\Component\Pattern\Registry\Loader\MappedFactoryLoader">
       <argument type="service" id="erato_framework.schema.class_metadata_factory"/>
     </service>
-    <service id="erato_framework.schema.class_metadata_factory" class="Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory">
+    <service id="erato_framework.schema.class_metadata_factory" class="Clio\Component\Metadata\Schema\Factory\ClassMetadataFactory">
       <argument type="service" id="erato_framework.schema.mapping_factory.collection"/>
     </service>
-    <service id="erato_framework.schema.mapping_factory.collection" class="Clio\Component\Util\Metadata\Mapping\Factory\Collection">
+    <service id="erato_framework.schema.mapping_factory.collection" class="Clio\Component\Metadata\Mapping\Factory\Collection">
       <call method="set">
         <argument>attribute</argument>
         <argument type="service" id="erato_framework.schema.mapping_factory.attribute_map"/>
@@ -649,15 +649,15 @@
     <service id="erato_framework.schema.mapping_factory.tag_set" class="Erato\Core\Metadata\Mapping\Factory\TagSetMappingFactory">
       <tag name="erato_framework.schema.mapping_factory" for="tag"/>
     </service>
-    <service id="erato_framework.schema.mapping_injector" class="Clio\Component\Util\Injection\Injector" factory-method="getInjector" factory-service="erato_framework.schema.mapping_factory"/>
-    <service id="erato_framework.schema.rebuilder" class="Clio\Component\Util\Metadata\Tool\MetadataRebuilder">
+    <service id="erato_framework.schema.mapping_injector" class="Clio\Component\Injection\Injector" factory-method="getInjector" factory-service="erato_framework.schema.mapping_factory"/>
+    <service id="erato_framework.schema.rebuilder" class="Clio\Component\Metadata\Tool\MetadataRebuilder">
       <argument type="service" id="erato_framework.schema.mapping_injector"/>
     </service>
     <service id="erato_framework.schema.cache_clearer" class="Erato\Adapter\SymfonyBundles\FrameworkBundle\Cache\CacheClearer">
       <tag name="kernel.cache_clearer"/>
       <argument type="service" id="erato_framework.schema.registry.cache_loader.cache" on-invalid="null"/>
     </service>
-    <service id="erato_framework.schema.registry.cache_loader.cache" class="Clio\Component\Util\Cache\CacheProvider" factory-method="createCacheProvider" factory-service="erato_framework.cache_factory" public="false">
+    <service id="erato_framework.schema.registry.cache_loader.cache" class="Clio\Component\Cache\CacheProvider" factory-method="createCacheProvider" factory-service="erato_framework.cache_factory" public="false">
       <argument>file_system</argument>
       <argument type="collection">
         <argument key="directory">/Users/yoshi/Workspace/muse/bundle-dev/vendor/musephp/musephp/erato/src/Erato/Adapter/SymfonyBundles/FrameworkBundle/Tests/Resources/cache/test/erato_framework</argument>
@@ -667,7 +667,7 @@
     <service id="erato_framework.accessor.registry" class="Erato\Core\Accessor\SchemaAccessorRegistry">
       <argument type="service" id="erato_framework.schema.registry"/>
     </service>
-    <service id="erato_framework.accessor.schema_accessor_factory.collection" class="Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection">
+    <service id="erato_framework.accessor.schema_accessor_factory.collection" class="Clio\Component\Accessor\Schema\Factory\SchemaAccessorFactoryCollection">
       <call method="set">
         <argument>class</argument>
         <argument type="service" id="erato_framework.accessor.schema_accessor_factory.class"/>
@@ -679,7 +679,7 @@
         <argument>0</argument>
       </call>
     </service>
-    <service id="erato_framework.accessor.schema_accessor_factory.class" class="Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory">
+    <service id="erato_framework.accessor.schema_accessor_factory.class" class="Clio\Component\Accessor\Schema\Factory\BasicClassAccessorFactory">
       <tag name="erato_framework.accessor.schema_accessor_factory" for="class"/>
       <argument type="service" id="erato_framework.accessor.field_accessor_factory.collection"/>
     </service>
@@ -687,7 +687,7 @@
       <tag name="erato_framework.accessor.schema_accessor_factory" for="metadata"/>
       <argument type="service" id="erato_framework.accessor.field_accessor_factory.collection"/>
     </service>
-    <service id="erato_framework.accessor.field_accessor_factory.collection" class="Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection">
+    <service id="erato_framework.accessor.field_accessor_factory.collection" class="Clio\Component\Accessor\Field\Factory\FieldAccessorFactoryCollection">
       <call method="set">
         <argument>ignore</argument>
         <argument type="service" id="erato_framework.accessor.field_accessor_factory.ignore"/>
@@ -714,13 +714,13 @@
         <argument>0</argument>
       </call>
     </service>
-    <service id="erato_framework.accessor.field_accessor_factory.ignore" class="Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory">
+    <service id="erato_framework.accessor.field_accessor_factory.ignore" class="Clio\Component\Accessor\Field\Factory\IgnoreFieldAccessorFactory">
       <tag name="erato_framework.accessor.field_accessor_factory" for="ignore"/>
     </service>
-    <service id="erato_framework.accessor.field_accessor_factory.public_property" class="Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory">
+    <service id="erato_framework.accessor.field_accessor_factory.public_property" class="Clio\Component\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory">
       <tag name="erato_framework.accessor.field_accessor_factory" for="public_property"/>
     </service>
-    <service id="erato_framework.accessor.field_accessor_factory.method" class="Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory">
+    <service id="erato_framework.accessor.field_accessor_factory.method" class="Clio\Component\Accessor\Field\Factory\MethodFieldAccessorFactory">
       <tag name="erato_framework.accessor.field_accessor_factory" for="method"/>
     </service>
     <service id="erato_framework.accessor.field_accessor_factory.tag" class="Erato\Core\Accessor\Field\Factory\TagSetFieldAccessorFactory">
@@ -730,13 +730,13 @@
       <tag name="erato_framework.accessor.field_accessor_factory" for="attributes"/>
       <argument></argument>
     </service>
-    <service id="erato_framework.normalizer" class="Clio\Component\Tool\Normalizer\Normalizer">
+    <service id="erato_framework.normalizer" class="Clio\Component\Normalizer\Normalizer">
       <argument type="service" id="erato_framework.normalizer.strategy_collection"/>
       <call method="add">
         <argument type="service" id="clio_component.normalizer"/>
       </call>
     </service>
-    <service id="erato_framework.normalizer.strategy_collection" class="Clio\Component\Tool\Normalizer\Strategy\PriorityCollection">
+    <service id="erato_framework.normalizer.strategy_collection" class="Clio\Component\Normalizer\Strategy\PriorityCollection">
       <call method="add">
         <argument type="service" id="erato_framework.normalizer.strategy.accessor"/>
         <argument>100</argument>

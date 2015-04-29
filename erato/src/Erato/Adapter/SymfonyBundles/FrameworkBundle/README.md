@@ -44,11 +44,11 @@ If you need more Metadata for the specified Metadata, then use Clio\Extra\Metada
 				extensions:  .cache.php
 		mappings:
 			attributes:
-				class:        Clio\Component\Util\Attribute\SimpleAttribute 
+				class:        Clio\Component\Attribute\SimpleAttribute 
 				fieldname:    attributes 
 
 			tags:
-				class:        Clio\Component\Util\Tag\SimpleTag
+				class:        Clio\Component\Tag\SimpleTag
 				fieldname:    tags
 
 			# 

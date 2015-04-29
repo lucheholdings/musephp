@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Core\Request;
 
-use Clio\Component\Util\Container\Collection\Collection;
+use Clio\Component\Container\Collection\Collection;
 
 class HttpParameterBag 
 {

@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\ArrayTool;
 
-use Clio\Component\Tool\ArrayTool\Mapper\Mapper;
+use Clio\Component\ArrayTool\Mapper\Mapper;
 use Erato\Core\CodingStandard;
 
 /**

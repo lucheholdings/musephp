@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Core;
 
-use Clio\Component\Util\Metadata\Schema as BaseSchema;
+use Clio\Component\Metadata\Schema as BaseSchema;
 
 /**
  * Schema 

@@ -3,7 +3,7 @@ namespace Calliope\Core\Schema\Mapping\Factory;
 
 use Calliope\Core\Schema\Mapping\ManagerMapping;
 use Calliope\Core\Schema\Manager;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Metadata;
 
 /**
  * ManagerMappingFactory 

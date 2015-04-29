@@ -2,11 +2,11 @@
 namespace Erato\Core\Schema\Mapping\Factory;
 
 // Metadata 
-use Clio\Component\Util\Metadata\Metadata,
-	Clio\Component\Util\Metadata\Schema,
-	Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory
+use Clio\Component\Metadata\Metadata,
+	Clio\Component\Metadata\Schema,
+	Clio\Component\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory
 ;
-use Clio\Component\Util\Metadata\Exception as MetadataException;
+use Clio\Component\Metadata\Exception as MetadataException;
 // Mapping
 use Erato\Core\Schema\Mapping\AttributesMapping;
 
@@ -42,7 +42,7 @@ class AttributesMappingFactory extends AbstractSchemaMetadataMappingFactory
 	 */
 	protected function doCreateMapping(Metadata $metadata, array $options)
 	{
-		if(($metadata instanceof Schema) && ($metadata->getType()->isType('Clio\Component\Util\Attribute\AttributeMapAware'))) {
+		if(($metadata instanceof Schema) && ($metadata->getType()->isType('Clio\Component\Attribute\AttributeMapAware'))) {
             $options = array_merge($this->defaultOptions, $options);
 			// 
 			$mapping = new AttributesMapping($metadata, $options);

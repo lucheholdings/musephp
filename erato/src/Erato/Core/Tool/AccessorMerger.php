@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Tool;
 
-use Clio\Component\Util\Metadata\SchemaMetadata;
+use Clio\Component\Metadata\SchemaMetadata;
 
 /**
  * AccessorMerger 

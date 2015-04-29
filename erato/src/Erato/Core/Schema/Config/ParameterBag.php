@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Schema\Config;
 
-use Clio\Component\Util\Container\Map\SimpleMap;
+use Clio\Component\Container\Map\SimpleMap;
 
 /**
  * ParameterBag 

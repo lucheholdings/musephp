@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Manager;
 
-use Clio\Component\Util\Metadata\SchemaMetadata;
+use Clio\Component\Metadata\SchemaMetadata;
 use Clio\Extra\Builder\SchemaBuilder;
 use Erato\Core\SchemaManager as SchemaManagerInterface;
 

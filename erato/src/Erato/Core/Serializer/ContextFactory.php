@@ -1,8 +1,8 @@
 <?php
 namespace Erato\Core\Serializer;
 
-use Clio\Component\Tool\Serializer\ContextFactory as ContextFactoryInterface;
-use Clio\Component\Tool\Serializer\Context;
+use Clio\Component\Serializer\ContextFactory as ContextFactoryInterface;
+use Clio\Component\Serializer\Context;
 use Erato\Core\ArrayTool\PropertyToArrayKeyMapper;
 use Erato\Core\CodingStandard;
 

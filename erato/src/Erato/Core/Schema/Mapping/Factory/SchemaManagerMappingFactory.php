@@ -1,11 +1,11 @@
 <?php
 namespace Erato\Core\Schema\Mapping\Factory;
 
-use Clio\Component\Util\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
+use Clio\Component\Metadata\Mapping\Factory\AbstractSchemaMetadataMappingFactory;
 use Erato\Core\Schema\Mapping\SchemaManagerMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\SchemaMetadata;
-use Clio\Component\Util\Injection\ClassInjector;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\SchemaMetadata;
+use Clio\Component\Injection\ClassInjector;
 use Erato\Core\Manager\Factory\SchemaManagerClassFactory;
 
 /**

@@ -3,8 +3,8 @@ namespace Erato\Core\Schema\Loader;
 
 use Clio\Component\Pattern\Loader\Loader;
 use Clio\Component\Pattern\Loader\Exception as LoaderException;
-use Clio\Component\Util\Type;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Type;
+use Clio\Component\Metadata;
 use Erato\Core\Schema\Builder\SchemaBuilder;
 
 /**

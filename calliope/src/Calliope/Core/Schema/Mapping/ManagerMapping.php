@@ -2,7 +2,7 @@
 namespace Calliope\Core\Schema\Mapping;
 
 use Calliope\Core\Schema\Manager;
-use Clio\Component\Util\Metadata;
+use Clio\Component\Metadata;
 
 /**
  * ManagerMapping 

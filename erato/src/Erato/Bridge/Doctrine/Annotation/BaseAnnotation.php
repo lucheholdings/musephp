@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Bridge\Doctrine\Annotation;
 
-use Clio\Component\Util\Literal\CaseUtil;
+use Clio\Component\Literal\CaseUtil;
 
 
 /**

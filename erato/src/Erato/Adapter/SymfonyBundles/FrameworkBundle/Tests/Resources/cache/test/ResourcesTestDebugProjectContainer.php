@@ -217,11 +217,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Normalizer A Clio\Component\Tool\Normalizer\Normalizer instance.
+     * @return \Clio\Component\Normalizer\Normalizer A Clio\Component\Normalizer\Normalizer instance.
      */
     protected function getClioComponent_NormalizerService()
     {
-        return $this->services['clio_component.normalizer'] = new \Clio\Component\Tool\Normalizer\Normalizer($this->get('clio_component.normalizer.strategy_collection'));
+        return $this->services['clio_component.normalizer'] = new \Clio\Component\Normalizer\Normalizer($this->get('clio_component.normalizer.strategy_collection'));
     }
 
     /**
@@ -230,11 +230,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy A Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy instance.
+     * @return \Clio\Component\Normalizer\Strategy\DateTimeStrategy A Clio\Component\Normalizer\Strategy\DateTimeStrategy instance.
      */
     protected function getClioComponent_Normalizer_Strategy_DatetimeService()
     {
-        return $this->services['clio_component.normalizer.strategy.datetime'] = new \Clio\Component\Tool\Normalizer\Strategy\DateTimeStrategy();
+        return $this->services['clio_component.normalizer.strategy.datetime'] = new \Clio\Component\Normalizer\Strategy\DateTimeStrategy();
     }
 
     /**
@@ -256,11 +256,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy A Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy instance.
+     * @return \Clio\Component\Normalizer\Strategy\ReferenceStrategy A Clio\Component\Normalizer\Strategy\ReferenceStrategy instance.
      */
     protected function getClioComponent_Normalizer_Strategy_ReferenceService()
     {
-        return $this->services['clio_component.normalizer.strategy.reference'] = new \Clio\Component\Tool\Normalizer\Strategy\ReferenceStrategy();
+        return $this->services['clio_component.normalizer.strategy.reference'] = new \Clio\Component\Normalizer\Strategy\ReferenceStrategy();
     }
 
     /**
@@ -269,11 +269,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy A Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy instance.
+     * @return \Clio\Component\Normalizer\Strategy\ScalarStrategy A Clio\Component\Normalizer\Strategy\ScalarStrategy instance.
      */
     protected function getClioComponent_Normalizer_Strategy_ScalarService()
     {
-        return $this->services['clio_component.normalizer.strategy.scalar'] = new \Clio\Component\Tool\Normalizer\Strategy\ScalarStrategy();
+        return $this->services['clio_component.normalizer.strategy.scalar'] = new \Clio\Component\Normalizer\Strategy\ScalarStrategy();
     }
 
     /**
@@ -282,11 +282,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy A Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy instance.
+     * @return \Clio\Component\Normalizer\Strategy\StdClassStrategy A Clio\Component\Normalizer\Strategy\StdClassStrategy instance.
      */
     protected function getClioComponent_Normalizer_Strategy_StdClassService()
     {
-        return $this->services['clio_component.normalizer.strategy.std_class'] = new \Clio\Component\Tool\Normalizer\Strategy\StdClassStrategy();
+        return $this->services['clio_component.normalizer.strategy.std_class'] = new \Clio\Component\Normalizer\Strategy\StdClassStrategy();
     }
 
     /**
@@ -295,11 +295,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Strategy\PriorityCollection A Clio\Component\Tool\Normalizer\Strategy\PriorityCollection instance.
+     * @return \Clio\Component\Normalizer\Strategy\PriorityCollection A Clio\Component\Normalizer\Strategy\PriorityCollection instance.
      */
     protected function getClioComponent_Normalizer_StrategyCollectionService()
     {
-        return $this->services['clio_component.normalizer.strategy_collection'] = new \Clio\Component\Tool\Normalizer\Strategy\PriorityCollection();
+        return $this->services['clio_component.normalizer.strategy_collection'] = new \Clio\Component\Normalizer\Strategy\PriorityCollection();
     }
 
     /**
@@ -423,11 +423,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection A Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection instance.
+     * @return \Clio\Component\Accessor\Field\Factory\FieldAccessorFactoryCollection A Clio\Component\Accessor\Field\Factory\FieldAccessorFactoryCollection instance.
      */
     protected function getEratoFramework_Accessor_FieldAccessorFactory_CollectionService()
     {
-        $this->services['erato_framework.accessor.field_accessor_factory.collection'] = $instance = new \Clio\Component\Util\Accessor\Field\Factory\FieldAccessorFactoryCollection();
+        $this->services['erato_framework.accessor.field_accessor_factory.collection'] = $instance = new \Clio\Component\Accessor\Field\Factory\FieldAccessorFactoryCollection();
 
         $instance->set('ignore', $this->get('erato_framework.accessor.field_accessor_factory.ignore'), 0);
         $instance->set('public_property', $this->get('erato_framework.accessor.field_accessor_factory.public_property'), 0);
@@ -444,11 +444,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory A Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory instance.
+     * @return \Clio\Component\Accessor\Field\Factory\IgnoreFieldAccessorFactory A Clio\Component\Accessor\Field\Factory\IgnoreFieldAccessorFactory instance.
      */
     protected function getEratoFramework_Accessor_FieldAccessorFactory_IgnoreService()
     {
-        return $this->services['erato_framework.accessor.field_accessor_factory.ignore'] = new \Clio\Component\Util\Accessor\Field\Factory\IgnoreFieldAccessorFactory();
+        return $this->services['erato_framework.accessor.field_accessor_factory.ignore'] = new \Clio\Component\Accessor\Field\Factory\IgnoreFieldAccessorFactory();
     }
 
     /**
@@ -457,11 +457,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory A Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory instance.
+     * @return \Clio\Component\Accessor\Field\Factory\MethodFieldAccessorFactory A Clio\Component\Accessor\Field\Factory\MethodFieldAccessorFactory instance.
      */
     protected function getEratoFramework_Accessor_FieldAccessorFactory_MethodService()
     {
-        return $this->services['erato_framework.accessor.field_accessor_factory.method'] = new \Clio\Component\Util\Accessor\Field\Factory\MethodFieldAccessorFactory();
+        return $this->services['erato_framework.accessor.field_accessor_factory.method'] = new \Clio\Component\Accessor\Field\Factory\MethodFieldAccessorFactory();
     }
 
     /**
@@ -470,11 +470,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory A Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory instance.
+     * @return \Clio\Component\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory A Clio\Component\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory instance.
      */
     protected function getEratoFramework_Accessor_FieldAccessorFactory_PublicPropertyService()
     {
-        return $this->services['erato_framework.accessor.field_accessor_factory.public_property'] = new \Clio\Component\Util\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory();
+        return $this->services['erato_framework.accessor.field_accessor_factory.public_property'] = new \Clio\Component\Accessor\Field\Factory\PublicPropertyFieldAccessorFactory();
     }
 
     /**
@@ -509,11 +509,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory A Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory instance.
+     * @return \Clio\Component\Accessor\Schema\Factory\BasicClassAccessorFactory A Clio\Component\Accessor\Schema\Factory\BasicClassAccessorFactory instance.
      */
     protected function getEratoFramework_Accessor_SchemaAccessorFactory_ClassService()
     {
-        return $this->services['erato_framework.accessor.schema_accessor_factory.class'] = new \Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory($this->get('erato_framework.accessor.field_accessor_factory.collection'));
+        return $this->services['erato_framework.accessor.schema_accessor_factory.class'] = new \Clio\Component\Accessor\Schema\Factory\BasicClassAccessorFactory($this->get('erato_framework.accessor.field_accessor_factory.collection'));
     }
 
     /**
@@ -522,11 +522,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection A Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection instance.
+     * @return \Clio\Component\Accessor\Schema\Factory\SchemaAccessorFactoryCollection A Clio\Component\Accessor\Schema\Factory\SchemaAccessorFactoryCollection instance.
      */
     protected function getEratoFramework_Accessor_SchemaAccessorFactory_CollectionService()
     {
-        $this->services['erato_framework.accessor.schema_accessor_factory.collection'] = $instance = new \Clio\Component\Util\Accessor\Schema\Factory\SchemaAccessorFactoryCollection();
+        $this->services['erato_framework.accessor.schema_accessor_factory.collection'] = $instance = new \Clio\Component\Accessor\Schema\Factory\SchemaAccessorFactoryCollection();
 
         $instance->set('class', $this->get('erato_framework.accessor.schema_accessor_factory.class'), 0);
         $instance->set('metadata', $this->get('erato_framework.accessor.schema_accessor_factory.metadata'), 0);
@@ -579,11 +579,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory A Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory instance.
+     * @return \Clio\Component\Metadata\Schema\Factory\ClassMetadataFactory A Clio\Component\Metadata\Schema\Factory\ClassMetadataFactory instance.
      */
     protected function getEratoFramework_Metadata_ClassMetadataFactoryService()
     {
-        return $this->services['erato_framework.schema.class_metadata_factory'] = new \Clio\Component\Util\Metadata\Schema\Factory\ClassMetadataFactory($this->get('erato_framework.schema.mapping_factory.collection'));
+        return $this->services['erato_framework.schema.class_metadata_factory'] = new \Clio\Component\Metadata\Schema\Factory\ClassMetadataFactory($this->get('erato_framework.schema.mapping_factory.collection'));
     }
 
     /**
@@ -618,11 +618,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Metadata\Mapping\Factory\Collection A Clio\Component\Util\Metadata\Mapping\Factory\Collection instance.
+     * @return \Clio\Component\Metadata\Mapping\Factory\Collection A Clio\Component\Metadata\Mapping\Factory\Collection instance.
      */
     protected function getEratoFramework_Metadata_MappingFactory_CollectionService()
     {
-        $this->services['erato_framework.schema.mapping_factory.collection'] = $instance = new \Clio\Component\Util\Metadata\Mapping\Factory\Collection();
+        $this->services['erato_framework.schema.mapping_factory.collection'] = $instance = new \Clio\Component\Metadata\Mapping\Factory\Collection();
 
         $instance->set('attribute', $this->get('erato_framework.schema.mapping_factory.attribute_map'));
         $instance->set('tag', $this->get('erato_framework.schema.mapping_factory.tag_set'));
@@ -649,7 +649,7 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Injection\Injector A Clio\Component\Util\Injection\Injector instance.
+     * @return \Clio\Component\Injection\Injector A Clio\Component\Injection\Injector instance.
      */
     protected function getEratoFramework_Metadata_MappingInjectorService()
     {
@@ -662,11 +662,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Util\Metadata\Tool\MetadataRebuilder A Clio\Component\Util\Metadata\Tool\MetadataRebuilder instance.
+     * @return \Clio\Component\Metadata\Tool\MetadataRebuilder A Clio\Component\Metadata\Tool\MetadataRebuilder instance.
      */
     protected function getEratoFramework_Metadata_RebuilderService()
     {
-        return $this->services['erato_framework.schema.rebuilder'] = new \Clio\Component\Util\Metadata\Tool\MetadataRebuilder($this->get('erato_framework.schema.mapping_injector'));
+        return $this->services['erato_framework.schema.rebuilder'] = new \Clio\Component\Metadata\Tool\MetadataRebuilder($this->get('erato_framework.schema.mapping_injector'));
     }
 
     /**
@@ -714,11 +714,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Normalizer A Clio\Component\Tool\Normalizer\Normalizer instance.
+     * @return \Clio\Component\Normalizer\Normalizer A Clio\Component\Normalizer\Normalizer instance.
      */
     protected function getEratoFramework_NormalizerService()
     {
-        $this->services['erato_framework.normalizer'] = $instance = new \Clio\Component\Tool\Normalizer\Normalizer($this->get('erato_framework.normalizer.strategy_collection'));
+        $this->services['erato_framework.normalizer'] = $instance = new \Clio\Component\Normalizer\Normalizer($this->get('erato_framework.normalizer.strategy_collection'));
 
         $instance->add($this->get('clio_component.normalizer', ContainerInterface::NULL_ON_INVALID_REFERENCE));
 
@@ -757,11 +757,11 @@ class ResourcesTestDebugProjectContainer extends Container
      * This service is shared.
      * This method always returns the same instance of the service.
      *
-     * @return \Clio\Component\Tool\Normalizer\Strategy\PriorityCollection A Clio\Component\Tool\Normalizer\Strategy\PriorityCollection instance.
+     * @return \Clio\Component\Normalizer\Strategy\PriorityCollection A Clio\Component\Normalizer\Strategy\PriorityCollection instance.
      */
     protected function getEratoFramework_Normalizer_StrategyCollectionService()
     {
-        $this->services['erato_framework.normalizer.strategy_collection'] = $instance = new \Clio\Component\Tool\Normalizer\Strategy\PriorityCollection();
+        $this->services['erato_framework.normalizer.strategy_collection'] = $instance = new \Clio\Component\Normalizer\Strategy\PriorityCollection();
 
         $instance->add($this->get('erato_framework.normalizer.strategy.accessor'), 100);
 
@@ -1483,7 +1483,7 @@ class ResourcesTestDebugProjectContainer extends Container
      * If you want to be able to request this service from the container directly,
      * make it public, otherwise you might end up with broken code.
      *
-     * @return \Clio\Component\Util\Cache\CacheProvider A Clio\Component\Util\Cache\CacheProvider instance.
+     * @return \Clio\Component\Cache\CacheProvider A Clio\Component\Cache\CacheProvider instance.
      */
     protected function getEratoFramework_Metadata_Registry_CacheLoader_CacheService()
     {

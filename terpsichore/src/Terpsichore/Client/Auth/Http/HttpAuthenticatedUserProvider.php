@@ -4,7 +4,7 @@ namespace Terpsichore\Client\Auth\Http;
 use Terpsichore\Client\Auth\User,
 	Terpsichore\Client\Auth\UserProvider;
 use Terpsichore\Client\Service\Http\HttpSimpleClientService;
-use Clio\Component\Tool\ArrayTool\Mapper as ArrayMapper;
+use Clio\Component\ArrayTool\Mapper as ArrayMapper;
 
 class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements UserProvider 
 {

@@ -6,7 +6,7 @@
 
 
 	<parameters>
-		<parameter key="calliope_framework.schema.mapping_factory_collection.class">Clio\Component\Util\Metadata\Mapping\Factory\Collection</parameter>
+		<parameter key="calliope_framework.schema.mapping_factory_collection.class">Clio\Component\Metadata\Mapping\Factory\Collection</parameter>
 		<parameter key="calliope_framework.schema.schema_manager_mapping_factory.class">Calliope\Core\Schema\Mapping\Factory\SchemaManagerMappingFactory</parameter>
 	</parameters>
 

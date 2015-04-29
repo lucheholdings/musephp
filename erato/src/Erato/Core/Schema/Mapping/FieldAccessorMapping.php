@@ -1,12 +1,12 @@
 <?php
 namespace Erato\Core\Schema\Mapping;
 
-use Clio\Component\Util\Metadata\Mapping\AbstractMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Field;
-use Clio\Component\Util\Accessor\Field\Factory\Collection as FieldAccessorFactoryCollection;
-use Clio\Component\Util\Accessor\Field as AccessorField;
-use Clio\Component\Util\Accessor\AccessorAware;
+use Clio\Component\Metadata\Mapping\AbstractMapping;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Field;
+use Clio\Component\Accessor\Field\Factory\Collection as FieldAccessorFactoryCollection;
+use Clio\Component\Accessor\Field as AccessorField;
+use Clio\Component\Accessor\AccessorAware;
 /**
  * FieldAccessorMapping 
  * 

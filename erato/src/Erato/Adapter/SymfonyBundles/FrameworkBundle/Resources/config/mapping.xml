@@ -51,7 +51,7 @@
             abstract="true"
 		>
 			<argument>tags</argument>
-			<argument>Clio\Component\Util\Tag\SimpleTag</argument>
+			<argument>Clio\Component\Tag\SimpleTag</argument>
 		</service>
 		<service
 			id="erato_framework.schema.mapping_factory.attributes._default"
@@ -59,7 +59,7 @@
             abstract="true"
 		>
 			<argument>attributes</argument>
-			<argument>Clio\Component\Util\Attribute\SimpleAttribute</argument>
+			<argument>Clio\Component\Attribute\SimpleAttribute</argument>
 		</service>
 <!--
 
@@ -72,7 +72,7 @@
 			class="%erato_framework.schema.attribute_map_mapping_factory.class%"
 		>
 			<argument>attributes</argument>
-			<argument>Clio\Component\Util\Attribute\SimpleAttribute</argument>
+			<argument>Clio\Component\Attribute\SimpleAttribute</argument>
 		</service>
 
 		<service
@@ -80,7 +80,7 @@
 			class="%erato_framework.schema.tag_set_mapping_factory.class%"
 		>
 			<argument>tags</argument>
-			<argument>Clio\Component\Util\Tag\SimpleTag</argument>
+			<argument>Clio\Component\Tag\SimpleTag</argument>
 		</service>
 		
 		<service

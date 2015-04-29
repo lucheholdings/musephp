@@ -1,13 +1,13 @@
 <?php
 namespace Erato\Core\Normalizer\Type;
 
-use Clio\Component\Tool\Normalizer\Type\AbstractType,
-	Clio\Component\Tool\Normalizer\Type\ObjectType,
-	Clio\Component\Tool\Normalizer\Type\ReferenceType;
-use Clio\Component\Tool\Normalizer\Context;
-use Clio\Component\Tool\Normalizer\Type\DataPool;
+use Clio\Component\Normalizer\Type\AbstractType,
+	Clio\Component\Normalizer\Type\ObjectType,
+	Clio\Component\Normalizer\Type\ReferenceType;
+use Clio\Component\Normalizer\Context;
+use Clio\Component\Normalizer\Type\DataPool;
 
-use Clio\Component\Util\Metadata\SchemaMetadata;
+use Clio\Component\Metadata\SchemaMetadata;
 use Erato\Core\CodingStandard;
 
 class MetadataType extends AbstractType implements ObjectType 

@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Core\Schema\Mapping;
 
-use Clio\Component\Util\Metadata;
+use Clio\Component\Metadata;
 use Calliope\Core\Connection;
 
 /**

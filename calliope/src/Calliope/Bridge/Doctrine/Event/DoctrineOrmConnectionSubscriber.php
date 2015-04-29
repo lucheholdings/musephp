@@ -3,7 +3,7 @@ namespace Calliope\Bridge\Doctrine\Event;
 
 use Calliope\Bridge\Doctrine\Connection\DoctrineOrmConnection;
 use Doctrine\Common\Persistence\ObjectManager;
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
+use Clio\Component\Metadata\Schema\ClassMetadata;
 /**
  * DoctrineOrmConnectionSubscriber 
  * 

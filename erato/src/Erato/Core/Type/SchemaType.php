@@ -1,13 +1,13 @@
 <?php
 namespace Erato\Core\Type;
 
-use Clio\Component\Util\Metadata\Type\SchemaReferenceType as BaseType;
+use Clio\Component\Metadata\Type\SchemaReferenceType as BaseType;
 
 // implements normalizer types
-use Clio\Component\Tool\Normalizer\Type\Types as NormalizerTypes;
-use Clio\Component\Tool\Normalizer\Type\ReferencableType;
-use Clio\Component\Tool\Normalizer\Type\ReferenceType;
-use Clio\Component\Util\Type\Type;
+use Clio\Component\Normalizer\Type\Types as NormalizerTypes;
+use Clio\Component\Normalizer\Type\ReferencableType;
+use Clio\Component\Normalizer\Type\ReferenceType;
+use Clio\Component\Type\Type;
 
 /**
  * SchemaType 

@@ -5,7 +5,7 @@ use Erato\Core\Tests\EratoComponentTestCase;
 use Erato\Core\Schema\Mapping\SchemaAccessorMapping;
 use Erato\Core\Tests\Models;
 
-use Clio\Component\Util\Accessor\Schema\Factory\BasicClassAccessorFactory;
+use Clio\Component\Accessor\Schema\Factory\BasicClassAccessorFactory;
 
 class SchemaAccessorMappingTest extends EratoComponentTestCase
 {
@@ -17,11 +17,11 @@ class SchemaAccessorMappingTest extends EratoComponentTestCase
 		$model = new Models\Model01();
 
 		$accessor = $mapping->getAccessor();
-		$this->assertInstanceOf('Clio\Component\Util\Accessor\SchemaAccessor', $accessor);
+		$this->assertInstanceOf('Clio\Component\Accessor\SchemaAccessor', $accessor);
 
 
 		$dataAccessor = $mapping->createDataAccessor($model);
-		$this->assertInstanceOf('Clio\Component\Util\Accessor\SchemaDataAccessor', $dataAccessor);
+		$this->assertInstanceOf('Clio\Component\Accessor\SchemaDataAccessor', $dataAccessor);
 	}
 
 	protected function createSchema($schema)

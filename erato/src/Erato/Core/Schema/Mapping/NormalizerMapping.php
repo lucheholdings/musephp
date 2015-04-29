@@ -2,10 +2,10 @@
 namespace Erato\Core\Schema\Mapping;
 
 use Clio\Extra\Metadata\Mapping\AbstractRegistryServiceMapping;
-use Clio\Component\Util\Metadata\Metadata;
-use Clio\Component\Util\Metadata\Schema\ClassMetadata;
-use Clio\Component\Tool\Normalizer\Normalizer;
-use Clio\Component\Tool\Normalizer\Context;
+use Clio\Component\Metadata\Metadata;
+use Clio\Component\Metadata\Schema\ClassMetadata;
+use Clio\Component\Normalizer\Normalizer;
+use Clio\Component\Normalizer\Context;
 use Clio\Component\Pattern\Registry\Registry;
 
 class NormalizerMapping extends AbstractRegistryServiceMapping

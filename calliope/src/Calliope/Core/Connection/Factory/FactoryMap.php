@@ -3,7 +3,7 @@ namespace Calliope\Core\Connection\Factory;
 
 use Calliope\Core\Connection\Factory;
 use Clio\Component\Pattern\Factory\NamedCollection as BaseFactory;
-use Clio\Component\Util\Validator\SubclassValidator;
+use Clio\Component\Validator\SubclassValidator;
 
 class FactoryMap extends BaseFactory 
 {

@@ -14,7 +14,7 @@ use Terpsichore\Client\Auth\Token;
 use Terpsichore\Client\Service\GenericClientService;
 use Terpsichore\Client\Auth\User;
 
-use Clio\Component\Tool\ArrayTool\Mapper as ArrayMapper;
+use Clio\Component\ArrayTool\Mapper as ArrayMapper;
 
 /**
  * AbstractProvider 

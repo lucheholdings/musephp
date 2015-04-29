@@ -2,7 +2,7 @@
 namespace Erato\Core\Tests\Schema\Config\Parser;
 
 use Erato\Core\Schema\Config\Parser\DefaultClassConfigParser;
-use Clio\Component\Util\Type;
+use Clio\Component\Type;
 
 class DefaultClassConfigParserTest extends \PHPUnit_Framework_TestCase 
 {

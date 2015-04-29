@@ -1,7 +1,7 @@
 <?php
 namespace Erato\Core\Model;
 
-use Clio\Component\Util\Attribute\Attribute as AttributeInterface;
+use Clio\Component\Attribute\Attribute as AttributeInterface;
 
 /**
  * Attribute 
