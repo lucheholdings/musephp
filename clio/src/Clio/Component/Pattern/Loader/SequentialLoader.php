@@ -34,7 +34,7 @@ class SequentialLoader implements Loader, \IteratorAggregate
         $this->loaders = array();
 
         foreach($loaders as $loader) {
-            $this->add($loader);
+            $this->append($loader);
         }
     }
 
@@ -74,6 +74,32 @@ class SequentialLoader implements Loader, \IteratorAggregate
         return $this;
     }
 
+    /**
+     * prepend 
+     * 
+     * @param Loader $loader 
+     * @access public
+     * @return void
+     */
+    public function prepend(Loader $loader)
+    {
+        array_unshift($this->loaders, $loader);
+        return $this;
+    }
+
+    /**
+     * append 
+     * 
+     * @param Loader $loader 
+     * @access public
+     * @return void
+     */
+    public function append(Loader $loader)
+    {
+        array_push($this->loaders, $loader);
+        return $this;
+    }
+
     public function getIterator()
     {
         return new \ArrayIterator($this->loaders);
@@ -88,7 +114,7 @@ class SequentialLoader implements Loader, \IteratorAggregate
     {
         $this->loaders = array();
         foreach($loaders as $loader) {
-            $this->add($loader);
+            $this->append($loader);
         }
         return $this;
     }
