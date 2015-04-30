@@ -1,7 +1,7 @@
 <?php
 namespace Calliope\Core\Filter\Factory;
 
-use Clio\Component\Pattern\Factory\PriorityCollection;
+use Clio\Component\Pattern\Factory;
 use Calliope\Core\Filter\ChainedFilter;
 
 /**
@@ -13,7 +13,7 @@ use Calliope\Core\Filter\ChainedFilter;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ChainedFilterFactory extends PriorityCollection 
+class ChainedFilterFactory extends Factory\PriorityCollection 
 {
 	/**
 	 * createChainedFilter 
@@ -28,7 +28,7 @@ class ChainedFilterFactory extends PriorityCollection
 
 	public function createChainedFilterArgs(array $args = array())
 	{
-		$options = $this->shiftArg($args, 'options');
+		$options = Factory\Util::shiftArg($args, 'options');
 
 		// Get sorted factories
 		$factories = $this->getValues();

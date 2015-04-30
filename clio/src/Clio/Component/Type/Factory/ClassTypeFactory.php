@@ -2,6 +2,7 @@
 namespace Clio\Component\Type\Factory;
 
 use Clio\Component\Type\Actual as ActualTypes;
+use Clio\Component\Pattern\Factory;
 
 /**
  * ClassTypeFactory 
@@ -15,13 +16,14 @@ use Clio\Component\Type\Actual as ActualTypes;
 class ClassTypeFactory extends AbstractTypeFactory
 {
     /**
-     * createType 
+     * doCreateType 
      * 
      * @param mixed $name 
-     * @access public
+     * @param array $options 
+     * @access protected
      * @return void
      */
-	public function createType($name, array $options = array())
+	protected function doCreateType($name, array $options)
 	{
 		if(class_exists($name)) { 
 		    return new ActualTypes\ClassType($name);
@@ -29,19 +31,7 @@ class ClassTypeFactory extends AbstractTypeFactory
 		    return new ActualTypes\InterfaceType($name);
 		}
 
-		throw new \InvalidArgumentException(sprintf('Class or Interface "%s" is not exists.', $name));
-	}
-
-    /**
-     * isSupportedType 
-     * 
-     * @param mixed $name 
-     * @access public
-     * @return void
-     */
-	public function isSupportedType($name)
-	{
-		return class_exists($name) || interface_exists($name);
+		throw new Factory\Exception\UnsupportedException(sprintf('Class or Interface "%s" is not exists.', $name));
 	}
 }
 

@@ -36,20 +36,7 @@ class TypeFactoryCollection extends Factory\SequentialMappedFactory implements F
      */
     public function createType($type, array $options = array())
     {
-        return $this->createByKeyArgs($type, array('options' => $options));
-    }
-
-    /**
-     * canCreateType 
-     * 
-     * @param mixed $type 
-     * @param array $options 
-     * @access public
-     * @return void
-     */
-    public function canCreateType($type, array $options = array())
-    {
-        return $this->canCreateByKey($type, array('options' => $options));
+        return $this->doCreate(array($type, $options));
     }
 }
 

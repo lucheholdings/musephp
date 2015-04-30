@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Container\ArrayImpl;
 
+use Clio\Component\Container\PrioritySet as PrioritySetInterface;
+
 /**
  * PrioritySet 
  * 
@@ -10,8 +12,10 @@ namespace Clio\Component\Container\ArrayImpl;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class PrioritySet extends Set
+class PrioritySet extends Set implements PrioritySetInterface
 {
+    private $_sorted;
+
     /**
      * getValues 
      * 
@@ -20,12 +24,14 @@ class PrioritySet extends Set
      */
 	public function getValues()
 	{
-        $values = array();
-        foreach($this->values as $priority => $priorityValues) {
-            $values = array_merge($values, $priorityValues);
-        }
-
-		return array_unique($values);
+        if(!$this->_sorted) {
+            $values = array();
+            foreach($this->values as $priority => $priorityValues) {
+                $values = array_merge($values, $priorityValues);
+            }
+            $this->_sorted = $values;
+        } 
+        return $this->_sorted;
 	}
 
     /**
@@ -42,6 +48,7 @@ class PrioritySet extends Set
 		if(!in_array($value, $this->values)) {
 			$this->values[$priority][] = $value;
 		}
+        $this->_sorted = null;
         return $this;
 	}
 
@@ -71,6 +78,13 @@ class PrioritySet extends Set
                     return !($value == $v); 
                 });
             }, $this->values);
+
+        $this->_sorted = null;
 	}
+
+    public function getIterator()
+    {
+        return new \ArrayIterator($this->getValues());
+    }
 }
 

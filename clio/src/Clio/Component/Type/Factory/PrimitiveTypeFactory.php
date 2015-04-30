@@ -4,7 +4,7 @@ namespace Clio\Component\Type\Factory;
 use Clio\Component\Type\MixedType;
 use Clio\Component\Type\Actual as ActualTypes;
 use Clio\Component\Type\PrimitiveTypes;
-use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
+use Clio\Component\Pattern\Factory;
 
 /**
  * PrimitiveTypeFactory 
@@ -18,14 +18,14 @@ use Clio\Component\Pattern\Factory\Exception\UnsupportedException;
 class PrimitiveTypeFactory extends AbstractTypeFactory
 {
     /**
-     * createType 
+     * doCreateType 
      * 
      * @param mixed $name 
      * @param array $options 
-     * @access public
+     * @access protected
      * @return void
      */
-	public function createType($name, array $options = array())
+	protected function doCreateType($name, array $options = array())
 	{
 		switch(strtolower($name)) {
 		case PrimitiveTypes::TYPE_NULL:
@@ -49,7 +49,7 @@ class PrimitiveTypeFactory extends AbstractTypeFactory
 			break;
 		}
 
-		throw new UnsupportedException(sprintf('Unknown type "%s" to create.', $name));
+		throw new Factory\Exception\UnsupportedException(sprintf('Unknown type "%s" to create.', $name));
 	}
 
     /**

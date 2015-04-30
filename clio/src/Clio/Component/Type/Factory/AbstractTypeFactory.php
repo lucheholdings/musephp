@@ -1,9 +1,8 @@
 <?php
 namespace Clio\Component\Type\Factory;
 
-use Clio\Component\Type\Factory;
-use Clio\Component\Pattern\Factory\AbstractMappedFactory;
-use Clio\Component\Pattern\Factory\Tool\FactoryTool;
+use Clio\Component\Type\Factory as TypeFactory;
+use Clio\Component\Pattern\Factory;
 
 /**
  * AbstractTypeFactory 
@@ -15,56 +14,42 @@ use Clio\Component\Pattern\Factory\Tool\FactoryTool;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractTypeFactory extends AbstractMappedFactory implements Factory
+abstract class AbstractTypeFactory extends Factory\AbstractMappedFactory implements TypeFactory
 {
     /**
-     * doCreateByKey 
+     * doCreate 
      * 
-     * @param mixed $key 
      * @param array $args 
      * @access protected
      * @return void
      */
-	protected function doCreateByKey($key, array $args)
+	protected function doCreate(array $args)
 	{
-		$options = FactoryTool::shiftArg($args, 'options', array());
-
-		return $this->createType($key, $options);
+		return $this->doCreateType(Factory\Util::shiftArg($args, 'type'), Factory\Util::shiftArg($args, 'options', array()));
 	}
 
     /**
-     * canCreateByKey 
-     * 
-     * @param mixed $key 
-     * @access public
-     * @return void
-     */
-    public function canCreateByKey($key)
-    {
-        return $this->canCreateType($key);
-    }
-
-    /**
-     * canCreateType 
+     * createType 
      * 
      * @param mixed $type 
      * @param array $options 
      * @access public
      * @return void
      */
-	public function canCreateType($type, array $options = array())
-	{
-		return $this->isSupportedType($type);
-	}
+    public function createType($type, array $options = array())
+    {
+        return $this->doCreateType($type, $options);
+    }
 
     /**
-     * isSupportedType 
+     * doCreateType 
      * 
      * @param mixed $type 
+     * @param array $options 
      * @abstract
      * @access protected
      * @return void
      */
-    abstract protected function isSupportedType($type);
+    abstract protected function doCreateType($type, array $options);
 }
 

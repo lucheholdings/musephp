@@ -4,6 +4,7 @@ namespace Clio\Component\Type\Resolver;
 use Clio\Component\Type\Resolver;
 use Clio\Component\Type\Factory as TypeFactory;
 use Clio\Component\Type\Exception as TypeException;
+use Clio\Component\Pattern\Factory;
 
 /**
  * TypeFactoryResolver 
@@ -46,7 +47,11 @@ class TypeFactoryResolver implements Resolver
      */
     public function canResolve($type, array $options = array())
     {
-        return $this->getTypeFactory()->canCreateType($type);
+        try {
+            return (bool)$this->getTypeFactory()->createType($type, $options);
+        } catch(Factory\Exception $ex) {
+            return false;
+        }
     }
 
 	/**
@@ -58,11 +63,11 @@ class TypeFactoryResolver implements Resolver
 	 */
 	public function resolve($type, array $options = array())
 	{
-		if(!$this->getTypeFactory()->canCreateType($type)) {
-			throw new TypeException\InvalidTypeException(sprintf('Type "%s" is not exists.', (string)$type));	
-		}
-
-		return $this->getTypeFactory()->createType($type, $options);
+        try {
+		    return $this->getTypeFactory()->createType($type, $options);
+        } catch(Factory\Exception $ex) {
+			throw new TypeException\InvalidTypeException(sprintf('Type "%s" is not exists.', (string)$type), 0, $ex);
+        }
 	}
     
     /**

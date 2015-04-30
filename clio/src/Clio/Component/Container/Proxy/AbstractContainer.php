@@ -1,6 +1,8 @@
 <?php
 namespace Clio\Component\Container\Proxy;
 
+use Clio\Component\Container\Container;
+
 /**
  * AbstractContainer 
  * 
@@ -20,9 +22,10 @@ abstract class AbstractContainer
     /**
      * {@inheritdoc}
      */
-    public function __construct(ContainerInterface $container = null)
+    public function __construct(Container $container = null)
     {
-        $this->setWrapped($container);
+        if($container) 
+            $this->setWrapped($container);
     }
 
     /**
@@ -85,11 +88,11 @@ abstract class AbstractContainer
     /**
      * setWrapped 
      * 
-     * @param ContainerInterface $wrapped 
+     * @param Container $wrapped 
      * @access public
      * @return void
      */
-    public function setWrapped(ContainerInterface $wrapped)
+    public function setWrapped(Container $wrapped)
     {
         $this->wrapped = $wrapped;
         return $this;

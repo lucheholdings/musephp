@@ -17,9 +17,9 @@ class DoctrineCacheProviderFactory extends BaseFactory implements ContainerAware
 		$this->container = $container;
 	}
 
-	public function shiftArg(array &$args, $aliasKey = null, $default = null) 
+	public function getStorageFromArgs(array &$args, $aliasKey = null, $default = null) 
 	{
-		$arg = parent::shiftArg($args, $aliasKey, $default);
+		$arg = Factory\Util::shiftArg($args, $aliasKey, $default);
 
 		switch($aliasKey) {
 		case 'couchbase':

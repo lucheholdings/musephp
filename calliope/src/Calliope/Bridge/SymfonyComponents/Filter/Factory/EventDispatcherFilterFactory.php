@@ -1,8 +1,8 @@
 <?php
 namespace Calliope\Bridge\SymfonyComponents\Filter\Factory;
 
-use Calliope\Core\Filter\Factory;
-use Clio\Component\Pattern\Factory\ComponentFactory;
+use Calliope\Core\Filter\Factory as FilterFactory;
+use Clio\Component\Pattern\Factory;
 
 /**
  * ConnectionFilterFactory 
@@ -13,7 +13,7 @@ use Clio\Component\Pattern\Factory\ComponentFactory;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class EventDispatcherFilterFactory extends ComponentFactory implements Factory
+class EventDispatcherFilterFactory extends Factory\ComponentFactory implements FilterFactory
 {
 	public function __construct()
 	{
@@ -28,7 +28,7 @@ class EventDispatcherFilterFactory extends ComponentFactory implements Factory
 	public function createFilterArgs(array $args = array())
 	{
 
-		$options = $this->shiftArg($args, 'options');
+		$options = Factory\Util::shiftArg($args, 'options');
 
 		$eventDispatcher = null;
 		if(isset($options['event_dispatcher'])) {

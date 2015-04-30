@@ -13,51 +13,40 @@ namespace Clio\Component\Pattern\Factory;
 class ClassFactory extends AbstractMappedFactory 
 {
     /**
-     * doCreateByKey 
-     * 
+     * {@inheritdoc}
+     */
+	protected function doCreate(array $args = array())
+	{
+		return $this->doCreateClass(Util::shiftArg($args), $args);
+	}
+
+    /**
+     * doCreateClass 
+     *   Create class instance 
+     * @param mixed $class 
      * @param array $args 
      * @access protected
      * @return void
      */
-	protected function doCreateByKey($key, array $args = array())
-	{
-		return $this->doCreateClass($key, $args);
-	}
-
     protected function doCreateClass($class, array $args)
     {
-		if(!$class instanceof \ReflectionClass) {
-			if(!is_string($class)) {
-				throw new \InvalidArgumentException(sprintf('Invalid argument type "%s"', gettype($class)));
-			}
+        try {
+		    if(!$class instanceof \ReflectionClass) {
+		    	if(!is_string($class)) {
+		    		throw new \InvalidArgumentException(sprintf('Class has to be a string or an instanceof ReflectionClass, but "%s" is given', gettype($class)));
+		    	}
 
-			$class = new \ReflectionClass($class);
-		}
+		    	$class = new \ReflectionClass($class);
+		    }
 
-		$constructorArgs = $this->resolveConstructorArgs($args);
+		    $constructorArgs = $this->resolveConstructorArgs($args);
 
-		$newInstance = $this->getConstructor()->construct($class, $constructorArgs);
-
-		if($this->hasValidator()) {
-			$this->getValidator()->validate($newInstance);
-		}
-		return $newInstance;
+		    $newInstance = $this->getConstructor()->construct($class, $constructorArgs);
+		    return $newInstance;
+        } catch(\Exception $ex) {
+            throw new Exception\FailedException('', 0, $ex);
+        }
     }
-
-	/**
-	 * createClass 
-	 * 
-	 * @param string|ReflectionClass $class 
-	 * @access public
-	 * @return void
-	 */
-	public function createClass($class)
-	{
-		$args = func_get_args();
-        array_shift($args);
-
-		return $this->doCreateClass($class, $args);
-	}
 
 	/**
 	 * createClassArgs 
@@ -67,7 +56,7 @@ class ClassFactory extends AbstractMappedFactory
 	 * @access public
 	 * @return void
 	 */
-	public function createClassArgs($class, array $args = array())
+	public function createClass($class, array $args = array())
 	{
         return $this->doCreateClass($class, $args);
 	}
@@ -81,33 +70,7 @@ class ClassFactory extends AbstractMappedFactory
      */
 	protected function resolveConstructorArgs(array $args)
 	{
-		return array_shift($args) ?: array();
+		return $args;
 	}
-
-    /**
-     * canCreateClass 
-     * 
-     * @param mixed $class 
-     * @param array $args 
-     * @access public
-     * @return void
-     */
-	public function canCreateClass($class)
-	{
-		return class_exists($class);
-	}
-
-    /**
-     * canCreateByKey 
-     * 
-     * @param mixed $key 
-     * @param array $args 
-     * @access public
-     * @return void
-     */
-    public function canCreateByKey($key, array $args = array())
-    {
-        return $this->canCreateClass($key);
-    }
 }
 

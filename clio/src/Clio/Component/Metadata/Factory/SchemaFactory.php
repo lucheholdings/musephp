@@ -2,7 +2,7 @@
 namespace Clio\Component\Metadata\Factory;
 
 use Clio\Component\Metadata;
-use Clio\Component\Pattern\Factory\MappedFactory;
+use Clio\Component\Pattern\Factory;
 use Clio\Component\Type as Types;
 /**
  * SchemaFactory 
@@ -12,7 +12,7 @@ use Clio\Component\Type as Types;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class SchemaFactory implements Metadata\Factory, MappedFactory 
+class SchemaFactory implements Metadata\Factory, Factory\MappedFactory 
 {
     /**
      * schemaResolver 
@@ -81,33 +81,16 @@ class SchemaFactory implements Metadata\Factory, MappedFactory
 	public function createSchemaMetadata($type)
 	{
         $builder = $this->createBuilder();
-
-        return $builder
-            ->setType($type)
-            ->appendProperties()
-            ->getSchemaMetadata()
-        ;
-	}
-    
-	/**
-	 * {@inheritdoc}
-	 */
-	public function canCreateArgs(array $args = array())
-	{
-		return $this->canCreateByKey(array_shift($args), $args);
-	}
-
-	/**
-	 * canCreateByKey
-	 * 
-	 * @param mixed $key 
-	 * @param array $args 
-	 * @access public
-	 * @return void
-	 */
-	public function canCreateByKey($key, array $args = array())
-	{
-		return $this->isSupportedSchema($key);
+        
+        try {
+            return $builder
+                ->setType($type)
+                ->appendProperties()
+                ->getSchemaMetadata()
+            ;
+        } catch(\Exception $ex) {
+            throw new Factory\Exception\UnsupportedException(sprintf('Invalid type "%s" to create the schema for.', (string)$type), 0, $ex);
+        }
 	}
 
 	/**

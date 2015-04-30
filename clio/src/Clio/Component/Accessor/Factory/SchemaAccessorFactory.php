@@ -1,15 +1,15 @@
 <?php
 namespace Clio\Component\Accessor\Factory;
 
-use Clio\Component\Pattern\Factory\AbstractMappedFactory;
-use Clio\Component\Accessor\Factory;
+use Clio\Component\Pattern\Factory;
+use Clio\Component\Accessor\Factory as AccessorFactory;
 use Clio\Component\Accessor\Schema;
 use Clio\Component\Accessor\Builder\SchemaAccessorBuilder;
 use Clio\Component\Accessor\Field\Factory as FieldAccessorFactory;
 use Clio\Component\Metadata;
 use Clio\Component\Type\PrimitiveTypes;
 
-class SchemaAccessorFactory extends AbstractMappedFactory implements Factory 
+class SchemaAccessorFactory extends Factory\AbstractMappedFactory implements AccessorFactory 
 {
     /**
      * fieldAccessorFactory 
@@ -20,26 +20,22 @@ class SchemaAccessorFactory extends AbstractMappedFactory implements Factory
     private $fieldAccessorFactory;
 
     /**
-     * doCreateByKey 
-     * 
-     * @param mixed $key 
-     * @param array $args 
-     * @access public
-     * @return void
+     * {@inheritdoc}
      */
-    public function doCreateByKey($key, array $args)
+    public function doCreate(array $args)
     {
-        return $this->createAccessor($key);
+        return $this->doCreateAccessor(Factory\Util::shiftArg($args), Factory\Util::shiftArg($args, null, array()));
     }
 
     /**
-     * createAccessor 
-     * 
-     * @param Metadata\Schema $schema 
-     * @access public
-     * @return void
+     * {@inheritdoc}
      */
     public function createAccessor(Metadata\Schema $schema)
+    {
+        return $this->doCreateAccessor($schema, array());
+    }
+
+    protected function doCreateAccessor(Metadata\Schema $schema, array $options)
     {
         $builder = $this->createBuilder();
         $builder->setSchema($schema);

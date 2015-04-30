@@ -1,12 +1,12 @@
 <?php
 namespace Clio\Component\Normalizer\Strategy;
 
-use Clio\Extra\Container\Validation\PrioritySet;
+use Clio\Component\Container;
+
 use Clio\Component\Normalizer\Strategy;
 use Clio\Component\Normalizer\Context;
 use Clio\Component\Type;
 use Clio\Component\Exception\UnsupportedException;
-use Clio\Component\Validator\SubclassValidator;
 
 /**
  * PriorityCollection 
@@ -16,7 +16,7 @@ use Clio\Component\Validator\SubclassValidator;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class PriorityCollection extends PrioritySet implements
+class PriorityCollection extends Container\Proxy\PrioritySet implements
 	NormalizationStrategy,
 	DenormalizationStrategy
 {
@@ -26,9 +26,7 @@ class PriorityCollection extends PrioritySet implements
 	
 	public function __construct(array $values = array())
 	{
-        parent::__construct();
-
-		$this->setValueValidator(new SubclassValidator('Clio\Component\Normalizer\Strategy'));
+        parent::__construct(new Container\ArrayImpl\PrioritySet());
 
 		foreach($values as $value) {
 			$this->add($value);

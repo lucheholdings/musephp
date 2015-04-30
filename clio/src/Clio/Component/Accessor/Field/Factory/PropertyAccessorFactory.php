@@ -4,6 +4,7 @@ namespace Clio\Component\Accessor\Field\Factory;
 use Clio\Component\Accessor\Field\Factory as FieldAccessorFactory;
 use Clio\Component\Accessor\Field as FieldAccessors;
 use Clio\Component\Metadata;
+use Clio\Component\Pattern\Factory;
 
 /**
  * PropertyAccessorFactory 
@@ -39,7 +40,7 @@ class PropertyAccessorFactory implements FieldAccessorFactory
             }
         }
 
-        throw new \RuntimeException('Unsupported field to create Accessor.');
+        throw new Factory\Exception\UnsupportedException('Unsupported field to create Accessor.');
     }
 
     /**
@@ -85,23 +86,6 @@ class PropertyAccessorFactory implements FieldAccessorFactory
         }
         // no method match
         return null;
-    }
-
-    public function canCreateFieldAccessor(Metadata\Field $field, array $options = array())
-    {
-        if($field->getReflector()->isPublic()) {
-            // 
-            return true;
-        } else {
-            // Try to figure getter/setter
-            $getter = $this->guessPropertyGetter($field, $options);
-            $setter = $this->guessPropertySetter($field, $options);
-
-            if($getter || $setter) {
-                return true;
-            }
-        }
-        return false;
     }
 }
 

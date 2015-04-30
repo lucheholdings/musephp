@@ -3,9 +3,7 @@ namespace Clio\Bridge\DoctrineCommon\Cache\Factory;
 
 use Clio\Extra\Constructor\InjectionConstructor;
 use Clio\Component\Pattern\Constructor\DefaultConstructorFactory;
-use Clio\Component\Pattern\Factory\MappedFactory,
-	Clio\Component\Pattern\Factory\MappedComponentFactory
-;
+use Clio\Component\Pattern\Factory;
 use Clio\Component\Injection\MethodInjector;
 
 /**
@@ -19,7 +17,7 @@ use Clio\Component\Injection\MethodInjector;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory implements MappedFactory
+abstract class AbstractDoctrineCacheFactory extends Factory\MappedComponentFactory implements Factory\MappedFactory
 {
 	const ARG_KEY = 'type';
 
@@ -62,7 +60,7 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 	 */
 	protected function doCreate(array $args)
 	{
-		return $this->doCreateByKey($this->shiftArg($args, self::ARG_KEY), $args);
+		return $this->doCreateByKey(Factory\Util::shiftArg($args, self::ARG_KEY), $args);
 	}
 
 	/**
@@ -129,22 +127,22 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 		$injector = null;
 		switch($type) {
 		case 'couchbase':
-			if($couchbase = $this->shiftArg($args, 'couchbase')) {
+			if($couchbase = $this->getStorageFromArgs($args, 'couchbase')) {
 				$injector = new MethodInjector('setMemcache', array($couchbase));
 			}
 			break;
 		case 'memcache':
-			if($memcache = $this->shiftArg($args, 'memcache')) {
+			if($memcache = $this->getStorageFromArgs($args, 'memcache')) {
 				$injector = new MethodInjector('setMemcache', array($memcache));
 			}
 			break;
 		case 'memcached':
-			if($memcached = $this->shiftArg($args, 'memcached')) {
+			if($memcached = $this->getStorageFromArgs($args, 'memcached')) {
 				$injector = new MethodInjector('setMemcached', array($memcached));
 			}
 			break;
 		case 'redis':
-			if($redis = $this->shiftArg($args, 'redis')) {
+			if($redis = $this->getStorageFromArgs($args, 'redis')) {
 				$injector = new MethodInjector('setRedis', array($redis));
 			}
 			break;
@@ -156,7 +154,7 @@ abstract class AbstractDoctrineCacheFactory extends MappedComponentFactory imple
 
 	public function isSupportedArgs(array $args = array())
 	{
-		return $this->isSupportedKeyArgs($this->shiftArg($args, self::ARG_KEY), $args);
+		return $this->isSupportedKeyArgs(Factory\Util::shiftArg($args, self::ARG_KEY), $args);
 	}
 
 	public function isSupportedKey($key)

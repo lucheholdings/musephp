@@ -13,7 +13,6 @@ namespace Clio\Component\Pattern\Factory;
  */
 class MappedComponentFactory extends ClassFactory implements MappedFactory
 {
-	const ARG_KEY = 'key';
 	/**
 	 * classes 
 	 * 
@@ -49,38 +48,21 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 	 */
 	protected function doCreate(array $args = array())
 	{
-		$key = $this->shiftArg($args, self::ARG_KEY);
-		return $this->createByKeyArgs($key, $args);
+		$key = Util::shiftArg($args);
+
+        return $this->doCreateClass($this->getMappedClass($key), $args);
 	}
 
-	/**
-	 * createByKey 
-	 * 
-	 * @param mixed $key 
-	 * @access public
-	 * @return void
-	 */
+    /**
+     * createByKey 
+     * 
+     * @param mixed $key 
+     * @access public
+     * @return void
+     */
 	public function createByKey($key)
 	{
-		$args = func_get_args();
-		$key = $this->shiftArg($args, self::ARG_KEY);
-		
-		return $this->createByKeyArgs($key, $args);
-	}
-
-	/**
-	 * createByKeyArgs 
-	 * 
-	 * @param mixed $key 
-	 * @param array $args 
-	 * @access public
-	 * @return void
-	 */
-	public function createByKeyArgs($key, array $args = array())
-	{
-		$args = $this->resolveKeyArgs($key, $args);
-
-		return $this->createClassArgs($this->getMappedClass($key), $args);
+		return $this->createArgs(func_get_args());
 	}
 
 	/**
@@ -115,27 +97,6 @@ class MappedComponentFactory extends ClassFactory implements MappedFactory
 			throw new \InvalidArgumentException(sprintf('Type "%s" is not specified.', $key));
 		}
 		return $this->classes[$key];
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function canCreateArgs(array $args = array())
-	{
-		return $this->isSupportedKeyArgs($this->shiftArg($args, self::ARG_KEY), $args);
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function canCreateByKey($key, array $args = array())
-	{
-		return array_key_exists($key, $this->classes);
-	}
-
-	protected function resolveKeyArgs($key, array $args = array())
-	{
-		return $args;
 	}
 }
 

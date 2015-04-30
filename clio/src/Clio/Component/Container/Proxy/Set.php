@@ -1,6 +1,7 @@
 <?php
 namespace Clio\Component\Container\Proxy;
 
+use Clio\Component\Container\Container;
 use Clio\Component\Container\Set as SetInterface;
 
 /**
@@ -46,6 +47,21 @@ class Set extends AbstractContainer implements SetInterface
     public function remove($value)
     {
         return $this->getWrapped()->remove($value);
+    }
+
+    /**
+     * setWrapped 
+     * 
+     * @param Container $wrapped 
+     * @access public
+     * @return void
+     */
+    public function setWrapped(Container $wrapped)
+    {
+        if(!$wrapped instanceof SetInterface) {
+            throw new \InvalidArgumentException('PrioritySet only accept PrioirtySet as wrapped container.');
+        }
+        parent::setWrapped($wrapped);
     }
 }
 

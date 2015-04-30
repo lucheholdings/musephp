@@ -2,8 +2,7 @@
 namespace Clio\Component\Schemifier;
 
 use Clio\Component\ArrayTool\Mapper;
-use Clio\Component\Container\Map;
-use Clio\Component\Container\ArrayImpl\Map;
+use Clio\Component\Container;
 
 /**
  * AbstractSchemifier 
@@ -38,7 +37,7 @@ abstract class AbstractSchemifier implements Schemifier
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($schema, Map $fieldKeyMappers = null)
+	public function __construct($schema, Container\Map $fieldKeyMappers = null)
 	{
 		$this->schema = $schema;
 		$this->fieldKeyMappers = $fieldKeyMappers;
@@ -114,12 +113,12 @@ abstract class AbstractSchemifier implements Schemifier
     public function getFieldKeyMappers()
     {
 		if(!$this->fieldKeyMappers) {
-			$this->fieldKeyMappers = new Map();
+			$this->fieldKeyMappers = new Container\ArrayImpl\Map();
 		}
         return $this->fieldKeyMappers;
     }
     
-    public function setFieldKeyMappers(Map $fieldKeyMappers)
+    public function setFieldKeyMappers(Container\Map $fieldKeyMappers)
     {
         $this->fieldKeyMappers = $fieldKeyMappers;
         return $this;

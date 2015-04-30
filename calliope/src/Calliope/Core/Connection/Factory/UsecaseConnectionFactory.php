@@ -37,15 +37,15 @@ class UsecaseConnectionFactory extends AbstractConnectionFactory implements Fact
 		$this->registry = $registry;
 	}
 
-	/**
-	 * create 
-	 * 
-	 * @param string $connectTo 
-	 * @param array $options
-	 * @access public
-	 * @return void
-	 */
-	public function createConnection($connectTo, array $options = array())
+    /**
+     * doCreateConnection 
+     * 
+     * @param mixed $connectTo 
+     * @param array $options 
+     * @access protected
+     * @return void
+     */
+	protected function doCreateConnection($connectTo, array $options = array())
 	{
 		$connection = new UsecaseConnection($this->getRegistry(), $connectTo, $options);
 

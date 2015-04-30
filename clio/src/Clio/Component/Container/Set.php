@@ -10,7 +10,7 @@ namespace Clio\Component\Container;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-interface Set extends Container
+interface Set extends Container, \IteratorAggregate, \Countable
 {
     /**
      * has 

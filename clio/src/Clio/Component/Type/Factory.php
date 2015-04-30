@@ -21,14 +21,5 @@ interface Factory extends MappedFactory
 	 * @return Type 
 	 */
 	function createType($type, array $options = array());
-
-    /**
-     * canCreateType 
-     * 
-     * @param mixed $type 
-     * @access public
-     * @return boolean 
-     */
-	function canCreateType($type);
 }
 

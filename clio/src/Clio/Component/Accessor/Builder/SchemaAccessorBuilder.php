@@ -2,6 +2,7 @@
 namespace Clio\Component\Accessor\Builder;
 
 use Clio\Component\Accessor\Field\MultiFieldAccessor;
+use Clio\Component\Pattern\Factory\Exception as FactoryException;
 
 class SchemaAccessorBuilder  
 {
@@ -32,8 +33,10 @@ class SchemaAccessorBuilder
         if($accessor instanceof MultiFieldAccessor) {
             $fieldAccessors = array();
             foreach($this->fields as $field) {
-                if($this->fieldAccessorFactory->canCreateFieldAccessor($field)) {
+                try {
                     $fieldAccessors[] = $this->fieldAccessorFactory->createFieldAccessor($field);
+                } catch(FactoryException $ex) {
+                    // 
                 }
             }
             $accessor->setFieldAccessors($fieldAccessors);

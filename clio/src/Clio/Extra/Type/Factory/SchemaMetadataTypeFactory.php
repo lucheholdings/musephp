@@ -37,14 +37,7 @@ class SchemaMetadataTypeFactory extends AbstractTypeFactory
         $this->schemaResolver = $schemaResolver;
     }
 
-    /**
-     * createType 
-     * 
-     * @param mixed $name 
-     * @access public
-     * @return void
-     */
-    public function createType($name, array $options = array())
+    protected function doCreateType($name, array $options = array())
     {
         try {
             $schema = $this->schemaResolver->resolve($name);
