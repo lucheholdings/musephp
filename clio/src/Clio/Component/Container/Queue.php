@@ -17,7 +17,7 @@ interface Queue
      * @access public
      * @return void
      */
-    function enqueue();
+    function enqueue($value);
 
     /**
      * dequeue 

@@ -25,7 +25,7 @@ class ConevrterMap implements Converter
 	 */
 	public function __construct()
 	{
-		$this->converters = new SimpleMap();
+		$this->converters = new Map();
 	}
 
 	/**
@@ -46,7 +46,7 @@ class ConevrterMap implements Converter
 		$src = (string)$src;
 		$dest = (string)$dest;
 		if(!$this->converters->hasKey($src)) {
-			$this->converters->set($src, new SimpleMap());
+			$this->converters->set($src, new Map());
 		}
 
 		$this->converters[$src][$dest] = $converter;

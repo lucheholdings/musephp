@@ -7,10 +7,7 @@ use Clio\Component\Task\Task,
 ;
 use Clio\Component\Task\Exception as TaskExceptions;
 use Clio\Component\Task\Scheduler;
-use Clio\Component\Container\Queue,
-	Clio\Component\Container\Map,
-	Clio\Component\Container\SimpleMap
-;
+use Clio\Component\Container;
 
 class QueuedTaskScheduler implements Scheduler, \Countable
 {
@@ -20,11 +17,11 @@ class QueuedTaskScheduler implements Scheduler, \Countable
 
 	protected $manager;
 
-	public function __construct(Queue $queue, Map $map = null)
+	public function __construct(Container\Queue $queue, Container\Map $map = null)
 	{
 		$this->queue = $queue;
 		if(!$map) {
-			$map = new SimpleMap();
+			$map = new Container\ArrayImpl\Map();
 		}
 		$this->scheduledTasks = $map;
 	}

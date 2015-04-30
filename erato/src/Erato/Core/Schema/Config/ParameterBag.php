@@ -1,18 +1,18 @@
 <?php
 namespace Erato\Core\Schema\Config;
 
-use Clio\Component\Container\Map\SimpleMap;
+use Clio\Component\Container\ArrayImpl\Map;
 
 /**
  * ParameterBag 
  * 
- * @uses SimpleMap
+ * @uses Map
  * @package { PACKAGE }
  * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class ParameterBag extends SimpleMap
+class ParameterBag extends Map
 {
     /**
      * get 

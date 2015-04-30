@@ -15,7 +15,7 @@ Taskコンポーネントは、処理のタスク化に向けた、共通コン�
 
 ```
 // Create TaskManager with default "inProcess" TaskScheduler 
-$taskManager = new TaskManager(new QueuedTaskScheduler(new SimpleQueue(), new SimpleMap()), 'inProcess');
+$taskManager = new TaskManager(new QueuedTaskScheduler(new Queue(), new Map()), 'inProcess');
 // Add Scheduler using Celery TaskQueue
 $taskManager->addScheduler('celery.async', new CeleryTaskScheduler($celeryClient));
 // Using Doctrine ORM as 

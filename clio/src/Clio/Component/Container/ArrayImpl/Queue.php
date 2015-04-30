@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Container\ArrayImpl;
 
-use Clio\Component\Queue as QueueInterface;
+use Clio\Component\Container\Queue as QueueInterface;
 
 /**
  * Queue 

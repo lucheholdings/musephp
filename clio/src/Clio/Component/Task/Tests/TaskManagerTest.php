@@ -10,15 +10,15 @@ use Clio\Component\Task\Task\Task,
 
 use Clio\Component\Task\Executor\ClosureExecutor;
 
-use Clio\Component\Container\Queue\SimpleQueue;
-use Clio\Component\Container\Map\SimpleMap;
+use Clio\Component\Container\ArrayImpl\Queue;
+use Clio\Component\Container\ArrayImpl\Map;
 
 class TaskManagerTest extends TestCase 
 {
 	public function testSchedule()
 	{
 		$task = new Task('task');
-		$taskManager = new TaskManager(new QueuedTaskScheduler(new SimpleQueue(), new SimpleMap()));
+		$taskManager = new TaskManager(new QueuedTaskScheduler(new Queue(), new Map()));
 		$taskManager->setExecutor('task', new ClosureExecutor(function($task) {
 				return 'success';
 			}));

@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Normalizer\Strategy;
 
-use Clio\Component\Container\Set\PrioritySet;
+use Clio\Extra\Container\Validation\PrioritySet;
 use Clio\Component\Normalizer\Strategy;
 use Clio\Component\Normalizer\Context;
 use Clio\Component\Type;
@@ -24,12 +24,9 @@ class PriorityCollection extends PrioritySet implements
 	const BEHAVIOR_STRATEGY_PRIORITY   = 100;
 	const CUSTOME_STRATEGY_PRIORITY    = 500;
 	
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function initContainer(array $values)
+	public function __construct(array $values = array())
 	{
-		parent::initContainer(array());
+        parent::__construct();
 
 		$this->setValueValidator(new SubclassValidator('Clio\Component\Normalizer\Strategy'));
 

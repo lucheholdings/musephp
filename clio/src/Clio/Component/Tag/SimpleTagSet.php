@@ -1,8 +1,7 @@
 <?php
 namespace Clio\Component\Tag;
 
-use Clio\Component\Container\Set\Set;
-use Clio\Component\Validator\SubclassValidator;
+use Clio\Component\Container\ArrayImpl\Set;
 
 /**
  * SimpleTagSet 
@@ -18,18 +17,18 @@ class SimpleTagSet extends Set implements TagSet
 {
 	private $owner;
 
-	/**
-	 * {@inheritdoc}
-	 */
-	protected function initContainer(array $values)
-	{
-		$this
-			->enableStorageValidation()
-			->setValueValidator(new SubclassValidator('Clio\Component\Tag\Tag'))
-		;
+	///**
+	// * {@inheritdoc}
+	// */
+	//protected function initContainer(array $values)
+	//{
+	//	$this
+	//		->enableStorageValidation()
+	//		->setValueValidator(new SubclassValidator('Clio\Component\Tag\Tag'))
+	//	;
 
-		parent::initContainer($values);
-	}
+	//	parent::initContainer($values);
+	//}
 
 	public function removeByName($name)
 	{

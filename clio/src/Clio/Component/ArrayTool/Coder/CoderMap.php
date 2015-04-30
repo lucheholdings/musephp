@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\ArrayTool\Coder;
 
-use Clio\Component\Container\Map\SimpleMap;
+use Clio\Component\Container\ArrayImpl\Map;
 
 
 /**
@@ -14,7 +14,7 @@ use Clio\Component\Container\Map\SimpleMap;
  * @author Yoshi<yoshi@1o1.co.jp> 
  * @license { LICENSE }
  */
-class CoderMap extends SimpleMap implements Encoder, Decoder
+class CoderMap extends Map implements Encoder, Decoder
 {
     /**
      * encode 

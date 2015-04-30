@@ -27,15 +27,5 @@ interface MappedFactory
 	 * @return void
 	 */
 	function createByKeyArgs($key);
-
-    /**
-     * canCreateByKey 
-     * 
-     * @param mixed $key 
-     * @param array $args 
-     * @access public
-     * @return void
-     */
-	function canCreateByKey($key);
 }
 

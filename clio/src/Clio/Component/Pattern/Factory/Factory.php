@@ -29,21 +29,5 @@ interface Factory
 	 * @return void
 	 */
 	function createArgs(array $args = array());
-
-	/**
-	 * canCreate 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function canCreate();
-
-    /**
-     * canCreateArgs 
-     * 
-     * @access public
-     * @return void
-     */
-    function canCreateArgs(array $args = array());
 }
 
