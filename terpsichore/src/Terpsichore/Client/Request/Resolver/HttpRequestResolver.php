@@ -65,6 +65,7 @@ class HttpRequestResolver
 	{
 		// Validate Method
 		$request->setHeader('method', $this->validateMethod($request->getHeader('method', 'GET')));
+		$request->setHeader('content-type', $request->getHeader('content-type', 'application/x-www-form-urlencoded'));
 
 		$request->clean();
 	}

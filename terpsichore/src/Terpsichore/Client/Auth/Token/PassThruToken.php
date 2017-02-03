@@ -2,7 +2,6 @@
 namespace Terpsichore\Client\Auth\Token;
 
 use Terpsichore\Client\Auth\Token; 
-use Terpsichore\Client\Auth\Provider;
 
 /**
  * PassThruToken 
@@ -68,11 +67,6 @@ class PassThruToken implements ProxyToken
 	public function getName()
 	{
 		return $this->getToken()->getName();
-	}
-
-	public function setProvider(Provider $provider)
-	{
-		return $this->getToken()->setProvider($provider);
 	}
 
 	/**

@@ -31,12 +31,6 @@ class Scope extends BaseScope
 	 */
 	protected $isDefault = false;
 
-	public function __construct($scope, $isDefault = false)
-	{
-		$this->scope = $scope;
-		$this->isDefault = $isDefault;
-	}
-
     /**
      * getIsDefault 
      * 

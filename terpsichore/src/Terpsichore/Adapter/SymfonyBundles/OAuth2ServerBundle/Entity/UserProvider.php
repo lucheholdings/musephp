@@ -56,7 +56,7 @@ class UserProvider extends BaseUserProvider
 	 */
 	public function loadUserByUsername($username)
 	{
-        return $this->repository->findOneByUsername($username);
+        return $this->repository->findOneBy(array('username' => $username));
 	}
 
 	/**
@@ -64,7 +64,7 @@ class UserProvider extends BaseUserProvider
 	 */
 	public function loadUserByProviderId($providerName, $id)
 	{
-		return $this->repository->findOneByProviderId($providerName, $id);
+		return $this->repository->findOneBy(array($providerName . '_id' => $id));
 	}
 
 	public function supportsClass($class)

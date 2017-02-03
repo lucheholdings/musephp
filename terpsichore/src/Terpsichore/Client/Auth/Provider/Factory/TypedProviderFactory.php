@@ -8,13 +8,13 @@
  */
 namespace Terpsichore\Client\Auth\Provider\Factory;
 
-use Clio\Component\Pattern\Factory\MappedComponentFactory;
-use Clio\Component\Pattern\Factory\ClassFactory;
+use Clio\Component\Pattern\Factory\TypedComponentFactory;
+use Clio\Component\Pattern\Factory\InheritComponentFactory;
 use Terpsichore\Client\Auth\Provider\ProviderFactory;
 use Terpsichore\Client\Auth\Token;
 use Terpsichore\Client\Client;
 
-class TypedProviderFactory extends MappedComponentFactory implements ProviderFactory
+class TypedProviderFactory extends TypedComponentFactory implements ProviderFactory
 {
 	private $connection;
 
@@ -22,8 +22,7 @@ class TypedProviderFactory extends MappedComponentFactory implements ProviderFac
 	{
 		parent::__construct($classes);
 
-		$this->defaultFactory = new ClassFactory();
-		//('\Terpsichore\Client\Auth\Provider');
+		$this->defaultFactory = new InheritComponentFactory('\Terpsichore\Client\Auth\Provider');
 	}
 
 	/**
@@ -36,7 +35,7 @@ class TypedProviderFactory extends MappedComponentFactory implements ProviderFac
 	 */
 	public function createProvider($type, array $args = array())
 	{
-		$provider  = $this->createByKeyArgs($type, $args);
+		$provider  = $this->createByTypeArgs($type, $args);
 
 		return $provider;
 	}

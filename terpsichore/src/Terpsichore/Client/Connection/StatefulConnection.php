@@ -29,7 +29,7 @@ class StoredConnection extends PassThruConnection
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Connection $connection, Storage $storage = null)
+	public function __construct(Connection $connection, $storage)
 	{
 		$this->validateConnection($connection);
 

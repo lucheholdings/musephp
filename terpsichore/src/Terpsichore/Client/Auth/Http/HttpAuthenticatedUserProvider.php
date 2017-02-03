@@ -4,12 +4,11 @@ namespace Terpsichore\Client\Auth\Http;
 use Terpsichore\Client\Auth\User,
 	Terpsichore\Client\Auth\UserProvider;
 use Terpsichore\Client\Service\Http\HttpSimpleClientService;
-use Clio\Component\Tool\ArrayTool\Mapper as ArrayMapper;
+use Clio\Component\Tool\ArrayTool\InverseKeyMapper;
 
 class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements UserProvider 
 {
 	private $responseMap;
-
 	/**
 	 * __construct 
 	 * 
@@ -32,10 +31,15 @@ class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements U
 	 * @access public
 	 * @return mixed 
 	 */
-	public function get(array $params = array())
+	public function userinfo()
 	{
-		$response = $this->call($params);
+		$response = $this->call();
 
+		if(is_array($response) && $this->responseMap) {
+			$mapper = new InverseKeyMapper($this->responseMap);
+
+			$response = $mapper->map($response);
+		}
 		return $response;
 	}
 
@@ -47,25 +51,9 @@ class HttpAuthenticatedUserProvider extends HttpSimpleClientService implements U
 	 */
 	public function getAuthenticatedUser()
 	{
-		$response = $this->get();
-		if(is_array($response) && $this->responseMap) {
-			$mapper = new ArrayMapper\InverseKeyMapper($this->responseMap);
-
-			$response = $mapper->map($response);
-		}
+		$response = $this->userinfo();
 
 		return new User(isset($response['id']) ? $response['id'] : $response['username'], $response);
 	}
-    
-    public function getResponseMap()
-    {
-        return $this->responseMap;
-    }
-    
-    public function setResponseMap($responseMap)
-    {
-        $this->responseMap = $responseMap;
-        return $this;
-    }
 }
 

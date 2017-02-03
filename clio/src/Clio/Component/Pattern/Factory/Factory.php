@@ -29,22 +29,5 @@ interface Factory
 	 * @return void
 	 */
 	function createArgs(array $args = array());
-
-	/**
-	 * isSupported 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function isSupported();
-
-	/**
-	 * isSupportedArgs 
-	 * 
-	 * @param array $args 
-	 * @access public
-	 * @return bool support to create with the args or not.
-	 */
-	function isSupportedArgs(array $args = array());
 }
 

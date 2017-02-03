@@ -12,40 +12,12 @@ namespace Clio\Component\Tool\Serializer;
  * @license { LICENSE }
  */
 class Serializer implements 
-	Strategy\SerializationStrategy, 
-	Strategy\DeserializationStrategy
+	SerializationStrategy, 
+	DeserializationStrategy
 {
-	/**
-	 * strategy 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $strategy;
-
-	/**
-	 * contextFactory 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $contextFactory;
-
-	/**
-	 * __construct 
-	 * 
-	 * @param Strategy $strategy 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct(Strategy $strategy, ContextFactory $contextFactory = null)
+	public function __construct(SerializerStrategy $strategy)
 	{
 		$this->strategy = $strategy;
-
-		if(!$contextFactory)
-			$contextFactory = new BasicContextFactory();
-
-		$this->contextFactory = $contextFactory;
 	}
 
 	/**
@@ -56,23 +28,12 @@ class Serializer implements
 	 * @access public
 	 * @return void
 	 */
-	public function serialize($data, $format = null, $context = null)
+	public function serialize($data, $format = null)
 	{
-		if(!$this->strategy instanceof Strategy\SerializationStrategy) {
+		if(!$this->strategy instanceof SerializationStrategy) {
 			throw new \Clio\Component\Exception\RuntimeException('Strategy dose not support serialize.');
 		}
-
-		if(!$context) {
-			$context = $this->getContextFactory()->createContext();
-		} else if(!$context instanceof Context) {
-			$context = $this->getContextFactory()->createContext($context);
-		} 
-
-		try {
-			return $this->strategy->serialize($data, $format, $context);
-		} catch(\Exception $ex) {
-			throw new \RuntimeException(sprintf('Failed to serialize "%s"', is_object($data) ? get_class($data) : gettype($data)) , 0, $ex);
-		}
+		return $this->strategy->serialize($data, $format);
 	}
 
 	/**
@@ -92,59 +53,31 @@ class Serializer implements
 	 * deserialize 
 	 * 
 	 * @param mixed $data 
-	 * @param mixed $type 
+	 * @param mixed $class 
 	 * @param mixed $format 
 	 * @access public
 	 * @return void
 	 */
-	public function deserialize($data, $type, $format = null, $context = null)
+	public function deserialize($data, $class, $format = null)
 	{
-		if(!$this->strategy instanceof Strategy\DeserializationStrategy) {
+		if(!$this->strategy instanceof DeserializationStrategy) {
 			throw new \Clio\Component\Exception\RuntimeException('Strategy dose not support deserialize.');
 		}
-
-		if(!$context) {
-			$context = $this->getContextFactory()->createContext();
-		} else if(!$context instanceof Context) {
-			// fixme: Try to create Context from the given data.
-			$context = $this->getContextFactory()->createContext();
-		} 
-
-		try {
-			return $this->strategy->deserialize($data, $type, $format, $context);
-		} catch(\Exception $ex) {
-			throw new \RuntimeException(sprintf('Failed to deserialize "%s"', $type), 0, $ex);
-		}
+		return $this->strategy->deserialize($data, $class, $format);
 	}
 
 	/**
 	 * canDeserialize 
 	 * 
 	 * @param mixed $data 
-	 * @param mixed $type 
+	 * @param mixed $class 
 	 * @param mixed $format 
 	 * @access public
 	 * @return void
 	 */
-	public function canDeserialize($data, $type, $format = null)
+	public function canDeserialize($data, $class, $format = null)
 	{
-		return $this->strategy->canDeserialize($data, $type, $format);
+		return $this->strategy->canDeserialize($data, $class, $format);
 	}
-
-	public function getSupportFormats()
-	{
-		return $this->getStrategy()->getSupportFormats();
-	}
-    
-    public function getContextFactory()
-    {
-        return $this->contextFactory;
-    }
-    
-    public function setContextFactory(ContextFactory $contextFactory)
-    {
-        $this->contextFactory = $contextFactory;
-        return $this;
-    }
 }
 

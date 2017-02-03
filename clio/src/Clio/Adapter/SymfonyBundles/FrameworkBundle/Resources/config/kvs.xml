@@ -1,0 +1,60 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="clio_framework.kvs_registry.class">Clio\Framework\Kvs\KvsRegistry</parameter>
+
+        <parameter key="clio_framework.kvs_factory.doctrine_orm.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\Container\Map\Factory\DoctrineOrmMapFactory</parameter>
+        <parameter key="clio_framework.kvs_factory.doctrine_cache.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\Container\Map\Factory\DoctrineCacheMapFactory</parameter>
+        <parameter key="clio_framework.kvs_factory.memcached.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\Container\Map\Factory\MemcachedMapFactory</parameter>
+		<parameter key="clio_framework.kvs_factory.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\Container\Map\Factory\CachedMapFactoryMap</parameter>
+    </parameters>
+
+    <services>
+		<!-- Registry -->
+        <service id="clio_framework.kvs_registry.default" class="%clio_framework.kvs_registry.class%">
+			<argument type="service" id="clio_framework.service_registry"/>
+        </service>
+
+		<!-- Factory -->
+		<service id="clio_framework.kvs_factory" class="%clio_framework.kvs_factory.class%">
+			<argument type="service" id="service_container"/>
+			<argument type="service" id="clio_framework.doctrine_cache_factory"/>
+		</service>
+		
+		<!-- Factories -->
+		<service id="clio_framework.kvs_factory.doctrine_orm" class="%clio_framework.kvs_factory.doctrine_orm.class%">
+			<argument type="service" id="doctrine"/>
+			<tag name="clio_framework.kvs_factory" for="doctrine.orm"/>
+		</service>
+		<service id="clio_framework.kvs_factory.doctrine_cache" class="%clio_framework.kvs_factory.doctrine_cache.class%">
+			<argument type="service" id="service_container"/>
+			<tag name="clio_framework.kvs_factory" for="doctrine.cache"/>
+		</service>
+		<service id="clio_framework.kvs_factory.memcached" class="%clio_framework.kvs_factory.memcached.class%">
+			<argument type="service" id="service_container"/>
+			<tag name="clio_framework.kvs_factory" for="memcached"/>
+		</service>
+
+		<!-- Kvs Prototype -->
+		<service 
+			id="clio_framework.kvs_prototype" 
+			class="Clio\Component\Util\Container\Map\StoragedMap"
+			abstract="true"
+			public="false"
+			factory-service="clio_framework.kvs_factory"
+			factory-method="createCachedMapArgs"
+		>
+			<argument></argument><!-- type -->
+			<argument></argument><!-- cache -->
+			<argument></argument><!-- arguments to specified factory -->
+		</service>
+
+    </services>
+</container>
+
+
+

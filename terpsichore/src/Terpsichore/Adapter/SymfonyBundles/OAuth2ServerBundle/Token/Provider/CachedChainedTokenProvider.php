@@ -1,6 +1,8 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Provider;
 
+use Clio\Component\Auth\OAuth2\Token\Provider\ChainGrantTokenProviderInterface;
+
 use Doctrine\Common\Cache\Cache;
 
 /**

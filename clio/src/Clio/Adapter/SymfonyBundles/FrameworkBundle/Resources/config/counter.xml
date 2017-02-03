@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="clio_framework.counter_registry.class">Clio\Framework\Counter\CounterRegistry</parameter>
+
+        <parameter key="clio_framework.counter_factory.memcached.class">Clio\Adapter\SymfonyBundles\FrameworkBundle\Counter\Factory\MemcachedCounterMapFactory</parameter>
+    </parameters>
+
+    <services>
+		<!-- Registry -->
+        <service id="clio_framework.counter_registry.default" class="%clio_framework.counter_registry.class%">
+			<argument type="service" id="clio_framework.service_registry"/>
+        </service>
+
+		<!-- TypeFactory -->
+		<service id="clio_framework.counter_factory" class="%clio_framework.factory_map.class%">
+		</service>
+		
+		<!-- Factories -->
+		<service id="clio_framework.counter_factory.memcached" class="%clio_framework.counter_factory.memcached.class%">
+			<argument type="service" id="service_container"/>
+			<tag name="clio_framework.counter_factory" for="memcached"/>
+		</service>
+
+		<!-- Counter Prototype -->
+		<service 
+			id="clio_framework.counter_prototype" 
+			class="Clio\Component\Tool\Counter\Counter"
+			abstract="true"
+			public="false"
+			factory-service="clio_framework.counter_factory"
+			factory-method="createByKeyArgs"
+		>
+			<argument></argument><!-- type -->
+			<argument></argument><!-- arguments to specified factory -->
+		</service>
+
+    </services>
+</container>
+
+

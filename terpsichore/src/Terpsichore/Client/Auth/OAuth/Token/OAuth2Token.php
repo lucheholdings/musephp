@@ -206,28 +206,4 @@ class OAuth2Token extends AbstractToken implements OAuth2TokenInterface
 	{
 		return !is_null($this->token);
 	}
-
-	public function serialize()
-	{
-		return serialize(array(
-			(string)$this->getProvider(),
-			$this->type,
-			$this->token,
-			$this->refreshToken,
-			$this->scopes,
-		));
-	}
-
-	public function unserialize($serialized)
-	{
-		$data = unserialize($serialized);
-
-		list(
-			$name,
-			$this->type,
-			$this->token,
-			$this->refreshToken,
-			$this->scopes
-		) = $data;
-	}
 }

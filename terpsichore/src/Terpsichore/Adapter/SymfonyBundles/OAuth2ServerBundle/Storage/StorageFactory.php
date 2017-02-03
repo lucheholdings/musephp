@@ -1,9 +1,9 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage;
 
-use Clio\Component\Pattern\Factory\ClassFactory;
+use Clio\Component\Pattern\Factory\InheritComponentFactory;
 
-class StorageFactory extends ClassFactory 
+class StorageFactory extends InheritComponentFactory 
 {
 	private $container;
 
@@ -89,7 +89,7 @@ class StorageFactory extends ClassFactory
 
 	protected function createStorage($class, array $args = array()) 
 	{
-		return $this->createClassArgs($class, $args);
+		return $this->createInheritClassArgs($class, $args);
 	}
 
 	public function createScopeStorage(array $options = array())

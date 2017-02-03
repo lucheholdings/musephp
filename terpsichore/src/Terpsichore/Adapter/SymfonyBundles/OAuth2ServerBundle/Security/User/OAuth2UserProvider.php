@@ -3,6 +3,7 @@ namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\User;
 
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Clio\Component\Auth\OAuth2\User\Provider\UserinfoProvider;
 
 use Terpsichore\Core\OAuth2\Exception as OAuth2Exceptions;
 /**

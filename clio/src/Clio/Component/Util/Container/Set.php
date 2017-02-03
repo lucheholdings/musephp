@@ -9,11 +9,13 @@ namespace Clio\Component\Util\Container;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Set extends Container
+interface Set extends 
+  Container,
+  \IteratorAggregate
 {
 	/**
 	 * toArray 
-	 *   Convert to Array 
+	 * 
 	 * @access public
 	 * @return void
 	 */
@@ -38,20 +40,20 @@ interface Set extends Container
 	/**
 	 * add
 	 * 
-	 * @param mixed $value
+	 * @param mixed $vlaue 
 	 * @access public
 	 * @return void
 	 */
-	function add($value);
+	function add($vlaue);
 
 	/**
-	 * contains 
+	 * has
 	 * 
 	 * @param mixed $value
 	 * @access public
 	 * @return void
 	 */
-	function contains($value);
+	function has($value);
 
 	/**
 	 * remove

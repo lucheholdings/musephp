@@ -10,7 +10,7 @@ namespace Clio\Component\Util\Execution;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-abstract class Invoker implements Invokable 
+abstract class Invoker 
 {
 	/**
 	 * invoke 

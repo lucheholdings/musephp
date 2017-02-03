@@ -9,6 +9,7 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use OAuth2\Server;
 use OAuth2\OAuth2ServerException;
+use Clio\Component\Auth\OAuth2\Token\ChainedToken;
 
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\Role\ScopeRoleMap;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Security\User\OAuth2UserProviderInterface;
@@ -76,7 +77,6 @@ class OAuth2AuthenticationProvider implements AuthenticationProviderInterface
 					// Convert Scope to Role
                 	if (!empty($scopes)) {
 						$scopeRoleMap = $this->getScopeRoleMap();
-
 						if($scopeRoleMap) {
                 	    	foreach ($scopes as $scope) {
 								if($scopeRoleMap->hasScope($scope)) {

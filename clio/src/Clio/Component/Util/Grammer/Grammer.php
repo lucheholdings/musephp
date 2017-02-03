@@ -44,14 +44,8 @@ final class Grammer
 	static public function snakize($word)
 	{
 		$word = self::replaceInvalidChars($word);
-		return preg_replace_callback(
-			'/[A-Z]/', 
-			function($matches){ return '_' . strtolower($matches[0]); }, 
-			preg_replace_callback(
-				'/^([A-Z])/', 
-				function($matches) { return strtolower($matches[0]); }, 
-				$word
-			));
+		// replace UpperCase to snakecase 
+		return ltrim(strtolower(preg_replace('/([A-Z])/', '_$1', $word)), '_');
 	}
 
 	/**
@@ -70,48 +64,6 @@ final class Grammer
 			return ucfirst($matches[1]);
 		}, $word)), '_');
 	}
-
-    /**
-     * isSnakeCase 
-     * 
-     * @param mixed $value 
-     * @static
-     * @access public
-     * @return void
-     */
-    static public function isSnakeCase($value)
-    {
-        // Start with lower case and followed by lower case alphanumeric or underbar 
-        return preg_match('/[a-z][a-z0-9_]*/', $value);
-    }
-
-    /**
-     * isCamelCase 
-     * 
-     * @param mixed $value 
-     * @static
-     * @access public
-     * @return void
-     */
-    static public function isCamelCase($value)
-    {
-        // Start with lower case and followed by any alphanumeric
-        return preg_match('/[a-z][a-zA-Z0-9]*/', $value);
-    }
-
-    /**
-     * isPascalCase 
-     * 
-     * @param mixed $value 
-     * @static
-     * @access public
-     * @return void
-     */
-    static public function isPascalCase($value)
-    {
-        // Start with upper case and followed by any alphanumeric
-        return preg_match('/[A-Z][a-zA-Z0-9]*/', $value);
-    }
 }
 
 

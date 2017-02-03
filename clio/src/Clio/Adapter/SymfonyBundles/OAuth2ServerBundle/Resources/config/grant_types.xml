@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+        <parameter key="clio_oauth2_server.grant_type.authorization_code.class">OAuth2\GrantType\AuthorizationCode</parameter>
+        <parameter key="clio_oauth2_server.grant_type.client_credentials.class">OAuth2\GrantType\ClientCredentials</parameter>
+        <parameter key="clio_oauth2_server.grant_type.jwt_bearer.class">OAuth2\GrantType\JwtBearer</parameter>
+        <parameter key="clio_oauth2_server.grant_type.refresh_token.class">OAuth2\GrantType\RefreshToken</parameter>
+        <parameter key="clio_oauth2_server.grant_type.user_credentials.class">OAuth2\GrantType\UserCredentials</parameter>
+	</parameters>
+
+	<services>
+        <service
+            id="clio_oauth2_server.grant_type.authorization_code.default"
+            class="%clio_oauth2_server.grant_type.authorization_code.class%"
+        >
+            <argument type="service" id="clio_oauth2_server.storage.authorization_code" on-invalid="null"/>
+        </service>
+        <service
+            id="clio_oauth2_server.grant_type.client_credentials.default"
+            class="%clio_oauth2_server.grant_type.client_credentials.class%"
+        >
+            <argument type="service" id="clio_oauth2_server.storage.client_credentials" on-invalid="null"/>
+        </service>
+        <service
+            id="clio_oauth2_server.grant_type.user_credentials.default"
+            class="%clio_oauth2_server.grant_type.user_credentials.class%"
+        >
+            <argument type="service" id="clio_oauth2_server.storage.user_credentials" on-invalid="null"/>
+        </service>
+        <service
+            id="clio_oauth2_server.grant_type.refresh_token.default"
+            class="%clio_oauth2_server.grant_type.refresh_token.class%"
+        >
+            <argument type="service" id="clio_oauth2_server.storage.refresh_token" on-invalid="null"/>
+        </service>
+    </services>
+</container>

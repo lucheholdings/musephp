@@ -1,9 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Schemifier;
 
-use Clio\Component\Tool\ArrayTool\Mapper;
-use Clio\Component\Util\Container\Map;
-use Clio\Component\Util\Container\Map\SimpleMap;
+use Clio\Component\Tool\ArrayTool\KeyMapper;
 
 /**
  * AbstractSchemifier 
@@ -17,12 +15,12 @@ use Clio\Component\Util\Container\Map\SimpleMap;
 abstract class AbstractSchemifier implements Schemifier 
 {
 	/**
-	 * schema 
+	 * schemeClass 
 	 * 
 	 * @var mixed
 	 * @access protected
 	 */
-	protected $schema;
+	protected $schemeClass;
 
 	/**
 	 * maps 
@@ -30,7 +28,7 @@ abstract class AbstractSchemifier implements Schemifier
 	 * @var mixed
 	 * @access private
 	 */
-	private $fieldKeyMappers;
+	private $fieldMapperRegistry;
 
 	/**
 	 * __construct 
@@ -38,100 +36,87 @@ abstract class AbstractSchemifier implements Schemifier
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($schema, Map $fieldKeyMappers = null)
+	public function __construct(\ReflectionClass $schemeClass, FieldMapperRegistry $fieldMapperRegistry = null)
 	{
-		$this->schema = $schema;
-		$this->fieldKeyMappers = $fieldKeyMappers;
-	}
+		$this->schemeClass = $schemeClass;
 
-	/**
-	 * schemify 
-	 * 
-	 * @param mixed $data 
-	 * @access public
-	 * @return void
-	 */
-	final public function schemify($data, array $options = array())
-	{
-		if($this->schema->isValidData($data)) {
-			return $data;		
-		} else {
-			return $this->doSchemify($data, $options);
-		}
+		$this->fieldMapperRegistry = $fieldMapperRegistry;
 	}
-
-	abstract protected function doSchemify($data, array $options);
     
     /**
-     * Set schema.
+     * Set schemeClass.
      *
      * @access public
-     * @param schema the value to set.
+     * @param schemeClass the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setSchema(Schema $schema)
+    public function setSchemeClass(\ReflectionClass $schemeClass)
     {
-        $this->schema = $schema;
+        $this->schemeClass = $schemeClass;
         return $this;
     }
 
 	/**
-	 * getSchema 
+	 * getSchemeClass 
 	 * 
 	 * @access public
 	 * @return void
 	 */
-	public function getSchema()
+	public function getSchemeClass()
 	{
-		return $this->schema;
+		return $this->schemeClass;
 	}
     
-	/**
-	 * hasDefaultFieldMapper 
-	 * 
-	 * @param mixed $resourceType 
-	 * @access public
-	 * @return void
-	 */
+    public function getFieldMapperRegistry()
+    {
+		if(!$this->fieldMapperRegistry) {
+			$this->fieldMapperRegistry = new FieldMapperRegistry();
+		}
+        return $this->fieldMapperRegistry;
+    }
+    
+    public function setFieldMapperRegistry(FieldMapperRegistry $fieldMapperRegistry)
+    {
+        $this->fieldMapperRegistry = $fieldMapperRegistry;
+        return $this;
+    }
+
 	public function hasDefaultFieldMapper($resourceType)
 	{
-		return $this->getFieldKeyMappers()->has((string)$resourceType, (string)$this->getSchema());
+		return $this->getFieldMapperRegistry()->has($resourceType, $this->getSchemeClass());
 	}
 
-	public function getFieldKeyMapper($sourceType)
+	public function getDefaultFieldMapper($resourceType)
 	{
-		$fieldKeyMapper = null;
-
-		if($this->getFieldKeyMappers()->has($sourceType)) {
-			$fieldKeyMapper = $this->getFieldKeyMappers()->get($sourceType);
-		} else {
-			$fieldKeyMapper = new Mapper\DummyMapper();
-		}
-
-		return $fieldKeyMapper;
+		return $this->getFieldMapperRegistry()->get($resourceType, $this->getSchemeClass());
 	}
-    
-    public function getFieldKeyMappers()
-    {
-		if(!$this->fieldKeyMappers) {
-			$this->fieldKeyMappers = new SimpleMap();
-		}
-        return $this->fieldKeyMappers;
-    }
-    
-    public function setFieldKeyMappers(Map $fieldKeyMappers)
-    {
-        $this->fieldKeyMappers = $fieldKeyMappers;
-        return $this;
-    }
 
-	public function getType($data)
+	public function createFieldMapperFor($resource, array $maps)
 	{
-		if(is_object($data)) {
-			return get_class($data);
-		} else {
-			return gettype($data);
+		$mapper = null;
+
+		if(is_array($resource) && $this->hasDefaultFieldMapper('array')) {
+			$mapper = $this->getDefaultFieldMapper('array');
+		} else if(is_object($resource) && $this->hasDefaultFieldMapper(get_class($resource))) {
+			$mapper = $this->getDefaultFieldMapper(get_class($resource));
+		} 
+
+		//
+		if(!empty($maps)) {
+			if($mapper) {
+				$mapper = clone $mapper;
+				foreach($maps as $src => $dest) {
+					$mapper->set($src, $dest);
+				}
+			} else {
+				$mapper = new KeyMapper($maps);
+			}
+		} else if(!$mapper) {
+			// Create Empty Mapper
+			$mapper = new KeyMapper();
 		}
+
+		return $mapper;
 	}
 }
 

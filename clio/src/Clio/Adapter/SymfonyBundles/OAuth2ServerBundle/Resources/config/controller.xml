@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+	<parameters>
+        <parameter key="clio_oauth2_server.request.class">OAuth2\HttpFoundationBridge\Request</parameter>
+        <parameter key="clio_oauth2_server.response.class">OAuth2\HttpFoundationBridge\Response</parameter>
+
+		<parameter key="clio_oauth2_server.controller.token.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Controller\TokenController</parameter>
+		<parameter key="clio_oauth2_server.controller.authorize.class">Clio\Adapter\SymfonyBundles\OAuth2ServerBundle\Controller\AuthorizeController</parameter>
+	</parameters>
+
+	<services>
+        <service
+            id="clio_oauth2_server.request"
+            class="%clio_oauth2_server.request.class%"
+            factory-class="OAuth2\HttpFoundationBridge\Request"
+            factory-method="createFromRequest"
+            scope="request"
+        >
+            <argument type="service" id="request" />
+        </service>
+        <service id="clio_oauth2_server.response" class="%clio_oauth2_server.response.class%" />
+
+		<service
+			id="clio_oauth2_server.controller.token"
+			class="%clio_oauth2_server.controller.token.class%"
+		>
+			<call method="setContainer">
+				<argument type="service" id="service_container"/>
+			</call>
+		</service>
+		<service
+			id="clio_oauth2_server.controller.authorize"
+			class="%clio_oauth2_server.controller.authorize.class%"
+		>
+			<call method="setContainer">
+				<argument type="service" id="service_container"/>
+			</call>
+		</service>
+    </services>
+</container>
+
+

@@ -1,14 +1,7 @@
 <?php
 namespace Clio\Component\Tool\Normalizer;
 
-use Clio\Component\Exception\UnsupportedException;
-use Clio\Component\Util\Type as Types,
-	Clio\Component\Util\Type\Type as TypeInterface,
-	Clio\Component\Util\Type\Resolver as TypeResolver
-;
-
-use Psr\Log as PsrLog;
-
+use Clio\Component\Tool\ArrayTool\Mapper;
 
 /**
  * Normalizer 
@@ -19,9 +12,8 @@ use Psr\Log as PsrLog;
  * @license { LICENSE }
  */
 class Normalizer implements 
-	Strategy\NormalizationStrategy,
-	Strategy\DenormalizationStrategy,
-	PsrLog\LoggerAwareInterface
+	NormalizationStrategy,
+	DenormalizationStrategy
 {
 	/**
 	 * strategy 
@@ -31,21 +23,16 @@ class Normalizer implements
 	 */
 	private $strategy;
 
-	private $typeResolver;
-
-	private $logger;
-
 	/**
 	 * __construct 
 	 * 
-	 * @param Strategy $strategy 
+	 * @param NormalizerStrategy $strategy 
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(Strategy $strategy, TypeResolver $typeResolver = null)
+	public function __construct(NormalizerStrategy $strategy)
 	{
 		$this->strategy = $strategy;
-		$this->typeResolver = $typeResolver;
 	}
 
 	/**
@@ -55,127 +42,65 @@ class Normalizer implements
 	 * @access public
 	 * @return void
 	 */
-	public function canNormalize($object, $type, Context $context)
+	public function canNormalize($object)
 	{
-		return $this->getStrategy()->canNormalize($object, $type, $context);
+		return $this->getstrategy()->canNormalize($object);
 	}
 
 	/**
 	 * normalize 
-	 *   TopDown Normalizer 
 	 * 
 	 * @param mixed $object 
 	 * @access public
 	 * @return void
 	 */
-	public function normalize($data, $type = null, Context $context = null)
+	public function normalize($object, Mapper $mapper = null)
 	{
-		if(null === $data) {
-			return $data;
-		}
-
-		if(!$context) {
-			$context = new Context($this->getTypeResolver());
-			$context->setNormalizer($this);
-		}
-
-		// if type is not specified, then 
-		if(!$type instanceof TypeInterface) {
-			$type = new Types\FieldType($type);
-		}
-
-		// Convert FieldType to NormalizerType 
-		$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
-
-		if(!$type->isValidData($data)) {
-			if($context->getScopeConfiguration('prefer_data', true)) {
-				$type = $context->getTypeResolver()->resolve(new Types\FieldType(), array('data' => $data));
-			} else {
-				throw new \InvalidArgumentException('Given type and data is not matched.');
-			}
-		}
-
-		// Original Scope
-		if($context->isEmptyScope()) {
-			$context->enterScope($data, $type, '_');
-		}
-
 		$strategy = $this->getStrategy();
-		if(!$strategy instanceof Strategy\NormalizationStrategy) {
-			throw new UnsupportedException('Normalizer Strategy dose not support normalize.');
+		if(!$strategy instanceof NormalizationStrategy) {
+			throw new \Clio\Component\Exception\RuntimeException('Normalizer Strategy dose not support denormalize.');
 		}
 
-		if($type)
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Normalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
-		else 
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Normalize');
+		$data = $strategy->normalize($object);
 
-		$normalized = $strategy->normalize($data, $type, $context);
-
-		if(is_array($normalized)) {
-			if($context->getScopeConfiguration('compact', true)) {
-				$normalized = array_filter($normalized, function($v) {
-						return null !== $v;
-					});
-			}
-
-			if((1 == count($normalized)) && $context->getScopeConfiguration('prefer_scalar', false)) {
-				$normalized = array_pop($normalized);
-			}
+		if($mapper && is_array($data)) {
+			$data = $mapper->map($data);
 		}
-
-		if($type)
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Normalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
-		else 
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Normalize');
-
-		return $normalized;
+		return $data;
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * canDenormalize 
+	 * 
+	 * @param mixed $object 
+	 * @access public
+	 * @return void
 	 */
-	public function canDenormalize($data, $type, Context $context)
+	public function canDenormalize($data, $class)
 	{
-		return $this->getstrategy()->canDenormalize($data, $type, $context);
+		return $this->getstrategy()->canDenormalize($data, $class);
 	}
 
 	/**
-	 * {@inheritdoc}
+	 * denormalize 
+	 * 
+	 * @param mixed $object 
+	 * @param mixed $class 
+	 * @access public
+	 * @return void
 	 */
-	public function denormalize($data, $type, Context $context = null)
+	public function denormalize($object, $class, Mapper $mapper = null)
 	{
-		if(is_object($data)) {
-			return $data;
+		$strategy = $this->getStrategy();
+		if(!$strategy instanceof DenormalizationStrategy) {
+			throw new \Clio\Component\Exception\RuntimeException('Normalizer Strategy dose not support denormalize.');
 		}
-		try {
-			if(!$context) {
-				$context = new Context($this->getTypeResolver());
-				$context->setNormalizer($this);
-			}
 
-			$type = $context->getTypeResolver()->resolve($type, array('data' => $data));
-
-			// Original Scope
-			if($context->isEmptyScope()) {
-				$context->enterScope($data, $type, '_');
-			}
-
-			$strategy = $this->getStrategy();
-			if(!$strategy instanceof Strategy\DenormalizationStrategy) {
-				throw new UnsupportedException('Normalizer Strategy dose not support denormalize.');
-			}
-
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'Start Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
-			$denormalized = $strategy->denormalize($data, $type, $context); 
-
-			$this->getLogger()->log(PsrLog\LogLevel::DEBUG, 'End Denormalize.', array('type' => $type->getName(), 'path' => $context->getScopePath()));
-
-			return $denormalized;
-			
-		} catch(\Exception $ex) {
-			throw new \Exception(sprintf('Failed to denormalize data [%s]', json_encode($data)), 0, $ex);
+		if(is_array($object) && $mapper) {
+			$object = $mapper->map($object);
 		}
+
+		return $strategy->denormalize($object, $class);
 	}
     
     /**
@@ -196,34 +121,9 @@ class Normalizer implements
      * @param strategy the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function setStrategy(Strategy $strategy)
+    public function setStrategy(NormalizerStrategy $strategy)
     {
         $this->strategy = $strategy;
-        return $this;
-    }
-    
-    public function getTypeResolver()
-    {
-        return $this->typeResolver;
-    }
-    
-    public function setTypeResolver(TypeResolver $typeResolver)
-    {
-        $this->typeResolver = $typeResolver;
-        return $this;
-    }
-    
-    public function getLogger()
-    {
-		if(!$this->logger) 
-			$this->logger = new PsrLog\NullLogger();
-
-        return $this->logger;
-    }
-    
-    public function setLogger(PsrLog\LoggerInterface $logger)
-    {
-        $this->logger = $logger;
         return $this;
     }
 }

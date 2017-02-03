@@ -3,13 +3,7 @@ namespace Terpsichore\Client\Auth\OAuth;
 
 use Terpsichore\Client\Auth\Token;
 use Terpsichore\Client\Auth\OAuth\OAuth2Token as OAuth2TokenInterface;
-use Terpsichore\Client\Auth\OAuth\Token\OAuth2Token as AuthenticateToken;
-use Terpsichore\Client\Auth\OAuth\Handler\OAuth2AuthCodeHandler;
-use Terpsichore\Client\Auth\OAuth\Token\OAuth2AuthCode;
-use Terpsichore\Client\Auth\Token\PreAuthenticateToken;
-
-use Terpsichore\Client\Exception\TransferException;
-use Terpsichore\Client\Exception\AuthenticationException;
+use Terpsichore\Client\Auth\OAuth\Token\OAuth2Token;
 /**
  * GenericOAuth2Service 
  *    OAuth2 Authentication Service Client
@@ -20,17 +14,6 @@ use Terpsichore\Client\Exception\AuthenticationException;
  */
 class GenericOAuth2Provider extends AbstractOAuthProvider
 {
-	const TOKEN_ACCESS_TOKEN = 'access_token';
-	const TOKEN_TYPE             = 'token_type';
-	const TOKEN_REFRESH_TOKEN    = 'refresh_token';
-	const TOKEN_EXPIRES_IN       = 'expires_in';
-	const TOKEN_SCOPE            = 'scope';
-	const TOKEN_GRANT_TYPE       = 'grant_type';
-
-	const GRANT_CLIENT_CREDENTIALS = 'client_credentials';
-	const GRANT_PASSWORD           = 'password';
-	const GRANT_AUTHORIZATION_CODE = 'authorization_code';
-
 	/**
 	 * clientCredentials 
 	 * 
@@ -42,7 +25,7 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	{
 		$token = clone $reqToken;
 		$token
-			->set(static::TOKEN_GRANT_TYPE, static::GRANT_CLIENT_CREDENTIALS)
+			->set('grant_type', 'client_credentials')
 		;
 
 		return $this->doAuthenticate($token);
@@ -59,7 +42,7 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	{
 		$token = clone $reqToken;
 		$token
-			->set(static::TOKEN_GRANT_TYPE, static::GRANT_PASSWORD)
+			->set('grant_type', 'password')
 		;
 
 		return $this->doAuthenticate($token);
@@ -67,8 +50,7 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 
 	/**
 	 * authCode 
-	 *   if token has "code", then goto token process
-	 *   otherwise, goto authProvider login form
+	 * 
 	 * @access public
 	 * @return void
 	 */
@@ -76,7 +58,7 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	{
 		$token = clone $reqToken;
 		$token
-			->set(static::TOKEN_GRANT_TYPE, static::GRANT_AUTHORIZATION_CODE)
+			->set('grant_type', 'authorization_code')
 		;
 
 		return $this->doAuthenticate($token);
@@ -91,41 +73,30 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	 */
 	protected function doAuthenticate(Token $token)
 	{
-		if(!$token instanceof PreAuthenticateToken) {
-			return $token;
-		}
-		$request = $this->createHttpRequest(
-				$this->getUri(), 
-				$this->getMethod(), 
-				// Body
-				$this->createRequestBodyFromToken($token)
-			);
-		try {
-			$response = $this->request($request);
-		} catch(TransferException $ex) {
-			throw new AuthenticationException($this, $ex->getRequest(), $ex->getResponse(), $ex->getMessage(), 0, $ex);
-		}
+		$response = $this->request($this->createHttpRequest(
+			$this->getUri(), 
+			$this->getMethod(), 
+			// Body
+			$this->createRequestBodyFromToken($token)
+		));
 
 		if(!$response) {
-			throw new AuthenticationException($this, $request, $response, 'Failed to authenticate.');
+			throw new \RuntimeException('Failed to authenticate.');
+		} else if(!isset($response['access_token'])) {
+			throw new \RuntimeException('Invalid response.');
 		}
 
 		// Create Token from the response
-		$token = new AuthenticateToken($this);
-		
+		$token = new OAuth2Token($this);
 		$token
-			->setToken($response[static::TOKEN_ACCESS_TOKEN])
-			->setExpiresIn($response[static::TOKEN_EXPIRES_IN])
+			->setToken($response['access_token'])
+			->setType($response['token_type'])
+			->setExpiresIn($response['expires_in'])
+			->setScopes($response['scope'])
 		;
-		if(isset($response[static::TOKEN_TYPE])) {
-			$token->setType($response[static::TOKEN_TYPE]);
-		}
-		if(isset($response[static::TOKEN_SCOPE])) {
-			$token->setScopes($response[static::TOKEN_SCOPE]);
-		}
-		if(isset($response[static::TOKEN_REFRESH_TOKEN])) {
+		if(isset($response['response_token'])) {
 			$token
-				->setRefreshToken($response[static::TOKEN_REFRESH_TOKEN])
+				->setRefreshToken($response['refresh_token'])
 			;
 		}
 
@@ -141,34 +112,33 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	 */
 	protected function createRequestBodyFromToken(Token $token)
 	{
-		$grantType = $token->get(static::TOKEN_GRANT_TYPE);
+		$grantType = $token->get('grant_type');
 		switch($grantType) {
-		case static::GRANT_AUTHORIZATION_CODE:
+		case 'authorization_code':
 			$contents = array(
 				'code'          => $token->get('code'),
 				'redirect_uri'  => $token->get('redirect_uri'),
 				'client_id'     => $token->get('client_id'),
 				'client_secret' => $token->get('client_secret'),
-				//static::TOKEN_SCOPE         => $token->get(static::TOKEN_SCOPE),
-				//'state'         => $token->get('state')
+				'scope'         => $token->get('scope')
 			);
 			break;
-		case static::GRANT_CLIENT_CREDENTIALS:
+		case 'client_credentials':
 			$contents = array(
-				'grant_type'    => static::GRANT_CLIENT_CREDENTIALS,
+				'grant_type'    => 'client_credentials',
 				'client_id'     => $token->get('client_id'),
 				'client_secret' => $token->get('client_secret'),
-				static::TOKEN_SCOPE         => $token->get(static::TOKEN_SCOPE),
+				'scope'         => $token->get('scope'),
 			);
 			break;
-		case static::GRANT_PASSWORD:
+		case 'password':
 			$contents = array(
-				'grant_type'    => static::GRANT_PASSWORD,
+				'grant_type'    => 'password',
 				'client_id'     => $token->get('client_id'),
 				'client_secret' => $token->get('client_secret'),
 				'username'      => $token->get('username'),
 				'password'      => $token->get('password'),
-				static::TOKEN_SCOPE         => $token->get(static::TOKEN_SCOPE),
+				'scope'         => $token->get('scope'),
 			);
 			break;
 		default:
@@ -189,22 +159,6 @@ class GenericOAuth2Provider extends AbstractOAuthProvider
 	protected function isValidToken(Token $token)
 	{
 		return ($token instanceof OAuth2TokenInterface);
-	}
-
-	public function createAuthCodeHandler(OAuth2AuthCode $token, $entryPoint, array $params = array())
-	{
-		$token->set('redirect_uri', $entryPoint);
-		if(isset($params[static::TOKEN_SCOPE])) 
-			$token->set('scope', $params['scope']);
-		return new OAuth2AuthCodeHandler($this, $token, array(
-			'entry_point' => $this->getOption('login_path'),
-			'query' => array_merge(
-				$params, 
-				array(
-					'redirect_uri' => $entryPoint, 
-				)
-			),
-		));
 	}
 }
 

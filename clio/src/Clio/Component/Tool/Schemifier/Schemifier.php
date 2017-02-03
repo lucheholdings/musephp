@@ -18,14 +18,14 @@ interface Schemifier
 	 * @access public
 	 * @return void
 	 */
-	function schemify($data, array $options = array());
+	function schemify($data);
 
 	/**
-	 * getSchema 
+	 * getSchemeClass 
 	 * 
 	 * @access public
-	 * @return void
+	 * @return ReflectionClass
 	 */
-	function getSchema();
+	function getSchemeClass();
 }
 
