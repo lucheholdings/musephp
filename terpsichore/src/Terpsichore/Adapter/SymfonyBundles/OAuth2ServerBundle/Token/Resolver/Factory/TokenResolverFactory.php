@@ -4,7 +4,6 @@ namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\F
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver\Factory;
 use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Token\Resolver as Resolver;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Clio\Component\Pattern\Factory\MappedFactory;
 
 /**
  * TokenResolverFactory 
@@ -14,7 +13,7 @@ use Clio\Component\Pattern\Factory\MappedFactory;
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class TokenResolverFactory implements Factory, MappedFactory 
+class TokenResolverFactory implements Factory 
 {
 	/**
 	 * container 
@@ -58,36 +57,6 @@ class TokenResolverFactory implements Factory, MappedFactory
 		}
 
 		return $resolver;
-	}
-
-	public function createByKey()
-	{
-		$args = func_get_args();
-		$key = array_shift($args);
-
-		return $this->createByKeyArgs($key, $args);
-	}
-
-	public function createByKeyArgs($key, array $args = array())
-	{
-		return $this->createTokenResolver($key, array_shift($args));
-	}
-
-	public function isSupportedArgs(array $args = array())
-	{
-		$key = array_shift($args);
-		return isSupportedKeyArgs($key, $args);
-	}
-
-	public function isSupportedKeyArgs($key, array $args = array())
-	{
-		switch($key) {
-		case 'server':
-		case 'trust':
-			return true;
-		default:
-			return false;
-		}
 	}
     
     /**

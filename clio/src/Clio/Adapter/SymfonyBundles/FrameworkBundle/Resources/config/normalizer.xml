@@ -1,0 +1,32 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="clio_framework.normalizer.class">Clio\Component\Tool\Normalizer\Normalizer</parameter>
+
+        <parameter key="clio_framework.normalizer_strategy.field_accessor.class">Clio\Framework\Normalizer\FieldAccessorNormalizerStrategy</parameter>
+		<parameter key="clio_framework.normalizer_strategy.jms_serializer.class">Clio\Bridge\JMSSerializer\Normalizer\NormalizerAdapter</parameter>
+    </parameters>
+
+    <services>
+		<!--  -->
+        <service id="clio_framework.normalizer" class="%clio_framework.normalizer.class%">
+			<argument type="service" id="clio_framework.normalizer_strategy"/>
+        </service>
+
+		
+		<!-- Strategies -->
+		<service id="clio_framework.normalizer_strategy.field_accessor" class="%clio_framework.normalizer_strategy.field_accessor.class%">
+			<argument type="service" id="clio_framework.class_metadata_registry" on-invalid="null"/>
+		</service>
+		<service id="clio_framework.normalizer_strategy.jms_serializer" class="%clio_framework.normalizer_strategy.jms_serializer.class%">
+			<argument type="service" id="jms_serializer" on-invalid="null"/>
+		</service>
+
+		<service id="clio_framework.normalizer_strategy.default" alias="clio_framework.normalizer_strategy.field_accessor"/>
+    </services>
+</container>
+

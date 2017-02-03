@@ -1,74 +1,104 @@
 <?php
 namespace Clio\Component\Util\Container\Collection;
 
-use Clio\Component\Util\Container\Loadable;
-use Clio\Component\Util\Container\Storage;
-
-class LazyLoadCollection extends Collection implements Loadable 
+/**
+ * LazyLoadCollection 
+ * 
+ * @uses Collection
+ * @abstract
+ * @package { PACKAGE }
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
+ * @license { LICENSE }
+ */
+abstract class LazyLoadCollection extends ProxyCollection
 {
-	private $loaded = false;
+	/**
+	 * isLoaded 
+	 * 
+	 * @var mixed
+	 * @access private
+	 */
+	private $loaded;
 
-	private $loader;
+	private $postLoadCallback;
 
-	private $postLoadCallbacks = array();
-
-	public function __construct($loader)
+	/**
+	 * __construct 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct()
 	{
-		if(!is_callable($loader)) {
-			throw new \InvalidArgumentException('$loader has to be a callable.');
-		}
-		$this->loader = $loader;
+		$this->loaded = false;
 	}
 
+	/**
+	 * init 
+	 *    
+	 * @access protected
+	 * @return void
+	 */
+	protected function init()
+	{
+	}
+
+	/**
+	 * load 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function load()
 	{
 		if(!$this->loaded) {
-			$this->loadStorage();
 			$this->loaded = true;
+			$this->_load();
+
+			$collection = $this->getCollection();
+
+			if($this->postLoadCallback) {
+				$collection = $this->postLoadCallback->__invoke($collection);
+			}
 		}
+
+		return $this->getCollection();
 	}
 
+	/**
+	 * _load 
+	 *   Override this function to implement LazyLoad Functionality
+	 * @access protected
+	 * @return void
+	 */
+	abstract protected function _load();
+
+	/**
+	 * isLoaded 
+	 * 
+	 * @access public
+	 * @return void
+	 */
 	public function isLoaded()
 	{
 		return $this->loaded;
 	}
 
-	protected function loadStorage()
+	/**
+	 * getCollection 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getCollection()
 	{
-		if(!$this->loader) {
-			throw new \RuntimeException('Loader is not initialized to load collection.');
+		if(!parent::getCollection()) {
+			// Load
+			$this->_load();
 		}
 
-		$storage = call_user_func_array($this->loader, array());
-
-		if(!$storage instanceof Storage) {
-			throw new \Exception('Failed to load storage. Loader has to return an instanceof Storage.');
-		}
-
-		if(!empty($this->postLoadCallbacks)) {
-			while($callback = array_shift($this->postLoadCallbacks)) {
-				$collection = $callback->__invoke($collection);
-			}
-		}
-
-		$this->storage = $storage;
-	}
-
-	public function setLoader($loader)
-	{
-		if(!is_callable($loader)) {
-			throw new \InvalidArgumentException('Loader has to be a callable array, a Closure or an Invokable Object.');
-		}
-		$this->loader = $loader;
-	}
-
-	public function getStorage()
-	{
-		if(!$this->isLoaded()) {
-			$this->load();
-		}
-
-		return $this->storage;
+		return parent::getCollection();
 	}
     
     /**
@@ -77,9 +107,9 @@ class LazyLoadCollection extends Collection implements Loadable
      * @access public
      * @return postLoadCallback
      */
-    public function getPostLoadCallbacks()
+    public function getPostLoadCallback()
     {
-        return $this->postLoadCallbacks;
+        return $this->postLoadCallback;
     }
     
     /**
@@ -89,36 +119,10 @@ class LazyLoadCollection extends Collection implements Loadable
      * @param postLoadCallback the value to set.
      * @return mixed Class instance for method-chanin.
      */
-    public function addPostLoadCallback(\Closure $postLoadCallback)
+    public function setPostLoadCallback(\Closure $postLoadCallback)
     {
-        $this->postLoadCallbacks[] = $postLoadCallback;
+        $this->postLoadCallback = $postLoadCallback;
         return $this;
     }
-
-	public function filter(\Closure $closure)
-	{
-		if(!$this->isLoaded()) {
-			$this->load();
-		}
-
-		parent::filter($closure);
-	}
-
-	public function map(\Closure $closure)
-	{
-		if(!$this->isLoaded()) {
-			$this->load();
-		}
-
-		return parent::map($closure);
-	}
-
-	public function toArray()
-	{
-		if(!$this->isLoaded()) {
-			$this->load();
-		}
-		return $this->storage->toArray();
-	}
 }
 

@@ -14,7 +14,9 @@ use Terpsichore\Client\Auth\Token;
 use Terpsichore\Client\Service\GenericClientService;
 use Terpsichore\Client\Auth\User;
 
-use Clio\Component\Tool\ArrayTool\Mapper as ArrayMapper;
+use Clio\Component\Tool\ArrayTool\KeyMapper,
+	Clio\Component\Tool\ArrayTool\InverseMapper;
+use Clio\Component\Tool\ArrayTool\DummyMapper;
 
 /**
  * AbstractProvider 
@@ -48,15 +50,10 @@ abstract class AbstractProvider extends GenericClientService implements Provider
 		$this->options = $options;
 
 		$this->responseMappers = array(
-			false => new ArrayMapper\DummyMapper(),
+			false => new DummyMapper(),
 		);
 
 		parent::__construct($connection);
-	}
-
-	public function createAuthenticateToken(array $params = array())
-	{
-		return new PreAuthenticateToken($this, $params);
 	}
 
 	/**
@@ -92,14 +89,14 @@ abstract class AbstractProvider extends GenericClientService implements Provider
 	public function setResponseMappers(array $maps)
 	{
 		foreach($maps as $type => $map) {
-			$this->setResponseMapper($type, $map);
+			$this->setresponseMapper($type, $map);
 		}
 		return $this;
 	}
 
 	public function setResponseMapper($type, array $map)
 	{
-		$this->responseMappers[$type] = new ArrayMapper\InverseMapper(new ArrayMapper\MappedKeyMapper($map));
+		$this->responseMappers[$type] = new InverseMapper(new KeyMapper($map));
 
 		return $this;
 	}

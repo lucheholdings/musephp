@@ -1,0 +1,102 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="clio_framework.field_accessor_builder_factory.layer.class">Clio\Component\Util\FieldAccessor\Builder\Factory\LayerFieldAccessorBuilderFactory</parameter>
+
+        <parameter key="clio_framework.field_accessor_factory.property_field_collection.class">Clio\Component\Util\FieldAccessor\Factory\PropertyFieldCollectionAccessorFactory</parameter>
+        <parameter key="clio_framework.field_accessor_factory.attribute_container_aware.class">Clio\Framework\FieldAccessor\Factory\AttributeContainerFieldAccessorFactory</parameter>
+
+		
+		<parameter key="clio_framework.property_field_accessor_factory.component_factory">Clio\Component\Util\FieldAccessor\Property\Factory\PropertyFieldAccessorComponentFactory</parameter>
+		<parameter key="clio_framework.property_field_accessor.public_property.class">Clio\Component\Util\FieldAccessor\Property\PublicPropertyFieldAccessor</parameter>
+		<parameter key="clio_framework.property_field_accessor.tag_container.class">Clio\Framework\FieldAccessor\Property\TagContainerPropertyFieldAccessor</parameter>
+		<parameter key="clio_framework.property_field_accessor.method.class">Clio\Component\Util\FieldAccessor\Property\MethodPropertyFieldAccessor</parameter>
+
+		<parameter key="clio_framework.class_metadata_mapping_factory.field_accessor.class">Clio\Framework\Metadata\Mapping\Factory\FieldAccessorMappingFactory</parameter>
+
+		<parameter key="clio_framework.field_accessor_field_mapping_factory.class">Clio\Framework\FieldAccessor\Mapping\Factory\ClassFieldMappingFactory</parameter>
+
+
+		<parameter key="clio_framework.property_field_accessor_factory.component_factory.class">Clio\Component\Util\FieldAccessor\Property\Factory\PropertyFieldAccessorComponentFactory</parameter>
+    </parameters>
+
+	<services>
+		<service
+			id="clio_framework.field_accessor_builder_factory.layer"
+			class="%clio_framework.field_accessor_builder_factory.layer.class%"
+		>
+		</service>
+
+		
+		<service 
+			id="clio_framework.field_accessor_factory.property_field_collection"
+			class="%clio_framework.field_accessor_factory.property_field_collection.class%"
+		>
+			
+			<tag name="clio_framework.layer_field_accessor_factory" priority="0"/>
+		</service>
+
+		
+		<!-- PropertyFieldAccessorFactory -->
+		<service 
+			id="clio_framework.property_field_accessor.method"
+			class="%clio_framework.property_field_accessor_factory.component_factory.class%"
+		>
+			<argument>%clio_framework.property_field_accessor.method.class%</argument>
+			<tag name="clio_framework.property_field_accessor_factory" type="method"/>
+		</service>
+		<service 
+			id="clio_framework.property_field_accessor.public_property"
+			class="%clio_framework.property_field_accessor_factory.component_factory.class%"
+		>
+			<argument>%clio_framework.property_field_accessor.public_property.class%</argument>
+			<tag name="clio_framework.property_field_accessor_factory" type="public_property"/>
+		</service>
+		<service 
+			id="clio_framework.property_field_accessor.tag_container"
+			class="%clio_framework.property_field_accessor_factory.component_factory.class%"
+		>
+			<argument>%clio_framework.property_field_accessor.tag_container.class%</argument>
+			<tag name="clio_framework.property_field_accessor_factory" type="tags"/>
+		</service>
+		
+		
+		<!-- Alias -->
+		<service
+			id="clio_framework.field_accessor_builder_factory"
+			alias="clio_framework.field_accessor_builder_factory.layer"
+		/>
+
+
+		<service 
+			id="clio_framework.field_accessor_field_mapping_factory"
+			class="%clio_framework.field_accessor_field_mapping_factory.class%"
+		>
+		</service>
+
+		<service 
+			id="clio_framework.class_metadata_mapping_factory.field_accessor.default"
+			class="%clio_framework.class_metadata_mapping_factory.field_accessor.class%"
+			abstract="true"
+		>
+			<argument type="service" id="clio_framework.field_accessor_field_mapping_factory"/>
+			<argument type="service" id="clio_framework.field_accessor_builder_factory.layer"/>
+		</service>
+
+
+		<service
+			id="clio_framework.field_accessor_factory.attribute_container"
+			class="%clio_framework.field_accessor_factory.attribute_container_aware.class%"
+		>
+			<tag name="clio_framework.layer_field_accessor_factory" priority="-128"/>
+		</service>
+	</services>	
+</container>
+
+
+
+

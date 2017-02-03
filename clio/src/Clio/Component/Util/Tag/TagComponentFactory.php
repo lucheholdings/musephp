@@ -22,11 +22,8 @@ class TagComponentFactory extends ComponentFactory implements TagFactory
 	 * @access public
 	 * @return void
 	 */
-	public function __construct($tagClass = null)
+	public function __construct($tagClass)
 	{
-		if(!$tagClass) {
-			$tagClass = 'Clio\Component\Util\Tag\SimpleTag';
-		}
 		if(!$tagClass instanceof \ReflectionClass) {
 			$tagClass = new \ReflectionClass($tagClass);
 		}

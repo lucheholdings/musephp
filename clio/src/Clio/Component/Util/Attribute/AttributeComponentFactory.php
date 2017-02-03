@@ -42,13 +42,13 @@ class AttributeComponentFactory extends ComponentFactory implements AttributeFac
 	 * 
 	 * @param mixed $key 
 	 * @param mixed $value 
-	 * @param AttributeMapAware $owner 
+	 * @param mixed $owner 
 	 * @access public
 	 * @return void
 	 */
 	public function createAttribute($key, $value, $owner = null)
 	{
-		return $this->createComponent(array($key, $value, $owner));
+		return $this->doCreate(array($key, $value, $owner));
 	}
 }
 

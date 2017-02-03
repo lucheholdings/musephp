@@ -2,27 +2,71 @@
 namespace Clio\Component\Util\Container\Collection;
 
 use Clio\Component\Util\Container\Collection as CollectionInterface;
-use Clio\Component\Util\Container\Storage\StorageContainer;
 
 /**
- * Collection 
- * 
- * @uses StorageContainer
- * @uses CollectionInterface
+ * Collection
+ *   Collection is a pool of values which similar with Map, but can alias the value if you wan.
+ *   With alias, it can be used get/set. 
+ *   Also different from Map, collection accept duplicated value.
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
- * @license { LICENSE }
+ * @license MIT
  */
-class Collection extends StorageContainer implements CollectionInterface
+class Collection extends AbstractCollection implements CollectionInterface, \Serializable
 {
-	protected function initContainer(array $values)
-	{
-		parent::initContainer($values);
+	/**
+	 * values
+	 * 
+	 * @var mixed
+	 * @access protected
+	 */
+	private $values = array();
 
-		foreach($values as $key => $value) {
-			$this->storage->insertAt($key, $value);
-		}
+	/**
+	 * __construct 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function __construct(array $values = array())
+	{
+		$this->values = $values;
+
+		$this->init();
+	}
+
+	/**
+	 * init 
+	 *    
+	 * @access protected
+	 * @return void
+	 */
+	protected function init()
+	{
+		/* Initialize class definition and more */
+	}
+
+	/**
+	 * getRaw 
+	 * 
+	 * @access public
+	 * @return void
+	 */
+	public function getRaw()
+	{
+		return $this->values;
+	}
+
+	/**
+	 * toArray
+	 *   Get collection pool
+	 * @access public
+	 * @return void
+	 */
+	public function toArray()
+	{
+		return $this->values;
 	}
 
 	/**
@@ -33,18 +77,29 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function getKeys()
 	{
-		return array_keys($this->toArray());
+		return array_keys($this->values);
 	}
 
 	/**
-	 * getKeyValues 
-	 * 
+	 * getValues 
+	 *   Get all values in collection pool 
 	 * @access public
 	 * @return void
 	 */
-	public function getKeyValues()
+	public function getValues()
 	{
-		return $this->toArray();
+		return array_values($this->values);
+	}
+
+	/**
+	 * clear
+	 *   Remove all values in collection pool 
+	 * @access public
+	 * @return void
+	 */
+	public function clear()
+	{
+		$this->values = array();
 	}
 
 	/**
@@ -56,7 +111,8 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function add($value)
 	{
-		$this->getStorage()->insert($value);
+		$this->values[] = $value;
+
 		return $this;
 	}
 
@@ -70,7 +126,11 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function set($key, $value)
 	{
-		$this->getStorage()->insertAt($key, $value);
+		if(empty($key)) 
+			$this->values[] = $value;
+		else 
+			$this->values[$key] = $value;
+
 		return $this;
 	}
 
@@ -83,7 +143,10 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function get($key)
 	{
-		return $this->getStorage()->getAt($key);
+		if(!array_key_exists($key, $this->values)) {
+			throw new \Clio\Component\Exception\InvalidArgumentException(sprintf('Key "%s" is not exists.', (string)$key));
+		}
+		return $this->values[$key];
 	}
 
 	/**
@@ -95,7 +158,11 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function has($value)
 	{
-		return $this->getStorage()->exists($value);
+		foreach($this as $elem) {
+			if($value == $elem)
+				return true;
+		}
+		return false;
 	}
 
 	/**
@@ -107,7 +174,7 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function hasKey($key)
 	{
-		return $this->getStorage()->existsAt($key);
+		return array_key_exists($key, $this->values);
 	}
 
 	/**
@@ -119,7 +186,13 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function remove($value)
 	{
-		$this->getStorage()->remove($key);
+		$key = array_search($value, $this->values, true);
+
+		if(false !== $key) {
+			return $this->removeByKey($key);
+		}
+
+		return false;
 	}
 
 	/**
@@ -131,56 +204,85 @@ class Collection extends StorageContainer implements CollectionInterface
 	 */
 	public function removeByKey($key)
 	{
-		$this->getStorage()->removeAt($key);
+		if(!array_key_exists($key, $this->values)) {
+			throw new \Clio\Component\Exception\InvalidArgumentException(sprintf('Key "%s" is not exists', $key));
+		}
+		$removed = $this->values[$key];
+		unset($this->values[$key]);
+		return $removed;
 	}
 
 	/**
-	 * offsetExists 
+	 * getIterator 
 	 * 
-	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	public function offsetExists($key)
+	public function getIterator()
 	{
-		return $this->hasKey($key);
+		return new \ArrayIterator($this->values);
 	}
 
 	/**
-	 * offsetGet 
+	 * count 
 	 * 
-	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	public function offsetGet($key)
+	public function count()
 	{
-		return $this->get($key);
+		return count($this->values);
 	}
 
 	/**
-	 * offsetSet 
+	 * serialize 
 	 * 
-	 * @param mixed $key 
-	 * @param mixed $value 
 	 * @access public
 	 * @return void
 	 */
-	public function offsetSet($key, $value)
+	public function serialize()
 	{
-		$this->set($key, $value);
+		return serialize($this->values);
 	}
 
 	/**
-	 * offsetUnset 
+	 * unserialize 
 	 * 
-	 * @param mixed $key 
+	 * @param mixed $serialized 
 	 * @access public
 	 * @return void
 	 */
-	public function offsetUnset($key)
+	public function unserialize($serialized)
 	{
-		$this->removeByKey($key);
+		$this->values = unserialize($serialized);
+	}
+
+	/**
+	 * filter 
+	 * 
+	 * @param \Closure $callback 
+	 * @access public
+	 * @return void
+	 */
+	public function filter(\Closure $closure)
+	{
+		if(!empty($this->values)) {
+			$this->values = array_filter($this->values, $closure);
+		}
+	}
+
+	/**
+	 * map 
+	 * 
+	 * @param \Closure $closure 
+	 * @access public
+	 * @return void
+	 */
+	public function map(\Closure $closure) 
+	{
+		if(!empty($this->values)) {
+			$this->values = array_map($closure, $this->values);
+		}
 	}
 }
 

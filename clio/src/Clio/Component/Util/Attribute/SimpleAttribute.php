@@ -45,7 +45,6 @@ class SimpleAttribute extends SimpleKeyValuePair implements Attribute
 	{
 		return $this->owner;
 	}
-
 	/**
 	 * setOwner 
 	 * 

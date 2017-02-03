@@ -1,62 +1,51 @@
 <?php
 namespace Clio\Component\Tool\Serializer\Strategy;
 
-use Clio\Component\Tool\Serializer\Context;
-use Clio\Component\Tool\Serializer\Json\Serializable as JsonSerializable,
-	Clio\Component\Tool\Serializer\Json\Deserializable as JsonDeserializable;
+use Clio\Component\Tool\Serializer\SerializationStrategy,
+	Clio\Component\Tool\Serializer\DeserializationStrategy
+;
+use Clio\Component\Tool\Serializer\Object\JsonSerializable,
+	Clio\Component\Tool\Serializer\Object\JsonDeserializable;
+
+use Clio\Component\Tool\Serializer\Exception;
 
 /**
  * JsonSerializableStrategy 
  * 
- * @uses AbstractStrategy
  * @uses SerializationStrategy
  * @uses DeserializationStrategy
  * @package { PACKAGE }
- * @copyright Copyrights (c) 1o1.co.jp, All Rights Reserved.
- * @author Yoshi<yoshi@1o1.co.jp> 
+ * @copyright { COPYRIGHT } (c) { COMPANY }
+ * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-class JsonSerializableStrategy extends AbstractStrategy implements SerializationStrategy, DeserializationStrategy
+class JsonSerializableStrategy implements 
+	SerializationStrategy, 
+	DeserializationStrategy  
 {
 	/**
-	 * doSerialize 
+	 * serialize 
 	 * 
 	 * @param mixed $data 
 	 * @param mixed $format 
-	 * @param Context $context 
-	 * @access protected
+	 * @access public
 	 * @return void
 	 */
-	protected function doSerialize($data, $format, Context $context)
+	public function serialize($data, $format = null)
 	{
-		if(($format === 'json') && ($data instanceof JsonSerializable)) {
-			return $data->serializeJson();
+		if('json' != $format) {
+			throw new Exception\UnsupportedFormatException(sprintf('JsonSerializableStrategy can only serialize "json" format, but "%s" is given.', $format));
 		}
 
-		throw new \InvalidArgumentException(sprintf('JsonSerializableStrategy only support an instance of JsonSerializable with json format.'));
+		if(!is_object($data) || (!$data instanceof JsonSerializable)) {
+			throw new Exception\UnsupportedFormatException(sprintf('JsonSerializableStrategy can only serialize an object implements JsonSeriazable.'));
+		}
+
+		return $data->serializeJson();
 	}
 
 	/**
-	 * doDeserialize 
-	 * 
-	 * @param mixed $data 
-	 * @param mixed $type 
-	 * @param mixed $format 
-	 * @param Context $context 
-	 * @access protected
-	 * @return void
-	 */
-	protected function doDeserialize($data, $type, $format, Context $context)
-	{
-		if(($format === 'json') && ($data instanceof JsonDeserializable)) {
-			return $data->deserializeJson($data);
-		}
-
-		throw new \InvalidArgumentException(sprintf('JsonSerializableStrategy only support an instance of JsonDeserializable'));
-	}
-
-	/**
-	 * canSerialize
+	 * canSerialize 
 	 * 
 	 * @param mixed $data 
 	 * @param mixed $format 
@@ -65,38 +54,54 @@ class JsonSerializableStrategy extends AbstractStrategy implements Serialization
 	 */
 	public function canSerialize($data, $format = null)
 	{
-		if(!is_object($data)) 
-			return false;
-		$dataReflector = new \ReflectionClass($data);
+		return (('json' == $format) && ($data instanceof JsonSerializable));
+	}
 
-		return ($format === 'json') && ($dataReflector->implementsInterface('Clio\Component\Tool\Serializer\Json\Serializable'));
+	/**
+	 * deserialize 
+	 * 
+	 * @param mixed $data 
+	 * @param mixed $class 
+	 * @param mixed $format 
+	 * @access public
+	 * @return void
+	 */
+	public function deserialize($data, $class, $format = null)
+	{
+		$refClass = new \ReflectionClass($class);
+
+		if('json' != $format) {
+			throw new Exception\UnsupportedFormatException(sprintf('JsonSerializableStrategy can only deserialize for format "array", but "%s" is given.', $format));
+		}
+
+		if(!$refClass->implementsInterface('Clio\Component\Tool\Serializer\Object\JsonDeserializable')) {
+			throw new Exception\UnsupportedFormatException('Class "%s" has to be implemented JsonDeserializable to deserialize by JsonSerializableStrategy.');
+		}
+
+		$model = $refClass->newInstance();
+		$model->deserializeJson($data);
+
+		return $model;
 	}
 
 	/**
 	 * canDeserialize 
 	 * 
 	 * @param mixed $data 
-	 * @param mixed $type 
+	 * @param mixed $class 
 	 * @param mixed $format 
 	 * @access public
 	 * @return void
 	 */
-	public function canDeserialize($data, $type, $format = null)
+	public function canDeserialize($data, $class, $format = null)
 	{
-		$typeReflector = new \ReflectionClass($type);
+		$refClass = new \ReflectionClass($class);
 
-		return ($format === 'json') && ($typeReflector->implementsInterface('Clio\Component\Tool\Serializer\Json\Deserializable'));
-	}
+		if(('json' == $format) && ($refClass->implementsInterface('Clio\Component\Tool\Serializer\Object\JsonDeserializable'))) {
+			return true;
+		}
 
-	/**
-	 * getSupportFormats 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getSupportFormats()
-	{
-		return array('json');
+		return false;
 	}
 }
 

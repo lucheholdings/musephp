@@ -5,8 +5,6 @@ use Clio\Component\Pattern\Constructor\Constructor,
 	Clio\Component\Pattern\Constructor\ConstructConstructor
 ;
 
-use Clio\Component\Util\Validator\Validator;
-
 /**
  * AbstractFactory 
  * 
@@ -26,35 +24,6 @@ abstract class AbstractFactory implements Factory
 	 */
 	private $constructor;
 
-	/**
-	 * validator 
-	 * 
-	 * @var mixed
-	 * @access private
-	 */
-	private $validator;
-
-	/**
-	 * __construct 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function __construct()
-	{
-		$this->initFactory();
-	}
-
-	/**
-	 * initFactory 
-	 * 
-	 * @access protected
-	 * @return void
-	 */
-	protected function initFactory()
-	{
-
-	}
 
 	/**
 	 * create 
@@ -64,7 +33,7 @@ abstract class AbstractFactory implements Factory
 	 */
 	public function create()
 	{
-		return $this->createArgs(func_get_args());
+		return $this->doCreate(func_get_args());
 	}
 
 	/**
@@ -114,86 +83,6 @@ abstract class AbstractFactory implements Factory
 	public function setConstructor(Constructor $constructor)
 	{
 		$this->constructor = $constructor;
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
-	public function isSupported()
-	{
-		return $this->isSupportedArgs(func_get_args());
-	}
-
-	/**
-	 * isSupportedArgs 
-	 * 
-	 * @param array $args 
-	 * @access public
-	 * @return void
-	 */
-	public function isSupportedArgs(array $args = array())
-	{
-		return true;
-	}
-
-	/**
-	 * shiftArg 
-	 * 
-	 * @param array $args 
-	 * @param mixed $aliasKey 
-	 * @param mixed $default 
-	 * @access public
-	 * @return void
-	 */
-	public function shiftArg(array &$args, $aliasKey = null, $default = null) 
-	{
-		// we try to use the aliasKey to grab the arg, iff aliasKey is specified
-		if($aliasKey && array_key_exists($aliasKey, $args)) {
-			$arg = $args[$aliasKey];
-			unset($args[$aliasKey]);
-		} else if(0 < count($args)) {
-			// just shift arg
-			$arg = array_shift($args);
-		} else {
-			$arg = $default;
-		}
-
-		return $arg;
-	}
-    
-    /**
-     * getValidator 
-     * 
-     * @access public
-     * @return void
-     */
-    public function getValidator()
-    {
-        return $this->validator;
-    }
-    
-    /**
-     * setValidator 
-     * 
-     * @param Validator $validator 
-     * @access public
-     * @return void
-     */
-    public function setValidator(Validator $validator)
-    {
-        $this->validator = $validator;
-        return $this;
-    }
-
-	/**
-	 * hasValidator 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function hasValidator()
-	{
-		return isset($this->validator) && !is_null($this->validator);
 	}
 }
 

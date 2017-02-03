@@ -1,7 +1,7 @@
 <?php
 namespace Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Model;
 
-use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\UserProviderStrategy; 
+use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\ChainUserProviderStrategy; 
 /**
  * UserProvider 
  * 
@@ -12,8 +12,7 @@ use Terpsichore\Adapter\SymfonyBundles\OAuth2ServerBundle\Storage\Strategy\UserP
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-//abstract class UserProvider implements ChainUserProviderStrategy
-abstract class UserProvider implements UserProviderStrategy
+abstract class UserProvider implements ChainUserProviderStrategy
 {
 	/**
 	 * {@inheritdoc}

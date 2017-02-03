@@ -69,13 +69,10 @@ class ComponentFactory extends ClassFactory implements Factory
 	 * @access public
 	 * @return void
 	 */
-	public function createComponent(array $args = array())
+	public function createComponent(array $args)
 	{
-		return $this->createComponentArgs($args);
-	}
+		$args = $this->resolveArgs($args);
 
-	public function createComponentArgs(array $args = array())
-	{
 		return $this->getConstructor()->construct($this->getReflectionClass(), $args);
 	}
 }

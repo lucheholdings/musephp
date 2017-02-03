@@ -76,7 +76,7 @@ abstract class AbstractToken implements Token, \Serializable
 	public function serialize()
 	{
 		$data = array(
-			(string)$this->getProvider(),
+			'provider' => (string)$this->getProvider(),
 		);
 
 		return serialize($data);

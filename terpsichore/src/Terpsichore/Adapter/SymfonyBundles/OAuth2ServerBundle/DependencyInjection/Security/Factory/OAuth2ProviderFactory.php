@@ -29,22 +29,12 @@ class OAuth2ProviderFactory implements SecurityFactoryInterface
 		$container->setAlias('terpsichore_oauth2_server.security.user_provider.' . $id, $userProvider);
 
 		$scopes = $config['scopes'];
-		$scopeRoles = array();
-		foreach($scopes as $role => $scope) {
-			if(is_scalar($scope)) {
-				$scopeRoles[$scope] = $role;
-			} else if(is_array($scope)) {
-				foreach($scope as $s) {
-					$scopeRoles[$s] = $role;
-				}
-			}
-		}
 		$scopeMap = new DefinitionDecorator('terpsichore_oauth2_server.security.scope_role_map._default');
 		$container
 			->setDefinition('terpsichore_oauth2_server.security.scope_role_map.' . $id, $scopeMap)
-			->replaceArgument(0, $scopeRoles)
+			->replaceArgument(0, $scopes)
 		;
-		
+
 		// AuthenticationProvider
         $container
             ->setDefinition($providerId, new DefinitionDecorator('terpsichore_oauth2_server.security.authentication_provider._default'))
@@ -89,7 +79,7 @@ class OAuth2ProviderFactory implements SecurityFactoryInterface
 			->children()
 				->scalarNode('provider')->end()
 				->arrayNode('scopes')
-					->prototype('variable')->end()
+					->prototype('scalar')->end()
 				->end()
 			->end()
 		;

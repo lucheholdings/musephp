@@ -63,9 +63,6 @@ class ClientManager extends BaseClientProvider implements ClientManagerInterface
         return $this->repository->findOneBy($criteria);
     }
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function getClientByName($name)
 	{
 		return $this->getClientBy(array('name' => $name));
@@ -83,28 +80,11 @@ class ClientManager extends BaseClientProvider implements ClientManagerInterface
 		return $this->getClientBy(array('clientId' => $clientId));
 	}
 
-	/**
-	 * getClients 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function getClients()
-	{
-		return $this->repository->findBy(array());
-	}
-
-	/**
-	 * {@inheritdoc}
-	 */
 	public function createClient()
 	{
 		return $this->getClass()->getReflectionClass()->newInstance();
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function save(ClientInterface $client, $needFlush = true)
 	{
 		$this->getEntityManager()->persist($client);
@@ -113,25 +93,16 @@ class ClientManager extends BaseClientProvider implements ClientManagerInterface
 		}
 	}
 
-	/**
-	 * {@inheritdoc}
-	 */
 	public function flush()
 	{
 		$this->getEntityManager()->flush();
 	}
     
-    /**
-     * {@inheritdoc}
-     */
     public function getEntityManager()
     {
         return $this->em;
     }
     
-    /**
-     * {@inheritdoc}
-     */
     public function setEntityManager($em)
     {
         $this->em = $em;

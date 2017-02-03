@@ -1,0 +1,42 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="clio_framework.schemifier.class">Clio\Component\Tool\Schemifier\Schemifier</parameter>
+        <parameter key="clio_framework.schemifier_field_mapper_registry.class">Clio\Component\Tool\Schemifier\FieldMapperRegistry</parameter>
+        <parameter key="clio_framework.schemifier_factory.normalizer.class">Clio\Framework\Schemifier\Factory\NormalizerSchemifierFactory</parameter>
+		<parameter key="clio_framework.class_metadata_mapping_factory.schemifier.class">Clio\Framework\Metadata\Mapping\Factory\SchemifierMappingFactory</parameter>
+    </parameters>
+
+	<services>
+		<!-- Factories of our provides -->
+		<service
+			id="clio_framework.schemifier_factory.normalizer"
+			class="%clio_framework.schemifier_factory.normalizer.class%"
+		>
+			<argument type="service" id="clio_framework.normalizer" on-invalid="null" />
+			<argument type="service" id="clio_framework.schemifier_field_mapper_registry" on-invalid="null" />
+		</service>
+
+		<service id="clio_framework.schemifier_factory" alias="clio_framework.schemifier_factory.normalizer" />
+
+		<service 
+			id="clio_framework.class_metadata_mapping_factory.schemifier.default"
+			class="%clio_framework.class_metadata_mapping_factory.schemifier.class%"
+		>
+			<argument type="service" id="clio_framework.schemifier_factory"/>
+		</service>
+
+
+		<service 
+			id="clio_framework.schemifier_field_mapper_registry"
+			class="%clio_framework.schemifier_field_mapper_registry.class%"
+		>
+		</service>
+	</services>	
+</container>
+
+

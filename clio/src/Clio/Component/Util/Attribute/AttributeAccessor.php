@@ -1,7 +1,7 @@
 <?php
 namespace Clio\Component\Util\Attribute;
 
-use Clio\Component\Util\Attribute\AttributeMap,
+use Clio\Component\Util\Attribute\AttributeContainer,
 	Clio\Component\Util\Attribute\Attribute;
 
 /**
@@ -28,11 +28,8 @@ class AttributeAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function __construct(AttributeFactory $factory = null)
+	public function __construct(AttributeFactory $factory)
 	{
-		if(!$factory) {
-			$factory = new AttributeComponentFactory();
-		}
 		$this->attributeFactory = $factory;
 	}
 
@@ -50,33 +47,17 @@ class AttributeAccessor
 	}
 
 	/**
-	 * getKeyValues 
-	 * 
-	 * @param AttributeMap $container 
-	 * @access public
-	 * @return void
-	 */
-	public function getKeyValues(AttributeMap $container)
-	{
-		$values = array();
-		foreach($container->getKeyValues() as $attr) {
-			$values[$attr->getKey()] = $attr->getValue();
-		}
-		return $values;
-	}
-
-	/**
 	 * get 
 	 * 
-	 * @param AttributeMap $container 
+	 * @param AttributeContainer $container 
 	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	public function get(AttributeMap $container, $key)
+	public function get(AttributeContainer $container, $key)
 	{
-		if(!$container->has($key)) {
-			throw new \Clio\Component\Exception\InvalidArgumentException(sprintf('AttributeMap dose not have "%s"', $key));
+		if(!$container->hasKey($key)) {
+			throw new \Clio\Component\Exception\InvalidArgumentException(sprintf('AttributeContainer dose not have "%s"', $key));
 		}
 
 		return $container->get($key)->getValue();	
@@ -85,15 +66,15 @@ class AttributeAccessor
 	/**
 	 * set 
 	 * 
-	 * @param AttributeMap $container 
+	 * @param AttributeContainer $container 
 	 * @param mixed $key 
 	 * @param mixed $value 
 	 * @access public
 	 * @return void
 	 */
-	public function set(AttributeMap $container, $key, $value, $owner = null)
+	public function set(AttributeContainer $container, $key, $value, $owner = null)
 	{
-		if($container->has($key)) {
+		if($container->hasKey($key)) {
 			$container->get($key)->setValue($value);
 		} else {
 			$container->set($key, $this->createAttribute($key, $value, $owner));
@@ -110,9 +91,9 @@ class AttributeAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function add(AttributeMap $container, $key, $value, $owner = null)
+	public function add(AttributeContainer $container, $key, $value, $owner = null)
 	{
-		if(!$container->has($key)) {
+		if(!$container->hasKey($key)) {
 			$container->set($key, $this->createAttribute($key, $value, $owner));
 		}
 		return $this;
@@ -126,7 +107,7 @@ class AttributeAccessor
 	 * @access public
 	 * @return void
 	 */
-	public function remove(AttributeMap $container, $key)
+	public function remove(AttributeContainer $container, $key)
 	{
 		$container->removeAttribute($container, $key);
 		return $this;
@@ -135,12 +116,12 @@ class AttributeAccessor
 	/**
 	 * replace
 	 * 
-	 * @param AttributeMap $container 
+	 * @param AttributeContainer $container 
 	 * @param mixed $key 
 	 * @access public
 	 * @return void
 	 */
-	public function replace(AttributeMap $container, array $keyValues)
+	public function replace(AttributeContainer $container, array $keyValues)
 	{
 		// once remove all attrs
 		$deleteSchedules = $container->getKeys();

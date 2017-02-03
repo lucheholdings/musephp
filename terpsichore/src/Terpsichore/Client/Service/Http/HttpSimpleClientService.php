@@ -43,10 +43,11 @@ class HttpSimpleClientService extends GenericClientService implements CallableSe
 	 */
 	public function __construct($uri, $method, array $options = array(), Connection $connection = null, $name = null)
 	{
+		parent::__construct($connection, $name, $options);
+
 		$this->uri = $uri;
 		$this->method = $method;
-
-		parent::__construct($connection, $name, $options);
+		$this->options = $options;
 	}
 
 	/**
@@ -56,9 +57,9 @@ class HttpSimpleClientService extends GenericClientService implements CallableSe
 	 * @access public
 	 * @return void
 	 */
-	public function call($contents = null)
+	public function call($contents = null, array $headers = array())
 	{
-		$request = $this->createRequest($this->getRequestHeaders(), $contents);
+		$request = $this->createRequest(array_merge($this->getRequestHeaders(), $headers), $contents);
 
 		return $this->request($request);
 	}

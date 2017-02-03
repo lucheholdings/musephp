@@ -2,29 +2,21 @@
 namespace Clio\Component\Util\Container;
 
 /**
- * Container 
+ * Container
  * 
  * @package { PACKAGE }
  * @copyright { COPYRIGHT } (c) { COMPANY }
  * @author Yoshi Aoki <yoshi@44services.jp> 
  * @license { LICENSE }
  */
-interface Container extends \Countable, \IteratorAggregate, \Serializable
+interface Container extends \Countable
 {
 	/**
-	 * toArray 
-	 * 
+	 * getRaw 
+	 *   Return raw data 
 	 * @access public
 	 * @return void
 	 */
-	function toArray();
-
-	/**
-	 * clear 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	function clear();
+	function getRaw();
 }
 

@@ -29,7 +29,7 @@ class SetTest extends \PHPUnit_Framework_TestCase
 		$set->add('bar');
 		$this->assertCount(2, $set);
 
-		$this->assertTrue($set->contains('foo'));
+		$this->assertTrue($set->has('foo'));
 		$this->assertCount(2, $set);
 	
 		$set->remove('foo');

@@ -15,7 +15,6 @@ namespace Clio\Component\Pattern\Constructor;
  */
 interface Constructor
 {
-
 	/**
 	 * construct 
 	 *   Constructor Strategy

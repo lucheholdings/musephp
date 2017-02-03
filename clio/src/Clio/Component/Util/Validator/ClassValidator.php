@@ -45,8 +45,7 @@ class ClassValidator implements Validator
 	 */
 	public function validate($value)
 	{
-		$reflector = new \ReflectionClass($value);
-		if($reflector != $this->getReflectionClass()) {
+		if(!$this->getReflectionClass()->isInstance($value)) {
 			throw new Error\ValidationError(sprintf('"%s" is not an instanceof "%s".', get_class($value), $this->getReflectionClass()->getName()));
 		}
 

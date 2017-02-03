@@ -9,7 +9,7 @@
 namespace Terpsichore\Client\Auth\Token;
 
 use Terpsichore\Client\Auth\Token;
-use Clio\Component\Util\Container\Map\SimpleMap;
+use Clio\Component\Util\Container\Map\Map;
 
 /**
  * PreAuthenticateToken
@@ -50,7 +50,7 @@ class PreAuthenticateToken implements Token
 	public function __construct($provider, array $attributes = array())
 	{
 		$this->provider = $provider;
-		$this->attributes = new SimpleMap($attributes);
+		$this->attributes = new Map($attributes);
 	}
     
     /**
@@ -97,18 +97,18 @@ class PreAuthenticateToken implements Token
      */
     public function setAttributes(array $attributes)
     {
-        $this->attributes->replace($attributes);
+        $this->attributes->replaceAll($attributes);
         return $this;
     }
 
 	public function has($key)
 	{
-		return $this->attributes->has($key);
+		return $this->attributes->hasKey($key);
 	}
 
 	public function get($key, $default = null)
 	{
-		return $this->attributes->has($key) 
+		return $this->attributes->hasKey($key) 
 			? $this->attributes->get($key)
 			: $default
 		;
@@ -128,41 +128,6 @@ class PreAuthenticateToken implements Token
 	public function getName()
 	{
 		return 'pre';
-	}
-
-	/**
-	 * serialize 
-	 * 
-	 * @access public
-	 * @return void
-	 */
-	public function serialize()
-	{
-		$data = array(
-			(string)$this->getProvider(),
-			$this->attributes->toArray(),
-		);
-
-		return serialize($data);
-	}
-
-	/**
-	 * unserialize 
-	 * 
-	 * @param mixed $serialized 
-	 * @access public
-	 * @return void
-	 */
-	public function unserialize($serialized)
-	{
-		$data = unserialize($serialized);
-
-		list(
-			$this->provider, 
-			$attributes
-		) = $data;
-
-		$this->attributes->replace($attributes);
 	}
 }
 
