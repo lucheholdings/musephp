@@ -78,10 +78,10 @@ class GenericClientService extends AbstractService implements ClientService
 	/**
 	 * __invoke 
 	 *   If Service is CallableService, then invoke 
-	 * @access protected
+	 * @access public
 	 * @return void
 	 */
-	protected function __invoke()
+	public function __invoke()
 	{
 		if($this instanceof CallableService) {
 			return call_user_func_array(array($this, 'call'), func_get_args()); 
