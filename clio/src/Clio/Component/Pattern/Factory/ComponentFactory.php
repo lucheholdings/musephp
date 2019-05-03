@@ -57,7 +57,7 @@ class ComponentFactory extends ClassFactory implements Factory
 	 * @access protected
 	 * @return void
 	 */
-	protected function doCreate(array $args)
+	protected function doCreate(array $args = array())
 	{
 		return $this->createComponent($args);
 	}
